@@ -23,26 +23,52 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="朝闻道，夕可眠矣">
-<meta property="og:type" content="website">
-<meta property="og:title" content="卷不动了">
-<meta property="og:url" content="https://jonty.top/index.html">
+<meta name="description" content="使用Docker部署项目管理工具JIRA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="install_jira_in_docker">
+<meta property="og:url" content="https://jonty.top/2021/09/23/install-jira-in-docker/index.html">
 <meta property="og:site_name" content="卷不动了">
-<meta property="og:description" content="朝闻道，夕可眠矣">
+<meta property="og:description" content="使用Docker部署项目管理工具JIRA">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210711235815.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210711235851.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210712000508.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210712001529.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210712001604.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102437.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102449.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102444.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102454.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102458.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210712001647.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102555.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102602.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102726.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102743.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102835.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102859.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102910.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102535.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102527.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721091151.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/20210721102816.png">
+<meta property="article:published_time" content="2021-09-23T13:25:56.000Z">
+<meta property="article:modified_time" content="2021-09-23T13:28:57.312Z">
 <meta property="article:author" content="Jonty">
-<meta property="article:tag" content=".NET C# NETCore ABP ABPvNext MES MedPro 王心怡 房东的猫 宋娜英 Developer China 上海 ShangHai">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="jira">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jonty.top/img/20210711235815.png">
 
 
-<link rel="canonical" href="https://jonty.top/">
+<link rel="canonical" href="https://jonty.top/2021/09/23/install-jira-in-docker/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://jonty.top/2021/09/23/install-jira-in-docker/","path":"2021/09/23/install-jira-in-docker/","title":"install_jira_in_docker"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>卷不动了 - life has no Ctrl Z</title>
+<title>install_jira_in_docker | 卷不动了</title>
   
 
 
@@ -135,7 +161,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -148,6 +174,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">数据库准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Jira%E5%AE%89%E8%A3%85"><span class="nav-number">1.1.</span> <span class="nav-text">Jira安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%89%E9%95%9C%E5%83%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">拉镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.1.2.</span> <span class="nav-text">初始化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A0%B4%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">破解</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -220,16 +247,17 @@
 </noscript>
 
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
     <link itemprop="mainEntityOfPage" href="https://jonty.top/2021/09/23/install-jira-in-docker/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -242,9 +270,9 @@
       <meta itemprop="name" content="卷不动了">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/09/23/install-jira-in-docker/" class="post-title-link" itemprop="url">install_jira_in_docker</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          install_jira_in_docker
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -268,6 +296,13 @@
     </span>
 
   
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
     <span class="post-meta-break"></span>
     <span class="post-meta-item" title="Symbols count in article">
       <span class="post-meta-item-icon">
@@ -292,138 +327,154 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>使用Docker部署项目管理工具<code>JIRA</code></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/09/23/install-jira-in-docker/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
+        <p>使用Docker部署项目管理工具<code>JIRA</code></p>
+<span id="more"></span>
+<h2 id="数据库准备"><a href="#数据库准备" class="headerlink" title="数据库准备"></a>数据库准备</h2><p>其他数据库请参考文档</p>
+<p><a target="_blank" rel="noopener" href="https://confluence.atlassian.com/adminjiraserver/connecting-jira-applications-to-a-database-938846850.html">Connecting Jira applications to a database</a></p>
+<p>这里使用的是PostgreSql</p>
+<ol>
+<li><p>创建空数据库</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE jiradb <span class="keyword">WITH</span> ENCODING <span class="string">&#x27;UNICODE&#x27;</span> LC_COLLATE <span class="string">&#x27;C&#x27;</span> LC_CTYPE <span class="string">&#x27;C&#x27;</span> TEMPLATE template0;</span><br></pre></td></tr></table></figure></li>
+<li><p>创建用户(也可以使用默认用户)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> jira <span class="keyword">WITH</span> PASSWORD <span class="string">&#x27;bb123456&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span> 给权限</span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> PRIVILEGES <span class="keyword">ON</span> DATABASE jiradb <span class="keyword">TO</span> jira</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><img data-src="https://cdn.jonty.top/img/20210711235815.png" alt="image-20210708171601263"></p>
+<h3 id="Jira安装"><a href="#Jira安装" class="headerlink" title="Jira安装"></a>Jira安装</h3><p><a target="_blank" rel="noopener" href="https://confluence.atlassian.com/adminjiraserver071/jira-applications-installation-requirements-802592164.html">需要保证服务器有<code>4GB</code>以上内存</a></p>
+<p>我在安装的时候1核2G跑不动换成了4核8G👀</p>
+<p><img data-src="https://cdn.jonty.top/img/20210711235851.png" alt="image-20210708164819758"></p>
+<h4 id="拉镜像"><a href="#拉镜像" class="headerlink" title="拉镜像"></a>拉镜像</h4><p>查看docker文档</p>
+<p><img data-src="https://cdn.jonty.top/img/20210712000508.png"></p>
+<ol>
+<li>创建卷</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker volume create --name jiraVolume</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>拉取镜像并运行</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -v jiraVolume:/var/atlassian/application-data/jira --name=&quot;jira&quot; -d -p 8080:8080 atlassian/jira-software:8.1.0</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ps：注意：我们破解的版本的为8.1.0，拉镜像需要指定版本</p>
+</blockquote>
+<p><img data-src="https://cdn.jonty.top/img/20210712001529.png" alt="image-20210708170606734"></p>
+<ol start="4">
+<li>浏览器打开<code>IP:8080</code>端口</li>
+</ol>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p>初次打开为英文，可在右上角设置为中文。选择第二个，自定义配置</p>
+<p><img data-src="https://cdn.jonty.top/img/20210712001604.png" alt="image-20210708170935567"></p>
+<p>点击下一步</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102437.png" alt="image-20210708171706660"></p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102449.png" alt="image-20210708171725265"></p>
+<p>点击下一步，等待几分钟，正在创建数据库表</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102444.png" alt="image-20210708171808729"></p>
+<p>数据库创建完成之后</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102454.png" alt="image-20210708172102316"></p>
+<p>点击下一步，获取授权码，可以有30天试用</p>
+<p>需要先按照提示去官方获取试用授权码，这样才可以进入系统，然后进行破解包的替换，重启服务即可。</p>
+<p>点击连接去官网生成许可证</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102458.png" alt="image-20210708172300316"></p>
+<p>我这里是直接用微软账号登录申请的，点击生成按钮后自动跳转回来并自动填入授权码</p>
+<p><img data-src="https://cdn.jonty.top/img/20210712001647.png" alt="image-20210708172452780"></p>
+<p>配置管理员账号</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102555.png" alt="image-20210708172617985"></p>
+<p>邮件服务器，以后再说</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102602.png" alt="image-20210708172653783"></p>
+<p>设置默认语言</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102726.png" alt="image-20210708172918673"></p>
+<p>选择头像</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102743.png" alt="image-20210708172949746"></p>
+<p>这里可以选择创建示例项目</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102835.png" alt="image-20210708173027592"></p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102859.png" alt="image-20210708173118682"></p>
+<p>进入首页面板</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102910.png" alt="image-20210708173327874"></p>
+<p>点击右上角的管理&gt;应用程序</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102535.png" alt="image-20210708173606783"></p>
+<h3 id="破解"><a href="#破解" class="headerlink" title="破解"></a>破解</h3><ol>
+<li>下载破解包</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://cloud.189.cn/t/2MFZFvriQ7fe">atlassian-extras-3.2</a></p>
+<ol start="2">
+<li>使用ftp工具上传到服务器</li>
+</ol>
+<p><img data-src="https://cdn.jonty.top/img/20210721102527.png" alt="image-20210708174235612"></p>
+<ol start="3">
+<li><p>替换</p>
+<p>通过docker ps 获取jira容器id，然后把破解包上传至宿主机通过docker cp 命令复制到容器中，重启jira容器　</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line"></span><br><span class="line">docker cp atlassian-extras-3.2.jar  06849baab1a6:/opt/atlassian/jira/atlassian-jira/WEB-INF/lib</span><br><span class="line"></span><br><span class="line">docker restart 06849baab1a6</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/20210721091151.png" alt="image-20210708174512592"></p>
+</li>
+</ol>
+<p>破解成功</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102816.png" alt="image-20210708174733130"></p>
+
     </div>
 
     
     
     
+      
+
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Jonty
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://jonty.top/2021/09/23/install-jira-in-docker/" title="install_jira_in_docker">https://jonty.top/2021/09/23/install-jira-in-docker/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
 </div>
 
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
 
+  <div class="social-list">
 
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://jonty.top/2021/09/08/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/header.jpg">
-      <meta itemprop="name" content="Jonty">
-      <meta itemprop="description" content="朝闻道，夕可眠矣">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="卷不动了">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/09/08/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-09-08 22:55:00" itemprop="dateCreated datePublished" datetime="2021-09-08T22:55:00+08:00">2021-09-08</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-09-23 21:30:23" itemprop="dateModified" datetime="2021-09-23T21:30:23+08:00">2021-09-23</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/hexo/config/" itemprop="url" rel="index"><span itemprop="name">config</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/hexo/config/tags/" itemprop="url" rel="index"><span itemprop="name">tags</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Symbols count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>395</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
 </div>
 
-        </div>
-      </header>
+          <div class="post-tags">
+              <a href="/tags/docker/" rel="tag"># docker</a>
+              <a href="/tags/jira/" rel="tag"># jira</a>
+          </div>
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Hello World ! this is my first blog</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/09/08/hello-world/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/09/08/hello-world/" rel="prev" title="Hello World">
+                  <i class="fa fa-chevron-left"></i> Hello World
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
     </footer>
   </article>
 </div>
+
 
 
 
@@ -506,7 +557,7 @@
 
 
   <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
-  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/"}</script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2021/09/23/install-jira-in-docker/"}</script>
   <script src="/js/third-party/quicklink.js"></script>
 
 </body>

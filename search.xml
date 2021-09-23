@@ -3,7 +3,7 @@
   <entry>
     <title>Hello World</title>
     <url>/2021/09/08/hello-world/</url>
-    <content><![CDATA[<p>Hello World</p>
+    <content><![CDATA[<p>Hello World ! this is my first blog</p>
 <span id="more"></span>
 
 <p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -30,17 +30,99 @@
       </tags>
   </entry>
   <entry>
-    <title>测试博客210921</title>
-    <url>/2021/09/21/create-new-blog/</url>
-    <content><![CDATA[<span id="more"></span>]]></content>
+    <title>install_jira_in_docker</title>
+    <url>/2021/09/23/install-jira-in-docker/</url>
+    <content><![CDATA[<p>使用Docker部署项目管理工具<code>JIRA</code></p>
+<span id="more"></span>
+<h2 id="数据库准备"><a href="#数据库准备" class="headerlink" title="数据库准备"></a>数据库准备</h2><p>其他数据库请参考文档</p>
+<p><a href="https://confluence.atlassian.com/adminjiraserver/connecting-jira-applications-to-a-database-938846850.html">Connecting Jira applications to a database</a></p>
+<p>这里使用的是PostgreSql</p>
+<ol>
+<li><p>创建空数据库</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE jiradb <span class="keyword">WITH</span> ENCODING <span class="string">&#x27;UNICODE&#x27;</span> LC_COLLATE <span class="string">&#x27;C&#x27;</span> LC_CTYPE <span class="string">&#x27;C&#x27;</span> TEMPLATE template0;</span><br></pre></td></tr></table></figure></li>
+<li><p>创建用户(也可以使用默认用户)</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> jira <span class="keyword">WITH</span> PASSWORD <span class="string">&#x27;bb123456&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span> 给权限</span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> PRIVILEGES <span class="keyword">ON</span> DATABASE jiradb <span class="keyword">TO</span> jira</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><img data-src="https://cdn.jonty.top/img/20210711235815.png" alt="image-20210708171601263"></p>
+<h3 id="Jira安装"><a href="#Jira安装" class="headerlink" title="Jira安装"></a>Jira安装</h3><p><a href="https://confluence.atlassian.com/adminjiraserver071/jira-applications-installation-requirements-802592164.html">需要保证服务器有<code>4GB</code>以上内存</a></p>
+<p>我在安装的时候1核2G跑不动换成了4核8G👀</p>
+<p><img data-src="https://cdn.jonty.top/img/20210711235851.png" alt="image-20210708164819758"></p>
+<h4 id="拉镜像"><a href="#拉镜像" class="headerlink" title="拉镜像"></a>拉镜像</h4><p>查看docker文档</p>
+<p><img data-src="https://cdn.jonty.top/img/20210712000508.png"></p>
+<ol>
+<li>创建卷</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker volume create --name jiraVolume</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>拉取镜像并运行</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -v jiraVolume:/var/atlassian/application-data/jira --name=&quot;jira&quot; -d -p 8080:8080 atlassian/jira-software:8.1.0</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ps：注意：我们破解的版本的为8.1.0，拉镜像需要指定版本</p>
+</blockquote>
+<p><img data-src="https://cdn.jonty.top/img/20210712001529.png" alt="image-20210708170606734"></p>
+<ol start="4">
+<li>浏览器打开<code>IP:8080</code>端口</li>
+</ol>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p>初次打开为英文，可在右上角设置为中文。选择第二个，自定义配置</p>
+<p><img data-src="https://cdn.jonty.top/img/20210712001604.png" alt="image-20210708170935567"></p>
+<p>点击下一步</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102437.png" alt="image-20210708171706660"></p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102449.png" alt="image-20210708171725265"></p>
+<p>点击下一步，等待几分钟，正在创建数据库表</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102444.png" alt="image-20210708171808729"></p>
+<p>数据库创建完成之后</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102454.png" alt="image-20210708172102316"></p>
+<p>点击下一步，获取授权码，可以有30天试用</p>
+<p>需要先按照提示去官方获取试用授权码，这样才可以进入系统，然后进行破解包的替换，重启服务即可。</p>
+<p>点击连接去官网生成许可证</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102458.png" alt="image-20210708172300316"></p>
+<p>我这里是直接用微软账号登录申请的，点击生成按钮后自动跳转回来并自动填入授权码</p>
+<p><img data-src="https://cdn.jonty.top/img/20210712001647.png" alt="image-20210708172452780"></p>
+<p>配置管理员账号</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102555.png" alt="image-20210708172617985"></p>
+<p>邮件服务器，以后再说</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102602.png" alt="image-20210708172653783"></p>
+<p>设置默认语言</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102726.png" alt="image-20210708172918673"></p>
+<p>选择头像</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102743.png" alt="image-20210708172949746"></p>
+<p>这里可以选择创建示例项目</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102835.png" alt="image-20210708173027592"></p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102859.png" alt="image-20210708173118682"></p>
+<p>进入首页面板</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102910.png" alt="image-20210708173327874"></p>
+<p>点击右上角的管理&gt;应用程序</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102535.png" alt="image-20210708173606783"></p>
+<h3 id="破解"><a href="#破解" class="headerlink" title="破解"></a>破解</h3><ol>
+<li>下载破解包</li>
+</ol>
+<p><a href="https://cloud.189.cn/t/2MFZFvriQ7fe">atlassian-extras-3.2</a></p>
+<ol start="2">
+<li>使用ftp工具上传到服务器</li>
+</ol>
+<p><img data-src="https://cdn.jonty.top/img/20210721102527.png" alt="image-20210708174235612"></p>
+<ol start="3">
+<li><p>替换</p>
+<p>通过docker ps 获取jira容器id，然后把破解包上传至宿主机通过docker cp 命令复制到容器中，重启jira容器　</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker ps</span><br><span class="line"></span><br><span class="line">docker cp atlassian-extras-3.2.jar  06849baab1a6:/opt/atlassian/jira/atlassian-jira/WEB-INF/lib</span><br><span class="line"></span><br><span class="line">docker restart 06849baab1a6</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/20210721091151.png" alt="image-20210708174512592"></p>
+</li>
+</ol>
+<p>破解成功</p>
+<p><img data-src="https://cdn.jonty.top/img/20210721102816.png" alt="image-20210708174733130"></p>
+]]></content>
       <categories>
-        <category>hexo</category>
-        <category>config</category>
-        <category>tags</category>
+        <category>docker</category>
       </categories>
       <tags>
-        <tag>hexo</tag>
-        <tag>tags</tag>
+        <tag>docker</tag>
+        <tag>jira</tag>
       </tags>
   </entry>
 </search>

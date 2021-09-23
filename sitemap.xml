@@ -2,23 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://jonty.top/about/me.html</loc>
+    <loc>https://jonty.top/2021/09/08/hello-world/</loc>
     
     <lastmod>2021-09-23</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jonty.top/2021/09/08/hello-world/</loc>
+    <loc>https://jonty.top/2021/09/23/install-jira-in-docker/</loc>
     
-    <lastmod>2021-09-21</lastmod>
+    <lastmod>2021-09-23</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jonty.top/2021/09/21/create-new-blog/</loc>
+    <loc>https://jonty.top/about/me.html</loc>
     
-    <lastmod>2021-09-21</lastmod>
+    <lastmod>2021-09-23</lastmod>
     
   </url>
   
@@ -53,7 +53,14 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/tags/</loc>
+    <loc>https://jonty.top/tags/docker/</loc>
+    <lastmod>2021-09-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/jira/</loc>
     <lastmod>2021-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -63,6 +70,13 @@
   
   <url>
     <loc>https://jonty.top/categories/hexo/</loc>
+    <lastmod>2021-09-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/categories/docker/</loc>
     <lastmod>2021-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
