@@ -30,9 +30,9 @@
       </tags>
   </entry>
   <entry>
-    <title>install_jira_in_docker</title>
+    <title>Docker中安装jira</title>
     <url>/2021/09/23/install-jira-in-docker/</url>
-    <content><![CDATA[<p>使用Docker部署项目管理工具<code>JIRA</code></p>
+    <content><![CDATA[<p>使用Docker部署项目管理工具<code>jira</code></p>
 <span id="more"></span>
 <h2 id="数据库准备"><a href="#数据库准备" class="headerlink" title="数据库准备"></a>数据库准备</h2><p>其他数据库请参考文档</p>
 <p><a href="https://confluence.atlassian.com/adminjiraserver/connecting-jira-applications-to-a-database-938846850.html">Connecting Jira applications to a database</a></p>
