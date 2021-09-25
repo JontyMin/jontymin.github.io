@@ -1504,6 +1504,12 @@ pre code {
 .links-of-author a {
   font-size: 0.8125em;
 }
+.links-of-author .fa,
+.links-of-author .fab,
+.links-of-author .far,
+.links-of-author .fas {
+  margin-right: 2px;
+}
 .sidebar .sidebar-button:not(:first-child) {
   margin-top: 15px;
 }
@@ -3128,7 +3134,7 @@ hr {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #e2ffff;
+  background: #00a2c7;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
