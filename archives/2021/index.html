@@ -181,13 +181,13 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/JontyMin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JontyMin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+        <a href="https://github.com/JontyMin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JontyMin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:amazing4677@gmail.com" title="E-Mail → mailto:amazing4677@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+        <a href="mailto:amazing4677@gmail.com" title="E-Mail → mailto:amazing4677@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
       <span class="links-of-author-item">
-        <a href="https://stackoverflow.com/users/14014911/jonty" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;users&#x2F;14014911&#x2F;jonty" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i></a>
+        <a href="https://stackoverflow.com/users/14014911/jonty" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;users&#x2F;14014911&#x2F;jonty" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>StackOverflow</a>
       </span>
   </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
@@ -195,6 +195,33 @@
   </div>
 
 
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/179850046" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;179850046" rel="noopener" target="_blank">bilibili</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/JontyWang/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JontyWang&#x2F;" rel="noopener" target="_blank">我的园子</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/edisonchou/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;edisonchou&#x2F;" rel="noopener" target="_blank">EdisonZhou</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ldqk.xyz/" title="https:&#x2F;&#x2F;ldqk.xyz&#x2F;" rel="noopener" target="_blank">懒得勤快</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.jmyblog.top/" title="https:&#x2F;&#x2F;www.jmyblog.top&#x2F;" rel="noopener" target="_blank">谁把钱丢了(idea)</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.aliyun.com/minisite/goods?userCode=b0skjdai&share_source=copy_link" title="https:&#x2F;&#x2F;www.aliyun.com&#x2F;minisite&#x2F;goods?userCode&#x3D;b0skjdai&amp;share_source&#x3D;copy_link" rel="noopener" target="_blank">Aliyun</a>
+        </li>
+    </ul>
+  </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1417862046&auto=0&height=66"></iframe>
 
           </div>
         </div>
@@ -203,9 +230,12 @@
           <i class="fa fa-arrow-up"></i>
           <span>0%</span>
         </div>
+
     </div>
+
   </aside>
   <div class="sidebar-dimmer">
+  
   </div>
 
 
@@ -333,6 +363,23 @@
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
+
+<span id="times">载入天数...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("09/08/2021 13:14:21");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("times").innerHTML = "本站已安全运行 "+dnum+" 天 " +hnum + " 小时 " + mnum + " 分 " + snum + " 秒 ✌";
+    }
+setInterval("createtime()",250);
+</script>
 
     </div>
   </footer>
