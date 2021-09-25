@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jonty.top/2021/09/08/hello-world/</loc>
+    
+    <lastmod>2021-09-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2021/09/23/install-jira-in-docker/</loc>
+    
+    <lastmod>2021-09-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2021/09/25/browser-silent-printing/</loc>
+    
+    <lastmod>2021-09-25</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jonty.top/about/index.html</loc>
     
     <lastmod>2021-09-25</lastmod>
@@ -12,20 +33,6 @@
     <loc>https://jonty.top/404/index.html</loc>
     
     <lastmod>2021-09-25</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2021/09/23/install-jira-in-docker/</loc>
-    
-    <lastmod>2021-09-23</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2021/09/08/hello-world/</loc>
-    
-    <lastmod>2021-09-23</lastmod>
     
   </url>
   
@@ -53,21 +60,35 @@
 
   
   <url>
-    <loc>https://jonty.top/tags/hexo/</loc>
+    <loc>https://jonty.top/tags/Winform/</loc>
     <lastmod>2021-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/docker/</loc>
+    <loc>https://jonty.top/tags/Print/</loc>
     <lastmod>2021-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/jira/</loc>
+    <loc>https://jonty.top/tags/Config/</loc>
+    <lastmod>2021-09-25</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Docker/</loc>
+    <lastmod>2021-09-25</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Jira/</loc>
     <lastmod>2021-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -76,28 +97,21 @@
 
   
   <url>
-    <loc>https://jonty.top/categories/hexo/</loc>
+    <loc>https://jonty.top/categories/Net/</loc>
     <lastmod>2021-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/categories/docker/</loc>
+    <loc>https://jonty.top/categories/Hexo/</loc>
     <lastmod>2021-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/categories/hexo/config/</loc>
-    <lastmod>2021-09-25</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/categories/hexo/config/tags/</loc>
+    <loc>https://jonty.top/categories/Docker/</loc>
     <lastmod>2021-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

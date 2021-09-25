@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="浏览器实现静默打印的小方案😁">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器实现静默打印">
+<meta property="og:url" content="https://jonty.top/2021/09/25/browser-silent-printing/index.html">
+<meta property="og:site_name" content="卷不动了">
+<meta property="og:description" content="浏览器实现静默打印的小方案😁">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20210925223925277.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20210925225136606.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20210925225722885.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20210925225843764.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20210925230348173.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20210925231850394.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20210925232302311.png">
+<meta property="article:published_time" content="2021-09-25T15:42:22.000Z">
+<meta property="article:modified_time" content="2021-09-25T15:46:45.001Z">
+<meta property="article:author" content="Jonty">
+<meta property="article:tag" content="Winform">
+<meta property="article:tag" content="Print">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jonty.top/img/image-20210925223925277.png">
+
+
+<link rel="canonical" href="https://jonty.top/2021/09/25/browser-silent-printing/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://jonty.top/2021/09/25/browser-silent-printing/","path":"2021/09/25/browser-silent-printing/","title":"浏览器实现静默打印"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>浏览器实现静默打印 | 卷不动了</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="卷不动了" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">卷不动了</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">life has no Ctrl Z</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%B9%E6%A1%881"><span class="nav-number">2.1.</span> <span class="nav-text">方案1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%B9%E6%A1%883"><span class="nav-number">2.2.</span> <span class="nav-text">方案3</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E5%BB%BAWinform%E7%A8%8B%E5%BA%8F"><span class="nav-number">3.</span> <span class="nav-text">新建Winform程序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8VS2019%E5%88%9B%E5%BB%BA"><span class="nav-number">3.1.</span> <span class="nav-text">使用VS2019创建</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8B%96%E5%85%A5ComboBox%E6%8E%A7%E4%BB%B6%EF%BC%8C%E7%94%A8%E6%9D%A5%E9%80%89%E6%8B%A9%E6%9C%AC%E5%9C%B0%E6%89%93%E5%8D%B0%E6%9C%BA"><span class="nav-number">3.2.</span> <span class="nav-text">拖入ComboBox控件，用来选择本地打印机</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%89%93%E5%8D%B0%E6%9C%BA%E5%88%97%E8%A1%A8%E5%A1%AB%E5%85%85%E4%B8%8B%E6%8B%89"><span class="nav-number">3.3.</span> <span class="nav-text">获取打印机列表填充下拉</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ctrl-f5%E8%BF%90%E8%A1%8C%E7%AA%97%E4%BD%93%E6%9F%A5%E7%9C%8B%E6%95%88%E6%9E%9C"><span class="nav-number">3.4.</span> <span class="nav-text">ctrl+f5运行窗体查看效果</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1"><span class="nav-number">4.</span> <span class="nav-text">创建服务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96Http%E6%9C%8D%E5%8A%A1"><span class="nav-number">4.1.</span> <span class="nav-text">初始化Http服务</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%93%E5%8D%B0"><span class="nav-number">5.</span> <span class="nav-text">打印</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE%EF%BC%9A"><span class="nav-number">6.</span> <span class="nav-text">优化建议：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E4%B8%8B%E6%8B%89%E9%80%89%E6%8B%A9%E4%BA%8B%E4%BB%B6"><span class="nav-number">6.1.</span> <span class="nav-text">设置下拉选择事件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%90%8E%E7%9A%84%E6%89%93%E5%8D%B0%E6%8E%A5%E5%8F%A3"><span class="nav-number">6.2.</span> <span class="nav-text">优化后的打印接口</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jonty"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">Jonty</p>
+  <div class="site-description" itemprop="description">朝闻道，夕可眠矣</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">Posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">Categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">Tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JontyMin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JontyMin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:amazing4677@gmail.com" title="E-Mail → mailto:amazing4677@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/users/14014911/jonty" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;users&#x2F;14014911&#x2F;jonty" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>StackOverflow</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://issues.wiki/" title="https:&#x2F;&#x2F;issues.wiki&#x2F;" rel="noopener" target="_blank">issues</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://my_netinlove.gitee.io/" title="https:&#x2F;&#x2F;my_netinlove.gitee.io&#x2F;" rel="noopener" target="_blank">GiteePage</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/179850046" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;179850046" rel="noopener" target="_blank">bilibili</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/JontyWang/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JontyWang&#x2F;" rel="noopener" target="_blank">我的园子</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/edisonchou/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;edisonchou&#x2F;" rel="noopener" target="_blank">EdisonZhou</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ldqk.xyz/" title="https:&#x2F;&#x2F;ldqk.xyz&#x2F;" rel="noopener" target="_blank">懒得勤快</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.jmyblog.top/" title="https:&#x2F;&#x2F;www.jmyblog.top&#x2F;" rel="noopener" target="_blank">谁把钱丢了(idea)</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.aliyun.com/minisite/goods?userCode=b0skjdai&share_source=copy_link" title="https:&#x2F;&#x2F;www.aliyun.com&#x2F;minisite&#x2F;goods?userCode&#x3D;b0skjdai&amp;share_source&#x3D;copy_link" rel="noopener" target="_blank">Aliyun</a>
+        </li>
+    </ul>
+  </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1417862046&auto=0&height=66"></iframe>
+
+          </div>
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="Back to top">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+
+  </aside>
+  <div class="sidebar-dimmer">
+  
+  </div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://jonty.top/2021/09/25/browser-silent-printing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="Jonty">
+      <meta itemprop="description" content="朝闻道，夕可眠矣">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="卷不动了">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          浏览器实现静默打印
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-09-25 23:42:22 / Modified: 23:46:45" itemprop="dateCreated datePublished" datetime="2021-09-25T23:42:22+08:00">2021-09-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Net/" itemprop="url" rel="index"><span itemprop="name">.Net</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>5.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>5 mins.</span>
+    </span>
+</div>
+
+            <div class="post-description">浏览器实现静默打印的小方案😁</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>最近有一个需求涉及到<code>静默打印</code>,也就是打印时不需要弹出打印配置框，而是直接调用打印机</p>
+<img data-src="https://cdn.jonty.top/img/image-20210925223925277.png">
+
+<h4 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h4><p>经过讨论大概是以下几种方案：</p>
+<ul>
+<li>把打印配置弹窗干掉、模拟点击打印事件</li>
+<li>浏览器实现静默打印</li>
+<li>本地运行一个服务，客户端返回请求状态后请求本地接口调用打印</li>
+</ul>
+<h5 id="方案1"><a href="#方案1" class="headerlink" title="方案1"></a>方案1</h5><p>第一种没有去尝试，所以先讲讲第二种解决方案，通过前端控制浏览器打印，但是百度一圈下来的解决方案都是通过设置浏览器参数，然后创建一个快捷程序并设置启动参数，操作很简单，但实在不符合需求，总不能给每个客户也这样配置一边吧，所以第二种也<code>pass</code>。</p>
+<p>操作如下：</p>
+<img data-src="https://cdn.jonty.top/img/image-20210925225136606.png">
+
+<h5 id="方案3"><a href="#方案3" class="headerlink" title="方案3"></a>方案3</h5><p>重点讲一下方案，也是目前在探索中，后续有更好的方法会发出来，也欢迎各位提出更好的解决方案。</p>
+<p>目前仅支持windows环境，<code>winform</code>最终是<code>.exe</code>程序</p>
+<h4 id="新建Winform程序"><a href="#新建Winform程序" class="headerlink" title="新建Winform程序"></a>新建Winform程序</h4><h5 id="使用VS2019创建"><a href="#使用VS2019创建" class="headerlink" title="使用VS2019创建"></a>使用<code>VS2019</code>创建</h5><img data-src="https://cdn.jonty.top/img/image-20210925225722885.png">
+
+<h5 id="拖入ComboBox控件，用来选择本地打印机"><a href="#拖入ComboBox控件，用来选择本地打印机" class="headerlink" title="拖入ComboBox控件，用来选择本地打印机"></a>拖入<code>ComboBox</code>控件，用来选择本地打印机</h5><img data-src="https://cdn.jonty.top/img/image-20210925225843764.png">
+
+<h5 id="获取打印机列表填充下拉"><a href="#获取打印机列表填充下拉" class="headerlink" title="获取打印机列表填充下拉"></a>获取打印机列表填充下拉</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">      /// 加载打印机列表</span><br><span class="line">      /// &lt;/summary&gt;</span><br><span class="line">      private void InitPrinterList()</span><br><span class="line">      &#123;</span><br><span class="line">          var print = new PrintDocument();</span><br><span class="line">          var defaultPrinter = print.PrinterSettings.PrinterName;</span><br><span class="line">          for (var i = 0; i &lt; PrinterSettings.InstalledPrinters.Count; i++)</span><br><span class="line">          &#123;</span><br><span class="line">              var tmp = PrinterSettings.InstalledPrinters[i];</span><br><span class="line">              if (tmp == defaultPrinter)</span><br><span class="line">              &#123;</span><br><span class="line">                  tmp += &quot;(默认)&quot;; // 标记默认的打印机</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              this.comboBox1.Items.Add(tmp);  // 下拉项新增</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">private void Form1_Load(object sender, EventArgs e)</span><br><span class="line">      &#123;</span><br><span class="line">          InitPrinterList(); // 窗体加载事件中调用</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="ctrl-f5运行窗体查看效果"><a href="#ctrl-f5运行窗体查看效果" class="headerlink" title="ctrl+f5运行窗体查看效果"></a><code>ctrl+f5</code>运行窗体查看效果</h5><img data-src="https://cdn.jonty.top/img/image-20210925230348173.png">
+
+<h4 id="创建服务"><a href="#创建服务" class="headerlink" title="创建服务"></a>创建服务</h4><p>没有使用<code>socket</code>,而是在<code>winform</code>中创建了一个<code>http</code>服务，并开放端口供浏览器本地请求</p>
+<p>先新增两个依赖：</p>
+<ol>
+<li>BeetleX 1.5.1.7 </li>
+<li>BeetleX.FastHttpApi 1.8.2.61</li>
+</ol>
+<p>这两个版本是支持<code>.net framework</code>的，<a target="_blank" rel="noopener" href="https://github.com/IKende/BeetleX/">BeetleX</a>是一个基于.Net Core开发的一个开源跨平台TCP通讯框架，它提供了完整的会话服务管理，协议分析扩展，TLS支持和缓冲区管理等完全服务基础功能。有兴趣的可以去Github参观一下。</p>
+<h5 id="初始化Http服务"><a href="#初始化Http服务" class="headerlink" title="初始化Http服务"></a>初始化Http服务</h5><p>在Load方法中调用<code>InitHttpServer()</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">      /// 初始化网关服务</span><br><span class="line">      /// &lt;/summary&gt;</span><br><span class="line">      protected void InitHttpServer()</span><br><span class="line">      &#123;</span><br><span class="line">          _httpApiServer = new HttpApiServer(new HttpOptions()</span><br><span class="line">          &#123;</span><br><span class="line">              Port = 9000, // 本地开放的端口 要注意不要被占用</span><br><span class="line">              LogToConsole = true,</span><br><span class="line">              LogLevel = BeetleX.EventArgs.LogType.Debug</span><br><span class="line">          &#125;);</span><br><span class="line">          _httpApiServer.IPv4Tables.AddWhite(&quot;127.0.0.1/24&quot;);</span><br><span class="line">          _httpApiServer.Options.CrossDomain = new OptionsAttribute() &#123; AllowOrigin = &quot;*&quot;, AllowMethods = &quot;*&quot;, AllowHeaders = &quot;*&quot; &#125;; // 跨域配置，这个很重要</span><br><span class="line">          _httpApiServer.Register(typeof(Home).Assembly);</span><br><span class="line">          _httpApiServer.Open();</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+<p>注册的程序就是<code>Controller</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Controller(BaseUrl = &quot;/home&quot;)]</span><br><span class="line">  public class Home</span><br><span class="line">  &#123;</span><br><span class="line">      /// &lt;summary&gt;</span><br><span class="line">      /// Hello Word</span><br><span class="line">      /// &lt;/summary&gt;</span><br><span class="line">      /// &lt;param name=&quot;name&quot;&gt;string:  you name&lt;/param&gt;</span><br><span class="line">      /// &lt;returns&gt;string&lt;/returns&gt;</span><br><span class="line">      public object Hello(string name)</span><br><span class="line">      &#123;</span><br><span class="line">          return new &#123; Hello = &quot;hello &quot; + name, Time = DateTime.Now &#125;;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>控制下服务的生命周期</p>
+<img data-src="https://cdn.jonty.top/img/image-20210925231850394.png">
+
+<p>使用<code>Postman</code>请求一下</p>
+<p><code>http://localhost:9000/home/Hello?name=test</code> 返回成功</p>
+<img data-src="https://cdn.jonty.top/img/image-20210925232302311.png">
+
+<h4 id="打印"><a href="#打印" class="headerlink" title="打印"></a>打印</h4><p>客户端向本地请求打印接口，传入参数</p>
+<p>这里传入了pdf文件地址，通过请求文件并打印</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">      /// 打印接口</span><br><span class="line">      /// &lt;/summary&gt;</span><br><span class="line">      /// &lt;param name=&quot;url&quot;&gt;&lt;/param&gt;</span><br><span class="line">      /// &lt;param name=&quot;printCount&quot;&gt;&lt;/param&gt;</span><br><span class="line">      public void Print(string url, int printCount)</span><br><span class="line">      &#123;</span><br><span class="line">          url = url.Replace(&quot;\n &quot;, &quot;&quot;);</span><br><span class="line">          if (!(WebRequest.Create(url) is HttpWebRequest request)) return;</span><br><span class="line">          if (!(request.GetResponse() is HttpWebResponse response)) return;</span><br><span class="line">          var stream = response.GetResponseStream();</span><br><span class="line">          // 创建打印机</span><br><span class="line">          var pdf = new InputPdf(ReadFully(stream));</span><br><span class="line">          var printJob = new PrintJob(Printer.Default, pdf); // 默认打印机</span><br><span class="line">          printJob.PrintOptions.Copies = printCount; //打印数量</span><br><span class="line">          printJob.Print();</span><br><span class="line">      &#125;</span><br><span class="line">/// &lt;summary&gt;</span><br><span class="line">      /// 读取字节流</span><br><span class="line">      /// &lt;/summary&gt;</span><br><span class="line">      /// &lt;param name=&quot;input&quot;&gt;&lt;/param&gt;</span><br><span class="line">      /// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">      public static byte[] ReadFully(Stream input)</span><br><span class="line">      &#123;</span><br><span class="line">          using (var ms = new MemoryStream())</span><br><span class="line">          &#123;</span><br><span class="line">              input.CopyTo(ms);</span><br><span class="line">              return ms.ToArray();</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>打印插件调用的<code>DynamicPdf</code></p>
+<p>打印插件文档：<a target="_blank" rel="noopener" href="https://www.dynamicpdf.com/docs/dotnet/print-manager-print-options">https://www.dynamicpdf.com/docs/dotnet/print-manager-print-options</a> </p>
+</blockquote>
+<h4 id="优化建议："><a href="#优化建议：" class="headerlink" title="优化建议："></a>优化建议：</h4><p>可以通过下拉框选择的打印机打印,需要记录选择的打印机</p>
+<p>通过读取和设置<code>config</code>值实现,引入<code>System.Configuration</code></p>
+<p>ConfigHelper类：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public static class ConfigHelper</span><br><span class="line">&#123;</span><br><span class="line">        ///&lt;summary&gt; </span><br><span class="line">        ///返回*.exe.config文件中appSettings配置节的value项  </span><br><span class="line">        ///&lt;/summary&gt; </span><br><span class="line">        ///&lt;param name=&quot;strKey&quot;&gt;&lt;/param&gt; </span><br><span class="line">        ///&lt;returns&gt;&lt;/returns&gt; </span><br><span class="line">        public static string GetAppConfig(string strKey)</span><br><span class="line">        &#123;</span><br><span class="line">            var file = System.Windows.Forms.Application.ExecutablePath;</span><br><span class="line">            var config = ConfigurationManager.OpenExeConfiguration(file);</span><br><span class="line">            return config.AppSettings.Settings.AllKeys.Any(key =&gt; key == strKey) ? config.AppSettings.Settings[strKey].Value.ToString() : null;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ///&lt;summary&gt;  </span><br><span class="line">        ///在*.exe.config文件中appSettings配置节增加一对键值对  </span><br><span class="line">        ///&lt;/summary&gt;  </span><br><span class="line">        ///&lt;param name=&quot;newKey&quot;&gt;&lt;/param&gt;  </span><br><span class="line">        ///&lt;param name=&quot;newValue&quot;&gt;&lt;/param&gt;  </span><br><span class="line">        public static void UpdateAppConfig(string newKey, string newValue)</span><br><span class="line">        &#123;</span><br><span class="line">            var file = System.Windows.Forms.Application.ExecutablePath;</span><br><span class="line">            var config = ConfigurationManager.OpenExeConfiguration(file);</span><br><span class="line">            var exist = false;</span><br><span class="line">            foreach (var key in config.AppSettings.Settings.AllKeys)</span><br><span class="line">            &#123;</span><br><span class="line">                if (key == newKey)</span><br><span class="line">                &#123;</span><br><span class="line">                    exist = true;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (exist)</span><br><span class="line">            &#123;</span><br><span class="line">                config.AppSettings.Settings.Remove(newKey);</span><br><span class="line">            &#125;</span><br><span class="line">            config.AppSettings.Settings.Add(newKey, newValue);</span><br><span class="line">            config.Save(ConfigurationSaveMode.Modified);</span><br><span class="line">            ConfigurationManager.RefreshSection(&quot;appSettings&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="设置下拉选择事件"><a href="#设置下拉选择事件" class="headerlink" title="设置下拉选择事件"></a>设置下拉选择事件</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)</span><br><span class="line">     &#123;</span><br><span class="line">         // 更新setting设置</span><br><span class="line">         var selectedPrint = this.comboBox1.SelectedItem.ToString();</span><br><span class="line">         if (string.IsNullOrEmpty(selectedPrint))</span><br><span class="line">         &#123;</span><br><span class="line">             return;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         // 移除掉初始化打印机列表添加的默认文本</span><br><span class="line">         if (selectedPrint.Contains(&quot;默认&quot;))</span><br><span class="line">         &#123;</span><br><span class="line">             selectedPrint = selectedPrint.Replace(&quot;(默认)&quot;, &quot;&quot;);</span><br><span class="line">         &#125;</span><br><span class="line">         ConfigHelper.UpdateAppConfig(&quot;defaultPrint&quot;, selectedPrint);</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="优化后的打印接口"><a href="#优化后的打印接口" class="headerlink" title="优化后的打印接口"></a>优化后的打印接口</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">// 获取设置的打印机 （读取配置）</span><br><span class="line">         var defaultPrinter = ConfigHelper.GetAppConfig(&quot;defaultPrint&quot;);</span><br><span class="line">         // 创建打印机</span><br><span class="line">         var printer = new Printer(defaultPrinter);</span><br><span class="line">         var pdf = new InputPdf(ReadFully(stream));</span><br><span class="line">         var printJob = new PrintJob(printer, pdf);</span><br><span class="line">         ...</span><br></pre></td></tr></table></figure>
+
+<p>这样就能实现简单的静默打印，当然还有很多欠缺之处，后续优化，不当之处请指出</p>
+
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>Post author:  </strong>Jonty
+  </li>
+  <li class="post-copyright-link">
+      <strong>Post link: </strong>
+      <a href="https://jonty.top/2021/09/25/browser-silent-printing/" title="浏览器实现静默打印">https://jonty.top/2021/09/25/browser-silent-printing/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Winform/" rel="tag"># Winform</a>
+              <a href="/tags/Print/" rel="tag"># Print</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/09/23/install-jira-in-docker/" rel="prev" title="Docker中安装jira">
+                  <i class="fa fa-chevron-left"></i> Docker中安装jira
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jonty</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Symbols count total">7k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">6 mins.</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+<span id="times">载入天数...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("09/08/2021 13:14:21");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("times").innerHTML = "本站已安全运行 "+dnum+" 天 " +hnum + " 小时 " + mnum + " 分 " + snum + " 秒 ✌";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2021/09/25/browser-silent-printing/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
