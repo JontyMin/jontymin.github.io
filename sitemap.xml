@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jonty.top/2021/10/03/windows-terminal-beautify/</loc>
+    
+    <lastmod>2021-10-02</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jonty.top/2021/09/27/the-systematic-failure-of-higher-education-in-china/</loc>
     
     <lastmod>2021-09-27</lastmod>
@@ -60,7 +67,7 @@
 
   <url>
     <loc>https://jonty.top/</loc>
-    <lastmod>2021-09-27</lastmod>
+    <lastmod>2021-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -68,49 +75,56 @@
   
   <url>
     <loc>https://jonty.top/tags/Winform/</loc>
-    <lastmod>2021-09-27</lastmod>
+    <lastmod>2021-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Print/</loc>
-    <lastmod>2021-09-27</lastmod>
+    <lastmod>2021-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Config/</loc>
-    <lastmod>2021-09-27</lastmod>
+    <lastmod>2021-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Docker/</loc>
-    <lastmod>2021-09-27</lastmod>
+    <lastmod>2021-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Jira/</loc>
-    <lastmod>2021-09-27</lastmod>
+    <lastmod>2021-10-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Other/</loc>
+    <lastmod>2021-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Zhihu/</loc>
-    <lastmod>2021-09-27</lastmod>
+    <lastmod>2021-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/View/</loc>
-    <lastmod>2021-09-27</lastmod>
+    <lastmod>2021-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -119,28 +133,35 @@
   
   <url>
     <loc>https://jonty.top/categories/Net/</loc>
-    <lastmod>2021-09-27</lastmod>
+    <lastmod>2021-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Hexo/</loc>
-    <lastmod>2021-09-27</lastmod>
+    <lastmod>2021-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Docker/</loc>
-    <lastmod>2021-09-27</lastmod>
+    <lastmod>2021-10-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/categories/Win/</loc>
+    <lastmod>2021-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Reprint/</loc>
-    <lastmod>2021-09-27</lastmod>
+    <lastmod>2021-10-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
