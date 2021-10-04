@@ -1,5 +1,5 @@
+https://jonty.top/2021/10/04/csharp-generic-review-01/
 https://jonty.top/2021/10/03/windows-terminal-beautify/
 https://jonty.top/2021/09/27/the-systematic-failure-of-higher-education-in-china/
 https://jonty.top/2021/09/25/browser-silent-printing/
 https://jonty.top/2021/09/23/install-jira-in-docker/
-https://jonty.top/2021/09/08/hello-world/
