@@ -74,6 +74,30 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2021/09/08/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Config</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>温故而知新-C#泛型</title>
     <url>/2021/10/04/csharp-generic-review-01/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在开发中，经常会遇到功能相同的模块，但是参数类型不同，这时候只能分别写不同的方法处理不同的数据类型。那么有没有一种办法，只用同一个方法来处理不同类型参数的方法</p>
@@ -154,27 +178,166 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/09/08/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+    <title>温故而知新-C#泛型</title>
+    <url>/2021/10/08/csharp-generic-review-02/</url>
+    <content><![CDATA[<h3 id="泛型类"><a href="#泛型类" class="headerlink" title="泛型类"></a>泛型类</h3><p>除了有<strong>泛型方法</strong>，还有<strong>泛型类</strong></p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DocumentManager</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">readonly</span>  <span class="title">Queue</span>&lt;<span class="title">T</span>&gt; _documentQueue</span>= <span class="keyword">new</span> Queue&lt;T&gt;();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> <span class="built_in">object</span> _lock = <span class="keyword">new</span> <span class="built_in">object</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">bool</span> IsAvailable =&gt;_documentQueue.Count &gt; <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">AddDocument</span>(<span class="params">T doc</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">lock</span> (_lock)</span><br><span class="line">        &#123;</span><br><span class="line">            _documentQueue.Enqueue(doc);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">GetDocument</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        T doc = <span class="literal">default</span>;</span><br><span class="line">        <span class="keyword">lock</span> (_lock)</span><br><span class="line">        &#123;</span><br><span class="line">            doc=_documentQueue.Dequeue();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> doc;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h4 id="默认值"><a href="#默认值" class="headerlink" title="默认值"></a>默认值</h4><p>可以看到在<code>GetDocument</code>这个方法中初始化<code>doc</code>变量时，我们使用了<code>default</code>关键字</p>
+<blockquote>
+<p>default关键字根据上下文可以有多种含义，switch语句中使用default定义默认情况。在泛型中取决于泛型类型是值类型还是引用类型，泛型default关键字将泛型类型初始化为null或0</p>
+</blockquote>
+<h3 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h3><p><strong>泛型类</strong>都有了，<strong>泛型接口</strong>也可以有</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IDocumentManager</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">  &#123;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">AddDocument</span>(<span class="params">T doc</span>)</span>;</span><br><span class="line">      </span><br><span class="line">      <span class="function">T <span class="title">GetDocument</span>(<span class="params"></span>)</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>还有<strong>泛型委托</strong></p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">Hello</span>&lt;<span class="title">T</span>&gt;(<span class="params">T t</span>)</span>;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：</p>
+<p>1、泛型在声明的时候可以不指定具体的类型，在使用时需要指定具体类型</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AClass</span>:<span class="title">BClass</span>&lt;<span class="title">int</span>&gt;&#123;&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>2、如果子类也是泛型的，那么继承的时候可以不指定具体类型</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AClass</span>&lt;<span class="title">T</span>&gt;:<span class="title">BClass</span>&lt;<span class="title">T</span>&gt;&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="逆变和协变"><a href="#逆变和协变" class="headerlink" title="逆变和协变"></a>逆变和协变</h4><p>在<code>.NET4.0</code>之前，泛型接口是不变的。</p>
+<p><strong>协变</strong>和<strong>逆变</strong>指对参数和返回值的类型进行转换。只能放在接口或委托的泛型参数前面</p>
+<p><code>out</code>协变 covariant 用来修饰返回值；</p>
+<p><code>in</code>逆变 contravariant 用来修饰传入参数；</p>
+<p>示例：</p>
+<p>定义一个<code>Animal</code>类，再定义一个<code>Cat</code>类继承<code>Animal</code></p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Animal</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Cat</span> : <span class="title">Animal</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Animal animal = <span class="keyword">new</span> Animal();</span><br><span class="line">Cat cat = <span class="keyword">new</span> Cat();</span><br><span class="line"></span><br><span class="line">Animal animal1 = <span class="keyword">new</span> Cat();</span><br><span class="line"></span><br><span class="line">List&lt;Animal&gt; animals = <span class="keyword">new</span> List&lt;Animal&gt;();</span><br><span class="line"></span><br><span class="line">List&lt;Cat&gt;cats= <span class="keyword">new</span> List&lt;Cat&gt;();</span><br><span class="line"></span><br><span class="line">List&lt;Animal&gt; list = <span class="keyword">new</span> List&lt;Cat&gt;(); <span class="comment">// 报错 没有父子级关系</span></span><br></pre></td></tr></table></figure>
+
+<p>这个时候可以使用<strong>协变</strong></p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">IEnumerable list = <span class="keyword">new</span> List&lt;Cat&gt;();</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211008001058082.png" alt="image-20211008001058082"></p>
+<p>可以看到，泛型接口使用了<code>out</code>参数修饰，<code>T</code>只能是返回值类型，不能作为参数类型。使用<strong>协变</strong>后，左边声明的是基类，右边可以声明子类或基类。</p>
+<p>协变也可用于委托：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Func&lt;Animal&gt;func = <span class="keyword">new</span> Func&lt;Cat&gt;(()=&gt;<span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="自定义协变"><a href="#自定义协变" class="headerlink" title="自定义协变"></a>自定义协变</h4><p><strong>out</strong>协变，只能是返回结果</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">ICustomerListOut</span>&lt;<span class="keyword">out</span> <span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">T <span class="title">Get</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CustomerListOut</span>&lt;<span class="title">T</span>&gt; : <span class="title">ICustomerListOut</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">Get</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">default</span>(T);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">ICustomerListOut&lt;Animal&gt; list1 = <span class="keyword">new</span> CustomerListOut&lt;Cat&gt;();</span><br></pre></td></tr></table></figure>
+
+<h4 id="自定义逆变"><a href="#自定义逆变" class="headerlink" title="自定义逆变"></a>自定义逆变</h4><p><strong>in</strong>逆变，只能作为方法参数，不能作为返回值。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">ICustomerListIn</span>&lt;<span class="keyword">in</span> <span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Show</span>(<span class="params">T t</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CustomerListIn</span>&lt;<span class="title">T</span>&gt; : <span class="title">ICustomerListIn</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Show</span>(<span class="params">T t</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">ICustomerListIn&lt;Cat&gt; list2 = <span class="keyword">new</span> CustomerListIn&lt;Animal&gt;();</span><br></pre></td></tr></table></figure>
+
+<h3 id="泛型约束"><a href="#泛型约束" class="headerlink" title="泛型约束"></a>泛型约束</h3><p>如果泛型类需要调用泛型类型中的方法，则需要添加约束。</p>
+<p>定义一个<code>IDocument</code>接口，定义两个<strong>只读属性</strong></p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IDocument</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">string</span> Title &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="built_in">string</span> Content &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Document</span>:<span class="title">IDocument</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Document</span>(<span class="params"><span class="built_in">string</span> title,<span class="built_in">string</span> content</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>.Title = title;</span><br><span class="line">        <span class="keyword">this</span>.Content = content;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Title &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> Content &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果要显示<strong>Document</strong>的标题，我们可以这样写:</p>
+<p>将<code>T</code>强制转换为<code>IDocument</code>接口</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DisplayAllDocuments</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">foreach</span> (<span class="keyword">var</span> doc <span class="keyword">in</span> _documentQueue)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(((IDocument)doc).Title);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是如果我们实现的不是<code>IDocument</code>呢？而是其他的，并没有<code>Title</code>，这个时候就会报错。</p>
+<p>这个时候我们可以给<code>DocumentManager</code>一个约束：<strong>T</strong>类型必须实现<strong>IDocument</strong>接口，使用<code>Where</code>关键字</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">DocumentManager&lt;T&gt;:IDocumentManager&lt;T&gt; <span class="keyword">where</span> T : <span class="function">IDocument</span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DisplayAllDocuments</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="keyword">foreach</span> (<span class="keyword">var</span> doc <span class="keyword">in</span> _documentQueue)</span><br><span class="line">   &#123;</span><br><span class="line">       Console.WriteLine(doc.Title);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<img data-src="https://cdn.jonty.top/img/image-20211007223036959.png" alt="image-20211007223036959" style="zoom:80%;" />
+
+<h4 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h4><table>
+<thead>
+<tr>
+<th align="center">约束</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">where T:struct</td>
+<td align="center">T类型必须是值类型</td>
+</tr>
+<tr>
+<td align="center">where T:class</td>
+<td align="center">T类型必须是引用类型（类、接口、委托、数组等）</td>
+</tr>
+<tr>
+<td align="center">where T:IFoo</td>
+<td align="center">指定类型必须实现接口IFoo</td>
+</tr>
+<tr>
+<td align="center">where T:Foo</td>
+<td align="center">指定类型T必须派生自基类Foo</td>
+</tr>
+<tr>
+<td align="center">where T:new()</td>
+<td align="center">构造函数约束，指定类型T必须有一个默认构造函数，需最后指定</td>
+</tr>
+<tr>
+<td align="center">where T1:T2</td>
+<td align="center">T1派生自泛型类型T2</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>new()只能为默认构造函数定义构造函数约束，不能为其他构造函数定义构造函数约束</p>
+<p>基类约束时，基类不能是密封类（即sealed类），sealed类不能被继承，则此约束无意义。</p>
+</blockquote>
+<p>泛型约束可以多个约束：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Show</span>&lt;<span class="title">T</span>&gt;(<span class="params">T t</span>) <span class="keyword">where</span> T:Document,<span class="keyword">new</span>(<span class="params"></span>)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="泛型继承"><a href="#泛型继承" class="headerlink" title="泛型继承"></a>泛型继承</h3><figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="symbol">DocumentManager</span>&lt;<span class="symbol">T</span>&gt; : <span class="symbol">IDocumentManager</span>&lt;<span class="symbol">T</span>&gt; <span class="symbol">where</span> <span class="symbol">T</span> : <span class="symbol">IDocument</span></span><br></pre></td></tr></table></figure>
+
+<p>泛型类型可以实现泛型接口，也可以派生自一个类。泛型类可以派生自泛型基类：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Base</span>&lt;<span class="title">T</span>&gt;&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Derived</span>&lt;<span class="title">T</span>&gt;:<span class="title">Base</span>&lt;<span class="title">T</span>&gt;&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>必须重复实现接口的泛型类型，或者必须执行基类的类型</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Base</span>&lt;<span class="title">T</span>&gt;&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Derived</span>&lt;<span class="title">T</span>&gt;:<span class="title">Base</span>&lt;<span class="title">string</span>&gt;&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>派生类可以是<strong>泛型类</strong>或<strong>非泛型类</strong></p>
+<p>例子：定义一个抽象的泛型类,在派生类中用另一种实现</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">Calc</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> T <span class="title">Add</span>(<span class="params">T x, T y</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">IntCalc</span> : <span class="title">Calc</span>&lt;<span class="title">int</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">int</span> <span class="title">Add</span>(<span class="params"><span class="built_in">int</span> x, <span class="built_in">int</span> y</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> x + y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="静态成员"><a href="#静态成员" class="headerlink" title="静态成员"></a>静态成员</h3><p>泛型类的静态成员只能在类的一个实例中共享</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">StaticDemo</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">int</span> x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">StaticDemo&lt;<span class="built_in">string</span>&gt;.x = <span class="number">4</span>;</span><br><span class="line">StaticDemo&lt;<span class="built_in">int</span>&gt;.x = <span class="number">5</span>;</span><br><span class="line">Console.WriteLine(StaticDemo&lt;<span class="built_in">string</span>&gt;.x);</span><br></pre></td></tr></table></figure>
+
+<p>结果： </p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211007233059047.png" alt="image-20211007233059047"></p>
+<h3 id="泛型缓存"><a href="#泛型缓存" class="headerlink" title="泛型缓存"></a>泛型缓存</h3><p>我们知道，类的静态构造函数只会执行一次，所以不管无论实例化多少次，在内存中只会有一个。</p>
+<p>在泛型中，<code>T</code>类型不同，每个不同的<code>T</code>类型都会生成一个不同的副本，会产生不同的静态属性、静态构造函数。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(GenericCache&lt;<span class="built_in">int</span>&gt;.GetCache());</span><br><span class="line">    Thread.Sleep(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">    Console.WriteLine(GenericCache&lt;<span class="built_in">long</span>&gt;.GetCache());</span><br><span class="line">    Thread.Sleep(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">    Console.WriteLine(GenericCache&lt;<span class="built_in">string</span>&gt;.GetCache());</span><br><span class="line">    Thread.Sleep(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">    Console.WriteLine(GenericCache&lt;DateTime&gt;.GetCache());</span><br><span class="line">    Thread.Sleep(<span class="number">10</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">GenericCache</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> <span class="built_in">string</span> _typeTime;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="title">GenericCache</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;static&quot;</span>);</span><br><span class="line"></span><br><span class="line">        _typeTime = <span class="string">$&quot;<span class="subst">&#123;<span class="keyword">typeof</span>(T).FullName&#125;</span>_<span class="subst">&#123;DateTime.Now:yyyyMMddHHmmss.fff&#125;</span>&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">GetCache</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> _typeTime;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<img data-src="https://cdn.jonty.top/img/image-20211008003511609.png" alt="image-20211008003511609" style="zoom:80%;" />
+
+<p>泛型会为不同类型都创建一个副本，构造函数执行5次，后面获取的缓存都是相同的。</p>
+<p>注意：只能为不同的类型缓存一次。泛型缓存比字典缓存效率高，但是不能主动释放。</p>
+<h3 id="泛型结构"><a href="#泛型结构" class="headerlink" title="泛型结构"></a>泛型结构</h3><p>与类一样，结构也可以是泛型的。但是不同于类，不能继承。</p>
+<p>以<code>Nullable&lt;T&gt;</code>为例：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Nullable&lt;T&gt; <span class="keyword">where</span> T: <span class="keyword">struct</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">bool</span> _hasValue;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">bool</span> HasValue =&gt; _hasValue;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Nullable</span>(<span class="params">T <span class="keyword">value</span></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        _hasValue = <span class="literal">true</span>;</span><br><span class="line">        _value = <span class="keyword">value</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> T _value;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> T Value</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!_hasValue)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="string">&quot;no value&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> _value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">explicit</span> <span class="keyword">operator</span> <span class="title">T</span>(<span class="params">Nullable&lt;T&gt; <span class="keyword">value</span></span>)</span> =&gt; <span class="keyword">value</span>.Value;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">implicit</span> <span class="keyword">operator</span> <span class="title">Nullable</span>&lt;<span class="title">T</span>&gt;(<span class="params">T <span class="keyword">value</span></span>)</span> =&gt; <span class="keyword">new</span> Nullable&lt;T&gt;(<span class="keyword">value</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">string</span>? ToString()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> !HasValue ? <span class="built_in">string</span>.Empty : _value.ToString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Nullable&lt;<span class="built_in">int</span>&gt; x;</span><br><span class="line">x = <span class="number">4</span>;</span><br><span class="line"><span class="keyword">if</span> (x.HasValue)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(x.Value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="可空类型"><a href="#可空类型" class="headerlink" title="可空类型"></a>可空类型</h4><p>在<code>c#</code>中，使用<code>?</code>定义可空类型</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span>? i = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可空类型可以与<code>null</code>或数字比较</li>
+<li>可空类型可以与算数运算符使用</li>
+</ul>
+<p>非可空类型可以转换成可空类型，隐式转换</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span> x = <span class="number">4</span>;</span><br><span class="line"><span class="built_in">int</span>? y = x;</span><br></pre></td></tr></table></figure>
+
+<p>可空类型转为非可空类型可能会失败，如果可空类型<code>null</code>赋值给非可空类型则会抛出<code>InvalidOperationException</code>异常，需要强制类型转换</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span>? x = GetNullableType(); <span class="comment">// 可能返回null</span></span><br><span class="line"><span class="built_in">int</span> y = (<span class="built_in">int</span>)x;</span><br></pre></td></tr></table></figure>
+
+<p>如果不进行显示转换，则可以使用合并运算符从可空类型转换成非可空类型，关键词<code>??</code>，为转换定义一个默认值，以防可控类型的值为<code>null</code>。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span>? x = GetNullableType();</span><br><span class="line"><span class="built_in">int</span> y = x ?? <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>Hexo</category>
+        <category>CSharp</category>
       </categories>
       <tags>
-        <tag>Config</tag>
+        <tag>Review</tag>
+        <tag>Generic</tag>
       </tags>
   </entry>
   <entry>
