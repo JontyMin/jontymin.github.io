@@ -74,30 +74,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/09/08/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Config</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>温故而知新-C#泛型</title>
     <url>/2021/10/04/csharp-generic-review-01/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在开发中，经常会遇到功能相同的模块，但是参数类型不同，这时候只能分别写不同的方法处理不同的数据类型。那么有没有一种办法，只用同一个方法来处理不同类型参数的方法</p>
@@ -341,6 +317,30 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2021/09/08/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Config</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker中安装jira</title>
     <url>/2021/09/23/install-jira-in-docker/</url>
     <content><![CDATA[<h2 id="数据库准备"><a href="#数据库准备" class="headerlink" title="数据库准备"></a>数据库准备</h2><p>其他数据库请参考文档</p>
@@ -432,6 +432,72 @@
       <tags>
         <tag>Docker</tag>
         <tag>Jira</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VMware桥接模式连接失败</title>
+    <url>/2021/10/27/vmware-bridge-ping-nowhere/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在学习<code>Linux</code>以及<code>Oracle</code>数据库，为出差<code>AMD</code>做准备。（未知）顺便顺点CPU回来😂</p>
+<p>🐂*吹过头了，话不多说，上图：</p>
+<img data-src="https://cdn.jonty.top/img/image-20211027204530933.png" alt="image-20211027204530933" style="zoom:67%;" />
+
+<p>使用<strong>VMware</strong>安装<strong>Oracle Linux</strong>,使用<u>桥接模式(Bridge)</u>连接网络。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ping 192.168.2.1</span><br></pre></td></tr></table></figure>
+
+<p>在<code>ping</code>本机时发现无法连接。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="检查网络设置"><a href="#检查网络设置" class="headerlink" title="检查网络设置"></a>检查网络设置</h3><p>查看<strong>Linux</strong>中<strong>IPv4</strong>设置，</p>
+<p>这里使用的手动模式获取，</p>
+<ul>
+<li>地址：192.168.2.51</li>
+<li>掩码：255.255.255.0</li>
+<li>网关：192.168.2.1</li>
+</ul>
+<img data-src="https://cdn.jonty.top/img/image-20211027204554710.png" alt="image-20211027204554710" style="zoom:67%;" />
+
+<p>与本机地址对比，检查是否配置错误</p>
+<p>使用以下命令查看<code>win</code>的网络配置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ipconfig</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>PS：linux中为：ifconfig</p>
+</blockquote>
+<img data-src="https://cdn.jonty.top/img/image-20211027200202788.png" style="zoom:67%;" />
+
+<p>对比发现：掩码和网关一致，IP也未冲突。所以Linux中配置无误。</p>
+<h3 id="检查虚拟网络编辑器"><a href="#检查虚拟网络编辑器" class="headerlink" title="检查虚拟网络编辑器"></a>检查虚拟网络编辑器</h3><p>查看一下<strong>VMware</strong>网络编辑器中<strong>桥接模式</strong>的配置</p>
+<img data-src="https://cdn.jonty.top/img/image-20211027204653746.png" alt="image-20211027204653746" style="zoom:67%;" />
+
+<p>点击更改设置，一般桥接模式<strong>桥接地址</strong>为<strong>自动</strong>选择，建议配置为电脑网络连接使用的网卡地址。</p>
+<img data-src="https://cdn.jonty.top/img/image-20211027204735327.png" alt="image-20211027204735327" style="zoom:67%;" />
+
+<h3 id="检查本机网卡"><a href="#检查本机网卡" class="headerlink" title="检查本机网卡"></a>检查本机网卡</h3><p>打开<strong>控制面板</strong>，找到当前连接网络</p>
+<img data-src="https://cdn.jonty.top/img/image-20211027204905408.png" alt="image-20211027204905408" style="zoom:67%;" />
+
+<p>查看连接网络属性</p>
+<img data-src="https://cdn.jonty.top/img/image-20211027204929950.png" alt="image-20211027204929950" style="zoom:67%;" />
+
+<p>可以看到，当前连接网络使用的网卡为：<code>Realtek PCIe GbE Family Controller</code>,我们将VMware虚拟网络编辑器中桥接模式的网卡设置为本机当前网络使用的网卡。</p>
+<p>选择后点击<strong>应用</strong></p>
+<img data-src="https://cdn.jonty.top/img/image-20211027205006171.png" alt="image-20211027205006171" style="zoom:67%;" />
+
+<h3 id="检查连接状态"><a href="#检查连接状态" class="headerlink" title="检查连接状态"></a>检查连接状态</h3><p>回到<strong>Linux</strong>中，再次<code>ping</code>连接成功。</p>
+<img data-src="https://cdn.jonty.top/img/image-20211027205030251.png" alt="image-20211027205030251" style="zoom:67%;" />
+
+<p>这是一个很小的问题，记录一下。</p>
+<blockquote>
+<p>有时候问题很复杂，答案却很简单</p>
+</blockquote>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p><strong>VMware桥接模式</strong>：</p>
+<p>VMware桥接模式，也就是将虚拟机的虚拟网络适配器与主机的物理网络适配器进行交接，虚拟机中的虚拟网络适配器可通过主机中的物理网络适配器直接访问到外部网络。</p>
+<p>简而言之，这就好像在上图所示的局域网中添加了一台新的、独立的计算机一样。因此，虚拟机也会占用局域网中的一个IP地址，并且可以和其他终端进行相互访问。</p>
+<p>桥接模式网络连接支持有线和无线主机网络适配器。如果你想把虚拟机当做一台完全独立的计算机看待，并且允许它和其他终端一样的进行网络通信，那么桥接模式通常是虚拟机访问网络的最简单途径。因为”桥接模式”下虚拟机相当于局域网中的一台电脑，所以IP同主机的IP在同一网段</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>VMware</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>

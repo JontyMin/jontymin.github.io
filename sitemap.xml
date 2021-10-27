@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jonty.top/2021/10/27/vmware-bridge-ping-nowhere/</loc>
+    
+    <lastmod>2021-10-27</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jonty.top/2021/10/08/csharp-generic-review-02/</loc>
     
     <lastmod>2021-10-07</lastmod>
@@ -88,7 +95,7 @@
 
   <url>
     <loc>https://jonty.top/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -96,70 +103,84 @@
   
   <url>
     <loc>https://jonty.top/tags/Winform/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Print/</loc>
-    <lastmod>2021-10-07</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Config/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Review/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Generic/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Config/</loc>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Docker/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Jira/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/VMware/</loc>
+    <lastmod>2021-10-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Linux/</loc>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Zhihu/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/View/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Other/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -168,42 +189,49 @@
   
   <url>
     <loc>https://jonty.top/categories/Net/</loc>
-    <lastmod>2021-10-07</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/categories/Hexo/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/CSharp/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/categories/Hexo/</loc>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Docker/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/categories/Linux/</loc>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Reprint/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Win/</loc>
-    <lastmod>2021-10-07</lastmod>
+    <lastmod>2021-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
