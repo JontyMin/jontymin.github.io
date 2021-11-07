@@ -1,5 +1,5 @@
+https://jonty.top/2021/11/07/introduction-with-aspNet-core-and-entity-framework-core/
 https://jonty.top/2021/10/27/vmware-install-linux/
 https://jonty.top/2021/10/27/vmware-bridge-ping-nowhere/
 https://jonty.top/2021/10/08/csharp-generic-review-02/
 https://jonty.top/2021/10/04/csharp-generic-review-01/
-https://jonty.top/2021/10/03/windows-terminal-beautify/
