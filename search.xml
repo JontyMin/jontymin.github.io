@@ -460,6 +460,241 @@
       </tags>
   </entry>
   <entry>
+    <title>RedHat安装Oracle数据库</title>
+    <url>/2021/11/09/rhel-install-oracle-11g-r2/</url>
+    <content><![CDATA[<p>📢：本文为实操记录，练习环境为RHEL7.6(本地虚拟机)，腾讯云Centos7.6实操安装成功。不正之处望指出。</p>
+<p>关于虚拟机安装Linux操作系统,<a href="https://jonty.top/2021/10/27/vmware-install-linux/">点击查看</a></p>
+<h2 id="Linux主机配置"><a href="#Linux主机配置" class="headerlink" title="Linux主机配置"></a>Linux主机配置</h2><h3 id="主机名和网络配置"><a href="#主机名和网络配置" class="headerlink" title="主机名和网络配置"></a>主机名和网络配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/hosts</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#OracleBegin##</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#Public IP</span></span></span><br><span class="line">192.168.2.52   orcl</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#OracleEnd##</span></span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104095943481.png" alt="image-20211104095943481"></p>
+<h3 id="防火墙配置"><a href="#防火墙配置" class="headerlink" title="防火墙配置"></a>防火墙配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104100742682.png" alt="image-20211104100742682"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104100906781.png" alt="image-20211104100906781"></p>
+<h3 id="SELINUX配置"><a href="#SELINUX配置" class="headerlink" title="SELINUX配置"></a>SELINUX配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27; /etc/selinux/config</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104101228439.png" alt="image-20211104101228439"></p>
+<h3 id="挂载镜像"><a href="#挂载镜像" class="headerlink" title="挂载镜像"></a>挂载镜像</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mount /dev/cdrom /mnt</span><br><span class="line">cat &lt;&lt;EOF&gt;/etc/yum.repos.d/local.repo</span><br><span class="line">[local]</span><br><span class="line">name=local</span><br><span class="line">baseurl=file:///mnt</span><br><span class="line">gpgcheck=0</span><br><span class="line">enabled=1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104101459247.png" alt="image-20211104101459247"></p>
+<h3 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install -y bc \</span><br><span class="line">binutils \</span><br><span class="line">compat-libcap1 \</span><br><span class="line">compat-libstdc++-33 \</span><br><span class="line">gcc \</span><br><span class="line">gcc-c++ \</span><br><span class="line">elfutils-libelf \</span><br><span class="line">elfutils-libelf-devel \</span><br><span class="line">glibc \</span><br><span class="line">glibc-devel \</span><br><span class="line">ksh \</span><br><span class="line">libaio \</span><br><span class="line">libaio-devel \</span><br><span class="line">libgcc \</span><br><span class="line">libstdc++ \</span><br><span class="line">libstdc++-devel \</span><br><span class="line">libxcb \</span><br><span class="line">libX11 \</span><br><span class="line">libXau \</span><br><span class="line">libXi \</span><br><span class="line">libXtst \</span><br><span class="line">libXrender \</span><br><span class="line">libXrender-devel \</span><br><span class="line">make \</span><br><span class="line">net-tools \</span><br><span class="line">nfs-utils \</span><br><span class="line">smartmontools \</span><br><span class="line">sysstat \</span><br><span class="line">e2fsprogs \</span><br><span class="line">e2fsprogs-libs \</span><br><span class="line">fontconfig-devel \</span><br><span class="line">expect \</span><br><span class="line">unzip \</span><br><span class="line">openssh-clients \</span><br><span class="line">readline* \</span><br><span class="line">psmisc --skip-broken</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104102036281.png" alt="image-20211104102036281"></p>
+<p>安装缺少的compat-libstdc++包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rpm -ivh compat-libstdc++-33-3.2.3-72.el7.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -q bc binutils compat-libcap1 compat-libstdc++-33 gcc gcc-c++ elfutils-libelf elfutils-libelf-devel glibc glibc-devel ksh libaio libaio-devel libgcc libstdc++ libstdc++-devel libxcb libX11 libXau libXi libXtst libXrender libXrender-devel make net-tools nfs-utils smartmontools sysstat e2fsprogs e2fsprogs-libs fontconfig-devel expect unzip openssh-clients readline</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104102049805.png" alt="image-20211104102049805"></p>
+<h3 id="配置ZeroConf"><a href="#配置ZeroConf" class="headerlink" title="配置ZeroConf"></a>配置ZeroConf</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#关闭Zeroconf service的服务守护进程</span></span></span><br><span class="line">systemctl stop avahi-daemon.socket</span><br><span class="line">systemctl stop avahi-daemon.service</span><br><span class="line">systemctl disable avahi-daemon.service</span><br><span class="line">systemctl disable avahi-daemon.socket</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#关闭NOZEROCONF</span></span></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/sysconfig/network</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">NOZEROCONF=yes</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104103506861.png" alt="image-20211104103506861"></p>
+<h3 id="关闭透明大页和numa"><a href="#关闭透明大页和numa" class="headerlink" title="关闭透明大页和numa"></a>关闭透明大页和numa</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/quiet/quiet transparent_hugepage=never numa=off/&#x27; /etc/default/grub</span><br><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104103747755.png" alt="image-20211104103747755"></p>
+<h3 id="配置系统参数文件"><a href="#配置系统参数文件" class="headerlink" title="配置系统参数文件"></a>配置系统参数文件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#计算shmall和shmmax值</span></span></span><br><span class="line">memTotal=$(grep MemTotal /proc/meminfo | awk &#x27;&#123;print $2&#125;&#x27;)</span><br><span class="line">totalMemory=$((memTotal / 2048))</span><br><span class="line">shmall=$((memTotal / 4))</span><br><span class="line">if [ $shmall -lt 2097152 ]; then</span><br><span class="line">  shmall=2097152</span><br><span class="line">fi</span><br><span class="line">shmmax=$((memTotal * 1024 - 1))</span><br><span class="line">if [ &quot;$shmmax&quot; -lt 4294967295 ]; then</span><br><span class="line">  shmmax=4294967295</span><br><span class="line">fi</span><br><span class="line">echo $shmall</span><br><span class="line">echo $shmmax</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#配置系统参数</span></span></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/sysctl.conf</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#shmmal&#x27;s Calculation formula: physical memory 8G：(8*1024*1024*1024)/4096=2097152</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#shmmax&#x27;s Calculation formula: physical memory 8G：(8/2)*1024*1024*1024 -1=4294967295</span></span></span><br><span class="line">fs.aio-max-nr = 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall = $shmall</span><br><span class="line">kernel.shmmax = $shmmax</span><br><span class="line">kernel.shmmni = 4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048576</span><br><span class="line">EOF</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#系统参数生效</span></span></span><br><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置系统资源限制"><a href="#配置系统资源限制" class="headerlink" title="配置系统资源限制"></a>配置系统资源限制</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/security/limits.conf</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">oracle soft nofile 1024</span><br><span class="line">oracle hard nofile 65536</span><br><span class="line">oracle soft stack 10240</span><br><span class="line">oracle hard stack 32768</span><br><span class="line">oracle soft nproc 2047</span><br><span class="line">oracle hard nproc 16384</span><br><span class="line">oracle hard memlock 134217728</span><br><span class="line">oracle soft memlock 134217728</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/pam.d/login</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">session required pam_limits.so </span><br><span class="line">session required /lib64/security/pam_limits.so</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建用户和组"><a href="#创建用户和组" class="headerlink" title="创建用户和组"></a>创建用户和组</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/usr/sbin/groupadd -g 54321 oinstall</span><br><span class="line">/usr/sbin/groupadd -g 54322 dba</span><br><span class="line">/usr/sbin/groupadd -g 54323 oper</span><br><span class="line"></span><br><span class="line">/usr/sbin/useradd -u 54321 -g oinstall -G dba,oper oracle</span><br><span class="line">echo oracle | passwd --stdin oracle</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建Oracle安装目录"><a href="#创建Oracle安装目录" class="headerlink" title="创建Oracle安装目录"></a>创建Oracle安装目录</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkdir -p /u01/app/oracle/product/11.2.0/db</span><br><span class="line">mkdir -p /u01/app/oraInventory</span><br><span class="line">mkdir -p /oradata</span><br><span class="line">chown -R oracle:oinstall /oradata</span><br><span class="line">chown -R oracle:oinstall /u01/app</span><br><span class="line">chmod -R 775 /u01/app</span><br></pre></td></tr></table></figure>
+
+<h3 id="用户环境变量配置"><a href="#用户环境变量配置" class="headerlink" title="用户环境变量配置"></a>用户环境变量配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/home/oracle/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleBegin#########################</span></span></span><br><span class="line">umask 022</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export TMPDIR=\$TMP</span><br><span class="line">export NLS_LANG=AMERICAN_AMERICA.AL32UTF8</span><br><span class="line">export ORACLE_BASE=/u01/app/oracle</span><br><span class="line">export ORACLE_HOME=/u01/app/oracle/product/11.2.0/db</span><br><span class="line">export ORACLE_HOSTNAME=orcl</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export TNS_ADMIN=\$ORACLE_HOME/network/admin</span><br><span class="line">export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib</span><br><span class="line">export ORACLE_SID=orcl</span><br><span class="line">export PATH=/usr/sbin:\$PATH</span><br><span class="line">export PATH=\$ORACLE_HOME/bin:\$ORACLE_HOME/OPatch:\$PATH</span><br><span class="line">alias sas=&#x27;sqlplus / as sysdba&#x27;</span><br><span class="line">export PS1=&quot;[\`whoami\`@\`hostname\`:&quot;&#x27;\$PWD]\$ &#x27;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h2 id="Oracle软件安装"><a href="#Oracle软件安装" class="headerlink" title="Oracle软件安装"></a>Oracle软件安装</h2><p><a href="https://luciferliu.blog.csdn.net/article/details/118529918">https://luciferliu.blog.csdn.net/article/details/118529918</a></p>
+<h3 id="软件包上传"><a href="#软件包上传" class="headerlink" title="软件包上传"></a>软件包上传</h3><p><img data-src="https://cdn.jonty.top/img/image-20211104171706862.png" alt="image-20211104171706862"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104171845746.png" alt="image-20211104171845746"></p>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>按顺序解压1、2软件包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">unzip -q p13390677_112040_Linux-x86-64_1of7.zip</span><br><span class="line">unzip -q p13390677_112040_Linux-x86-64_2of7.zip</span><br><span class="line"></span><br><span class="line">// 授权soft  to oracle</span><br><span class="line">shown -R oracle:oinstall /soft</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="VNC配置"><a href="#VNC配置" class="headerlink" title="VNC配置"></a>VNC配置</h4><h5 id="安装GNOME桌面"><a href="#安装GNOME桌面" class="headerlink" title="安装GNOME桌面"></a>安装GNOME桌面</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 列出的组列表里有GNOME Desktop。</span></span><br><span class="line">yum grouplist  </span><br><span class="line"><span class="meta">#</span><span class="bash">安装之</span></span><br><span class="line">yum groupinstall -y &quot;GNOME Desktop&quot; </span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装完成后，修改默认启动方式为图形化界面</span></span><br><span class="line">systemctl set-default graphical.target  //设置成图形模式 </span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果要换回来</span> </span><br><span class="line">systemctl set-default multi-user.target  //设置成命令模式 </span><br><span class="line"><span class="meta">#</span><span class="bash">然后重启系统即可</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="安装VNC服务"><a href="#安装VNC服务" class="headerlink" title="安装VNC服务"></a>安装VNC服务</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install tigervnc-server -y</span><br><span class="line"></span><br><span class="line">rpm -qa|grep tigervnc-server -- 验证是否安装成功</span><br></pre></td></tr></table></figure>
+
+<h5 id="打开VNC服务"><a href="#打开VNC服务" class="headerlink" title="打开VNC服务"></a>打开VNC服务</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vncserver</span><br></pre></td></tr></table></figure>
+
+<p>然后配置好密码使用<code>VNC Viewer</code>连接远程桌面</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211108134312717.png" alt="image-20211108134312717"></p>
+<blockquote>
+<p>教程 ： <a href="https://blog.csdn.net/nahancy/article/details/86316971">https://blog.csdn.net/nahancy/article/details/86316971</a></p>
+<p>VNC下载：链接：<a href="https://pan.baidu.com/s/1fEf87xSB09gWxwswNXFeYw">https://pan.baidu.com/s/1fEf87xSB09gWxwswNXFeYw</a><br>提取码：3w9b </p>
+</blockquote>
+<h4 id="执行Oracle安装脚本"><a href="#执行Oracle安装脚本" class="headerlink" title="执行Oracle安装脚本"></a>执行Oracle安装脚本</h4><p>进入<code>/soft/database</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./runInstaller -jreLoc /etc/alternatives/jre_1.8.0</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104172834599.png" alt="image-20211104172834599"></p>
+<p><strong>安装检查的问题</strong>：</p>
+<p>1、must be configured to display at least 256 colors</p>
+<p>解决方法：使用oracle用户打开vnserver</p>
+<p>2、交换空间需要大于150MB</p>
+<p>结局方法：</p>
+<p>增加<code>swap</code>分区</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=/home/swapfile bs=1M count=512</span><br><span class="line">mkswap /home/swapfile</span><br><span class="line">swapon /home/swapfile</span><br></pre></td></tr></table></figure>
+
+<p>然后修改 /etc/fstab，加上：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"> vim /etc/fstab</span><br><span class="line">/home/swapfile swap swap defaults 0 0</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="配置安全更新"><a href="#配置安全更新" class="headerlink" title="配置安全更新"></a>配置安全更新</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104172939686.png" alt="image-20211104172939686"></p>
+<h4 id="下载软件更新"><a href="#下载软件更新" class="headerlink" title="下载软件更新"></a>下载软件更新</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173006944.png" alt="image-20211104173006944"></p>
+<h4 id="安装选项"><a href="#安装选项" class="headerlink" title="安装选项"></a>安装选项</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173036634.png" alt="image-20211104173036634"></p>
+<h4 id="安装选项-1"><a href="#安装选项-1" class="headerlink" title="安装选项"></a>安装选项</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173111607.png" alt="image-20211104173111607"></p>
+<h4 id="数据库版本"><a href="#数据库版本" class="headerlink" title="数据库版本"></a>数据库版本</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173154202.png" alt="image-20211104173154202"></p>
+<h4 id="安装位置"><a href="#安装位置" class="headerlink" title="安装位置"></a>安装位置</h4><p>默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173224434.png" alt="image-20211104173224434"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173247574.png" alt="image-20211104173247574"></p>
+<h4 id="操作系统组"><a href="#操作系统组" class="headerlink" title="操作系统组"></a>操作系统组</h4><p>默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173318474.png" alt="image-20211104173318474"></p>
+<h4 id="安装前检查"><a href="#安装前检查" class="headerlink" title="安装前检查"></a>安装前检查</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173400667.png" alt="image-20211104173400667"></p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rpm -ivh pdksh-5.2.14-37.el5.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173503682.png" alt="image-20211104173503682"></p>
+<p>重新检查</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173621400.png" alt="image-20211104173621400"></p>
+<p>等待安装</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173754434.png" alt="image-20211104173754434"></p>
+<p><strong>错误解决</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173840559.png" alt="image-20211104173840559"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">sed -i &#x27;s/^\(\s*\$(MK_EMAGENT_NMECTL)\)\s*$/\1 -lnnz11/g&#x27; $ORACLE_HOME/sysman/lib/ins_emagent.mk</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104174044437.png" alt="image-20211104174044437"></p>
+<h4 id="执行配置脚本"><a href="#执行配置脚本" class="headerlink" title="执行配置脚本"></a>执行配置脚本</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - root</span><br><span class="line">/u01/app/oraInventory/orainstRoot.sh</span><br><span class="line">/u01/app/oraInventory/orainstRoot.sh</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104174220290.png" alt="image-20211104174220290"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104174230792.png" alt="image-20211104174230792"></p>
+<h4 id="安装完成"><a href="#安装完成" class="headerlink" title="安装完成"></a>安装完成</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104174313280.png" alt="image-20211104174313280"></p>
+<p>安装完成后重启主机</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><h4 id="打开监听"><a href="#打开监听" class="headerlink" title="打开监听"></a>打开监听</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">lsnrctl start</span><br><span class="line">lsnrctl status</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175006137.png" alt="image-20211104175006137"></p>
+<h4 id="打开配置工具"><a href="#打开配置工具" class="headerlink" title="打开配置工具"></a>打开配置工具</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dbca</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175143670.png" alt="image-20211104175143670"></p>
+<h4 id="创建数据库-1"><a href="#创建数据库-1" class="headerlink" title="创建数据库"></a>创建数据库</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104175219629.png" alt="image-20211104175219629"></p>
+<p>自定义模式</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175242442.png" alt="image-20211104175242442"></p>
+<p>实例名</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175309394.png" alt="image-20211104175309394"></p>
+<p>EM</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175402390.png" alt="image-20211104175402390"></p>
+<p>使用统一密码</p>
+<p><code>P@ssw0rd</code></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175458122.png" alt="image-20211104175458122"></p>
+<p>使用建好的数据文件保存地址</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175606842.png" alt="image-20211104175606842"></p>
+<p>关闭闪回和归档</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175643304.png" alt="image-20211104175643304"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175710858.png" alt="image-20211104175710858"></p>
+<p>内存分配</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175742728.png" alt="image-20211104175742728"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175807092.png" alt="image-20211104175807092"></p>
+<p>字符集配置</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175832188.png" alt="image-20211104175832188"></p>
+<p>下一步</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104190456300.png" alt="image-20211104190456300"></p>
+<p>下一步</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104190517979.png" alt="image-20211104190517979"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104190603367.png" alt="image-20211104190603367"></p>
+<p>等待创建完成</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104190644897.png" alt="image-20211104190644897"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104194542389.png" alt="image-20211104194542389"></p>
+<h4 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h4><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">su <span class="operator">-</span> oracle</span><br><span class="line">sqlplus <span class="operator">/</span> <span class="keyword">as</span> sysdba</span><br><span class="line"></span><br><span class="line">## 重启后启动数据库</span><br><span class="line">startup</span><br><span class="line"></span><br><span class="line">$ echo $ORACLE_SID  <span class="comment">-- 实例ID</span></span><br><span class="line">....                    <span class="comment">--&gt;&gt; Look what you get</span></span><br><span class="line">$ echo $ORACLE_HOME <span class="comment">-- 安装目录</span></span><br><span class="line">....                  </span><br><span class="line">$ ps <span class="operator">-</span>ef <span class="operator">|</span> grep smon    <span class="comment">--&gt;&gt; Look for smon background process which</span></span><br><span class="line">ora_smon_InfraDB        <span class="comment">--&gt;&gt; should include ORACLE_SID in it.</span></span><br><span class="line"></span><br><span class="line">$ ORACLE_SID<span class="operator">=</span>InfraDB    <span class="comment">--&gt;&gt; set to a valid value like these ones.</span></span><br><span class="line">$ ORACLE_HOME<span class="operator">=</span><span class="operator">/</span>u01<span class="operator">/</span>app<span class="operator">/</span>oracle<span class="operator">/</span>product<span class="operator">/</span><span class="number">12.2</span><span class="number">.0</span><span class="number">.1</span><span class="operator">/</span>dbhome_1</span><br><span class="line"></span><br><span class="line">$ lsnrctl status        <span class="comment">--&gt;&gt; Look whether listener is ON</span></span><br><span class="line">$ lsnrctl <span class="keyword">start</span>         <span class="comment">--&gt;&gt; If not, then start the listener.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">##创建数据库用户</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> test identified <span class="keyword">by</span> test;</span><br><span class="line"><span class="keyword">grant</span> dba <span class="keyword">to</span> test;</span><br><span class="line">conn test<span class="operator">/</span>test</span><br><span class="line"></span><br><span class="line">##创建表</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> test (id number <span class="keyword">not</span> <span class="keyword">null</span>,name varchar2(<span class="number">100</span>));</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> test <span class="keyword">values</span> (<span class="number">1</span>,<span class="string">&#x27;jonty&#x27;</span>);</span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104194801063.png" alt="image-20211104194801063"></p>
+<p><strong>注意</strong>：如果执行SQL命令<a href="https://stackoverflow.com/questions/50219312/ora-01034-oracle-not-available">ORA-01034: ORACLE not available</a>，可能是实例ID对不上</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo $ORACLE_SID   -- 查看当前实例</span><br><span class="line"></span><br><span class="line">echo $ORACLE_HOME -- 安装目录</span><br><span class="line"></span><br><span class="line">ORACLE_SID=medprodb  -- 设置</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211108134715074.png" alt="image-20211108134715074"></p>
+]]></content>
+      <categories>
+        <category>Oracle</category>
+      </categories>
+      <tags>
+        <tag>RedHat</tag>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VMware桥接模式连接失败</title>
+    <url>/2021/10/27/vmware-bridge-ping-nowhere/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在学习<code>Linux</code>以及<code>Oracle</code>数据库，为出差<code>AMD</code>做准备。（未知）顺便顺点CPU回来😂</p>
+<p>🐂*吹过头了，话不多说，上图：</p>
+<img data-src="https://cdn.jonty.top/img/image-20211027204530933.png" alt="image-20211027204530933" style="zoom:67%;" />
+
+<p>使用<strong>VMware</strong>安装<strong>Oracle Linux</strong>,使用<u>桥接模式(Bridge)</u>连接网络。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ping 192.168.2.1</span><br></pre></td></tr></table></figure>
+
+<p>在<code>ping</code>本机时发现无法连接。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="检查网络设置"><a href="#检查网络设置" class="headerlink" title="检查网络设置"></a>检查网络设置</h3><p>查看<strong>Linux</strong>中<strong>IPv4</strong>设置，</p>
+<p>这里使用的手动模式获取，</p>
+<ul>
+<li>地址：192.168.2.51</li>
+<li>掩码：255.255.255.0</li>
+<li>网关：192.168.2.1</li>
+</ul>
+<img data-src="https://cdn.jonty.top/img/image-20211027204554710.png" alt="image-20211027204554710" style="zoom:67%;" />
+
+<p>与本机地址对比，检查是否配置错误</p>
+<p>使用以下命令查看<code>win</code>的网络配置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ipconfig</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>PS：linux中为：ifconfig</p>
+</blockquote>
+<img data-src="https://cdn.jonty.top/img/image-20211027200202788.png" style="zoom:67%;" />
+
+<p>对比发现：掩码和网关一致，IP也未冲突。所以Linux中配置无误。</p>
+<h3 id="检查虚拟网络编辑器"><a href="#检查虚拟网络编辑器" class="headerlink" title="检查虚拟网络编辑器"></a>检查虚拟网络编辑器</h3><p>查看一下<strong>VMware</strong>网络编辑器中<strong>桥接模式</strong>的配置</p>
+<img data-src="https://cdn.jonty.top/img/image-20211027204653746.png" alt="image-20211027204653746" style="zoom:67%;" />
+
+<p>点击更改设置，一般桥接模式<strong>桥接地址</strong>为<strong>自动</strong>选择，建议配置为电脑网络连接使用的网卡地址。</p>
+<img data-src="https://cdn.jonty.top/img/image-20211027204735327.png" alt="image-20211027204735327" style="zoom:67%;" />
+
+<h3 id="检查本机网卡"><a href="#检查本机网卡" class="headerlink" title="检查本机网卡"></a>检查本机网卡</h3><p>打开<strong>控制面板</strong>，找到当前连接网络</p>
+<img data-src="https://cdn.jonty.top/img/image-20211027204905408.png" alt="image-20211027204905408" style="zoom:67%;" />
+
+<p>查看连接网络属性</p>
+<img data-src="https://cdn.jonty.top/img/image-20211027204929950.png" alt="image-20211027204929950" style="zoom:67%;" />
+
+<p>可以看到，当前连接网络使用的网卡为：<code>Realtek PCIe GbE Family Controller</code>,我们将VMware虚拟网络编辑器中桥接模式的网卡设置为本机当前网络使用的网卡。</p>
+<p>选择后点击<strong>应用</strong></p>
+<img data-src="https://cdn.jonty.top/img/image-20211027205006171.png" alt="image-20211027205006171" style="zoom:67%;" />
+
+<h3 id="检查连接状态"><a href="#检查连接状态" class="headerlink" title="检查连接状态"></a>检查连接状态</h3><p>回到<strong>Linux</strong>中，再次<code>ping</code>连接成功。</p>
+<img data-src="https://cdn.jonty.top/img/image-20211027205030251.png" alt="image-20211027205030251" style="zoom:67%;" />
+
+<p>这是一个很小的问题，记录一下。</p>
+<blockquote>
+<p>有时候问题很复杂，答案却很简单</p>
+</blockquote>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p><strong>VMware桥接模式</strong>：</p>
+<p>VMware桥接模式，也就是将虚拟机的虚拟网络适配器与主机的物理网络适配器进行交接，虚拟机中的虚拟网络适配器可通过主机中的物理网络适配器直接访问到外部网络。</p>
+<p>简而言之，这就好像在上图所示的局域网中添加了一台新的、独立的计算机一样。因此，虚拟机也会占用局域网中的一个IP地址，并且可以和其他终端进行相互访问。</p>
+<p>桥接模式网络连接支持有线和无线主机网络适配器。如果你想把虚拟机当做一台完全独立的计算机看待，并且允许它和其他终端一样的进行网络通信，那么桥接模式通常是虚拟机访问网络的最简单途径。因为”桥接模式”下虚拟机相当于局域网中的一台电脑，所以IP同主机的IP在同一网段</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>VMware</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>VMware安装Linux</title>
     <url>/2021/10/27/vmware-install-linux/</url>
     <content><![CDATA[<h3 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h3><p>虚拟机(Virtual Machine）指通过软件模拟的具有完整硬件系统功能的、运行在一个完全隔离环境中的完整计算机系统。<br>虚拟系统通过生成现有操作系统的全新虚拟镜像，它具有真实windows系统完全一样的功能，进入虚拟系统后，所有操作都是在这个全新的独立的虚拟系统里面进行，可以独立安装运行软件，保存数据，拥有自己的独立桌面，不会对真正的系统产生任何影响，而且具有能够在现有系统与虚拟镜像之间灵活切换的一类操作系统。<br>流行的虚拟机厂家有VMware、 loracle Virtual Bo、微软Virtua PC，它们都能在Windows系统上虚拟出多个计算机(Win/Linux)</p>
@@ -532,74 +767,8 @@
         <category>Linux</category>
       </categories>
       <tags>
-        <tag>VMware</tag>
         <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>VMware桥接模式连接失败</title>
-    <url>/2021/10/27/vmware-bridge-ping-nowhere/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在学习<code>Linux</code>以及<code>Oracle</code>数据库，为出差<code>AMD</code>做准备。（未知）顺便顺点CPU回来😂</p>
-<p>🐂*吹过头了，话不多说，上图：</p>
-<img data-src="https://cdn.jonty.top/img/image-20211027204530933.png" alt="image-20211027204530933" style="zoom:67%;" />
-
-<p>使用<strong>VMware</strong>安装<strong>Oracle Linux</strong>,使用<u>桥接模式(Bridge)</u>连接网络。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ping 192.168.2.1</span><br></pre></td></tr></table></figure>
-
-<p>在<code>ping</code>本机时发现无法连接。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="检查网络设置"><a href="#检查网络设置" class="headerlink" title="检查网络设置"></a>检查网络设置</h3><p>查看<strong>Linux</strong>中<strong>IPv4</strong>设置，</p>
-<p>这里使用的手动模式获取，</p>
-<ul>
-<li>地址：192.168.2.51</li>
-<li>掩码：255.255.255.0</li>
-<li>网关：192.168.2.1</li>
-</ul>
-<img data-src="https://cdn.jonty.top/img/image-20211027204554710.png" alt="image-20211027204554710" style="zoom:67%;" />
-
-<p>与本机地址对比，检查是否配置错误</p>
-<p>使用以下命令查看<code>win</code>的网络配置</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ipconfig</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>PS：linux中为：ifconfig</p>
-</blockquote>
-<img data-src="https://cdn.jonty.top/img/image-20211027200202788.png" style="zoom:67%;" />
-
-<p>对比发现：掩码和网关一致，IP也未冲突。所以Linux中配置无误。</p>
-<h3 id="检查虚拟网络编辑器"><a href="#检查虚拟网络编辑器" class="headerlink" title="检查虚拟网络编辑器"></a>检查虚拟网络编辑器</h3><p>查看一下<strong>VMware</strong>网络编辑器中<strong>桥接模式</strong>的配置</p>
-<img data-src="https://cdn.jonty.top/img/image-20211027204653746.png" alt="image-20211027204653746" style="zoom:67%;" />
-
-<p>点击更改设置，一般桥接模式<strong>桥接地址</strong>为<strong>自动</strong>选择，建议配置为电脑网络连接使用的网卡地址。</p>
-<img data-src="https://cdn.jonty.top/img/image-20211027204735327.png" alt="image-20211027204735327" style="zoom:67%;" />
-
-<h3 id="检查本机网卡"><a href="#检查本机网卡" class="headerlink" title="检查本机网卡"></a>检查本机网卡</h3><p>打开<strong>控制面板</strong>，找到当前连接网络</p>
-<img data-src="https://cdn.jonty.top/img/image-20211027204905408.png" alt="image-20211027204905408" style="zoom:67%;" />
-
-<p>查看连接网络属性</p>
-<img data-src="https://cdn.jonty.top/img/image-20211027204929950.png" alt="image-20211027204929950" style="zoom:67%;" />
-
-<p>可以看到，当前连接网络使用的网卡为：<code>Realtek PCIe GbE Family Controller</code>,我们将VMware虚拟网络编辑器中桥接模式的网卡设置为本机当前网络使用的网卡。</p>
-<p>选择后点击<strong>应用</strong></p>
-<img data-src="https://cdn.jonty.top/img/image-20211027205006171.png" alt="image-20211027205006171" style="zoom:67%;" />
-
-<h3 id="检查连接状态"><a href="#检查连接状态" class="headerlink" title="检查连接状态"></a>检查连接状态</h3><p>回到<strong>Linux</strong>中，再次<code>ping</code>连接成功。</p>
-<img data-src="https://cdn.jonty.top/img/image-20211027205030251.png" alt="image-20211027205030251" style="zoom:67%;" />
-
-<p>这是一个很小的问题，记录一下。</p>
-<blockquote>
-<p>有时候问题很复杂，答案却很简单</p>
-</blockquote>
-<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p><strong>VMware桥接模式</strong>：</p>
-<p>VMware桥接模式，也就是将虚拟机的虚拟网络适配器与主机的物理网络适配器进行交接，虚拟机中的虚拟网络适配器可通过主机中的物理网络适配器直接访问到外部网络。</p>
-<p>简而言之，这就好像在上图所示的局域网中添加了一台新的、独立的计算机一样。因此，虚拟机也会占用局域网中的一个IP地址，并且可以和其他终端进行相互访问。</p>
-<p>桥接模式网络连接支持有线和无线主机网络适配器。如果你想把虚拟机当做一台完全独立的计算机看待，并且允许它和其他终端一样的进行网络通信，那么桥接模式通常是虚拟机访问网络的最简单途径。因为”桥接模式”下虚拟机相当于局域网中的一台电脑，所以IP同主机的IP在同一网段</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
         <tag>VMware</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>

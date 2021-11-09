@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2021/11/09/rhel-install-oracle-11g-r2/</loc>
+    <lastmod>2021-11-09</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2021/11/07/introduction-with-aspNet-core-and-entity-framework-core/</loc>
     <lastmod>2021-11-07</lastmod>
   </url>
