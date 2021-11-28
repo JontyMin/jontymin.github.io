@@ -154,30 +154,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/09/08/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Config</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>温故而知新-C#泛型</title>
     <url>/2021/10/08/csharp-generic-review-02/</url>
     <content><![CDATA[<h3 id="泛型类"><a href="#泛型类" class="headerlink" title="泛型类"></a>泛型类</h3><p>除了有<strong>泛型方法</strong>，还有<strong>泛型类</strong></p>
@@ -341,6 +317,301 @@
       </tags>
   </entry>
   <entry>
+    <title>Docker基础入门-01</title>
+    <url>/2021/11/28/getting-started-with-docker-01/</url>
+    <content><![CDATA[<p><img data-src="https://cdn.jonty.top/img/docker01.png" alt="Docker"></p>
+<p>Docker 是一个开源的应用容器引擎，基于 <a href="https://www.runoob.com/go/go-tutorial.html">Go 语言</a> 并遵从 Apache2.0 协议开源。</p>
+<p>可以让开发者打包应用以及依赖包到一个轻量级、可移植的容器中，然后发布到其他<strong>Linux</strong>系统上，以实现虚拟化。</p>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>快速、一致地交付应用（避免在我的电脑上能运行，你那怎么就报错的情况发生）</li>
+<li>响应式部署和扩展</li>
+<li>在同一硬件上运行更多工作负载</li>
+</ul>
+<p>Docker 官网：<a href="https://www.docker.com/">https://www.docker.com</a></p>
+<p>GitHub Docker 源码：<a href="https://github.com/docker/docker-ce">https://github.com/docker/docker-ce</a></p>
+<h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p><code>Docker</code>包括三个基本概念：</p>
+<ul>
+<li><p><strong>镜像</strong>（Image）: Docker镜像（Image）相当于一个<strong>root</strong>文件系统</p>
+</li>
+<li><p><strong>容器</strong>（Container）: 容器相当于镜像的一个实例，类比面向对象程序中的类和对象一样，镜像是静态的定义，容器是镜像的一个实例。实例（容器）可以被创建、启动、停止、删除。</p>
+</li>
+<li><p><strong>仓库</strong>（Repository）: 类似于代码仓库git，用于保存镜像</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Docker</th>
+<th>OOP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Container</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>Images</td>
+<td>Class</td>
+</tr>
+</tbody></table>
+<h4 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h4><p><img data-src="https://cdn.jonty.top/img/576507-docker1.png" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Images</td>
+<td>Docker Images是创建容器的模板</td>
+</tr>
+<tr>
+<td>Container</td>
+<td>容器是镜像运行的一个实体。</td>
+</tr>
+<tr>
+<td>Client</td>
+<td>客户端通过命令行工具或Desktop等与Docker通信</td>
+</tr>
+<tr>
+<td>Host</td>
+<td>宿主（服务器），用于执行Docker守护进程和容器</td>
+</tr>
+<tr>
+<td>Registry</td>
+<td>镜像仓库，public/private 仓库</td>
+</tr>
+<tr>
+<td>Machine</td>
+<td>命令行工具</td>
+</tr>
+</tbody></table>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>环境：<code>Centos7.9 </code></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211128124726295.png" alt="cpu-memery"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">uname -a	# 查看机器信息 3.8以上</span><br><span class="line">cat /etc/redhat-release # Linux版本</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211128125004040.png" alt="image-20211128125004040"></p>
+<h4 id="卸载旧版本"><a href="#卸载旧版本" class="headerlink" title="卸载旧版本"></a>卸载旧版本</h4><p>可以先检查是否安装过旧版本的<code>Docker</code>，如果安装过则需要先卸载依赖项。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-engine</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置仓库"><a href="#配置仓库" class="headerlink" title="配置仓库"></a>配置仓库</h4><p>安装<code>yum-utils</code>包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum install -y yum-utils</span><br></pre></td></tr></table></figure>
+
+<p>设置仓库：</p>
+<ul>
+<li><p>官方源：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure></li>
+<li><p>阿里云：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>这里我们使用阿里云的仓库，国内访问比较快。</p>
+<h4 id="Docker引擎"><a href="#Docker引擎" class="headerlink" title="Docker引擎"></a>Docker引擎</h4><p>安装<code>Docker Engine</code>:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
+
+<p>启动<code>Docker</code>:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl start docker	# 启动</span><br><span class="line">systemctl stop docker	# 停止</span><br><span class="line">systemctl restart docker	# 重启</span><br></pre></td></tr></table></figure>
+
+<p>配置自启动</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo systemctl enable docker.service</span><br><span class="line">sudo systemctl enable containerd.service</span><br></pre></td></tr></table></figure>
+
+<p>禁用则使用<code>disable</code></p>
+<p>检查是否安装成功：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@local yum.repos.d]# docker -v</span><br><span class="line">Docker version 20.10.8, build 3967b7d</span><br><span class="line">[root@local yum.repos.d]# </span><br></pre></td></tr></table></figure>
+
+<h4 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h4><ul>
+<li><p>卸载Docker Engine、CLI和Containerd包：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum remove docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure></li>
+<li><p>删除所有镜像、容器和卷</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo rm -rf /var/lib/docker</span><br><span class="line">sudo rm -rf /var/lib/containerd</span><br></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>参考：官方文档<a href="https://docs.docker.com/engine/install/centos/">https://docs.docker.com/engine/install/centos</a></p>
+</blockquote>
+<h3 id="镜像加速"><a href="#镜像加速" class="headerlink" title="镜像加速"></a>镜像加速</h3><p>国内从<code>Docker Hub</code>拉取镜像可能会比较慢，推荐配置国内的镜像加速器</p>
+<ul>
+<li>科大镜像：<a href="https://docker.mirrors.ustc.edu.cn/">https://docker.mirrors.ustc.edu.cn/</a></li>
+<li>网易镜像：<a href="https://hub-mirror.c.163.com/">https://hub-mirror.c.163.com/</a></li>
+</ul>
+<p>获取个人阿里镜像加速器：</p>
+<p>找到<strong>容器镜像服务</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211128131145813.png" alt="image-20211128131145813"></p>
+<p>镜像工具 =&gt; 镜像加速器</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211128131239013.png" alt="image-20211128131239013"></p>
+<h4 id="配置镜像加速器"><a href="#配置镜像加速器" class="headerlink" title="配置镜像加速器"></a>配置镜像加速器</h4><p>修改daemon配置文件<code>/etc/docker/daemon.json</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vi /etc/docker/daemon.json</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加镜像地址</span></span><br><span class="line"> &quot;registry-mirrors&quot;: [&quot;https://yoursId.mirror.aliyuncs.com&quot;]</span><br><span class="line"> </span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211128131513972.png" alt="image-20211128131513972"></p>
+<h4 id="检查是否生效"><a href="#检查是否生效" class="headerlink" title="检查是否生效"></a>检查是否生效</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker info</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211128133728211.png" alt="image-20211128133728211"></p>
+<h3 id="Docker容器使用"><a href="#Docker容器使用" class="headerlink" title="Docker容器使用"></a>Docker容器使用</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@local ~]# docker</span><br></pre></td></tr></table></figure>
+
+<img data-src="https://cdn.jonty.top/img/image-20211128134120395.png" alt="image-20211128134120395" style="zoom:80%;" />
+
+<p>使用 <code>docker [cammand] --help</code>查看命令使用方法</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --help</span><br></pre></td></tr></table></figure>
+
+<img data-src="https://cdn.jonty.top/img/image-20211128134321971.png" alt="image-20211128134321971" style="zoom:80%;" />
+
+<h4 id="获取镜像"><a href="#获取镜像" class="headerlink" title="获取镜像"></a>获取镜像</h4><p>从镜像仓库拉取镜像</p>
+<p>命令：<code>docker pull [OPTIONS] NAME[:TAG|@DIGEST]</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull  -q nginx  # -q 不输出 </span><br><span class="line">docker images # 查看镜像列表</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211128134754794.png" alt="image-20211128134754794"></p>
+<h4 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h4><p>启动一个新的容器实例</p>
+<p>命令：<code>docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name my_nginx -p 80:80 -d nginx</span><br><span class="line"></span><br><span class="line">[root@local ~]# docker run --name my_nginx -p 80:80 -d nginx</span><br><span class="line">2fc689cc169c994ffec7aeadacbedfc13ff4de540fb3e5e7c85520f2d4da5fde</span><br><span class="line">[root@local ~]#</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>–name：指定容器的名称</li>
+<li>-p：映射的端口</li>
+<li>-d : 后台运行</li>
+</ul>
+<p>浏览器访问我们的容器，可以看到<code>nginx</code>已经启动。</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211128135337874.png" alt="image-20211128135337874"></p>
+<h4 id="查看所有容器"><a href="#查看所有容器" class="headerlink" title="查看所有容器"></a>查看所有容器</h4><p>命令：<code>docker ps [OPTIONS]</code></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211128135638225.png" alt="image-20211128135638225"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker ps -a</span><br><span class="line"></span><br><span class="line">[root@local ~]# docker ps -a</span><br><span class="line">CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                               NAMES</span><br><span class="line">2fc689cc169c   nginx     &quot;/docker-entrypoint.…&quot;   6 minutes ago   Up 6 minutes   0.0.0.0:80-&gt;80/tcp, :::80-&gt;80/tcp   my_nginx</span><br><span class="line">[root@local ~]#</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动容器-1"><a href="#启动容器-1" class="headerlink" title="启动容器"></a>启动容器</h4><p>命令：<code>docker start [OPTIONS] CONTAINER [CONTAINER...]</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker start my_nginx</span><br><span class="line">docker restart my_nginx # 重启容器</span><br></pre></td></tr></table></figure>
+
+<h4 id="停止容器"><a href="#停止容器" class="headerlink" title="停止容器"></a>停止容器</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker stop my_nginx # 停止名称为my_nginx的容器</span><br><span class="line">docker stop 2fc689cc169c # container Id</span><br><span class="line"></span><br><span class="line">[root@local ~]# docker stop my_nginx</span><br><span class="line">my_nginx</span><br><span class="line">[root@local ~]#</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@local ~]# docker stop --help</span><br><span class="line"></span><br><span class="line">Usage:  docker stop [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Stop one or more running containers</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  -t, --time int   Seconds to wait for stop before killing it (default 10)</span><br></pre></td></tr></table></figure>
+
+<h4 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h4><p>在正在运行的容器中运行命令</p>
+<p>命令：<code>docker exec [OPTIONS] CONTAINER COMMAND [ARG...]</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker exec -it my_nginx /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211128141608965.png" alt="image-20211128141608965"></p>
+<p>相当于进入容器内部，一个隔离的<code>Linux</code>系统，使用<code>exit</code>退出</p>
+<h4 id="导入导出"><a href="#导入导出" class="headerlink" title="导入导出"></a>导入导出</h4><h4 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h4><p>导出容器镜像文件</p>
+<p>命令:<code>docker export [OPTIONS] CONTAINER</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker export my_nginx &gt; my_nginx.tar</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211128142032945.png" alt="image-20211128142032945"></p>
+<h5 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h5><p>导入镜像</p>
+<p>命令：<code>docker import [OPTIONS] file|URL|- [REPOSITORY[:TAG]]</code></p>
+<p>这里我将导出的镜像文件放到<code>win</code>系统中，使用<code>Docker Desktop</code>导入</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker import .\my_nginx.tar my_nginx</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211128142745839.png" alt="image-20211128142745839"></p>
+<h4 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h4><p>命令:<code>docker rm [OPTIONS] CONTAINER [CONTAINER...]</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docekr rm my_nginx</span><br></pre></td></tr></table></figure>
+
+<p>可选参数：</p>
+<ul>
+<li>-f : 强制删除正在运行的容器（不加这个参数则需要先<code>docker stop containerId</code>）</li>
+<li>-v : 移除与容器相关的数据卷</li>
+</ul>
+<p><img data-src="https://cdn.jonty.top/img/image-20211128144931845.png" alt="image-20211128144931845"></p>
+<h4 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h4><p>命令：<code> docker logs [OPTIONS] CONTAINER</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker logs -f -n 100 my_nginx</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>-f : 跟踪日志输出</li>
+<li>-n : 从日志末尾显示的行数（默认：全部）</li>
+</ul>
+<p><img data-src="https://cdn.jonty.top/img/image-20211128144724047.png" alt="image-20211128144724047"></p>
+<h4 id="查看端口"><a href="#查看端口" class="headerlink" title="查看端口"></a>查看端口</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@local ~]# docker port  my_nginx</span><br><span class="line">80/tcp -&gt; 0.0.0.0:80</span><br><span class="line">80/tcp -&gt; :::80</span><br><span class="line">[root@local ~]#</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker-镜像使用"><a href="#Docker-镜像使用" class="headerlink" title="Docker 镜像使用"></a>Docker 镜像使用</h3><p>使用<code>docker run </code>运行容器时，如果在本地没有找到镜像则会自动从<code>Docker Hub</code>拉取镜像。</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211128145350390.png" alt="image-20211128145350390"></p>
+<h4 id="查看镜像列表"><a href="#查看镜像列表" class="headerlink" title="查看镜像列表"></a>查看镜像列表</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@local ~]# docker images</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED        SIZE</span><br><span class="line">nginx         latest    ea335eea17ab   10 days ago    141MB</span><br><span class="line">hello-world   latest    feb5d9fea6a5   2 months ago   13.3kB</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>REPOSITORY : 镜像仓库源（默认：Docker Hub）</li>
+<li>TAG ：镜像标签 默认拉取<strong>latest</strong>,可指定版本 <code>docker pull nginx:xxx</code></li>
+<li>IMAGE ID : 镜像ID</li>
+<li>CREATED : 创建时间</li>
+<li>SIZE : 镜像大小</li>
+</ul>
+<h4 id="查找镜像"><a href="#查找镜像" class="headerlink" title="查找镜像"></a>查找镜像</h4><p>命令：<code> docker search [OPTIONS] TERM</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker search --limit 10 nginx # 返回10条结果</span><br></pre></td></tr></table></figure>
+
+<img data-src="https://cdn.jonty.top/img/image-20211128150050740.png" alt="image-20211128150050740" style="zoom:80%;" />
+
+<ul>
+<li>NAME ： 镜像仓库源名称</li>
+<li>DESCRIPTION : 描述</li>
+<li>STARS : 点赞数</li>
+<li>OFFICIAL : 是否官方发布</li>
+<li>AUTOMATED : 自动构建</li>
+</ul>
+<h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><p>命令：<code>docker pull [OPTIONS] NAME[:TAG|@DIGEST]</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull nginx # 拉取默认版本</span><br><span class="line">docker pull nginx:xxx # 拉取指定版本</span><br><span class="line">docker pull -q nginx # 无输出</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@local ~]# docker pull nginx</span><br><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from library/nginx</span><br><span class="line">eff15d958d66: Pull complete</span><br><span class="line">1e5351450a59: Pull complete</span><br><span class="line">2df63e6ce2be: Pull complete</span><br><span class="line">9171c7ae368c: Pull complete</span><br><span class="line">020f975acd28: Pull complete</span><br><span class="line">266f639b35ad: Pull complete</span><br><span class="line">Digest: sha256:097c3a0913d7e3a5b01b6c685a60c03632fc7a2b50bc8e35bcaa3691d788226e</span><br><span class="line">Status: Downloaded newer image for nginx:latest</span><br><span class="line">docker.io/library/nginx:latest</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211128150647218.png" alt="image-20211128150647218"></p>
+<h4 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h4><p>命令：<code> docker rmi [OPTIONS] IMAGE [IMAGE...]</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker rmi hello-world:latest</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211128183009721.png" alt="image-20211128183009721"></p>
+<h4 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h4><p>命令：<code>docker build [OPTIONS] PATH | URL | -</code></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211128191400815.png" alt="image-20211128191400815"></p>
+<h4 id="设置镜像标签"><a href="#设置镜像标签" class="headerlink" title="设置镜像标签"></a>设置镜像标签</h4><p>命令：<code> docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker tag nginx:latest jontymin/my_nginx</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211128192133803.png" alt="image-20211128192133803"></p>
+<h3 id="镜像仓库"><a href="#镜像仓库" class="headerlink" title="镜像仓库"></a>镜像仓库</h3><p>仓库（Repository）是集中存放镜像的地方（类比git仓库）</p>
+<p><code>Docker</code>官方维护了一个公共仓库，需要注册账号以推送镜像 <a href="https://hub.docker.com/">https://hub.docker.com/</a></p>
+<p><img data-src="https://cdn.jonty.top/img/1578550749282.png" alt="1578550749282"></p>
+<blockquote>
+<p>上图为Docker容器和本地仓库、远程仓库的关系</p>
+</blockquote>
+<h4 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker login </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>-p : 密码</li>
+<li>-u ： 用户名</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@local ~]# docker login</span><br><span class="line">Login with your Docker ID to push and pull images from Docker Hub. If you don&#x27;t have a Docker ID, head over to https://hub.docker.com to create one.</span><br><span class="line">Username: jontymax</span><br><span class="line">Password:</span><br><span class="line">WARNING! Your password will be stored unencrypted in /root/.docker/config.json.</span><br><span class="line">Configure a credential helper to remove this warning. See</span><br><span class="line">https://docs.docker.com/engine/reference/commandline/login/#credentials-store</span><br><span class="line">Login Succeeded</span><br></pre></td></tr></table></figure>
+
+<h4 id="推送镜像"><a href="#推送镜像" class="headerlink" title="推送镜像"></a>推送镜像</h4><p>命令 : <code>docker push [OPTIONS] NAME[:TAG]</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker push jontymax/my_nginx</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211128215642468.png" alt="image-20211128215642468"></p>
+<blockquote>
+<p>参考： <a href="https://docs.docker.com/engine/reference/run/">https://docs.docker.com/engine/reference/run/</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/09/08/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Config</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker中安装jira</title>
     <url>/2021/09/23/install-jira-in-docker/</url>
     <content><![CDATA[<h2 id="数据库准备"><a href="#数据库准备" class="headerlink" title="数据库准备"></a>数据库准备</h2><p>其他数据库请参考文档</p>
@@ -457,238 +728,6 @@
       <tags>
         <tag>Zhihu</tag>
         <tag>View</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>RedHat安装Oracle数据库</title>
-    <url>/2021/11/09/rhel-install-oracle-11g-r2/</url>
-    <content><![CDATA[<p>📢：本文为实操记录，练习环境为RHEL7.6(本地虚拟机)，腾讯云Centos7.6实操安装成功。不正之处望指出。</p>
-<p>关于虚拟机安装Linux操作系统,<a href="https://jonty.top/2021/10/27/vmware-install-linux/">点击查看</a></p>
-<h2 id="Linux主机配置"><a href="#Linux主机配置" class="headerlink" title="Linux主机配置"></a>Linux主机配置</h2><h3 id="主机名和网络配置"><a href="#主机名和网络配置" class="headerlink" title="主机名和网络配置"></a>主机名和网络配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/hosts</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#OracleBegin##</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#Public IP</span></span></span><br><span class="line">192.168.1.79   orcl79</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#OracleEnd##</span></span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104095943481.png" alt="image-20211104095943481"></p>
-<h3 id="hosts文件配置"><a href="#hosts文件配置" class="headerlink" title="hosts文件配置"></a>hosts文件配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vi /etc/hosts</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104100304275.png" alt="image-20211104100304275"></p>
-<h3 id="防火墙配置"><a href="#防火墙配置" class="headerlink" title="防火墙配置"></a>防火墙配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104100742682.png" alt="image-20211104100742682"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104100906781.png" alt="image-20211104100906781"></p>
-<h3 id="SELINUX配置"><a href="#SELINUX配置" class="headerlink" title="SELINUX配置"></a>SELINUX配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27; /etc/selinux/config</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104101228439.png" alt="image-20211104101228439"></p>
-<h3 id="挂载镜像"><a href="#挂载镜像" class="headerlink" title="挂载镜像"></a>挂载镜像</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mount /dev/cdrom /mnt</span><br><span class="line">cat &lt;&lt;EOF&gt;/etc/yum.repos.d/local.repo</span><br><span class="line">[local]</span><br><span class="line">name=local</span><br><span class="line">baseurl=file:///mnt</span><br><span class="line">gpgcheck=0</span><br><span class="line">enabled=1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104101459247.png" alt="image-20211104101459247"></p>
-<h3 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install -y bc \</span><br><span class="line">binutils \</span><br><span class="line">compat-libcap1 \</span><br><span class="line">compat-libstdc++-33 \</span><br><span class="line">gcc \</span><br><span class="line">gcc-c++ \</span><br><span class="line">elfutils-libelf \</span><br><span class="line">elfutils-libelf-devel \</span><br><span class="line">glibc \</span><br><span class="line">glibc-devel \</span><br><span class="line">ksh \</span><br><span class="line">libaio \</span><br><span class="line">libaio-devel \</span><br><span class="line">libgcc \</span><br><span class="line">libstdc++ \</span><br><span class="line">libstdc++-devel \</span><br><span class="line">libxcb \</span><br><span class="line">libX11 \</span><br><span class="line">libXau \</span><br><span class="line">libXi \</span><br><span class="line">libXtst \</span><br><span class="line">libXrender \</span><br><span class="line">libXrender-devel \</span><br><span class="line">make \</span><br><span class="line">net-tools \</span><br><span class="line">nfs-utils \</span><br><span class="line">smartmontools \</span><br><span class="line">sysstat \</span><br><span class="line">e2fsprogs \</span><br><span class="line">e2fsprogs-libs \</span><br><span class="line">fontconfig-devel \</span><br><span class="line">expect \</span><br><span class="line">unzip \</span><br><span class="line">openssh-clients \</span><br><span class="line">readline* \</span><br><span class="line">psmisc --skip-broken</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104102036281.png" alt="image-20211104102036281"></p>
-<p>安装缺少的compat-libstdc++包</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rpm -ivh compat-libstdc++-33-3.2.3-72.el7.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -q bc binutils compat-libcap1 compat-libstdc++-33 gcc gcc-c++ elfutils-libelf elfutils-libelf-devel glibc glibc-devel ksh libaio libaio-devel libgcc libstdc++ libstdc++-devel libxcb libX11 libXau libXi libXtst libXrender libXrender-devel make net-tools nfs-utils smartmontools sysstat e2fsprogs e2fsprogs-libs fontconfig-devel expect unzip openssh-clients readline</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104102049805.png" alt="image-20211104102049805"></p>
-<h3 id="配置ZeroConf"><a href="#配置ZeroConf" class="headerlink" title="配置ZeroConf"></a>配置ZeroConf</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#关闭Zeroconf service的服务守护进程</span></span></span><br><span class="line">systemctl stop avahi-daemon.socket</span><br><span class="line">systemctl stop avahi-daemon.service</span><br><span class="line">systemctl disable avahi-daemon.service</span><br><span class="line">systemctl disable avahi-daemon.socket</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#关闭NOZEROCONF</span></span></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/sysconfig/network</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">NOZEROCONF=yes</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104103506861.png" alt="image-20211104103506861"></p>
-<h3 id="关闭透明大页和numa"><a href="#关闭透明大页和numa" class="headerlink" title="关闭透明大页和numa"></a>关闭透明大页和numa</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/quiet/quiet transparent_hugepage=never numa=off/&#x27; /etc/default/grub</span><br><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104103747755.png" alt="image-20211104103747755"></p>
-<h3 id="配置系统参数文件"><a href="#配置系统参数文件" class="headerlink" title="配置系统参数文件"></a>配置系统参数文件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#计算shmall和shmmax值</span></span></span><br><span class="line">memTotal=$(grep MemTotal /proc/meminfo | awk &#x27;&#123;print $2&#125;&#x27;)</span><br><span class="line">totalMemory=$((memTotal / 2048))</span><br><span class="line">shmall=$((memTotal / 4))</span><br><span class="line">if [ $shmall -lt 2097152 ]; then</span><br><span class="line">  shmall=2097152</span><br><span class="line">fi</span><br><span class="line">shmmax=$((memTotal * 1024 - 1))</span><br><span class="line">if [ &quot;$shmmax&quot; -lt 4294967295 ]; then</span><br><span class="line">  shmmax=4294967295</span><br><span class="line">fi</span><br><span class="line">echo $shmall</span><br><span class="line">echo $shmmax</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#配置系统参数</span></span></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/sysctl.conf</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#shmmal&#x27;s Calculation formula: physical memory 8G：(8*1024*1024*1024)/4096=2097152</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#shmmax&#x27;s Calculation formula: physical memory 8G：(8/2)*1024*1024*1024 -1=4294967295</span></span></span><br><span class="line">fs.aio-max-nr = 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall = $shmall  # 单个共享内存段最大值</span><br><span class="line">kernel.shmmax = $shmmax  # 共享内存页数</span><br><span class="line">kernel.shmmni = 4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048576</span><br><span class="line">EOF</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#系统参数生效</span></span></span><br><span class="line">sysctl -p</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/sysctl.conf</span><br><span class="line">fs.aio-max-nr = 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall = 2097152</span><br><span class="line">kernel.shmmax = 4294967295</span><br><span class="line">kernel.shmmni = 4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048576</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kernel.shmall = $shmall  # 单个共享内存段最大值</span><br><span class="line">kernel.shmmax = $shmmax  # 共享内存页数</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211115173131542.png" alt="image-20211115173131542"></p>
-<h3 id="配置系统资源限制"><a href="#配置系统资源限制" class="headerlink" title="配置系统资源限制"></a>配置系统资源限制</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/security/limits.conf</span><br><span class="line">oracle soft nofile 16384</span><br><span class="line">oracle hard nofile 65536</span><br><span class="line">oracle soft stack 10240</span><br><span class="line">oracle hard stack 32768</span><br><span class="line">oracle soft nproc 16384 </span><br><span class="line">oracle hard nproc 16384 </span><br><span class="line">oracle hard memlock 8000000</span><br><span class="line">oracle soft memlock 8000000</span><br><span class="line">EOF</span><br><span class="line"><span class="meta">#</span><span class="bash"> 单位kb 略低于内存</span></span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/security/limits.conf</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">oracle soft nofile 1024</span><br><span class="line">oracle hard nofile 65536</span><br><span class="line">oracle soft stack 10240</span><br><span class="line">oracle hard stack 32768</span><br><span class="line">oracle soft nproc 2047 </span><br><span class="line">oracle hard nproc 16384 </span><br><span class="line">oracle hard memlock 8000000</span><br><span class="line">oracle soft memlock 8000000</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/pam.d/login</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">session required pam_limits.so </span><br><span class="line">session required /lib64/security/pam_limits.so</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<h3 id="创建用户和组"><a href="#创建用户和组" class="headerlink" title="创建用户和组"></a>创建用户和组</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/usr/sbin/groupadd -g 54321 oinstall</span><br><span class="line">/usr/sbin/groupadd -g 54322 dba</span><br><span class="line">/usr/sbin/groupadd -g 54323 oper</span><br><span class="line"></span><br><span class="line">/usr/sbin/useradd -u 54321 -g oinstall -G dba,oper oracle</span><br><span class="line">echo oracle | passwd --stdin oracle</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="创建Oracle安装目录"><a href="#创建Oracle安装目录" class="headerlink" title="创建Oracle安装目录"></a>创建Oracle安装目录</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkdir -p /u01/app/oracle/product/11.2.0/db</span><br><span class="line">mkdir -p /u01/app/oraInventory</span><br><span class="line">mkdir -p /oradata</span><br><span class="line">chown -R oracle:oinstall /oradata</span><br><span class="line">chown -R oracle:oinstall /u01/app</span><br><span class="line">chmod -R 775 /u01/app</span><br></pre></td></tr></table></figure>
-
-<h3 id="用户环境变量配置"><a href="#用户环境变量配置" class="headerlink" title="用户环境变量配置"></a>用户环境变量配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/home/oracle/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleBegin#########################</span></span></span><br><span class="line">umask 022</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export TMPDIR=\$TMP</span><br><span class="line">export NLS_LANG=AMERICAN_AMERICA.AL32UTF8</span><br><span class="line">export ORACLE_BASE=/u01/app/oracle</span><br><span class="line">export ORACLE_HOME=/u01/app/oracle/product/11.2.0/db</span><br><span class="line">export ORACLE_HOSTNAME=orcl79</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export TNS_ADMIN=\$ORACLE_HOME/network/admin</span><br><span class="line">export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib</span><br><span class="line">export ORACLE_SID=orcl</span><br><span class="line">export PATH=/usr/sbin:\$PATH</span><br><span class="line">export PATH=\$ORACLE_HOME/bin:\$ORACLE_HOME/OPatch:\$PATH</span><br><span class="line">alias sas=&#x27;sqlplus / as sysdba&#x27;</span><br><span class="line">export PS1=&quot;[\`whoami\`@\`hostname\`:&quot;&#x27;\$PWD]\$ &#x27;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<h2 id="Oracle软件安装"><a href="#Oracle软件安装" class="headerlink" title="Oracle软件安装"></a>Oracle软件安装</h2><p><a href="https://luciferliu.blog.csdn.net/article/details/118529918">https://luciferliu.blog.csdn.net/article/details/118529918</a></p>
-<h3 id="软件包上传"><a href="#软件包上传" class="headerlink" title="软件包上传"></a>软件包上传</h3><p><img data-src="https://cdn.jonty.top/img/image-20211104171706862.png" alt="image-20211104171706862"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104171845746.png" alt="image-20211104171845746"></p>
-<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>按顺序解压1、2软件包</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">unzip -q p13390677_112040_Linux-x86-64_1of7.zip</span><br><span class="line">unzip -q p13390677_112040_Linux-x86-64_2of7.zip</span><br><span class="line"></span><br><span class="line">// 授权soft  to oracle</span><br><span class="line">chown -R oracle:oinstall /soft</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="VNC配置"><a href="#VNC配置" class="headerlink" title="VNC配置"></a>VNC配置</h4><h5 id="安装GNOME桌面"><a href="#安装GNOME桌面" class="headerlink" title="安装GNOME桌面"></a>安装GNOME桌面</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 列出的组列表里有GNOME Desktop。</span></span><br><span class="line">yum grouplist  </span><br><span class="line"><span class="meta">#</span><span class="bash">安装之</span></span><br><span class="line">yum groupinstall -y &quot;GNOME Desktop&quot; </span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装完成后，修改默认启动方式为图形化界面</span></span><br><span class="line">systemctl set-default graphical.target  //设置成图形模式 </span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果要换回来</span> </span><br><span class="line">systemctl set-default multi-user.target  //设置成命令模式 </span><br><span class="line"><span class="meta">#</span><span class="bash">然后重启系统即可</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="安装VNC服务"><a href="#安装VNC服务" class="headerlink" title="安装VNC服务"></a>安装VNC服务</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install tigervnc-server -y</span><br><span class="line"></span><br><span class="line">rpm -qa|grep tigervnc-server -- 验证是否安装成功</span><br></pre></td></tr></table></figure>
-
-<h5 id="打开VNC服务"><a href="#打开VNC服务" class="headerlink" title="打开VNC服务"></a>打开VNC服务</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vncserver :1  # 5901</span><br><span class="line"></span><br><span class="line">vncserver -kill :1  # 关闭</span><br><span class="line"></span><br><span class="line">vncpasswd # 重置密码</span><br></pre></td></tr></table></figure>
-
-<p>然后配置好密码使用<code>VNC Viewer</code>连接远程桌面</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211108134312717.png" alt="image-20211108134312717"></p>
-<blockquote>
-<p>教程 ： <a href="https://blog.csdn.net/nahancy/article/details/86316971">https://blog.csdn.net/nahancy/article/details/86316971</a></p>
-<p>VNC下载：链接：<a href="https://pan.baidu.com/s/1fEf87xSB09gWxwswNXFeYw">https://pan.baidu.com/s/1fEf87xSB09gWxwswNXFeYw</a><br>提取码：3w9b </p>
-</blockquote>
-<h4 id="执行Oracle安装脚本"><a href="#执行Oracle安装脚本" class="headerlink" title="执行Oracle安装脚本"></a>执行Oracle安装脚本</h4><p>进入<code>/soft/database</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./runInstaller -jreLoc /etc/alternatives/jre_1.8.0</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104172834599.png" alt="image-20211104172834599"></p>
-<p><strong>安装检查的问题</strong>：</p>
-<p>1、must be configured to display at least 256 colors</p>
-<p>解决方法：使用oracle用户打开vnserver</p>
-<p>2、交换空间需要大于150MB</p>
-<p>结局方法：</p>
-<p>增加<code>swap</code>分区</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=/home/swapfile bs=1M count=512</span><br><span class="line">mkswap /home/swapfile</span><br><span class="line">swapon /home/swapfile</span><br></pre></td></tr></table></figure>
-
-<p>然后修改 /etc/fstab，加上：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"> vim /etc/fstab</span><br><span class="line">/home/swapfile swap swap defaults 0 0</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="配置安全更新"><a href="#配置安全更新" class="headerlink" title="配置安全更新"></a>配置安全更新</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104172939686.png" alt="image-20211104172939686"></p>
-<h4 id="下载软件更新"><a href="#下载软件更新" class="headerlink" title="下载软件更新"></a>下载软件更新</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173006944.png" alt="image-20211104173006944"></p>
-<h4 id="安装选项"><a href="#安装选项" class="headerlink" title="安装选项"></a>安装选项</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173036634.png" alt="image-20211104173036634"></p>
-<h4 id="安装选项-1"><a href="#安装选项-1" class="headerlink" title="安装选项"></a>安装选项</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173111607.png" alt="image-20211104173111607"></p>
-<h4 id="数据库版本"><a href="#数据库版本" class="headerlink" title="数据库版本"></a>数据库版本</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173154202.png" alt="image-20211104173154202"></p>
-<h4 id="安装位置"><a href="#安装位置" class="headerlink" title="安装位置"></a>安装位置</h4><p>默认</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104173224434.png" alt="image-20211104173224434"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104173247574.png" alt="image-20211104173247574"></p>
-<h4 id="操作系统组"><a href="#操作系统组" class="headerlink" title="操作系统组"></a>操作系统组</h4><p>默认</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104173318474.png" alt="image-20211104173318474"></p>
-<h4 id="安装前检查"><a href="#安装前检查" class="headerlink" title="安装前检查"></a>安装前检查</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173400667.png" alt="image-20211104173400667"></p>
-<p>安装</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rpm -ivh pdksh-5.2.14-37.el5.x86_64.rpm</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104173503682.png" alt="image-20211104173503682"></p>
-<p>重新检查</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104173621400.png" alt="image-20211104173621400"></p>
-<p>等待安装</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104173754434.png" alt="image-20211104173754434"></p>
-<p><strong>错误解决</strong></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104173840559.png" alt="image-20211104173840559"></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">sed -i &#x27;s/^\(\s*\$(MK_EMAGENT_NMECTL)\)\s*$/\1 -lnnz11/g&#x27; $ORACLE_HOME/sysman/lib/ins_emagent.mk</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104174044437.png" alt="image-20211104174044437"></p>
-<h4 id="执行配置脚本"><a href="#执行配置脚本" class="headerlink" title="执行配置脚本"></a>执行配置脚本</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - root</span><br><span class="line">/u01/app/oraInventory/orainstRoot.sh</span><br><span class="line">/u01/app/oraInventory/orainstRoot.sh</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104174220290.png" alt="image-20211104174220290"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104174230792.png" alt="image-20211104174230792"></p>
-<h4 id="安装完成"><a href="#安装完成" class="headerlink" title="安装完成"></a>安装完成</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104174313280.png" alt="image-20211104174313280"></p>
-<p>安装完成后重启主机</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><h4 id="打开监听"><a href="#打开监听" class="headerlink" title="打开监听"></a>打开监听</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">lsnrctl start</span><br><span class="line">lsnrctl status</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175006137.png" alt="image-20211104175006137"></p>
-<h4 id="打开配置工具"><a href="#打开配置工具" class="headerlink" title="打开配置工具"></a>打开配置工具</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export LANG=en_US</span><br><span class="line">dbca</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175143670.png" alt="image-20211104175143670"></p>
-<h4 id="创建数据库-1"><a href="#创建数据库-1" class="headerlink" title="创建数据库"></a>创建数据库</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104175219629.png" alt="image-20211104175219629"></p>
-<p>自定义模式</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175242442.png" alt="image-20211104175242442"></p>
-<p>实例名</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175309394.png" alt="image-20211104175309394"></p>
-<p>EM</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175402390.png" alt="image-20211104175402390"></p>
-<p>使用统一密码</p>
-<p><code>P@ssw0rd</code></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175458122.png" alt="image-20211104175458122"></p>
-<p>使用建好的数据文件保存地址</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175606842.png" alt="image-20211104175606842"></p>
-<p>关闭闪回和归档</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175643304.png" alt="image-20211104175643304"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175710858.png" alt="image-20211104175710858"></p>
-<p>内存分配</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175742728.png" alt="image-20211104175742728"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175807092.png" alt="image-20211104175807092"></p>
-<p>字符集配置</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175832188.png" alt="image-20211104175832188"></p>
-<p>下一步</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104190456300.png" alt="image-20211104190456300"></p>
-<p>下一步</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104190517979.png" alt="image-20211104190517979"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104190603367.png" alt="image-20211104190603367"></p>
-<p>等待创建完成</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104190644897.png" alt="image-20211104190644897"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104194542389.png" alt="image-20211104194542389"></p>
-<h4 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h4><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">su <span class="operator">-</span> oracle</span><br><span class="line">sqlplus <span class="operator">/</span> <span class="keyword">as</span> sysdba</span><br><span class="line"></span><br><span class="line">## 重启后启动数据库</span><br><span class="line">startup</span><br><span class="line"></span><br><span class="line">shutdown immediate; # 关闭数据库</span><br><span class="line"></span><br><span class="line">$ echo $ORACLE_SID  <span class="comment">-- 实例ID</span></span><br><span class="line">....                    <span class="comment">--&gt;&gt; Look what you get</span></span><br><span class="line">$ echo $ORACLE_HOME <span class="comment">-- 安装目录</span></span><br><span class="line">....                  </span><br><span class="line">$ ps <span class="operator">-</span>ef <span class="operator">|</span> grep smon    <span class="comment">--&gt;&gt; Look for smon background process which</span></span><br><span class="line">ora_smon_InfraDB        <span class="comment">--&gt;&gt; should include ORACLE_SID in it.</span></span><br><span class="line"></span><br><span class="line">$ ORACLE_SID<span class="operator">=</span>InfraDB    <span class="comment">--&gt;&gt; set to a valid value like these ones.</span></span><br><span class="line">$ ORACLE_HOME<span class="operator">=</span><span class="operator">/</span>u01<span class="operator">/</span>app<span class="operator">/</span>oracle<span class="operator">/</span>product<span class="operator">/</span><span class="number">12.2</span><span class="number">.0</span><span class="number">.1</span><span class="operator">/</span>dbhome_1</span><br><span class="line"></span><br><span class="line">$ lsnrctl status        <span class="comment">--&gt;&gt; Look whether listener is ON</span></span><br><span class="line">$ lsnrctl <span class="keyword">start</span>         <span class="comment">--&gt;&gt; If not, then start the listener.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> v$database;</span><br><span class="line"></span><br><span class="line">##创建数据库用户</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> test identified <span class="keyword">by</span> test;</span><br><span class="line"><span class="keyword">grant</span> dba <span class="keyword">to</span> test; # RESOURCE</span><br><span class="line"><span class="keyword">commit</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">create</span> session <span class="keyword">to</span> test</span><br><span class="line">conn test<span class="operator">/</span>test</span><br><span class="line"></span><br><span class="line">##创建表</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> student (id number <span class="keyword">not</span> <span class="keyword">null</span>,name varchar2(<span class="number">100</span>));</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> student <span class="keyword">values</span> (<span class="number">1</span>,<span class="string">&#x27;jonty&#x27;</span>);</span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104194801063.png" alt="image-20211104194801063"></p>
-<p><strong>注意</strong>：如果执行SQL命令<a href="https://stackoverflow.com/questions/50219312/ora-01034-oracle-not-available">ORA-01034: ORACLE not available</a>，可能是实例ID对不上</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo $ORACLE_SID   -- 查看当前实例</span><br><span class="line"></span><br><span class="line">echo $ORACLE_HOME -- 安装目录</span><br><span class="line"></span><br><span class="line">ORACLE_SID=medprodb  -- 设置</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211108134715074.png" alt="image-20211108134715074"></p>
-<h2 id="数据库补丁安装"><a href="#数据库补丁安装" class="headerlink" title="数据库补丁安装"></a>数据库补丁安装</h2><h3 id="上传补丁"><a href="#上传补丁" class="headerlink" title="上传补丁"></a>上传补丁</h3><p>上传PSU文件夹到<code>/soft</code>目录下并解压</p>
-<p> p6880880_112000_Linux-x86-64.zip</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211118190817028.png" alt="image-20211118190817028"></p>
-<h3 id="关闭数据库服务"><a href="#关闭数据库服务" class="headerlink" title="关闭数据库服务"></a>关闭数据库服务</h3><p>停掉所有数据库服务</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">lsnrctl stop # 关闭监听</span><br><span class="line"></span><br><span class="line">emctl stop dbconsole; # 关闭EM</span><br><span class="line"></span><br><span class="line">shutdown immediate; # 关闭数据库</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="替换OPatch"><a href="#替换OPatch" class="headerlink" title="替换OPatch"></a>替换OPatch</h3><p>替换<strong>OPatch</strong>工具</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd $ORACLE_HOME</span><br><span class="line">cd /OPatch</span><br><span class="line">./opatch version</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211118192559635.png" alt="image-20211118192559635"></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mv Opatch OPatch_old # 备份</span><br><span class="line">cp -r /soft/Opatch . # 复制</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211118193207365.png" alt="image-20211118193207365"></p>
-<h3 id="执行补丁脚本"><a href="#执行补丁脚本" class="headerlink" title="执行补丁脚本"></a>执行补丁脚本</h3><p>进入补丁目录</p>
-<p>查看<code>README.html</code>文档</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">opatch prereq CheckConflictAgainstOHWithDetail -ph ./</span><br><span class="line">opatch apply</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果OPatch failed with error code 73</span></span><br><span class="line">ps -ef|grep smon</span><br><span class="line">kill -9 进程id</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211118194022739.png" alt="image-20211118194022739"></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">opatch lsinventory # 查看</span><br><span class="line"></span><br><span class="line">cd $ORACLE_HOME/rdbms/admin</span><br><span class="line">sqlplus / as sysdba</span><br><span class="line">startup # 启动</span><br><span class="line">@catbundle.sql psu apply # 执行脚本</span><br><span class="line">@utlrp.sql</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211118194940622.png" alt="image-20211118194940622"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211118195242997.png" alt="image-20211118195242997"></p>
-<p>重启数据库</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">shutdown immediate;</span><br><span class="line">startup;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="基础维护"><a href="#基础维护" class="headerlink" title="基础维护"></a>基础维护</h2><h3 id="关闭密码过期"><a href="#关闭密码过期" class="headerlink" title="关闭密码过期"></a>关闭密码过期</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_profiles <span class="keyword">where</span> profile <span class="operator">=</span> <span class="string">&#x27;DEFAULT&#x27;</span>; # 查看</span><br><span class="line"><span class="keyword">alter</span> profile <span class="keyword">default</span> limit PASSWORD_LIFE_TIME UNLIMITED;</span><br></pre></td></tr></table></figure>
-
-<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> audit; # 审计</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> audit_trail <span class="operator">=</span> <span class="keyword">none</span> <span class="keyword">scope</span> <span class="operator">=</span> spfile;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> v$datafile; # 查看数据文件</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> sga; # 查看sga</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> pga; # 查看pga</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> proc; # 进程数</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> <span class="keyword">open</span>; # 游标</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> open_cursors <span class="operator">=</span> <span class="number">2000</span> <span class="keyword">scope</span> <span class="operator">=</span> spfile;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="警告日志"><a href="#警告日志" class="headerlink" title="警告日志"></a>警告日志</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> dump</span><br><span class="line">cd <span class="operator">/</span>u01<span class="operator">/</span>app<span class="operator">/</span>oracle<span class="operator">/</span>diag<span class="operator">/</span>rdbms<span class="operator">/</span>orcl<span class="operator">/</span>orcl<span class="operator">/</span>trace</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211118201536713.png" alt="image-20211118201536713"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211118201633885.png" alt="image-20211118201633885"></p>
-<h3 id="归档日志"><a href="#归档日志" class="headerlink" title="归档日志"></a>归档日志</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">archive log list;</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> recover;</span><br><span class="line"></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> db_recovery_file_dest_size<span class="operator">=</span><span class="number">5</span>g;</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> db_recovery_file_dest <span class="operator">=</span> <span class="string">&#x27;/archive&#x27;</span>;</span><br><span class="line">shutdown immediate;</span><br><span class="line">startup mount;</span><br><span class="line"><span class="keyword">alter</span> database archivelog;</span><br><span class="line">archive log list;</span><br><span class="line"><span class="keyword">alter</span> database <span class="keyword">open</span>;</span><br></pre></td></tr></table></figure>
-
-<p>配置完成后关闭，迁移数据后生产再打开</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">shutdown immediate;</span><br><span class="line">startup mount;</span><br><span class="line"><span class="keyword">alter</span> database noarchivelog;</span><br><span class="line"><span class="keyword">alter</span> database <span class="keyword">open</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>备份一下</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> root用户</span></span><br><span class="line">tar zcvf oracle.tar.gz /u01/app/oracle</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>Oracle</category>
-      </categories>
-      <tags>
-        <tag>RedHat</tag>
-        <tag>Linux</tag>
-        <tag>Oracle</tag>
       </tags>
   </entry>
   <entry>
@@ -1118,6 +1157,238 @@
         <tag>MVC</tag>
         <tag>EFCore</tag>
         <tag>.NETCore</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>RedHat安装Oracle数据库</title>
+    <url>/2021/11/09/rhel-install-oracle-11g-r2/</url>
+    <content><![CDATA[<p>📢：本文为实操记录，练习环境为RHEL7.6(本地虚拟机)，腾讯云Centos7.6实操安装成功。不正之处望指出。</p>
+<p>关于虚拟机安装Linux操作系统,<a href="https://jonty.top/2021/10/27/vmware-install-linux/">点击查看</a></p>
+<h2 id="Linux主机配置"><a href="#Linux主机配置" class="headerlink" title="Linux主机配置"></a>Linux主机配置</h2><h3 id="主机名和网络配置"><a href="#主机名和网络配置" class="headerlink" title="主机名和网络配置"></a>主机名和网络配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/hosts</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#OracleBegin##</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#Public IP</span></span></span><br><span class="line">192.168.1.79   orcl79</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#OracleEnd##</span></span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104095943481.png" alt="image-20211104095943481"></p>
+<h3 id="hosts文件配置"><a href="#hosts文件配置" class="headerlink" title="hosts文件配置"></a>hosts文件配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vi /etc/hosts</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104100304275.png" alt="image-20211104100304275"></p>
+<h3 id="防火墙配置"><a href="#防火墙配置" class="headerlink" title="防火墙配置"></a>防火墙配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104100742682.png" alt="image-20211104100742682"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104100906781.png" alt="image-20211104100906781"></p>
+<h3 id="SELINUX配置"><a href="#SELINUX配置" class="headerlink" title="SELINUX配置"></a>SELINUX配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27; /etc/selinux/config</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104101228439.png" alt="image-20211104101228439"></p>
+<h3 id="挂载镜像"><a href="#挂载镜像" class="headerlink" title="挂载镜像"></a>挂载镜像</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mount /dev/cdrom /mnt</span><br><span class="line">cat &lt;&lt;EOF&gt;/etc/yum.repos.d/local.repo</span><br><span class="line">[local]</span><br><span class="line">name=local</span><br><span class="line">baseurl=file:///mnt</span><br><span class="line">gpgcheck=0</span><br><span class="line">enabled=1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104101459247.png" alt="image-20211104101459247"></p>
+<h3 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install -y bc \</span><br><span class="line">binutils \</span><br><span class="line">compat-libcap1 \</span><br><span class="line">compat-libstdc++-33 \</span><br><span class="line">gcc \</span><br><span class="line">gcc-c++ \</span><br><span class="line">elfutils-libelf \</span><br><span class="line">elfutils-libelf-devel \</span><br><span class="line">glibc \</span><br><span class="line">glibc-devel \</span><br><span class="line">ksh \</span><br><span class="line">libaio \</span><br><span class="line">libaio-devel \</span><br><span class="line">libgcc \</span><br><span class="line">libstdc++ \</span><br><span class="line">libstdc++-devel \</span><br><span class="line">libxcb \</span><br><span class="line">libX11 \</span><br><span class="line">libXau \</span><br><span class="line">libXi \</span><br><span class="line">libXtst \</span><br><span class="line">libXrender \</span><br><span class="line">libXrender-devel \</span><br><span class="line">make \</span><br><span class="line">net-tools \</span><br><span class="line">nfs-utils \</span><br><span class="line">smartmontools \</span><br><span class="line">sysstat \</span><br><span class="line">e2fsprogs \</span><br><span class="line">e2fsprogs-libs \</span><br><span class="line">fontconfig-devel \</span><br><span class="line">expect \</span><br><span class="line">unzip \</span><br><span class="line">openssh-clients \</span><br><span class="line">readline* \</span><br><span class="line">psmisc --skip-broken</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104102036281.png" alt="image-20211104102036281"></p>
+<p>安装缺少的compat-libstdc++包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rpm -ivh compat-libstdc++-33-3.2.3-72.el7.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -q bc binutils compat-libcap1 compat-libstdc++-33 gcc gcc-c++ elfutils-libelf elfutils-libelf-devel glibc glibc-devel ksh libaio libaio-devel libgcc libstdc++ libstdc++-devel libxcb libX11 libXau libXi libXtst libXrender libXrender-devel make net-tools nfs-utils smartmontools sysstat e2fsprogs e2fsprogs-libs fontconfig-devel expect unzip openssh-clients readline</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104102049805.png" alt="image-20211104102049805"></p>
+<h3 id="配置ZeroConf"><a href="#配置ZeroConf" class="headerlink" title="配置ZeroConf"></a>配置ZeroConf</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#关闭Zeroconf service的服务守护进程</span></span></span><br><span class="line">systemctl stop avahi-daemon.socket</span><br><span class="line">systemctl stop avahi-daemon.service</span><br><span class="line">systemctl disable avahi-daemon.service</span><br><span class="line">systemctl disable avahi-daemon.socket</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#关闭NOZEROCONF</span></span></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/sysconfig/network</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">NOZEROCONF=yes</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104103506861.png" alt="image-20211104103506861"></p>
+<h3 id="关闭透明大页和numa"><a href="#关闭透明大页和numa" class="headerlink" title="关闭透明大页和numa"></a>关闭透明大页和numa</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/quiet/quiet transparent_hugepage=never numa=off/&#x27; /etc/default/grub</span><br><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104103747755.png" alt="image-20211104103747755"></p>
+<h3 id="配置系统参数文件"><a href="#配置系统参数文件" class="headerlink" title="配置系统参数文件"></a>配置系统参数文件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#计算shmall和shmmax值</span></span></span><br><span class="line">memTotal=$(grep MemTotal /proc/meminfo | awk &#x27;&#123;print $2&#125;&#x27;)</span><br><span class="line">totalMemory=$((memTotal / 2048))</span><br><span class="line">shmall=$((memTotal / 4))</span><br><span class="line">if [ $shmall -lt 2097152 ]; then</span><br><span class="line">  shmall=2097152</span><br><span class="line">fi</span><br><span class="line">shmmax=$((memTotal * 1024 - 1))</span><br><span class="line">if [ &quot;$shmmax&quot; -lt 4294967295 ]; then</span><br><span class="line">  shmmax=4294967295</span><br><span class="line">fi</span><br><span class="line">echo $shmall</span><br><span class="line">echo $shmmax</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#配置系统参数</span></span></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/sysctl.conf</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#shmmal&#x27;s Calculation formula: physical memory 8G：(8*1024*1024*1024)/4096=2097152</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#shmmax&#x27;s Calculation formula: physical memory 8G：(8/2)*1024*1024*1024 -1=4294967295</span></span></span><br><span class="line">fs.aio-max-nr = 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall = $shmall  # 单个共享内存段最大值</span><br><span class="line">kernel.shmmax = $shmmax  # 共享内存页数</span><br><span class="line">kernel.shmmni = 4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048576</span><br><span class="line">EOF</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#系统参数生效</span></span></span><br><span class="line">sysctl -p</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/sysctl.conf</span><br><span class="line">fs.aio-max-nr = 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall = 2097152</span><br><span class="line">kernel.shmmax = 4294967295</span><br><span class="line">kernel.shmmni = 4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048576</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kernel.shmall = $shmall  # 单个共享内存段最大值</span><br><span class="line">kernel.shmmax = $shmmax  # 共享内存页数</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211115173131542.png" alt="image-20211115173131542"></p>
+<h3 id="配置系统资源限制"><a href="#配置系统资源限制" class="headerlink" title="配置系统资源限制"></a>配置系统资源限制</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/security/limits.conf</span><br><span class="line">oracle soft nofile 16384</span><br><span class="line">oracle hard nofile 65536</span><br><span class="line">oracle soft stack 10240</span><br><span class="line">oracle hard stack 32768</span><br><span class="line">oracle soft nproc 16384 </span><br><span class="line">oracle hard nproc 16384 </span><br><span class="line">oracle hard memlock 8000000</span><br><span class="line">oracle soft memlock 8000000</span><br><span class="line">EOF</span><br><span class="line"><span class="meta">#</span><span class="bash"> 单位kb 略低于内存</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/security/limits.conf</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">oracle soft nofile 1024</span><br><span class="line">oracle hard nofile 65536</span><br><span class="line">oracle soft stack 10240</span><br><span class="line">oracle hard stack 32768</span><br><span class="line">oracle soft nproc 2047 </span><br><span class="line">oracle hard nproc 16384 </span><br><span class="line">oracle hard memlock 8000000</span><br><span class="line">oracle soft memlock 8000000</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/pam.d/login</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">session required pam_limits.so </span><br><span class="line">session required /lib64/security/pam_limits.so</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建用户和组"><a href="#创建用户和组" class="headerlink" title="创建用户和组"></a>创建用户和组</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/usr/sbin/groupadd -g 54321 oinstall</span><br><span class="line">/usr/sbin/groupadd -g 54322 dba</span><br><span class="line">/usr/sbin/groupadd -g 54323 oper</span><br><span class="line"></span><br><span class="line">/usr/sbin/useradd -u 54321 -g oinstall -G dba,oper oracle</span><br><span class="line">echo oracle | passwd --stdin oracle</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建Oracle安装目录"><a href="#创建Oracle安装目录" class="headerlink" title="创建Oracle安装目录"></a>创建Oracle安装目录</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkdir -p /u01/app/oracle/product/11.2.0/db</span><br><span class="line">mkdir -p /u01/app/oraInventory</span><br><span class="line">mkdir -p /oradata</span><br><span class="line">chown -R oracle:oinstall /oradata</span><br><span class="line">chown -R oracle:oinstall /u01/app</span><br><span class="line">chmod -R 775 /u01/app</span><br></pre></td></tr></table></figure>
+
+<h3 id="用户环境变量配置"><a href="#用户环境变量配置" class="headerlink" title="用户环境变量配置"></a>用户环境变量配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/home/oracle/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleBegin#########################</span></span></span><br><span class="line">umask 022</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export TMPDIR=\$TMP</span><br><span class="line">export NLS_LANG=AMERICAN_AMERICA.AL32UTF8</span><br><span class="line">export ORACLE_BASE=/u01/app/oracle</span><br><span class="line">export ORACLE_HOME=/u01/app/oracle/product/11.2.0/db</span><br><span class="line">export ORACLE_HOSTNAME=orcl79</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export TNS_ADMIN=\$ORACLE_HOME/network/admin</span><br><span class="line">export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib</span><br><span class="line">export ORACLE_SID=orcl</span><br><span class="line">export PATH=/usr/sbin:\$PATH</span><br><span class="line">export PATH=\$ORACLE_HOME/bin:\$ORACLE_HOME/OPatch:\$PATH</span><br><span class="line">alias sas=&#x27;sqlplus / as sysdba&#x27;</span><br><span class="line">export PS1=&quot;[\`whoami\`@\`hostname\`:&quot;&#x27;\$PWD]\$ &#x27;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h2 id="Oracle软件安装"><a href="#Oracle软件安装" class="headerlink" title="Oracle软件安装"></a>Oracle软件安装</h2><p><a href="https://luciferliu.blog.csdn.net/article/details/118529918">https://luciferliu.blog.csdn.net/article/details/118529918</a></p>
+<h3 id="软件包上传"><a href="#软件包上传" class="headerlink" title="软件包上传"></a>软件包上传</h3><p><img data-src="https://cdn.jonty.top/img/image-20211104171706862.png" alt="image-20211104171706862"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104171845746.png" alt="image-20211104171845746"></p>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>按顺序解压1、2软件包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">unzip -q p13390677_112040_Linux-x86-64_1of7.zip</span><br><span class="line">unzip -q p13390677_112040_Linux-x86-64_2of7.zip</span><br><span class="line"></span><br><span class="line">// 授权soft  to oracle</span><br><span class="line">chown -R oracle:oinstall /soft</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="VNC配置"><a href="#VNC配置" class="headerlink" title="VNC配置"></a>VNC配置</h4><h5 id="安装GNOME桌面"><a href="#安装GNOME桌面" class="headerlink" title="安装GNOME桌面"></a>安装GNOME桌面</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 列出的组列表里有GNOME Desktop。</span></span><br><span class="line">yum grouplist  </span><br><span class="line"><span class="meta">#</span><span class="bash">安装之</span></span><br><span class="line">yum groupinstall -y &quot;GNOME Desktop&quot; </span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装完成后，修改默认启动方式为图形化界面</span></span><br><span class="line">systemctl set-default graphical.target  //设置成图形模式 </span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果要换回来</span> </span><br><span class="line">systemctl set-default multi-user.target  //设置成命令模式 </span><br><span class="line"><span class="meta">#</span><span class="bash">然后重启系统即可</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="安装VNC服务"><a href="#安装VNC服务" class="headerlink" title="安装VNC服务"></a>安装VNC服务</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install tigervnc-server -y</span><br><span class="line"></span><br><span class="line">rpm -qa|grep tigervnc-server -- 验证是否安装成功</span><br></pre></td></tr></table></figure>
+
+<h5 id="打开VNC服务"><a href="#打开VNC服务" class="headerlink" title="打开VNC服务"></a>打开VNC服务</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vncserver :1  # 5901</span><br><span class="line"></span><br><span class="line">vncserver -kill :1  # 关闭</span><br><span class="line"></span><br><span class="line">vncpasswd # 重置密码</span><br></pre></td></tr></table></figure>
+
+<p>然后配置好密码使用<code>VNC Viewer</code>连接远程桌面</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211108134312717.png" alt="image-20211108134312717"></p>
+<blockquote>
+<p>教程 ： <a href="https://blog.csdn.net/nahancy/article/details/86316971">https://blog.csdn.net/nahancy/article/details/86316971</a></p>
+<p>VNC下载：链接：<a href="https://pan.baidu.com/s/1fEf87xSB09gWxwswNXFeYw">https://pan.baidu.com/s/1fEf87xSB09gWxwswNXFeYw</a><br>提取码：3w9b </p>
+</blockquote>
+<h4 id="执行Oracle安装脚本"><a href="#执行Oracle安装脚本" class="headerlink" title="执行Oracle安装脚本"></a>执行Oracle安装脚本</h4><p>进入<code>/soft/database</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./runInstaller -jreLoc /etc/alternatives/jre_1.8.0</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104172834599.png" alt="image-20211104172834599"></p>
+<p><strong>安装检查的问题</strong>：</p>
+<p>1、must be configured to display at least 256 colors</p>
+<p>解决方法：使用oracle用户打开vnserver</p>
+<p>2、交换空间需要大于150MB</p>
+<p>结局方法：</p>
+<p>增加<code>swap</code>分区</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=/home/swapfile bs=1M count=512</span><br><span class="line">mkswap /home/swapfile</span><br><span class="line">swapon /home/swapfile</span><br></pre></td></tr></table></figure>
+
+<p>然后修改 /etc/fstab，加上：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"> vim /etc/fstab</span><br><span class="line">/home/swapfile swap swap defaults 0 0</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="配置安全更新"><a href="#配置安全更新" class="headerlink" title="配置安全更新"></a>配置安全更新</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104172939686.png" alt="image-20211104172939686"></p>
+<h4 id="下载软件更新"><a href="#下载软件更新" class="headerlink" title="下载软件更新"></a>下载软件更新</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173006944.png" alt="image-20211104173006944"></p>
+<h4 id="安装选项"><a href="#安装选项" class="headerlink" title="安装选项"></a>安装选项</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173036634.png" alt="image-20211104173036634"></p>
+<h4 id="安装选项-1"><a href="#安装选项-1" class="headerlink" title="安装选项"></a>安装选项</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173111607.png" alt="image-20211104173111607"></p>
+<h4 id="数据库版本"><a href="#数据库版本" class="headerlink" title="数据库版本"></a>数据库版本</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173154202.png" alt="image-20211104173154202"></p>
+<h4 id="安装位置"><a href="#安装位置" class="headerlink" title="安装位置"></a>安装位置</h4><p>默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173224434.png" alt="image-20211104173224434"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173247574.png" alt="image-20211104173247574"></p>
+<h4 id="操作系统组"><a href="#操作系统组" class="headerlink" title="操作系统组"></a>操作系统组</h4><p>默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173318474.png" alt="image-20211104173318474"></p>
+<h4 id="安装前检查"><a href="#安装前检查" class="headerlink" title="安装前检查"></a>安装前检查</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173400667.png" alt="image-20211104173400667"></p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rpm -ivh pdksh-5.2.14-37.el5.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173503682.png" alt="image-20211104173503682"></p>
+<p>重新检查</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173621400.png" alt="image-20211104173621400"></p>
+<p>等待安装</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173754434.png" alt="image-20211104173754434"></p>
+<p><strong>错误解决</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173840559.png" alt="image-20211104173840559"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">sed -i &#x27;s/^\(\s*\$(MK_EMAGENT_NMECTL)\)\s*$/\1 -lnnz11/g&#x27; $ORACLE_HOME/sysman/lib/ins_emagent.mk</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104174044437.png" alt="image-20211104174044437"></p>
+<h4 id="执行配置脚本"><a href="#执行配置脚本" class="headerlink" title="执行配置脚本"></a>执行配置脚本</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - root</span><br><span class="line">/u01/app/oraInventory/orainstRoot.sh</span><br><span class="line">/u01/app/oraInventory/orainstRoot.sh</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104174220290.png" alt="image-20211104174220290"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104174230792.png" alt="image-20211104174230792"></p>
+<h4 id="安装完成"><a href="#安装完成" class="headerlink" title="安装完成"></a>安装完成</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104174313280.png" alt="image-20211104174313280"></p>
+<p>安装完成后重启主机</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><h4 id="打开监听"><a href="#打开监听" class="headerlink" title="打开监听"></a>打开监听</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">lsnrctl start</span><br><span class="line">lsnrctl status</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175006137.png" alt="image-20211104175006137"></p>
+<h4 id="打开配置工具"><a href="#打开配置工具" class="headerlink" title="打开配置工具"></a>打开配置工具</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export LANG=en_US</span><br><span class="line">dbca</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175143670.png" alt="image-20211104175143670"></p>
+<h4 id="创建数据库-1"><a href="#创建数据库-1" class="headerlink" title="创建数据库"></a>创建数据库</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104175219629.png" alt="image-20211104175219629"></p>
+<p>自定义模式</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175242442.png" alt="image-20211104175242442"></p>
+<p>实例名</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175309394.png" alt="image-20211104175309394"></p>
+<p>EM</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175402390.png" alt="image-20211104175402390"></p>
+<p>使用统一密码</p>
+<p><code>P@ssw0rd</code></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175458122.png" alt="image-20211104175458122"></p>
+<p>使用建好的数据文件保存地址</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175606842.png" alt="image-20211104175606842"></p>
+<p>关闭闪回和归档</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175643304.png" alt="image-20211104175643304"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175710858.png" alt="image-20211104175710858"></p>
+<p>内存分配</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175742728.png" alt="image-20211104175742728"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175807092.png" alt="image-20211104175807092"></p>
+<p>字符集配置</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175832188.png" alt="image-20211104175832188"></p>
+<p>下一步</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104190456300.png" alt="image-20211104190456300"></p>
+<p>下一步</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104190517979.png" alt="image-20211104190517979"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104190603367.png" alt="image-20211104190603367"></p>
+<p>等待创建完成</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104190644897.png" alt="image-20211104190644897"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104194542389.png" alt="image-20211104194542389"></p>
+<h4 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h4><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">su <span class="operator">-</span> oracle</span><br><span class="line">sqlplus <span class="operator">/</span> <span class="keyword">as</span> sysdba</span><br><span class="line"></span><br><span class="line">## 重启后启动数据库</span><br><span class="line">startup</span><br><span class="line"></span><br><span class="line">shutdown immediate; # 关闭数据库</span><br><span class="line"></span><br><span class="line">$ echo $ORACLE_SID  <span class="comment">-- 实例ID</span></span><br><span class="line">....                    <span class="comment">--&gt;&gt; Look what you get</span></span><br><span class="line">$ echo $ORACLE_HOME <span class="comment">-- 安装目录</span></span><br><span class="line">....                  </span><br><span class="line">$ ps <span class="operator">-</span>ef <span class="operator">|</span> grep smon    <span class="comment">--&gt;&gt; Look for smon background process which</span></span><br><span class="line">ora_smon_InfraDB        <span class="comment">--&gt;&gt; should include ORACLE_SID in it.</span></span><br><span class="line"></span><br><span class="line">$ ORACLE_SID<span class="operator">=</span>InfraDB    <span class="comment">--&gt;&gt; set to a valid value like these ones.</span></span><br><span class="line">$ ORACLE_HOME<span class="operator">=</span><span class="operator">/</span>u01<span class="operator">/</span>app<span class="operator">/</span>oracle<span class="operator">/</span>product<span class="operator">/</span><span class="number">12.2</span><span class="number">.0</span><span class="number">.1</span><span class="operator">/</span>dbhome_1</span><br><span class="line"></span><br><span class="line">$ lsnrctl status        <span class="comment">--&gt;&gt; Look whether listener is ON</span></span><br><span class="line">$ lsnrctl <span class="keyword">start</span>         <span class="comment">--&gt;&gt; If not, then start the listener.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> v$database;</span><br><span class="line"></span><br><span class="line">##创建数据库用户</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> test identified <span class="keyword">by</span> test;</span><br><span class="line"><span class="keyword">grant</span> dba <span class="keyword">to</span> test; # RESOURCE</span><br><span class="line"><span class="keyword">commit</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">create</span> session <span class="keyword">to</span> test</span><br><span class="line">conn test<span class="operator">/</span>test</span><br><span class="line"></span><br><span class="line">##创建表</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> student (id number <span class="keyword">not</span> <span class="keyword">null</span>,name varchar2(<span class="number">100</span>));</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> student <span class="keyword">values</span> (<span class="number">1</span>,<span class="string">&#x27;jonty&#x27;</span>);</span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104194801063.png" alt="image-20211104194801063"></p>
+<p><strong>注意</strong>：如果执行SQL命令<a href="https://stackoverflow.com/questions/50219312/ora-01034-oracle-not-available">ORA-01034: ORACLE not available</a>，可能是实例ID对不上</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo $ORACLE_SID   -- 查看当前实例</span><br><span class="line"></span><br><span class="line">echo $ORACLE_HOME -- 安装目录</span><br><span class="line"></span><br><span class="line">ORACLE_SID=medprodb  -- 设置</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211108134715074.png" alt="image-20211108134715074"></p>
+<h2 id="数据库补丁安装"><a href="#数据库补丁安装" class="headerlink" title="数据库补丁安装"></a>数据库补丁安装</h2><h3 id="上传补丁"><a href="#上传补丁" class="headerlink" title="上传补丁"></a>上传补丁</h3><p>上传PSU文件夹到<code>/soft</code>目录下并解压</p>
+<p> p6880880_112000_Linux-x86-64.zip</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211118190817028.png" alt="image-20211118190817028"></p>
+<h3 id="关闭数据库服务"><a href="#关闭数据库服务" class="headerlink" title="关闭数据库服务"></a>关闭数据库服务</h3><p>停掉所有数据库服务</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">lsnrctl stop # 关闭监听</span><br><span class="line"></span><br><span class="line">emctl stop dbconsole; # 关闭EM</span><br><span class="line"></span><br><span class="line">shutdown immediate; # 关闭数据库</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="替换OPatch"><a href="#替换OPatch" class="headerlink" title="替换OPatch"></a>替换OPatch</h3><p>替换<strong>OPatch</strong>工具</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd $ORACLE_HOME</span><br><span class="line">cd /OPatch</span><br><span class="line">./opatch version</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211118192559635.png" alt="image-20211118192559635"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mv Opatch OPatch_old # 备份</span><br><span class="line">cp -r /soft/Opatch . # 复制</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211118193207365.png" alt="image-20211118193207365"></p>
+<h3 id="执行补丁脚本"><a href="#执行补丁脚本" class="headerlink" title="执行补丁脚本"></a>执行补丁脚本</h3><p>进入补丁目录</p>
+<p>查看<code>README.html</code>文档</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">opatch prereq CheckConflictAgainstOHWithDetail -ph ./</span><br><span class="line">opatch apply</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果OPatch failed with error code 73</span></span><br><span class="line">ps -ef|grep smon</span><br><span class="line">kill -9 进程id</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211118194022739.png" alt="image-20211118194022739"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">opatch lsinventory # 查看</span><br><span class="line"></span><br><span class="line">cd $ORACLE_HOME/rdbms/admin</span><br><span class="line">sqlplus / as sysdba</span><br><span class="line">startup # 启动</span><br><span class="line">@catbundle.sql psu apply # 执行脚本</span><br><span class="line">@utlrp.sql</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211118194940622.png" alt="image-20211118194940622"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211118195242997.png" alt="image-20211118195242997"></p>
+<p>重启数据库</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">shutdown immediate;</span><br><span class="line">startup;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="基础维护"><a href="#基础维护" class="headerlink" title="基础维护"></a>基础维护</h2><h3 id="关闭密码过期"><a href="#关闭密码过期" class="headerlink" title="关闭密码过期"></a>关闭密码过期</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_profiles <span class="keyword">where</span> profile <span class="operator">=</span> <span class="string">&#x27;DEFAULT&#x27;</span>; # 查看</span><br><span class="line"><span class="keyword">alter</span> profile <span class="keyword">default</span> limit PASSWORD_LIFE_TIME UNLIMITED;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> audit; # 审计</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> audit_trail <span class="operator">=</span> <span class="keyword">none</span> <span class="keyword">scope</span> <span class="operator">=</span> spfile;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> v$datafile; # 查看数据文件</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> sga; # 查看sga</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> pga; # 查看pga</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> proc; # 进程数</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> <span class="keyword">open</span>; # 游标</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> open_cursors <span class="operator">=</span> <span class="number">2000</span> <span class="keyword">scope</span> <span class="operator">=</span> spfile;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="警告日志"><a href="#警告日志" class="headerlink" title="警告日志"></a>警告日志</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> dump</span><br><span class="line">cd <span class="operator">/</span>u01<span class="operator">/</span>app<span class="operator">/</span>oracle<span class="operator">/</span>diag<span class="operator">/</span>rdbms<span class="operator">/</span>orcl<span class="operator">/</span>orcl<span class="operator">/</span>trace</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211118201536713.png" alt="image-20211118201536713"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211118201633885.png" alt="image-20211118201633885"></p>
+<h3 id="归档日志"><a href="#归档日志" class="headerlink" title="归档日志"></a>归档日志</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">archive log list;</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> recover;</span><br><span class="line"></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> db_recovery_file_dest_size<span class="operator">=</span><span class="number">5</span>g;</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> db_recovery_file_dest <span class="operator">=</span> <span class="string">&#x27;/archive&#x27;</span>;</span><br><span class="line">shutdown immediate;</span><br><span class="line">startup mount;</span><br><span class="line"><span class="keyword">alter</span> database archivelog;</span><br><span class="line">archive log list;</span><br><span class="line"><span class="keyword">alter</span> database <span class="keyword">open</span>;</span><br></pre></td></tr></table></figure>
+
+<p>配置完成后关闭，迁移数据后生产再打开</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">shutdown immediate;</span><br><span class="line">startup mount;</span><br><span class="line"><span class="keyword">alter</span> database noarchivelog;</span><br><span class="line"><span class="keyword">alter</span> database <span class="keyword">open</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>备份一下</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> root用户</span></span><br><span class="line">tar zcvf oracle.tar.gz /u01/app/oracle</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>Oracle</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>RedHat</tag>
+        <tag>Oracle</tag>
       </tags>
   </entry>
 </search>
