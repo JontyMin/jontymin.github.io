@@ -2,6 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jonty.top/2021/11/07/introduction-with-aspNet-core-and-entity-framework-core/</loc>
+    
+    <lastmod>2021-11-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2021/11/29/about-leap-year/</loc>
+    
+    <lastmod>2021-11-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2021/09/27/the-systematic-failure-of-higher-education-in-china/</loc>
+    
+    <lastmod>2021-11-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2021/10/03/windows-terminal-beautify/</loc>
+    
+    <lastmod>2021-11-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2021/09/08/hello-world/</loc>
+    
+    <lastmod>2021-11-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2021/10/08/csharp-generic-review-02/</loc>
+    
+    <lastmod>2021-11-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2021/10/04/csharp-generic-review-01/</loc>
+    
+    <lastmod>2021-11-29</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jonty.top/2021/11/28/getting-started-with-docker-01/</loc>
     
     <lastmod>2021-11-28</lastmod>
@@ -12,13 +61,6 @@
     <loc>https://jonty.top/2021/11/09/rhel-install-oracle-11g-r2/</loc>
     
     <lastmod>2021-11-23</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2021/11/07/introduction-with-aspNet-core-and-entity-framework-core/</loc>
-    
-    <lastmod>2021-11-07</lastmod>
     
   </url>
   
@@ -37,13 +79,6 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/2021/10/08/csharp-generic-review-02/</loc>
-    
-    <lastmod>2021-10-07</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jonty.top/2021/09/23/install-jira-in-docker/</loc>
     
     <lastmod>2021-10-04</lastmod>
@@ -58,37 +93,9 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/2021/10/04/csharp-generic-review-01/</loc>
-    
-    <lastmod>2021-10-04</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jonty.top/hexo-admin-ehc-images.json</loc>
     
     <lastmod>2021-10-03</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2021/10/03/windows-terminal-beautify/</loc>
-    
-    <lastmod>2021-10-02</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2021/09/27/the-systematic-failure-of-higher-education-in-china/</loc>
-    
-    <lastmod>2021-09-27</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2021/09/08/hello-world/</loc>
-    
-    <lastmod>2021-09-25</lastmod>
     
   </url>
   
@@ -123,127 +130,127 @@
 
   <url>
     <loc>https://jonty.top/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
+    <loc>https://jonty.top/tags/C/</loc>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/tags/Winform/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Print/</loc>
-    <lastmod>2021-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Review/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Generic/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Docker/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Linux/</loc>
-    <lastmod>2021-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Config/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Jira/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Hello-World/</loc>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Zhihu/</loc>
-    <lastmod>2021-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/View/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/VMware/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Other/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <loc>https://jonty.top/tags/Terminal/</loc>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Tools/</loc>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/MVC/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/EFCore/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <loc>https://jonty.top/tags/EF-Core/</loc>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/NETCore/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <loc>https://jonty.top/tags/52ABP/</loc>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/RedHat/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Oracle/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -251,64 +258,57 @@
 
   
   <url>
+    <loc>https://jonty.top/categories/Share/</loc>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/categories/Net/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/CSharp/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Docker/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Hexo/</loc>
-    <lastmod>2021-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/categories/Reprint/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Linux/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/categories/Win/</loc>
-    <lastmod>2021-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/categories/52ABP/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <loc>https://jonty.top/categories/Windows/</loc>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Oracle/</loc>
-    <lastmod>2021-11-28</lastmod>
+    <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>

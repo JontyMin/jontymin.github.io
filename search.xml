@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>关于闰年那些事</title>
+    <url>/2021/11/29/about-leap-year/</url>
+    <content><![CDATA[<p>判断某一年是否是闰年几乎是所有编程语言的基础练习题之一，而我们必然也熟知其规则：</p>
+<ul>
+<li>整除但4不能整除100</li>
+<li>整除100又能整除400</li>
+</ul>
+<blockquote>
+<p>这就是俗语中的“四年一闰，百年不闰，四百年再润”，我们当然可以根据这个规则编写程序判断闰年，但你知道为什么这样规定闰年的算法么？</p>
+</blockquote>
+<hr>
+<p>事实上，闰年是为了弥补因人为历法规定，造成的年度天数与地球实际公转周期的时间差而设立的。所以闰年有366天。</p>
+<p>那么具体是怎么弥补的呢？</p>
+<blockquote>
+<p>我们知道，平年一年只有365天，而实际上地球绕太阳的公转周期为365天5小时48分46秒。即一回归年。所以公历的每一年都比回归年短0.2422天，四年累计起来，共短0.9688天。</p>
+</blockquote>
+<p>大概就是一天，所以为了弥补这一天的时间差。给2月加上1天，就有了闰年。这样一来，每四年里就有一个闰年，3个平年。这就是<strong>四年一闰</strong>。</p>
+<p>那么<strong>百年不闰，四百年再闰</strong>又是怎么回事呢？</p>
+<blockquote>
+<p>是这样的，刚才说四年累计起来的时间差只有0.9688天，这比我们给闰年增加的一天还少0.0312天，所以每四年就会多出0.0312天。这样400年后，就会比实际天数多出3.12天。所以我们必须在这400年中少设3个闰年。这样公历年的平均长度与回归年就近似了。</p>
+</blockquote>
+<p>那这3个闰年怎么少呢？</p>
+<p>很简单，给百年除以400即可，比如2000-2400这400年：</p>
+<ul>
+<li>2000/400=5</li>
+<li>2100/400=5.25</li>
+<li>2200/400=5.5</li>
+<li>2300/400=5.75</li>
+<li>2400/400=6</li>
+</ul>
+<p>可以发现，正好有3个不能整除的整百年。所以规定年份是整百数的必须是400的倍数才是闰年。这就是百年不闰，四百年才闰的规定。</p>
+<p>你明白了吗？</p>
+<hr>
+<p>当然，根据规则，我们就可以编写代码判断了：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> year;</span><br><span class="line">	cin &gt;&gt; year;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (year % <span class="number">4</span> == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (year % <span class="number">100</span> != <span class="number">0</span>)<span class="comment">//1. 能整除4，不能整除100</span></span><br><span class="line">		&#123;</span><br><span class="line">			cout &lt;&lt; <span class="string">&quot;是闰年\n&quot;</span> &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> ((year % <span class="number">100</span>==<span class="number">0</span>) &amp;&amp; (year % <span class="number">400</span>==<span class="number">0</span>))<span class="comment">//2. 能整除100， 又能整除400</span></span><br><span class="line">		&#123;</span><br><span class="line">			cout &lt;&lt; <span class="string">&quot;是闰年\n&quot;</span> &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span><span class="comment">//其它情况不是闰年</span></span><br><span class="line">		&#123;</span><br><span class="line">			cout &lt;&lt; <span class="string">&quot;不是闰年\n&quot;</span> &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span><span class="comment">//不能整除4就不是闰年</span></span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;不是闰年\n&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Share</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>浏览器实现静默打印</title>
     <url>/2021/09/25/browser-silent-printing/</url>
     <content><![CDATA[<h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>最近有一个需求涉及到<code>静默打印</code>,也就是打印时不需要弹出打印配置框，而是直接调用打印机</p>
@@ -149,7 +193,6 @@
         <category>CSharp</category>
       </categories>
       <tags>
-        <tag>Review</tag>
         <tag>Generic</tag>
       </tags>
   </entry>
@@ -312,7 +355,6 @@
         <category>CSharp</category>
       </categories>
       <tags>
-        <tag>Review</tag>
         <tag>Generic</tag>
       </tags>
   </entry>
@@ -598,30 +640,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/09/08/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Config</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Docker中安装jira</title>
     <url>/2021/09/23/install-jira-in-docker/</url>
     <content><![CDATA[<h2 id="数据库准备"><a href="#数据库准备" class="headerlink" title="数据库准备"></a>数据库准备</h2><p>其他数据库请参考文档</p>
@@ -716,6 +734,30 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2021/09/08/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hello World</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>知乎关于我国高等教育的看法</title>
     <url>/2021/09/27/the-systematic-failure-of-higher-education-in-china/</url>
     <content><![CDATA[<p>和老同学聊到在学校的生活，突然想到之前在知乎看到的这篇帖子，转载记录一下</p>
@@ -733,11 +775,10 @@
 </blockquote>
 ]]></content>
       <categories>
-        <category>Reprint</category>
+        <category>Share</category>
       </categories>
       <tags>
         <tag>Zhihu</tag>
-        <tag>View</tag>
       </tags>
   </entry>
   <entry>
@@ -942,10 +983,11 @@
 <p>至此大功告成，这下是不是卷的更有动力了。</p>
 ]]></content>
       <categories>
-        <category>Win</category>
+        <category>Windows</category>
       </categories>
       <tags>
-        <tag>Other</tag>
+        <tag>Terminal</tag>
+        <tag>Tools</tag>
       </tags>
   </entry>
   <entry>
@@ -1161,12 +1203,12 @@
 </blockquote>
 ]]></content>
       <categories>
-        <category>52ABP</category>
+        <category>.Net</category>
       </categories>
       <tags>
         <tag>MVC</tag>
-        <tag>EFCore</tag>
-        <tag>.NETCore</tag>
+        <tag>EF Core</tag>
+        <tag>52ABP</tag>
       </tags>
   </entry>
   <entry>
