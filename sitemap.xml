@@ -9,6 +9,13 @@
   </url>
   
   <url>
+    <loc>https://jonty.top/about/index.html</loc>
+    
+    <lastmod>2021-12-02</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jonty.top/2021/12/02/sqlserver-ha-01/</loc>
     
     <lastmod>2021-12-02</lastmod>
@@ -110,13 +117,6 @@
     <loc>https://jonty.top/hexo-admin-ehc-images.json</loc>
     
     <lastmod>2021-10-03</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/about/index.html</loc>
-    
-    <lastmod>2021-09-25</lastmod>
     
   </url>
   
@@ -249,6 +249,20 @@
   </url>
   
   <url>
+    <loc>https://jonty.top/tags/RedHat/</loc>
+    <lastmod>2021-12-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Oracle/</loc>
+    <lastmod>2021-12-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/tags/MVC/</loc>
     <lastmod>2021-12-02</lastmod>
     <changefreq>daily</changefreq>
@@ -264,20 +278,6 @@
   
   <url>
     <loc>https://jonty.top/tags/52ABP/</loc>
-    <lastmod>2021-12-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/RedHat/</loc>
-    <lastmod>2021-12-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Oracle/</loc>
     <lastmod>2021-12-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
