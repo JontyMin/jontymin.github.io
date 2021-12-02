@@ -1,5 +1,5 @@
+https://jonty.top/2021/12/02/sqlserver-ha-02/
+https://jonty.top/2021/12/02/sqlserver-ha-01/
 https://jonty.top/2021/11/29/about-leap-year/
 https://jonty.top/2021/11/28/getting-started-with-docker-01/
 https://jonty.top/2021/11/09/rhel-install-oracle-11g-r2/
-https://jonty.top/2021/11/07/introduction-with-aspNet-core-and-entity-framework-core/
-https://jonty.top/2021/10/27/vmware-install-linux/
