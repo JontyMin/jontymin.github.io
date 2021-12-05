@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2021/12/05/getting-started-with-git/</loc>
+    <lastmod>2021-12-05</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/10/04/csharp-generic-review-01/</loc>
+    <lastmod>2021-12-05</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2021/12/02/sqlserver-ha-02/</loc>
     <lastmod>2021-12-02</lastmod>
   </url>
@@ -30,10 +38,6 @@
   </url>
   <url>
     <loc>https://jonty.top/2021/10/08/csharp-generic-review-02/</loc>
-    <lastmod>2021-11-29</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/10/04/csharp-generic-review-01/</loc>
     <lastmod>2021-11-29</lastmod>
   </url>
   <url>
