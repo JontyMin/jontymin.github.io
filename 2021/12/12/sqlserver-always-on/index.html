@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=ZCOOL+XiaoWei:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="SQL Server 2019配置多节点Always On可用性组">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AlwaysOn可用性组搭建">
+<meta property="og:url" content="https://jonty.top/2021/12/12/sqlserver-always-on/index.html">
+<meta property="og:site_name" content="Jonty&#39;s Blog">
+<meta property="og:description" content="SQL Server 2019配置多节点Always On可用性组">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jonty.top/img/aoag-agintrofigure.gif">
+<meta property="og:image" content="https://docs.microsoft.com/zh-cn/sql/includes/media/sql-server-ha-story/image10.png?view=sql-server-ver15">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211210160647337.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211201202841391.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211201203328080.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211201203602401.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211201210755796.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211201211327973.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211210162246204.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211210163048875.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211210163229691.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211210163317769.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211202101040029.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211202101150519.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211210171252768.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211202101436509.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211202101526718.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211202101716057.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211202102733214.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211202103144127.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211102905894.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211202103337978.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211202104126258.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211202104427813.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211105749127.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211152156209.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211151112296.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211151229090.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211151321318.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211151409823.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211151444295.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211151519725.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211151616739.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211151936934.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211151914110.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211152039971.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211162839680.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211163624854.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211171142018.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211173957657.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211174318402.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211174423423.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211174540873.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211211174914993.png">
+<meta property="og:image" content="c:/Users/JontyWong/AppData/Roaming/Typora/typora-user-images/image-20211212144604044.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212150735055.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212150811047.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212152510363.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212152847643.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212153406168.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212153551144.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212153700280.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212154002973.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212154121519.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212154200085.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212154308677.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212154626198.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212154745535.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212155405079.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212155537431.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212155658350.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212155829069.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212160001906.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212160106551.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212160409506.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212160541634.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212161052133.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212161020941.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212165938337.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212170052511.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212170210354.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212170749810.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212170836596.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212171600016.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212171840132.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212171923827.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212172025348.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212172103932.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212172120377.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212173349400.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212163928361.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212164241842.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212164327405.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212165124505.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20211212172911057.png">
+<meta property="article:published_time" content="2021-12-12T14:32:23.000Z">
+<meta property="article:modified_time" content="2021-12-12T14:35:34.705Z">
+<meta property="article:author" content="Jonty">
+<meta property="article:tag" content="SQL Server 2019">
+<meta property="article:tag" content="AlwaysOn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jonty.top/img/aoag-agintrofigure.gif">
+
+
+<link rel="canonical" href="https://jonty.top/2021/12/12/sqlserver-always-on/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2021/12/12/sqlserver-always-on/","path":"2021/12/12/sqlserver-always-on/","title":"AlwaysOn可用性组搭建"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>AlwaysOn可用性组搭建 | Jonty's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Jonty's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jonty's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">life has no Ctrl Z</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">服务器配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%9F%9F%E6%8E%A7"><span class="nav-number">3.</span> <span class="nav-text">配置域控</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IP%E5%92%8CDNS%E9%85%8D%E7%BD%AE"><span class="nav-number">3.1.</span> <span class="nav-text">IP和DNS配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AD-amp-DNS%E5%AE%89%E8%A3%85"><span class="nav-number">3.2.</span> <span class="nav-text">AD &amp; DNS安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%9F%9F%E6%8E%A7-1"><span class="nav-number">3.3.</span> <span class="nav-text">配置域控</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E5%8A%A0%E5%85%A5%E5%9F%9F"><span class="nav-number">3.4.</span> <span class="nav-text">节点加入域</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB%E7%BE%A4%E9%9B%86%E9%85%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">故障转移群集配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE"><span class="nav-number">4.1.</span> <span class="nav-text">网卡配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB%E7%BE%A4%E9%9B%86"><span class="nav-number">4.2.</span> <span class="nav-text">安装故障转移群集</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">4.2.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="nav-number">4.2.2.</span> <span class="nav-text">配置</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%B2%E8%A3%81%E9%85%8D%E7%BD%AE"><span class="nav-number">4.3.</span> <span class="nav-text">仲裁配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85"><span class="nav-number">5.</span> <span class="nav-text">数据库安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%9F%9F%E7%94%A8%E6%88%B7"><span class="nav-number">5.1.</span> <span class="nav-text">添加域用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-1"><span class="nav-number">5.2.</span> <span class="nav-text">安装</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Always-On-%E9%85%8D%E7%BD%AE"><span class="nav-number">6.</span> <span class="nav-text">Always On 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E7%94%A8AlwaysOn"><span class="nav-number">6.1.</span> <span class="nav-text">启用AlwaysOn</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">6.2.</span> <span class="nav-text">创建数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">6.3.</span> <span class="nav-text">备份数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E5%8F%AF%E7%94%A8%E6%80%A7%E7%BB%84"><span class="nav-number">6.4.</span> <span class="nav-text">新建可用性组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%BE%A6%E5%90%AC%E5%99%A8"><span class="nav-number">6.5.</span> <span class="nav-text">创建侦听器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%A2%E6%9D%BF%E6%9F%A5%E7%9C%8B"><span class="nav-number">6.6.</span> <span class="nav-text">面板查看</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%8F%AF%E7%94%A8%E6%80%A7%E7%BB%84"><span class="nav-number">6.7.</span> <span class="nav-text">连接可用性组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E5%8F%AF%E7%94%A8%E6%80%A7%E7%BB%84"><span class="nav-number">6.8.</span> <span class="nav-text">测试可用性组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB%E6%B5%8B%E8%AF%95"><span class="nav-number">6.9.</span> <span class="nav-text">故障转移测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%8B%E5%8A%A8%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB"><span class="nav-number">6.10.</span> <span class="nav-text">手动故障转移</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB-amp-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="nav-number">7.</span> <span class="nav-text">读写分离 &amp; 负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%8F%AF%E8%AF%BB%E8%BE%85%E5%8A%A9%E5%89%AF%E6%9C%AC"><span class="nav-number">7.1.</span> <span class="nav-text">配置可读辅助副本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE"><span class="nav-number">7.2.</span> <span class="nav-text">查看路由配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%B7%AF%E7%94%B1"><span class="nav-number">7.3.</span> <span class="nav-text">配置路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E5%86%99%E5%85%A5%E6%93%8D%E4%BD%9C"><span class="nav-number">7.4.</span> <span class="nav-text">测试写入操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="nav-number">8.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jonty"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">Jonty</p>
+  <div class="site-description" itemprop="description">朝闻道，夕可眠矣</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JontyMin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JontyMin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:amazing4677@gmail.com" title="E-Mail → mailto:amazing4677@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/users/14014911/jonty" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;users&#x2F;14014911&#x2F;jonty" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>StackOverflow</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://issues.wiki/" title="https:&#x2F;&#x2F;issues.wiki&#x2F;" rel="noopener" target="_blank">issues</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://my_netinlove.gitee.io/" title="https:&#x2F;&#x2F;my_netinlove.gitee.io&#x2F;" rel="noopener" target="_blank">GiteePage</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/179850046" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;179850046" rel="noopener" target="_blank">bilibili</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/JontyWang/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JontyWang&#x2F;" rel="noopener" target="_blank">我的园子</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.52abp.com/" title="https:&#x2F;&#x2F;www.52abp.com&#x2F;" rel="noopener" target="_blank">52ABP</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ldqk.xyz/" title="https:&#x2F;&#x2F;ldqk.xyz&#x2F;" rel="noopener" target="_blank">懒得勤快</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/edisonchou/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;edisonchou&#x2F;" rel="noopener" target="_blank">EdisonZhou</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.aliyun.com/minisite/goods?userCode=b0skjdai&share_source=copy_link" title="https:&#x2F;&#x2F;www.aliyun.com&#x2F;minisite&#x2F;goods?userCode&#x3D;b0skjdai&amp;share_source&#x3D;copy_link" rel="noopener" target="_blank">Aliyun</a>
+        </li>
+    </ul>
+  </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1417862046&auto=0&height=66"></iframe>
+
+          </div>
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+
+  </aside>
+  <div class="sidebar-dimmer">
+  
+  </div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonty.top/2021/12/12/sqlserver-always-on/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="Jonty">
+      <meta itemprop="description" content="朝闻道，夕可眠矣">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jonty's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AlwaysOn可用性组搭建
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-12-12 22:32:23 / 修改时间：22:35:34" itemprop="dateCreated datePublished" datetime="2021-12-12T22:32:23+08:00">2021-12-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/SQL-Server/" itemprop="url" rel="index"><span itemprop="name">SQL Server</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">SQL Server 2019配置多节点Always On可用性组</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote>
+<p>关于<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/sql/database-engine/availability-groups/windows/overview-of-always-on-availability-groups-sql-server?view=sql-server-ver15">AlwaysOn</a>高可用性组的官方介绍</p>
+<p>关于SQL Server高可用性的<a target="_blank" rel="noopener" href="https://blog.csdn.net/DBA_Huangzj/article/details/54015470">相关概念</a></p>
+</blockquote>
+<p>​        AlwaysOn利用了Windows 故障转移群集（FCI）的健康监测和自动故障转移的特性，所以AlwaysOn需要建立在Windows故障转移群集之上。关于故障转移群集的搭建在之前的文章有介绍（<a href="https://jonty.top/2021/12/02/sqlserver-ha-02/">故障转移群集搭建</a>）。但是和故障转移群集不同的地方是，可用性组不需要存放在<strong>共享存储</strong>上。另外，可用性组是<strong>数据库</strong>层面的，故障转移群集是<strong>实例</strong>层面的。</p>
+<p><img data-src="https://cdn.jonty.top/img/aoag-agintrofigure.gif" alt="有五个副本的可用性组"></p>
+<p><img data-src="https://docs.microsoft.com/zh-cn/sql/includes/media/sql-server-ha-story/image10.png?view=sql-server-ver15" alt="分布式 AG"></p>
+<p>特点：</p>
+<ul>
+<li>AlwaysOn支持故障转移群集</li>
+<li>多个用户数据库可以一同进行故障转移</li>
+<li>每个辅助服务器上都有一份数据的拷贝，可以使服务器上的数据拷贝和主服务器上的数据完全同步</li>
+<li>辅助服务器可用于只读的访问请求</li>
+<li>……</li>
+</ul>
+<p><strong>大致步骤如下</strong>：</p>
+<ul>
+<li>安装4台Windows Server2019服务器。</li>
+<li>配置主机、网卡</li>
+<li>安装AD域、DNS,添加域</li>
+<li>安装故障转移群集</li>
+<li>安装SQL Server </li>
+<li>配置AlwaysOn可用性组</li>
+<li>配置读写分离路由</li>
+</ul>
+<h3 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h3><p>演示配置为<code>Windows Server 2019 DataCenter</code>，<code>2核4G</code>，<code>硬盘100G</code>，双网卡，<code>Administrator</code>密码需要配置一致。</p>
+<table>
+<thead>
+<tr>
+<th align="center">节点</th>
+<th align="center">主机名</th>
+<th align="center">public ip</th>
+<th align="center">private ip</th>
+<th align="center">群集ip</th>
+<th align="center">侦听器</th>
+<th align="center">DNS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ws11</td>
+<td align="center">ws11</td>
+<td align="center">192.168.1.11</td>
+<td align="center">10.10.10.11</td>
+<td align="center">192.168.1.15</td>
+<td align="center">192.168.1.16</td>
+<td align="center">192.168.1.20</td>
+</tr>
+<tr>
+<td align="center">ws12</td>
+<td align="center">ws12</td>
+<td align="center">192.168.1.12</td>
+<td align="center">10.10.10.12</td>
+<td align="center">192.168.1.15</td>
+<td align="center">192.168.1.16</td>
+<td align="center">192.168.1.20</td>
+</tr>
+<tr>
+<td align="center">ws13</td>
+<td align="center">ws13</td>
+<td align="center">192.168.1.13</td>
+<td align="center">10.10.10.13</td>
+<td align="center">192.168.1.15</td>
+<td align="center">192.168.1.16</td>
+<td align="center">192.168.1.20</td>
+</tr>
+<tr>
+<td align="center">ws20</td>
+<td align="center">ws20</td>
+<td align="center">192.168.1.20</td>
+<td align="center">10.10.10.20</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">192.168.1.20</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p> 注意：后续操作没有特殊说明3节点均需配置</p>
+</blockquote>
+<h3 id="配置域控"><a href="#配置域控" class="headerlink" title="配置域控"></a>配置域控</h3><p>将<code>ws20</code>作为域控服务器。</p>
+<h4 id="IP和DNS配置"><a href="#IP和DNS配置" class="headerlink" title="IP和DNS配置"></a>IP和DNS配置</h4><p>配置网卡属性：</p>
+<p>配置<code>IP</code>地址：<code>192.168.1.20</code>，并将<code>DNS</code>设置为本机<code>IP</code></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211210160647337.png" alt="image-20211210160647337"></p>
+<p>无域控DNS配置：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/DragonStart/p/8275182.html">https://www.cnblogs.com/DragonStart/p/8275182.html</a> </p>
+<h4 id="AD-amp-DNS安装"><a href="#AD-amp-DNS安装" class="headerlink" title="AD &amp; DNS安装"></a>AD &amp; DNS安装</h4><p>打开服务器管理器，添加角色和功能向导，选择添加 <code>Active Directory域服务</code>和 <code>DNS</code> 服务器</p>
+<img data-src="https://cdn.jonty.top/img/image-20211201202841391.png" alt="image-20211201202841391" style="zoom:80%;" />
+
+<p>安装完成后，选择将此服务器升级为<strong>域控制器</strong></p>
+<img data-src="https://cdn.jonty.top/img/image-20211201203328080.png" alt="image-20211201203328080" style="zoom:80%;" />
+
+<h4 id="配置域控-1"><a href="#配置域控-1" class="headerlink" title="配置域控"></a>配置域控</h4><p>点击添加<strong>新林</strong>，自定义一个<strong>根域名</strong></p>
+<img data-src="https://cdn.jonty.top/img/image-20211201203602401.png" alt="image-20211201203602401" style="zoom:80%;" />
+
+<p>下一步，设置DNS密码</p>
+<img data-src="https://cdn.jonty.top/img/image-20211201210755796.png" alt="image-20211201210755796" style="zoom:80%;" />
+
+<p>后续步骤<strong>默认</strong>，点击安装</p>
+<img data-src="https://cdn.jonty.top/img/image-20211201211327973.png" alt="image-20211201211327973" style="zoom:80%;" />
+
+<p>安装完成后会<strong>自动重启</strong>，并使用<strong>域账户</strong>登录</p>
+<p>查看电脑属性，可以看到<code>ws20</code>节点已经加入域</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211210162246204.png" alt="image-20211210162246204"></p>
+<h4 id="节点加入域"><a href="#节点加入域" class="headerlink" title="节点加入域"></a>节点加入域</h4><p>更改<strong>DNS</strong>，设置为域控服务器IP，<code>ws11</code>、<code>ws12</code>、<code>ws13</code>节点均操作</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211210163048875.png" alt="image-20211210163048875"></p>
+<p>打开<strong>计算机属性</strong>，更改<strong>主机名</strong>并加入<strong>域</strong></p>
+<img data-src="https://cdn.jonty.top/img/image-20211210163229691.png" alt="image-20211210163229691" style="zoom: 67%;" />
+
+<p>输入<strong>域控服务器</strong>用户名和密码</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211210163317769.png" alt="image-20211210163317769"></p>
+<h3 id="故障转移群集配置"><a href="#故障转移群集配置" class="headerlink" title="故障转移群集配置"></a>故障转移群集配置</h3><h4 id="网卡配置"><a href="#网卡配置" class="headerlink" title="网卡配置"></a>网卡配置</h4><p><code>ws11</code>、<code>ws12</code>、<code>ws13</code>节点均操作</p>
+<p>重命名网卡：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211202101040029.png" alt="image-20211202101040029"></p>
+<p><strong>public网卡：</strong></p>
+<p>跃点设置为：5</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211202101150519.png" alt="image-20211202101150519"></p>
+<p><strong>pirvate网卡：</strong></p>
+<p>设置跃点为：75</p>
+<img data-src="https://cdn.jonty.top/img/image-20211210171252768.png" alt="image-20211210171252768" style="zoom:80%;" />
+
+<p>取消DNS注册</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211202101436509.png" alt="image-20211202101436509"></p>
+<p>禁用<strong>NetBIOS</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211202101526718.png" alt="image-20211202101526718"></p>
+<p>查看：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get-netipinterface</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211202101716057.png" alt="image-20211202101716057"></p>
+<h4 id="安装故障转移群集"><a href="#安装故障转移群集" class="headerlink" title="安装故障转移群集"></a>安装故障转移群集</h4><h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><p>3个节点安装故障转移群集</p>
+<p>新建角色和功能向导，选择<strong>故障转移群集</strong></p>
+<img data-src="https://cdn.jonty.top/img/image-20211202102733214.png" alt="image-20211202102733214" style="zoom:80%;" />
+
+
+
+<h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><p>服务器管理器面板 -&gt; 工具，打开故障转移群集管理器</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211202103144127.png" alt="image-20211202103144127"></p>
+<p>选择<strong>创建群集</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211211102905894.png" alt="image-20211211102905894"></p>
+<p>把3个节点都加入<strong>群集</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211202103337978.png" alt="image-20211202103337978"></p>
+<p>可以选择是否要运行测试</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211202104126258.png" alt="image-20211202104126258"></p>
+<p>配置集群地址</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211202104427813.png" alt="image-20211202104427813"></p>
+<p>查看群集状态</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211211105749127.png" alt="image-20211211105749127"></p>
+<p>DNS中已经添加了群集的解析：</p>
+<img data-src="https://cdn.jonty.top/img/image-20211211152156209.png" alt="image-20211211152156209" style="zoom:80%;" />
+
+
+
+<h4 id="仲裁配置"><a href="#仲裁配置" class="headerlink" title="仲裁配置"></a>仲裁配置</h4><p>可以看到，群集的见证是没有的：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211211151112296.png" alt="image-20211211151112296"></p>
+<p>添加一个<strong>共享文件夹</strong>做仲裁文件夹：ws20节点</p>
+<blockquote>
+<p>关于仲裁：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/ljhdo/p/5652643.html">https://www.cnblogs.com/ljhdo/p/5652643.html</a></p>
+</blockquote>
+<p><img data-src="https://cdn.jonty.top/img/image-20211211151229090.png" alt="image-20211211151229090"></p>
+<p><strong>配置仲裁</strong></p>
+<p>右键群集，选择更多操作，点击配置群集仲裁设置</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211211151321318.png" alt="image-20211211151321318"></p>
+<p>选择仲裁见证</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211211151409823.png" alt="image-20211211151409823"></p>
+<p>选择使用共享文件见证</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211211151444295.png" alt="image-20211211151444295"></p>
+<p>选择在<code>ws20</code>节点配置的共享文件夹</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211211151519725.png"></p>
+<p>默认下一步，安装</p>
+<p>安装完成后可以看到<strong>文件共享见证</strong></p>
+<img data-src="https://cdn.jonty.top/img/image-20211211151616739.png" alt="image-20211211151616739" style="zoom:80%;" />
+
+
+
+<h3 id="数据库安装"><a href="#数据库安装" class="headerlink" title="数据库安装"></a>数据库安装</h3><h4 id="添加域用户"><a href="#添加域用户" class="headerlink" title="添加域用户"></a>添加域用户</h4><p>在<code>AD</code>中添加一个<strong>域用户</strong></p>
+<img data-src="https://cdn.jonty.top/img/image-20211211151936934.png" alt="image-20211211151936934" style="zoom:80%;" />
+
+<img data-src="https://cdn.jonty.top/img/image-20211211151914110.png" alt="image-20211211151914110" style="zoom:80%;" />
+
+<p>其他三个节点均添加此<strong>域用户</strong></p>
+<img data-src="https://cdn.jonty.top/img/image-20211211152039971.png" alt="image-20211211152039971" style="zoom:80%;" />
+
+
+
+<h4 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h4><p><strong>3节点均需安装</strong></p>
+<p>选择<strong>全新安装</strong></p>
+<img data-src="https://cdn.jonty.top/img/image-20211211162839680.png" alt="image-20211211162839680" style="zoom:80%;" />
+
+
+
+<p><strong>选择安装功能</strong></p>
+<p>根据实际需求选择安装功能，数据库引擎服务是必须的</p>
+<img data-src="https://cdn.jonty.top/img/image-20211211163624854.png" alt="image-20211211163624854" style="zoom:80%;" />
+
+
+
+<p><strong>实例配置</strong>：</p>
+<p>三节点均使用默认实例配置</p>
+<img data-src="https://cdn.jonty.top/img/image-20211211171142018.png" alt="image-20211211171142018" style="zoom:80%;" />
+
+<p><strong>服务器配置</strong></p>
+<p>使用<strong>域用户</strong>登录</p>
+<img data-src="https://cdn.jonty.top/img/image-20211211173957657.png" alt="image-20211211173957657" style="zoom:80%;" />
+
+<p><strong>数据库引擎配置</strong></p>
+<p>服务器配置：选择混合模式登录，管理员添加<strong>本机管理员</strong>以及<strong>域用户</strong></p>
+<img data-src="https://cdn.jonty.top/img/image-20211211174318402.png" alt="image-20211211174318402" style="zoom:80%;" />
+
+<p>数据目录：</p>
+<p>可以自定义数据文件存储位置</p>
+<img data-src="https://cdn.jonty.top/img/image-20211211174423423.png" alt="image-20211211174423423" style="zoom:80%;" />
+
+<p>TempDB:</p>
+<p>将TempDB的初始大小可以按实际需求设置初始大小</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211211174540873.png" alt="image-20211211174540873"></p>
+<p><strong>安装</strong></p>
+<img data-src="https://cdn.jonty.top/img/image-20211211174914993.png" alt="image-20211211174914993" style="zoom:80%;" />
+
+
+
+<img data-src="C:/Users/JontyWong/AppData/Roaming/Typora/typora-user-images/image-20211212144604044.png" alt="image-20211212144604044" style="zoom:80%;" />
+
+<h3 id="Always-On-配置"><a href="#Always-On-配置" class="headerlink" title="Always On 配置"></a>Always On 配置</h3><h4 id="启用AlwaysOn"><a href="#启用AlwaysOn" class="headerlink" title="启用AlwaysOn"></a>启用AlwaysOn</h4><p>打开配置管理器</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212150735055.png" alt="image-20211212150735055"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212150811047.png" alt="image-20211212150811047"></p>
+<blockquote>
+<p>注意：开启后重启<code>SQL Server</code>服务，三个节点都需要打开。</p>
+</blockquote>
+<h4 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h4><p>连接到3个节点的<strong>数据库</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212152510363.png" alt="image-20211212152510363"></p>
+<p>创建2个测试数据库：ws21节点</p>
+<img data-src="https://cdn.jonty.top/img/image-20211212152847643.png" alt="image-20211212152847643" style="zoom:80%;" />
+
+<p>创建测试数据：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">use jontydb</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> Employee (id <span class="type">int</span> <span class="keyword">primary</span> key <span class="keyword">identity</span>,name <span class="type">varchar</span>(<span class="number">20</span>))</span><br><span class="line">go</span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Employee <span class="keyword">values</span>(<span class="string">&#x27;jonty1&#x27;</span>)</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Employee <span class="keyword">values</span>(<span class="string">&#x27;jonty2&#x27;</span>)</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Employee <span class="keyword">values</span>(<span class="string">&#x27;jonty3&#x27;</span>)</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Employee <span class="keyword">values</span>(<span class="string">&#x27;jonty4&#x27;</span>)</span><br><span class="line">go</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Employee</span><br></pre></td></tr></table></figure>
+
+<h4 id="备份数据库"><a href="#备份数据库" class="headerlink" title="备份数据库"></a>备份数据库</h4><p>对新建的2个数据库进行<strong>全备</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212153406168.png" alt="image-20211212153406168"></p>
+<p>备份类型选择<strong>完整</strong></p>
+<p><strong>介质选项</strong>和<strong>备份选项</strong>按需求配置</p>
+<img data-src="https://cdn.jonty.top/img/image-20211212153551144.png" alt="image-20211212153551144" style="zoom:80%;" />
+
+<p>可以配置备份文件存放位置，方便管理</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212153700280.png" alt="image-20211212153700280"></p>
+<h4 id="新建可用性组"><a href="#新建可用性组" class="headerlink" title="新建可用性组"></a>新建可用性组</h4><p>右键AlwaysOn高可用性，选择向导</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212154002973.png" alt="image-20211212154002973"></p>
+<p>可用性组名称，勾选<strong>数据库级别运行状况检测</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212154121519.png" alt="image-20211212154121519"></p>
+<p>选择要添加到可用性组的数据库</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212154200085.png" alt="image-20211212154200085"></p>
+<p><strong>指定副本</strong></p>
+<p>点击添加副本，将<code>ws12</code>、<code>ws13</code>节点添加为副本，并设置<strong>自动故障转移</strong>和<strong>可读辅助副本</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212154308677.png" alt="image-20211212154308677"></p>
+<p><strong>端点</strong></p>
+<p>使用<strong>私有网卡</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212154626198.png" alt="image-20211212154626198"></p>
+<p><strong>备份首选项</strong></p>
+<p>选择<strong>任意副本</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212154745535.png" alt="image-20211212154745535"></p>
+<p><strong>侦听器</strong>和<strong>只读路由</strong>稍后配置。</p>
+<p><strong>数据同步</strong></p>
+<p>选择<code>完整的数据库和日志备份</code>，这里在<strong>域服务器</strong>创建了一个共享目录，可使用<strong>备份服务器</strong>同步</p>
+<img data-src="https://cdn.jonty.top/img/image-20211212155405079.png" alt="image-20211212155405079" style="zoom:80%;" />
+
+<p><strong>验证</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212155537431.png" alt="image-20211212155537431"></p>
+<p>运行下一步，完成配置</p>
+<img data-src="https://cdn.jonty.top/img/image-20211212155658350.png" alt="image-20211212155658350" style="zoom:80%;" />
+
+<p>查看是否配置成功：</p>
+<p>辅助节点的数据库已经同步</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212155829069.png" alt="image-20211212155829069"></p>
+<h4 id="创建侦听器"><a href="#创建侦听器" class="headerlink" title="创建侦听器"></a>创建侦听器</h4><p><img data-src="https://cdn.jonty.top/img/image-20211212160001906.png" alt="image-20211212160001906"></p>
+<p><strong>DNS</strong>中可以看到侦听器已经添加进去了</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212160106551.png" alt="image-20211212160106551"></p>
+<h4 id="面板查看"><a href="#面板查看" class="headerlink" title="面板查看"></a>面板查看</h4><p><img data-src="https://cdn.jonty.top/img/image-20211212160409506.png" alt="image-20211212160409506"></p>
+<h4 id="连接可用性组"><a href="#连接可用性组" class="headerlink" title="连接可用性组"></a>连接可用性组</h4><p>使用创建的<strong>侦听器地址</strong>连接</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212160541634.png"></p>
+<h4 id="测试可用性组"><a href="#测试可用性组" class="headerlink" title="测试可用性组"></a>测试可用性组</h4><p>在<code>ws11</code>节点插入数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> Employee</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> @<span class="variable">@SERVERNAME</span>  <span class="comment">-- ws11</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Employee <span class="keyword">values</span>(<span class="string">&#x27;always on&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211212161052133.png" alt="image-20211212161052133"></p>
+<p>在<strong>其他副本</strong>查看是否同步</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212161020941.png" alt="image-20211212161020941"></p>
+<h4 id="故障转移测试"><a href="#故障转移测试" class="headerlink" title="故障转移测试"></a>故障转移测试</h4><p>使用<code>host</code>机器连接到<strong>可用性组</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> @<span class="variable">@SERVERNAME</span>  <span class="comment">-- 查看当前主机</span></span><br></pre></td></tr></table></figure>
+
+<p>当前主节点为：<code>ws11</code></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212165938337.png" alt="image-20211212165938337"></p>
+<p>将<code>ws11</code>节点关闭</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212170052511.png" alt="image-20211212170052511"></p>
+<p>测试查询：</p>
+<p>可以看到主节点已经转移到<code>ws12</code>，<code>Always on</code>已经自动故障转移切换</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212170210354.png" alt="image-20211212170210354"></p>
+<p>我们在<code>ws12</code>节点添加几条数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Employee <span class="keyword">values</span>(<span class="string">&#x27;restart always on&#x27;</span>)</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Employee <span class="keyword">values</span>(<span class="string">&#x27;restart always on2&#x27;</span>)</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Employee <span class="keyword">values</span>(<span class="string">&#x27;restart always on3&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>重新启动<code>ws11</code>节点，查看<strong>副本数据</strong>是否同步</p>
+<p>节点已经恢复</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212170749810.png" alt="image-20211212170749810"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212170836596.png" alt="image-20211212170836596"></p>
+<p>查看故障节点<code>ws11</code>的数据，可以看到已经恢复同步</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212171600016.png" alt="image-20211212171600016"></p>
+<h4 id="手动故障转移"><a href="#手动故障转移" class="headerlink" title="手动故障转移"></a>手动故障转移</h4><p>我们把<code>ws11</code>节点关闭后，<code>Always on</code>自动故障转移，现在主节点:<code>ws12</code></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212171840132.png" alt="image-20211212171840132"></p>
+<p>我们可以手动切换回<code>ws11</code>节点，右键可用性组，选择故障转移</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212171923827.png" alt="image-20211212171923827"></p>
+<p>选择<code>ws11</code>为新的主副本</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212172025348.png" alt="image-20211212172025348"></p>
+<p>完成</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212172103932.png" alt="image-20211212172103932"></p>
+<p>刷新可用性组，可以看到已经切换到<code>ws11</code>节点</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212172120377.png" alt="image-20211212172120377"></p>
+<h3 id="读写分离-amp-负载均衡"><a href="#读写分离-amp-负载均衡" class="headerlink" title="读写分离 &amp; 负载均衡"></a>读写分离 &amp; 负载均衡</h3><h4 id="配置可读辅助副本"><a href="#配置可读辅助副本" class="headerlink" title="配置可读辅助副本"></a>配置可读辅助副本</h4><img data-src="https://cdn.jonty.top/img/image-20211212173349400.png" alt="image-20211212173349400" style="zoom:80%;" />
+
+
+
+<h4 id="查看路由配置"><a href="#查看路由配置" class="headerlink" title="查看路由配置"></a>查看路由配置</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> master.sys.availability_replicas  <span class="comment">-- 查看可用性副本</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看路由</span></span><br><span class="line"><span class="keyword">SELECT</span> ar.replica_server_name ,</span><br><span class="line">rl.routing_priority ,</span><br><span class="line">( <span class="keyword">SELECT</span> ar2.replica_server_name</span><br><span class="line"><span class="keyword">FROM</span> sys.availability_read_only_routing_lists rl2</span><br><span class="line"><span class="keyword">JOIN</span> sys.availability_replicas <span class="keyword">AS</span> ar2 <span class="keyword">ON</span> rl2.read_only_replica_id</span><br><span class="line"><span class="operator">=</span> ar2.replica_id</span><br><span class="line"><span class="keyword">WHERE</span> rl.replica_id <span class="operator">=</span> rl2.replica_id</span><br><span class="line"><span class="keyword">AND</span> rl.routing_priority <span class="operator">=</span> rl2.routing_priority</span><br><span class="line"><span class="keyword">AND</span> rl.read_only_replica_id <span class="operator">=</span> rl2.read_only_replica_id</span><br><span class="line">) <span class="keyword">AS</span> <span class="string">&#x27;read_only_replica_server_name&#x27;</span></span><br><span class="line"><span class="keyword">FROM</span> sys.availability_read_only_routing_lists rl</span><br><span class="line"><span class="keyword">JOIN</span> sys.availability_replicas <span class="keyword">AS</span> ar <span class="keyword">ON</span> rl.replica_id <span class="operator">=</span> ar.replica_id</span><br></pre></td></tr></table></figure>
+
+<p>配置可用性组时没有配置路由：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212163928361.png" alt="image-20211212163928361"></p>
+<h4 id="配置路由"><a href="#配置路由" class="headerlink" title="配置路由"></a>配置路由</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 建立读指针，为当前主节点上每个副本创建副本对应的TCP连接</span></span><br><span class="line"><span class="keyword">ALTER</span> AVAILABILITY <span class="keyword">GROUP</span> [jontyag1]</span><br><span class="line">MODIFY REPLICA <span class="keyword">ON</span></span><br><span class="line">N<span class="string">&#x27;ws11&#x27;</span> <span class="keyword">WITH</span></span><br><span class="line">(SECONDARY_ROLE (READ_ONLY_ROUTING_URL <span class="operator">=</span> N<span class="string">&#x27;TCP://ws11.jonty.com:1433&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> AVAILABILITY <span class="keyword">GROUP</span> [jontyag1]</span><br><span class="line">MODIFY REPLICA <span class="keyword">ON</span></span><br><span class="line">N<span class="string">&#x27;ws12&#x27;</span> <span class="keyword">WITH</span></span><br><span class="line">(SECONDARY_ROLE (READ_ONLY_ROUTING_URL <span class="operator">=</span> N<span class="string">&#x27;TCP://ws12.jonty.com:1433&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> AVAILABILITY <span class="keyword">GROUP</span> [jontyag1]</span><br><span class="line">MODIFY REPLICA <span class="keyword">ON</span></span><br><span class="line">N<span class="string">&#x27;ws13&#x27;</span> <span class="keyword">WITH</span></span><br><span class="line">(SECONDARY_ROLE (READ_ONLY_ROUTING_URL <span class="operator">=</span> N<span class="string">&#x27;TCP://ws13.jonty.com:1433&#x27;</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 配置只读路由副本</span></span><br><span class="line"><span class="keyword">ALTER</span> AVAILABILITY <span class="keyword">GROUP</span> [jontyag1]</span><br><span class="line">MODIFY REPLICA <span class="keyword">ON</span></span><br><span class="line">N<span class="string">&#x27;ws11&#x27;</span> <span class="keyword">WITH</span></span><br><span class="line">(PRIMARY_ROLE (READ_ONLY_ROUTING_LIST<span class="operator">=</span>((<span class="string">&#x27;ws12&#x27;</span>,<span class="string">&#x27;ws13&#x27;</span>),<span class="string">&#x27;ws11&#x27;</span>)));</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> AVAILABILITY <span class="keyword">GROUP</span> [jontyag1]</span><br><span class="line">MODIFY REPLICA <span class="keyword">ON</span></span><br><span class="line">N<span class="string">&#x27;ws12&#x27;</span> <span class="keyword">WITH</span></span><br><span class="line">(PRIMARY_ROLE (READ_ONLY_ROUTING_LIST<span class="operator">=</span>((<span class="string">&#x27;ws11&#x27;</span>,<span class="string">&#x27;ws13&#x27;</span>),<span class="string">&#x27;ws12&#x27;</span>)));</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> AVAILABILITY <span class="keyword">GROUP</span> [jontyag1]</span><br><span class="line">MODIFY REPLICA <span class="keyword">ON</span></span><br><span class="line">N<span class="string">&#x27;ws13&#x27;</span> <span class="keyword">WITH</span></span><br><span class="line">(PRIMARY_ROLE (READ_ONLY_ROUTING_LIST<span class="operator">=</span>((<span class="string">&#x27;ws11&#x27;</span>,<span class="string">&#x27;ws12&#x27;</span>),<span class="string">&#x27;ws13&#x27;</span>)));</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211212164241842.png" alt="image-20211212164241842"></p>
+<p>查看可用性组属性：</p>
+<p>可以看到路由已经配置完成，可以按照需求更改</p>
+<img data-src="https://cdn.jonty.top/img/image-20211212164327405.png" alt="image-20211212164327405" style="zoom:80%;" />
+
+
+
+<p>测试：</p>
+<p>可以看到查询的主机是在两个副本直接切换的，实现<strong>读均衡</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlcmd <span class="operator">-</span>S agvip1 <span class="operator">-</span>K ReadOnly <span class="operator">-</span>d jontydb <span class="operator">-</span>Q &quot;select @@servername&quot;</span><br></pre></td></tr></table></figure>
+
+<img data-src="https://cdn.jonty.top/img/image-20211212165124505.png" alt="image-20211212165124505" style="zoom:80%;" />
+
+
+
+<h4 id="测试写入操作"><a href="#测试写入操作" class="headerlink" title="测试写入操作"></a>测试写入操作</h4><p>手动连接到<code>ws12</code>只读节点，执行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use employeedb</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Employee <span class="keyword">values</span>(<span class="string">&#x27;read only&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，只读节点是不允许插入数据的</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211212172911057.png" alt="image-20211212172911057"></p>
+<h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><ul>
+<li>本文是使用1个域控服务+3节点配置<code>AlwaysOn</code>高可用性组，基于<code>Win Server2019</code>环境。</li>
+</ul>
+<blockquote>
+<p>如果域控服务器挂了那不是就挂了？</p>
+</blockquote>
+<p>这个时候又可以考虑再添加一个域控，用双域，域弄一个备份域。</p>
+<p>域控服务器挂了 只是用户认证有问题，不影响 集群</p>
+<ul>
+<li><p>3节点情况下配置了读写分离实现负载均衡，2节点则不必要，保证故障转移即可。</p>
+</li>
+<li><p>在写这篇教程之前配置了无域控双节点AlwaysOn，大概讲一下思路</p>
+<p>双节点安装DNS,添加解析(相互配置包括本机)，参考博客：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/DragonStart/p/8275182.html">https://www.cnblogs.com/DragonStart/p/8275182.html</a></p>
+</li>
+</ul>
+<p>​        后续安装故障转移群集和AlwaysOn配置操作都差不多。</p>
+<ul>
+<li>添加新的节点，把之前节点做的操作执行一遍，包括配置DNS、加入域、加入群集，安装数据库、打开AlwaysOn，然后就是可用性组添加副本。</li>
+<li>删除副本、可用性组，直接右键删除就好。</li>
+<li>添加新的数据库到可用性组，记得全备。</li>
+</ul>
+<p>AlwaysOn 到此结束</p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\12\02\sqlserver-ha-01\" rel="bookmark">SQL Server故障转移集群 - 01</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\12\02\sqlserver-ha-02\" rel="bookmark">SQL Server故障转移集群 - 02</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Jonty
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://jonty.top/2021/12/12/sqlserver-always-on/" title="AlwaysOn可用性组搭建">https://jonty.top/2021/12/12/sqlserver-always-on/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/SQL-Server-2019/" rel="tag"># SQL Server 2019</a>
+              <a href="/tags/AlwaysOn/" rel="tag"># AlwaysOn</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/12/05/getting-started-with-git/" rel="prev" title="Git基本操作">
+                  <i class="fa fa-chevron-left"></i> Git基本操作
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jonty</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">71k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:04</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+<span id="times">载入天数...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("09/08/2021 13:14:21");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("times").innerHTML = "本站已安全运行 "+dnum+" 天 " +hnum + " 小时 " + mnum + " 分 " + snum + " 秒 ✌";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2021/12/12/sqlserver-always-on/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
