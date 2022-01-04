@@ -640,30 +640,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/09/08/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hello World</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Git基本操作</title>
     <url>/2021/12/05/getting-started-with-git/</url>
     <content><![CDATA[<h1 id="干货"><a href="#干货" class="headerlink" title="干货"></a>干货</h1><p>下面对工作中涉及到的git命令做分类总结，都是最常用的。</p>
@@ -692,9 +668,9 @@
 <p>连接远程库，进一步实现团队协作。</p>
 </blockquote>
 <p>git remote:查看远程库信息，详细信息加上-v选项</p>
-<p>git remote add origin <a href="mailto:&#x67;&#x69;&#116;&#64;&#103;&#105;&#116;&#x68;&#x75;&#98;&#x2e;&#99;&#x6f;&#109;">&#x67;&#x69;&#116;&#64;&#103;&#105;&#116;&#x68;&#x75;&#98;&#x2e;&#99;&#x6f;&#109;</a>:Summyj/xxx.git：将本地git仓库与github远程库想关联,也可以是其它库，远程库默认名字是origin，也可以设为其它，比如github</p>
+<p>git remote add origin <a href="mailto:&#x67;&#105;&#x74;&#64;&#103;&#x69;&#116;&#104;&#117;&#x62;&#46;&#99;&#x6f;&#109;">&#x67;&#105;&#x74;&#64;&#103;&#x69;&#116;&#104;&#117;&#x62;&#46;&#99;&#x6f;&#109;</a>:Summyj/xxx.git：将本地git仓库与github远程库想关联,也可以是其它库，远程库默认名字是origin，也可以设为其它，比如github</p>
 <p>git push -u origin xxx:把本地仓库指定分支·内容推送到远程，下次推送可以不用-u参数<br>因为第一次推送master分支时如果加上-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，所以在以后的推送或者拉取时就可以简化命令。</p>
-<p>git clone <a href="mailto:&#x67;&#105;&#x74;&#64;&#x67;&#x69;&#x74;&#104;&#117;&#98;&#x2e;&#x63;&#111;&#109;">&#x67;&#105;&#x74;&#64;&#x67;&#x69;&#x74;&#104;&#117;&#98;&#x2e;&#x63;&#111;&#109;</a>:xxx/xxx.git:从远程仓库克隆到本地，后边是地址</p>
+<p>git clone <a href="mailto:&#103;&#105;&#116;&#64;&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#46;&#x63;&#111;&#109;">&#103;&#105;&#116;&#64;&#x67;&#x69;&#x74;&#104;&#x75;&#98;&#46;&#x63;&#111;&#109;</a>:xxx/xxx.git:从远程仓库克隆到本地，后边是地址</p>
 <p>git remotr rm origin:删除本地库关联的origin远程库</p>
 <h2 id="分支创建管理"><a href="#分支创建管理" class="headerlink" title="分支创建管理"></a>分支创建管理</h2><blockquote>
 <p>实现更安全便捷的版本控制。</p>
@@ -837,6 +813,30 @@
       <tags>
         <tag>Docker</tag>
         <tag>Jira</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/09/08/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hello World</tag>
       </tags>
   </entry>
   <entry>
@@ -1284,30 +1284,6 @@
       </tags>
   </entry>
   <entry>
-    <title>知乎关于我国高等教育的看法</title>
-    <url>/2021/09/27/the-systematic-failure-of-higher-education-in-china/</url>
-    <content><![CDATA[<p>和老同学聊到在学校的生活，突然想到之前在知乎看到的这篇帖子，转载记录一下</p>
-<p><a href="https://www.zhihu.com/people/517a82a684971b49348575efaa8f6fdd">@Youngster38324</a> 的回答透露出来了我国高等教育系统中的不少问题：</p>
-<ol>
-<li><strong>「进大学前唯分数和同质化教育」</strong>导致了太多人去大学后根本不知道自己要干嘛，很多人专业根本就不是自己选的更不要说知道自己有没有兴趣了，即便是很多高分考生也路径依赖地以为继续努力填鸭就能成功，没有意识到高考后的人生已经换赛道了。作为解决方案，可以引入类似美国 AP（Advanced Placement）的预科制度以及调整整个社会鼓励向自我发展看而不是向钱看的风气。</li>
-<li><strong>「进大学后专业制度没有容错性」</strong>，即便已经发现自己不喜欢被录取专业了也没有办法，因为转专业制度不完善（通常要求你先要在你已经不喜欢了的本专业内卷到班级前多少名）。在不少西方学校，专业可以 undecided（先上课再决定专业，比如经典的哈佛 CS50，你上下来感兴趣了再去选 CS）；学位本身只是某个学科下课程学分累计的自然结果，因此可以灵活的转专业与多学位；班级这种促进内卷的概念也被弱化，强调跟自己比关注个人的成长，学生自己控制上几年课，念几个学位，中间休学一下都没关系。</li>
-<li>前两步的结果就是导致大学为了毕业率把<strong>「评判标准搞成了平均主义」</strong>，为了能够每年顺利向社会输送一批（80% 将来都不会从事本专业）的人才，打分根据每年学生情况动态规划自适应，把大学搞成了「严进宽出」。其实大学教育更应该强调「宽进严出」，无论你底子如何，无论重修几次，你只要通过了某个（相对稳定的）客观标准就是合格，为了保证该制度的机械性运作，就要辅以严格的日常作业计分，对「作弊」零容忍（自动化判重，发现一次重修两次退学）。</li>
-<li>平均主义进一步导致<strong>「课程设置没有灵活性无法自定义」</strong>，老师不但要照顾及格率还有一颗圣母心希望那些对专业没什么兴趣的人能好歹学到点东西，同时又真心欣赏且想要给予好学的尖子生资源，最后即便绞尽脑汁了也还是只能弄出个在差生里下限高在尖子生里上限低的课程安排两面不当人 —— 尖子生觉得课程要求太低不能激发自己的潜力喂不饱（常见于私下要求加难度或者去无学分旁听），摸鱼的觉得老师影响了我的快乐学习（常见于课堂上一布置作业下面就叫苦连天）该挂还是挂或者 60 分万岁。在不少西方学校学生，课程表可以自行安排，一个课可以开多个班次照顾灵活性，学霸可以比别人多上任意节课，也可以跨专业选课或者减少课程增加实习或研究，而且难度自选只要你点过前置技能就行。</li>
-</ol>
-<p>有类似迟先生这样诉求的人很多，可是一个系统很难由系统内的个体改变，所以很多个体选择了做局部优化趋利避害陪玩成为既得利益者，或者全局优化更换自己所处的系统。</p>
-<p>只要所处系统里的大部分个体都已经默许了这个游戏规则，无论迟先生是「凡尔赛」还是「理想主义」，改变赛道规则就会被其他个体认为侵害到利益。小孩才分对错，成年人的屁股都是歪得，都是各取所需。</p>
-<blockquote>
-<p>作者：黄玄<br>链接：<a href="https://www.zhihu.com/question/439622084/answer/1685314467">https://www.zhihu.com/question/439622084/answer/1685314467</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Share</category>
-      </categories>
-      <tags>
-        <tag>Zhihu</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>VMware桥接模式连接失败</title>
     <url>/2021/10/27/vmware-bridge-ping-nowhere/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在学习<code>Linux</code>以及<code>Oracle</code>数据库，为出差<code>AMD</code>做准备。（未知）顺便顺点CPU回来😂</p>
@@ -1371,6 +1347,30 @@
       <tags>
         <tag>Linux</tag>
         <tag>VMware</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>知乎关于我国高等教育的看法</title>
+    <url>/2021/09/27/the-systematic-failure-of-higher-education-in-china/</url>
+    <content><![CDATA[<p>和老同学聊到在学校的生活，突然想到之前在知乎看到的这篇帖子，转载记录一下</p>
+<p><a href="https://www.zhihu.com/people/517a82a684971b49348575efaa8f6fdd">@Youngster38324</a> 的回答透露出来了我国高等教育系统中的不少问题：</p>
+<ol>
+<li><strong>「进大学前唯分数和同质化教育」</strong>导致了太多人去大学后根本不知道自己要干嘛，很多人专业根本就不是自己选的更不要说知道自己有没有兴趣了，即便是很多高分考生也路径依赖地以为继续努力填鸭就能成功，没有意识到高考后的人生已经换赛道了。作为解决方案，可以引入类似美国 AP（Advanced Placement）的预科制度以及调整整个社会鼓励向自我发展看而不是向钱看的风气。</li>
+<li><strong>「进大学后专业制度没有容错性」</strong>，即便已经发现自己不喜欢被录取专业了也没有办法，因为转专业制度不完善（通常要求你先要在你已经不喜欢了的本专业内卷到班级前多少名）。在不少西方学校，专业可以 undecided（先上课再决定专业，比如经典的哈佛 CS50，你上下来感兴趣了再去选 CS）；学位本身只是某个学科下课程学分累计的自然结果，因此可以灵活的转专业与多学位；班级这种促进内卷的概念也被弱化，强调跟自己比关注个人的成长，学生自己控制上几年课，念几个学位，中间休学一下都没关系。</li>
+<li>前两步的结果就是导致大学为了毕业率把<strong>「评判标准搞成了平均主义」</strong>，为了能够每年顺利向社会输送一批（80% 将来都不会从事本专业）的人才，打分根据每年学生情况动态规划自适应，把大学搞成了「严进宽出」。其实大学教育更应该强调「宽进严出」，无论你底子如何，无论重修几次，你只要通过了某个（相对稳定的）客观标准就是合格，为了保证该制度的机械性运作，就要辅以严格的日常作业计分，对「作弊」零容忍（自动化判重，发现一次重修两次退学）。</li>
+<li>平均主义进一步导致<strong>「课程设置没有灵活性无法自定义」</strong>，老师不但要照顾及格率还有一颗圣母心希望那些对专业没什么兴趣的人能好歹学到点东西，同时又真心欣赏且想要给予好学的尖子生资源，最后即便绞尽脑汁了也还是只能弄出个在差生里下限高在尖子生里上限低的课程安排两面不当人 —— 尖子生觉得课程要求太低不能激发自己的潜力喂不饱（常见于私下要求加难度或者去无学分旁听），摸鱼的觉得老师影响了我的快乐学习（常见于课堂上一布置作业下面就叫苦连天）该挂还是挂或者 60 分万岁。在不少西方学校学生，课程表可以自行安排，一个课可以开多个班次照顾灵活性，学霸可以比别人多上任意节课，也可以跨专业选课或者减少课程增加实习或研究，而且难度自选只要你点过前置技能就行。</li>
+</ol>
+<p>有类似迟先生这样诉求的人很多，可是一个系统很难由系统内的个体改变，所以很多个体选择了做局部优化趋利避害陪玩成为既得利益者，或者全局优化更换自己所处的系统。</p>
+<p>只要所处系统里的大部分个体都已经默许了这个游戏规则，无论迟先生是「凡尔赛」还是「理想主义」，改变赛道规则就会被其他个体认为侵害到利益。小孩才分对错，成年人的屁股都是歪得，都是各取所需。</p>
+<blockquote>
+<p>作者：黄玄<br>链接：<a href="https://www.zhihu.com/question/439622084/answer/1685314467">https://www.zhihu.com/question/439622084/answer/1685314467</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Share</category>
+      </categories>
+      <tags>
+        <tag>Zhihu</tag>
       </tags>
   </entry>
   <entry>
@@ -1738,6 +1738,361 @@
       </tags>
   </entry>
   <entry>
+    <title>Oracle11gR2 Rac集群搭建</title>
+    <url>/2022/01/04/oracle-11gR2-rac/</url>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><strong>Oracle RAC是什么?</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/20210612235829184.png" alt="img"></p>
+<ul>
+<li>Oracle Real Application Clusters (RAC) 允许客户跨多台服务器运行单个 Oracle 数据库，以最大限度地提高可用性并实现水平可扩展性，同时访问共享存储。</li>
+<li>连接到 Oracle RAC 实例的用户会话可以在中断期间进行故障转移并安全地重放更改，而无需对最终用户应用程序进行任何更改，从而对最终用户隐藏了中断的影响。</li>
+<li>Oracle RAC 运行于集群之上，为 Oracle 数据库提供了最高级别的可用性、可伸缩性和低成本计算能力。</li>
+<li>如果集群内的一个节点发生故障，Oracle 将可以继续在其余的节点上运行。</li>
+<li>Oracle 的主要创新是一项称为高速缓存合并的技术。</li>
+<li>高速缓存合并使得集群中的节点可以通过高速集群互联高效地同步其内存高速缓存，从而最大限度地低降低磁盘 I/O。</li>
+<li>高速缓存最重要的优势在于它能够使集群中所有节点的磁盘共享对所有数据的访问,数据无需在节点间进行分区。</li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>多台互连计算机组成，使用共享存储。</li>
+<li>用户无感知，对于最终用户和应用程序而言，它们似乎是一台服务器。</li>
+<li>高可用，只要有一个节点存活，就能正常对外提供服务，避免单点故障。</li>
+<li>高性能，多节点负载均衡。</li>
+<li>易伸缩，可以容易地添加、删除节点，以满足系统自身的调整。</li>
+</ul>
+<p><strong>如何部署RAC数据库环境？</strong></p>
+<p>大致步骤如下：</p>
+<ul>
+<li>安装两台redhat7.6版本Linux系统</li>
+<li>网络配置（双网卡，准备IP：Public IP，Virtual IP，Private IP，Scan IP）</li>
+<li>存储配置（6块5G共享盘做ASM盘，根目录留50G用于安装grid和oracle）</li>
+<li>预安装准备（系统参数/etc/sysctl.conf修改，防火墙selinux关闭，ntpd时钟定时同步，yum源配置安装<br>用户组及用户、目录新建，环境变量配置，用户资源限制/etc/security/limits.conf配置，/etc/pam.d/login修改pam_limits.so等等）</li>
+<li>安装Grid软件</li>
+<li>安装Oracle软件并建库</li>
+<li>修改数据库内存配置，密码不过期，开启归档，布置归档定时删除脚本，布置rman备份机制)</li>
+</ul>
+<p><img data-src="https://cdn.jonty.top/img/20210613001253755.png" alt="img"></p>
+<h3 id="安装前配置"><a href="#安装前配置" class="headerlink" title="安装前配置"></a>安装前配置</h3><p>本文主机配置为<code>RedHat 7.6 x86_64</code>、<code>内存8G</code>、<code>硬盘100G</code>、<code>双网卡</code>、<code>iscsi共享存储5G*6</code></p>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>主机版本</th>
+<th>主机名</th>
+<th>实例名</th>
+<th>Oracle版本</th>
+<th>Public IP</th>
+<th>Private IP</th>
+<th>Virtual IP</th>
+<th>Scan IP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>node1</td>
+<td>RedHat 7.6</td>
+<td>rac21</td>
+<td>orcl1</td>
+<td>11.2.0.4</td>
+<td>192.168.145.11</td>
+<td>10.10.10.11</td>
+<td>192.168.145.13</td>
+<td>192.168.145.15</td>
+</tr>
+<tr>
+<td>node2</td>
+<td>RedHat 7.6</td>
+<td>rac22</td>
+<td>orcl2</td>
+<td>11.2.0.4</td>
+<td>192.168.145.12</td>
+<td>10.10.10.12</td>
+<td>192.168.145.14</td>
+<td>192.168.145.15</td>
+</tr>
+</tbody></table>
+<h4 id="Linux系统安装"><a href="#Linux系统安装" class="headerlink" title="Linux系统安装"></a>Linux系统安装</h4><blockquote>
+<p>Linux系统安装不做详细演示，请参考 <a href="https://jonty.top/2021/10/27/vmware-install-linux/">https://jonty.top/2021/10/27/vmware-install-linux/</a></p>
+</blockquote>
+<h4 id="配置yum源并安装依赖包"><a href="#配置yum源并安装依赖包" class="headerlink" title="配置yum源并安装依赖包"></a>配置yum源并安装依赖包</h4><p>VMware Workstation挂载Linux镜像：</p>
+<p><strong>注意：</strong> 需要提前挂载系统镜像</p>
+<p>配置镜像源：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo &quot;export LANG=en_US&quot; &gt;&gt; ~/.bash_profile</span><br><span class="line"></span><br><span class="line">mount /dev/cdrom /mnt</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#配置yum源</span></span></span><br><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/yum.repos.d/local.repo</span><br><span class="line">[local]</span><br><span class="line">name=local</span><br><span class="line">baseurl=file:///mnt</span><br><span class="line">gpgcheck=0</span><br><span class="line">enabled=1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p>安装依赖包:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum groupinstall -y &quot;Server with GUI&quot;</span><br><span class="line">yum install -y bc \</span><br><span class="line">binutils \</span><br><span class="line">compat-libcap1 \</span><br><span class="line">compat-libstdc++-33 \</span><br><span class="line">gcc \</span><br><span class="line">gcc-c++ \</span><br><span class="line">elfutils-libelf \</span><br><span class="line">elfutils-libelf-devel \</span><br><span class="line">glibc \</span><br><span class="line">glibc-devel \</span><br><span class="line">ksh \</span><br><span class="line">libaio \</span><br><span class="line">libaio-devel \</span><br><span class="line">libgcc \</span><br><span class="line">libstdc++ \</span><br><span class="line">libstdc++-devel \</span><br><span class="line">libxcb \</span><br><span class="line">libX11 \</span><br><span class="line">libXau \</span><br><span class="line">libXi \</span><br><span class="line">libXtst \</span><br><span class="line">libXrender \</span><br><span class="line">libXrender-devel \</span><br><span class="line">make \</span><br><span class="line">net-tools \</span><br><span class="line">nfs-utils \</span><br><span class="line">smartmontools \</span><br><span class="line">sysstat \</span><br><span class="line">e2fsprogs \</span><br><span class="line">e2fsprogs-libs \</span><br><span class="line">fontconfig-devel \</span><br><span class="line">expect \</span><br><span class="line">unzip \</span><br><span class="line">openssh-clients \</span><br><span class="line">readline* \</span><br><span class="line">tigervnc* \</span><br><span class="line">psmisc --skip-broken</span><br></pre></td></tr></table></figure>
+
+<p>手动上传并安装：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rpm -ivh compat-libstdc++-33-3.2.3-72.el7.x86_64.rpm</span><br><span class="line">rpm -e ksh-20120801-139.el7.x86_64</span><br><span class="line">rpm -ivh pdksh-5.2.14-37.el5.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>检查安装情况：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rpm -q bc binutils compat-libcap1 compat-libstdc++-33 gcc gcc-c++ elfutils-libelf elfutils-libelf-devel glibc glibc-devel ksh libaio libaio-devel libgcc libstdc++ libstdc++-devel libxcb libX11 libXau libXi libXtst libXrender libXrender-devel make net-tools nfs-utils smartmontools sysstat e2fsprogs e2fsprogs-libs fontconfig-devel expect unzip openssh-clients readline | grep &quot;not installed&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h4><p><code>rac41</code>:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#配置Public IP</span></span></span><br><span class="line">nmcli connection modify ens33 ipv4.addresses 192.168.145.21/24 ipv4.gateway 192.168.145.2 ipv4.method manual autoconnect yes</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#配置Private IP</span></span></span><br><span class="line">nmcli connection modify ens34 ipv4.addresses 10.10.10.21/24 ipv4.method manual autoconnect yes</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#生效</span></span></span><br><span class="line">nmcli connection up ens33</span><br><span class="line">nmcli connection up ens34</span><br></pre></td></tr></table></figure>
+
+<p><code>rac42</code>:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#配置Public IP</span></span></span><br><span class="line">nmcli connection modify ens33 ipv4.addresses 192.168.145.22/24 ipv4.gateway 192.168.45.2 ipv4.method manual autoconnect yes</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#配置Private IP</span></span></span><br><span class="line">nmcli connection modify ens34 ipv4.addresses 10.10.10.22/24 ipv4.method manual autoconnect yes</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#生效</span></span></span><br><span class="line">nmcli connection up ens33</span><br><span class="line">nmcli connection up ens34</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211223161839494.png" alt="image-20211223161839494"></p>
+<h4 id="存储配置"><a href="#存储配置" class="headerlink" title="存储配置"></a>存储配置</h4><p>使用<code>ISCSI</code>配置共享存储：<a href="https://luciferliu.blog.csdn.net/article/details/118087577">https://luciferliu.blog.csdn.net/article/details/118087577</a></p>
+<p>配置好共享存储后，在 Linux 主机连接共享存储：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#iscsi识别共享存储</span></span></span><br><span class="line">yum install -y iscsi-initiator-utils*</span><br><span class="line"></span><br><span class="line">systemctl enable iscsi</span><br><span class="line">systemctl start iscsi</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#输出targetname，10.211.55.18为iscsi共享存储设备IP地址</span></span></span><br><span class="line">iscsiadm -m discovery -t st -p 192.168.145.1</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#连接共享存储</span></span></span><br><span class="line">iscsiadm -m node -T iqn.2008-08.com.starwindsoftware:192.168.1.21-jonty -p 192.168.145.1 -l</span><br><span class="line"></span><br><span class="line">lsblk</span><br></pre></td></tr></table></figure>
+
+<p>安装 <code>multipath</code> 绑定多路径：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install -y device-mapper*</span><br><span class="line">mpathconf --enable --with_multipathd y</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#查看共享盘的scsi_id</span></span></span><br><span class="line">/usr/lib/udev/scsi_id -g -u /dev/sdb</span><br><span class="line">/usr/lib/udev/scsi_id -g -u /dev/sdc</span><br><span class="line">/usr/lib/udev/scsi_id -g -u /dev/sdd</span><br><span class="line">/usr/lib/udev/scsi_id -g -u /dev/sde</span><br><span class="line">/usr/lib/udev/scsi_id -g -u /dev/sdf</span><br><span class="line">/usr/lib/udev/scsi_id -g -u /dev/sdg</span><br></pre></td></tr></table></figure>
+
+<p>配置 multipath 文件：</p>
+<p><strong>📢 注意：</strong> wwid的值为上面获取的scsi_id，alias可自定义，这里配置3块OCR盘，3块DATA盘！</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;/etc/multipath.conf</span><br><span class="line">defaults &#123;</span><br><span class="line">    user_friendly_names yes</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">blacklist &#123;</span><br><span class="line">  devnode &quot;^sda&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">multipaths &#123;</span><br><span class="line">  multipath &#123;</span><br><span class="line">  wwid &quot;2b4a04d8579625dfe&quot;</span><br><span class="line">  alias asm-ocr_1</span><br><span class="line">  &#125;</span><br><span class="line">  multipath &#123;</span><br><span class="line">  wwid &quot;24a84046e7f3723ee&quot;</span><br><span class="line">  alias asm-ocr_2</span><br><span class="line">  &#125;</span><br><span class="line">  multipath &#123;</span><br><span class="line">  wwid &quot;22e5355507973a019&quot;</span><br><span class="line">  alias asm-ocr_3</span><br><span class="line">  &#125;</span><br><span class="line">  multipath &#123;</span><br><span class="line">  wwid &quot;267309a91b23cad07&quot;</span><br><span class="line">  alias asm-data_1</span><br><span class="line">  &#125;</span><br><span class="line">  multipath &#123;</span><br><span class="line">  wwid &quot;2101958d6779faa9a&quot;</span><br><span class="line">  alias asm-data_2</span><br><span class="line">  &#125;</span><br><span class="line">  multipath &#123;</span><br><span class="line">  wwid &quot;205af7fc0a95ea04b&quot;</span><br><span class="line">  alias asm-data_3</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>激活multipath多路径：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">multipath -F</span><br><span class="line">multipath -v2</span><br><span class="line">multipath -ll</span><br></pre></td></tr></table></figure>
+
+<p>配置UDEV绑盘：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">for i in ocr_* data_*; do</span><br><span class="line">	printf &quot;%s %s\n&quot; &quot;$i&quot; &quot;$(udevadm info --query=all --name=/dev/mapper/&quot;$i&quot; | grep -i dm_uuid)&quot; &gt;&gt;/dev/mapper/udev_info</span><br><span class="line">done</span><br><span class="line">while read -r line; do</span><br><span class="line">	dm_uuid=$(echo &quot;$line&quot; | awk -F&#x27;=&#x27; &#x27;&#123;print $2&#125;&#x27;)</span><br><span class="line">	disk_name=$(echo &quot;$line&quot; | awk &#x27;&#123;print $1&#125;&#x27;)</span><br><span class="line">	echo &quot;KERNEL==\&quot;dm-*\&quot;,ENV&#123;DM_UUID&#125;==\&quot;$&#123;dm_uuid&#125;\&quot;,SYMLINK+=\&quot;asm_$&#123;disk_name&#125;\&quot;,OWNER=\&quot;grid\&quot;,GROUP=\&quot;asmadmin\&quot;,MODE=\&quot;0660\&quot;&quot; &gt;&gt;/etc/udev/rules.d/99-oracle-asmdevices.rules</span><br><span class="line">done &lt;/dev/mapper/udev_info</span><br><span class="line"></span><br><span class="line">asm-ocr_3	(253:2)</span><br><span class="line">asm-ocr_2	(253:1)</span><br><span class="line">asm-ocr_1	(253:0)</span><br><span class="line">asm-data_3	(253:5)</span><br><span class="line">asm-data_2	(253:4)</span><br><span class="line">asm-data_1	(253:3)</span><br><span class="line"></span><br><span class="line">for i in asm-ocr_1 asm-ocr_2 asm-ocr_3 asm-data_1 asm-data_2 asm-data_3;</span><br><span class="line">do</span><br><span class="line">printf &quot;%s %s\n&quot; &quot;$i&quot; &quot;$(udevadm info --query=all --name=/dev/mapper/$i |grep -i dm_uuid)&quot;;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">asm-ocr_1 E: DM_UUID=mpath-2b4a04d8579625dfe</span><br><span class="line">asm-ocr_2 E: DM_UUID=mpath-24a84046e7f3723ee</span><br><span class="line">asm-ocr_3 E: DM_UUID=mpath-22e5355507973a019</span><br><span class="line">asm-data_1 E: DM_UUID=mpath-267309a91b23cad07</span><br><span class="line">asm-data_2 E: DM_UUID=mpath-2101958d6779faa9a</span><br><span class="line">asm-data_3 E: DM_UUID=mpath-205af7fc0a95ea04b</span><br><span class="line"></span><br><span class="line">vi /etc/udev/rules.d/99-oracle-asmdevices.rules</span><br><span class="line"></span><br><span class="line">KERNEL==&quot;dm-*&quot;,ENV&#123;DM_UUID&#125;==&quot;mpath-2b4a04d8579625dfe&quot;,OWNER=&quot;grid&quot;,GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;dm-*&quot;,ENV&#123;DM_UUID&#125;==&quot;mpath-24a84046e7f3723ee&quot;,OWNER=&quot;grid&quot;,GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;dm-*&quot;,ENV&#123;DM_UUID&#125;==&quot;mpath-22e5355507973a019&quot;,OWNER=&quot;grid&quot;,GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;dm-*&quot;,ENV&#123;DM_UUID&#125;==&quot;mpath-267309a91b23cad07&quot;,OWNER=&quot;grid&quot;,GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;dm-*&quot;,ENV&#123;DM_UUID&#125;==&quot;mpath-2101958d6779faa9a&quot;,OWNER=&quot;grid&quot;,GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;dm-*&quot;,ENV&#123;DM_UUID&#125;==&quot;mpath-205af7fc0a95ea04b&quot;,OWNER=&quot;grid&quot;,GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#重载udev</span></span></span><br><span class="line">udevadm control --reload-rules</span><br><span class="line">udevadm trigger --type=devices</span><br><span class="line"></span><br><span class="line">ls -lsa /dev/dm*</span><br><span class="line">ls -lsa /dev/mapper/*</span><br></pre></td></tr></table></figure>
+
+<p>确认配置完成后，分别在两个节点输入命令 <code>ls /dev/dm*</code> 查看是否已经成功绑定。</p>
+<h4 id="hosts文件配置"><a href="#hosts文件配置" class="headerlink" title="hosts文件配置"></a>hosts文件配置</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/hosts</span><br><span class="line"><span class="meta">#</span><span class="bash">Public IP</span></span><br><span class="line">192.168.145.21 rac21</span><br><span class="line">192.168.145.22 rac22</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">Private IP</span></span><br><span class="line">10.10.10.21 rac21-priv</span><br><span class="line">10.10.10.22 rac22-priv</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">Vip IP</span></span><br><span class="line">192.168.145.22 rac21-vip</span><br><span class="line">192.168.145.23 rac22-vip</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">Scan IP</span></span><br><span class="line">192.168.145.25 rac-scan</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="防火墙配置"><a href="#防火墙配置" class="headerlink" title="防火墙配置"></a>防火墙配置</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld.service</span><br><span class="line">systemctl disable firewalld.service ## 禁用防火墙</span><br><span class="line">systemctl status firewalld.service</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="selinux-配置"><a href="#selinux-配置" class="headerlink" title="selinux 配置"></a>selinux 配置</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#重启后生效</span></span></span><br><span class="line">sed -i &#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27; /etc/selinux/config</span><br><span class="line">setenforce 0</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#重启后检查</span></span></span><br><span class="line">getenforce</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意: selinux 配置需要重启生效！</p>
+</blockquote>
+<h4 id="时间同步配置"><a href="#时间同步配置" class="headerlink" title="时间同步配置"></a>时间同步配置</h4><p>首先需要禁用 chronyd 和 ntpd 服务：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#禁用chronyd</span></span></span><br><span class="line">yum install -y chrony</span><br><span class="line">timedatectl set-timezone Asia/Shanghai</span><br><span class="line">systemctl stop chronyd.service</span><br><span class="line">systemctl disable chronyd.service</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#禁用ntpd</span></span></span><br><span class="line">yum install -y ntpdate</span><br></pre></td></tr></table></figure>
+
+<p>配置计划任务，定时刷新系统时间</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/var/spool/cron/root</span><br><span class="line">00 12 * * * /usr/sbin/ntpdate -u ntp.ntsc.ac.cn &amp;&amp; /usr/sbin/hwclock -w</span><br><span class="line">EOF</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#查看计划任务</span></span></span><br><span class="line">crontab -l</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#手动执行</span></span></span><br><span class="line">/usr/sbin/ntpdate -u 10.211.55.200 &amp;&amp; /usr/sbin/hwclock -w</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="关闭透明大页和-NUMA"><a href="#关闭透明大页和-NUMA" class="headerlink" title="关闭透明大页和 NUMA"></a>关闭透明大页和 NUMA</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/quiet/quiet transparent_hugepage=never numa=off/&#x27; /etc/default/grub</span><br><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#重启后检查是否生效</span></span></span><br><span class="line">cat /sys/kernel/mm/transparent_hugepage/enabled</span><br><span class="line">cat /proc/cmdline</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 注意： 关闭 <code>透明大页</code> 和 <code>numa</code> 的配置，需要重启主机生效</p>
+</blockquote>
+<h4 id="avahi-daemon-配置"><a href="#avahi-daemon-配置" class="headerlink" title="avahi-daemon 配置"></a>avahi-daemon 配置</h4><p>有些主机安装选择最小化安装，没有安装 avahi-daemon 功能，建议安装之后禁用，防止以后误操作导致出问题：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install -y avahi*</span><br><span class="line">systemctl stop avahi-daemon.socket</span><br><span class="line">systemctl stop avahi-daemon.service</span><br><span class="line">pgrep -f avahi-daemon | awk &#x27;&#123;print &quot;kill -9 &quot;$2&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>配置 NOZEROCONF：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/sysconfig/network</span><br><span class="line">NOZEROCONF=yes</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="系统参数配置"><a href="#系统参数配置" class="headerlink" title="系统参数配置"></a>系统参数配置</h4><p>安装 Oracle 数据库需要配置系统参数</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#配置参数文件</span></span></span><br><span class="line">memTotal=$(grep MemTotal /proc/meminfo | awk &#x27;&#123;print $2&#125;&#x27;)</span><br><span class="line">totalMemory=$((memTotal / 2048))</span><br><span class="line">shmall=$((memTotal / 4))</span><br><span class="line">if [ $shmall -lt 2097152 ]; then</span><br><span class="line">	shmall=2097152</span><br><span class="line">fi</span><br><span class="line">shmmax=$((memTotal * 1024 - 1))</span><br><span class="line">if [ &quot;$shmmax&quot; -lt 4294967295 ]; then</span><br><span class="line">	shmmax=4294967295</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/sysctl.conf</span><br><span class="line">fs.aio-max-nr = 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall = $shmall</span><br><span class="line">kernel.shmmax = $shmmax</span><br><span class="line">kernel.shmmni = 4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048576</span><br><span class="line">net.ipv4.conf.ens33.rp_filter = 1</span><br><span class="line">net.ipv4.conf.ens34.rp_filter = 2</span><br><span class="line">EOF</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#生效</span></span></span><br><span class="line">sysctl -p</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="系统资源限制"><a href="#系统资源限制" class="headerlink" title="系统资源限制"></a>系统资源限制</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#配置limits.conf</span></span></span><br><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/security/limits.conf</span><br><span class="line">oracle soft nofile 1024</span><br><span class="line">oracle hard nofile 65536</span><br><span class="line">oracle soft stack 10240</span><br><span class="line">oracle hard stack 32768</span><br><span class="line">oracle soft nproc 2047</span><br><span class="line">oracle hard nproc 16384</span><br><span class="line">oracle hard memlock 134217728</span><br><span class="line">oracle soft memlock 134217728</span><br><span class="line"></span><br><span class="line">grid soft nofile 1024</span><br><span class="line">grid hard nofile 65536</span><br><span class="line">grid soft stack 10240</span><br><span class="line">grid hard stack 32768</span><br><span class="line">grid soft nproc 2047</span><br><span class="line">grid hard nproc 16384</span><br><span class="line">EOF</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#配置pam.d/login</span></span></span><br><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/pam.d/login</span><br><span class="line">session required pam_limits.so </span><br><span class="line">session required /lib64/security/pam_limits.so</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="用户及组、目录创建"><a href="#用户及组、目录创建" class="headerlink" title="用户及组、目录创建"></a>用户及组、目录创建</h4><p>创建安装 Oracle 数据库所需的用户、组以及安装目录：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#组创建</span></span></span><br><span class="line">/usr/sbin/groupadd -g 54321 oinstall</span><br><span class="line">/usr/sbin/groupadd -g 54322 dba</span><br><span class="line">/usr/sbin/groupadd -g 54323 oper</span><br><span class="line">/usr/sbin/groupadd -g 54324 backupdba</span><br><span class="line">/usr/sbin/groupadd -g 54325 dgdba</span><br><span class="line">/usr/sbin/groupadd -g 54326 kmdba</span><br><span class="line">/usr/sbin/groupadd -g 54327 asmdba</span><br><span class="line">/usr/sbin/groupadd -g 54328 asmoper</span><br><span class="line">/usr/sbin/groupadd -g 54329 asmadmin</span><br><span class="line">/usr/sbin/groupadd -g 54330 racdba</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#用户创建</span></span></span><br><span class="line">/usr/sbin/useradd -u 11012 -g oinstall -G asmadmin,asmdba,asmoper,dba,racdba,oper grid</span><br><span class="line">/usr/sbin/useradd -u 54321 -g oinstall -G asmdba,dba,backupdba,dgdba,kmdba,racdba,oper oracle</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#修改用户密码为oracle</span></span></span><br><span class="line">echo &quot;oracle&quot; |passwd oracle --stdin</span><br><span class="line">echo &quot;oracle&quot; |passwd grid --stdin</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#创建软件目录</span></span></span><br><span class="line">mkdir -p /u01/app/11.2.0/grid</span><br><span class="line">mkdir -p /u01/app/grid</span><br><span class="line">mkdir -p /u01/app/oracle/product/11.2.0/db</span><br><span class="line">mkdir -p /u01/app/oraInventory</span><br><span class="line">mkdir -p /backup</span><br><span class="line">mkdir -p /home/oracle/scripts</span><br><span class="line">chown -R oracle:oinstall /backup</span><br><span class="line">chown -R oracle:oinstall /home/oracle/scripts</span><br><span class="line">chown -R grid:oinstall /u01</span><br><span class="line">chown -R grid:oinstall /u01/app/grid</span><br><span class="line">chown -R grid:oinstall /u01/app/11.2.0/grid</span><br><span class="line">chown -R grid:oinstall /u01/app/oraInventory</span><br><span class="line">chown -R oracle:oinstall /u01/app/oracle</span><br><span class="line">chmod -R 775 /u01</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="环境变量配置"><a href="#环境变量配置" class="headerlink" title="环境变量配置"></a>环境变量配置</h4><h5 id="node1"><a href="#node1" class="headerlink" title="node1"></a>node1</h5><p><strong>grid 用户：</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/home/grid/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleBegin#########################</span></span></span><br><span class="line">umask 022</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export TMPDIR=\$TMP</span><br><span class="line">export NLS_LANG=AMERICAN_AMERICA.AL32UTF8</span><br><span class="line">export ORACLE_BASE=/u01/app/grid</span><br><span class="line">export ORACLE_HOME=/u01/app/11.2.0/grid</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export TNS_ADMIN=\$ORACLE_HOME/network/admin</span><br><span class="line">export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib</span><br><span class="line">export ORACLE_SID=+ASM1</span><br><span class="line">export PATH=/usr/sbin:\$PATH</span><br><span class="line">export PATH=\$ORACLE_HOME/bin:\$ORACLE_HOME/OPatch:\$PATH</span><br><span class="line">alias sas=&#x27;sqlplus / as sysasm&#x27;</span><br><span class="line">export PS1=&quot;[\`whoami\`@\`hostname\`:&quot;&#x27;\$PWD]\$ &#x27;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p><strong>oracle 用户：</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/home/oracle/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleBegin#########################</span></span></span><br><span class="line">umask 022</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export TMPDIR=\$TMP</span><br><span class="line">export NLS_LANG=AMERICAN_AMERICA.AL32UTF8</span><br><span class="line">export ORACLE_BASE=/u01/app/oracle</span><br><span class="line">export ORACLE_HOME=\$ORACLE_BASE/product/11.2.0/db</span><br><span class="line">export ORACLE_HOSTNAME=rac11</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export TNS_ADMIN=\$ORACLE_HOME/network/admin</span><br><span class="line">export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib</span><br><span class="line">export ORACLE_SID=orcl1</span><br><span class="line">export PATH=/usr/sbin:\$PATH</span><br><span class="line">export PATH=\$ORACLE_HOME/bin:\$ORACLE_HOME/OPatch:\$PATH</span><br><span class="line">alias sas=&#x27;sqlplus / as sysdba&#x27;</span><br><span class="line">export PS1=&quot;[\`whoami\`@\`hostname\`:&quot;&#x27;\$PWD]\$ &#x27;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleEnd#########################</span></span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h5 id="node2"><a href="#node2" class="headerlink" title="node2"></a>node2</h5><p><strong>grid 用户</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/home/grid/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleBegin#########################</span></span></span><br><span class="line">umask 022</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export TMPDIR=\$TMP</span><br><span class="line">export NLS_LANG=AMERICAN_AMERICA.AL32UTF8</span><br><span class="line">export ORACLE_BASE=/u01/app/grid</span><br><span class="line">export ORACLE_HOME=/u01/app/11.2.0/grid</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export TNS_ADMIN=\$ORACLE_HOME/network/admin</span><br><span class="line">export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib</span><br><span class="line">export ORACLE_SID=+ASM2</span><br><span class="line">export PATH=/usr/sbin:\$PATH</span><br><span class="line">export PATH=\$ORACLE_HOME/bin:\$ORACLE_HOME/OPatch:\$PATH</span><br><span class="line">alias sas=&#x27;sqlplus / as sysasm&#x27;</span><br><span class="line">export PS1=&quot;[\`whoami\`@\`hostname\`:&quot;&#x27;\$PWD]\$ &#x27;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p><strong>oracle 用户：</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/home/oracle/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleBegin#########################</span></span></span><br><span class="line">umask 022</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export TMPDIR=\$TMP</span><br><span class="line">export NLS_LANG=AMERICAN_AMERICA.AL32UTF8</span><br><span class="line">export ORACLE_BASE=/u01/app/oracle</span><br><span class="line">export ORACLE_HOME=\$ORACLE_BASE/product/11.2.0/db</span><br><span class="line">export ORACLE_HOSTNAME=rac12</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export TNS_ADMIN=\$ORACLE_HOME/network/admin</span><br><span class="line">export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib</span><br><span class="line">export ORACLE_SID=orcl2</span><br><span class="line">export PATH=/usr/sbin:\$PATH</span><br><span class="line">export PATH=\$ORACLE_HOME/bin:\$ORACLE_HOME/OPatch:\$PATH</span><br><span class="line">alias sas=&#x27;sqlplus / as sysdba&#x27;</span><br><span class="line">export PS1=&quot;[\`whoami\`@\`hostname\`:&quot;&#x27;\$PWD]\$ &#x27;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleEnd#########################</span></span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装介质上传解压"><a href="#安装介质上传解压" class="headerlink" title="安装介质上传解压"></a>安装介质上传解压</h4><p>只需要上传至一节点 /soft 目录下:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#创建安装介质存放目录</span></span></span><br><span class="line">mkdir /soft</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#上传安装介质到/soft目录</span></span></span><br><span class="line">p13390677_112040_Linux-x86-64_1of7.zip</span><br><span class="line">p13390677_112040_Linux-x86-64_2of7.zip</span><br><span class="line">p13390677_112040_Linux-x86-64_3of7.zip</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#解压安装介质</span></span></span><br><span class="line">cd /soft</span><br><span class="line">unzip -q p13390677_112040_Linux-x86-64_1of7.zip</span><br><span class="line">unzip -q p13390677_112040_Linux-x86-64_2of7.zip</span><br><span class="line">unzip -q p13390677_112040_Linux-x86-64_3of7.zip</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#授权目录</span></span></span><br><span class="line">chown -R oracle:oinstall /soft/database</span><br><span class="line">chown -R grid:oinstall /soft/grid</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#root用户下，cvuqdisk安装（rac01&amp;rac02）</span></span></span><br><span class="line">cd /soft/grid/rpm</span><br><span class="line">rpm -ivh cvuqdisk-1.0.9-1.rpm </span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#传输到节点二安装</span></span></span><br><span class="line">scp cvuqdisk-1.0.9-1.rpm rac12:/tmp</span><br><span class="line">rpm -ivh /tmp/cvuqdisk-1.0.9-1.rpm </span><br></pre></td></tr></table></figure>
+
+<h3 id="安装Grid软件"><a href="#安装Grid软件" class="headerlink" title="安装Grid软件"></a>安装Grid软件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 安装vncserver</span></span></span><br><span class="line">yum install -y tigervnc*</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#root用户下切换到grid用户</span></span></span><br><span class="line">su - grid</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#执行vncserver，按提示输入密码即可</span></span></span><br><span class="line">vncserver</span><br></pre></td></tr></table></figure>
+
+<p>开始安装：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#应用环境变量</span></span></span><br><span class="line">source ~/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#进入安装目录</span></span></span><br><span class="line">cd /soft/grid</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#执行安装程序开始安装，加上jar包防止弹窗不显示问题</span></span></span><br><span class="line">./runInstaller -jreLoc /etc/alternatives/jre_1.8.0</span><br></pre></td></tr></table></figure>
+
+
+
+<p>跳过软件更新：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104095907830.png" alt="image-20220104095907830"></p>
+<p>选择集群模式安装：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104100037758.png" alt="image-20220104100037758"></p>
+<p>自定义安装：<img data-src="https://cdn.jonty.top/img/image-20220104100119417.png" alt="image-20220104100119417"></p>
+<p> 配置集群名称和<code>scan</code>名称</p>
+<blockquote>
+<p>需要和hosts配置一致</p>
+</blockquote>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104100325637.png" alt="image-20220104100325637"></p>
+<p> 配置节点互信：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104100434776.png" alt="image-20220104100434776"></p>
+<blockquote>
+<p>点击Add添加rac12节点，然后点击setup配置互信</p>
+</blockquote>
+<p>点击Test测试互信：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104100607278.png" alt="image-20220104100607278"></p>
+<p>确认网络信息是否正确</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104100645594.png" alt="image-20220104100645594"></p>
+<p>选择<strong>ASM</strong>模式安装</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104100727480.png" alt="image-20220104100727480"></p>
+<p>配置<strong>OCR</strong>裁决盘信息：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104100848491.png" alt="image-20220104100848491"></p>
+<blockquote>
+<p>OCR裁决盘冗余模式External,Normal,High对应磁盘数量为1，3，5</p>
+</blockquote>
+<p>配置ASM实例SYS密码：oracle</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104100905957.png" alt="image-20220104100905957"></p>
+<p>不使用IPMI</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104101122176.png" alt="image-20220104101122176"></p>
+<p>选择用户组，默认：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104101150351.png" alt="image-20220104101150351"></p>
+<p>选择安装目录，默认：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104101220287.png" alt="image-20220104101220287"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104101249813.png" alt="image-20220104101249813"></p>
+<p>安装前检查：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104101424877.png" alt="image-20220104101424877"></p>
+<p>开始执行安装：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104102648525.png" alt="image-20220104102648525"></p>
+<blockquote>
+<p>注意：执行root.sh之前需要安装<code>18370031</code>补丁</p>
+</blockquote>
+<p><code>rac11</code>&amp;<code>rac12</code>均需要执行：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#上传补丁包</span></span></span><br><span class="line">p18370031_112040_Linux-x86-64.zip</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#解压补丁包</span></span></span><br><span class="line">cd /soft</span><br><span class="line">unzip -q p18370031_112040_Linux-x86-64.zip</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#授权补丁包</span></span></span><br><span class="line">chown -R grid:oinstall /soft/18370031</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#开始安装补丁，两个节点都需要执行</span></span></span><br><span class="line">su - grid</span><br><span class="line">opatch napply -oh $ORACLE_HOME -local /soft/18370031 -silent</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220104103121399.png" alt="image-20220104103121399"></p>
+<p>打好补丁后，开始执行<code>root.sh</code>脚本</p>
+<p>先在节点1执行，执行成功后节点2加入群集</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#root用户下执行</span></span></span><br><span class="line">/u01/app/oraInventory/orainstRoot.sh</span><br><span class="line">/u01/app/11.2.0/grid/root.sh</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220104104406468.png" alt="image-20220104104406468"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104105124755.png" alt="image-20220104105124755"></p>
+<p>点击OK,继续安装</p>
+<p>没有配置<code>DNS</code>解析，报错可忽略</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104105427461.png" alt="image-20220104105427461"><code>GRID</code>安装成功：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104105542972.png" alt="image-20220104105542972"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104105649608.png" alt="image-20220104105649608"></p>
+<p>osh:</p>
+<p><strong>注意：</strong> 如果需要安装 <code>PSU</code> 补丁，建议在建库之前安装，可以省去数据字典升级的步骤</p>
+<p>以 Grid PSU 补丁 <code>31718723</code> 为例，使用 <code>root</code> 用户执行补丁安装命令：（rac11&amp;rac12）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#解压补丁包</span></span></span><br><span class="line">cd /soft</span><br><span class="line">unzip -q p31718723_112040_Linux-x86-64.zip</span><br><span class="line"></span><br><span class="line">mv Opatch OPatch_old # 备份</span><br><span class="line">cp -r /soft/Opatch . # 复制</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#切换到root用户执行，需要拷贝到2节点也执行一次</span></span></span><br><span class="line">opatch auto /soft/31718723 -oh $GRID_ORACLE_HOME</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建ASM数据盘DATA"><a href="#创建ASM数据盘DATA" class="headerlink" title="创建ASM数据盘DATA"></a>创建ASM数据盘DATA</h3><p> DATA 磁盘组主要用于存放数据文件、日志文件等数据库文件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">asmca</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220104112335347.png" alt="image-20220104112335347"></p>
+<p>点击<strong>create</strong>创建DATA</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104112423523.png" alt="image-20220104112423523"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104112429678.png" alt="image-20220104112429678"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104112509247.png" alt="image-20220104112509247"></p>
+<p>重启，检查群集状态</p>
+<h3 id="安装Oracle软件"><a href="#安装Oracle软件" class="headerlink" title="安装Oracle软件"></a>安装Oracle软件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">vncserver</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#应用环境变量</span></span></span><br><span class="line">source ~/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#进入安装目录</span></span></span><br><span class="line">cd /soft/database</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#执行安装程序开始安装，加上jar包防止弹窗不显示问题</span></span></span><br><span class="line">./runInstaller -jreLoc /etc/alternatives/jre_1.8.0</span><br></pre></td></tr></table></figure>
+
+<p>不配置邮件发送：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104122206066.png" alt="image-20220104122206066"></p>
+<p>跳过软件更新</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104122247144.png" alt="image-20220104122247144"></p>
+<p>选择仅安装Oracle软件：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104122305882.png" alt="image-20220104122305882"></p>
+<p>配置Oracle用户互信：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104122407750.png" alt="image-20220104122407750"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104122359451.png" alt="image-20220104122359451"></p>
+<p>选择企业版安装：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104130823682.png"></p>
+<p>安装位置，默认即可：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104130927245.png" alt="image-20220104130927245"></p>
+<p>用户组，默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104130945700.png" alt="image-20220104130945700"></p>
+<p>安装前检查：</p>
+<p>忽略</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104131057647.png" alt="image-20220104131057647"></p>
+<p>开始安装：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104131128124.png" alt="image-20220104131128124"></p>
+<p>安装过程报错：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104132002754.png" alt="image-20220104132002754"></p>
+<blockquote>
+<p><strong>注意：</strong> Linux7 安装 Oracle 11GR2 版本，oracle 软件安装过程中报错：<code>ins_emagent.mk</code>，需要修改文件 <code>/sysman/lib/ins_emagent.mk</code> 修复</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[oracle@rac11:/home/oracle]$ sed -i &#x27;s/^\(\s*\$(MK_EMAGENT_NMECTL)\)\s*$/\1 -lnnz11/g&#x27; $ORACLE_HOME/sysman/lib/ins_emagent.mk</span><br></pre></td></tr></table></figure>
+
+<p>执行<code>root.sh</code>脚本</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/u01/app/oracle/product/11.2.0/db/root.sh</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220104133753429.png" alt="image-20220104133753429"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104134046080.png" alt="image-20220104134046080"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104133928204.png" alt="image-20220104133928204"></p>
+<h3 id="创建数据库实例"><a href="#创建数据库实例" class="headerlink" title="创建数据库实例"></a>创建数据库实例</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dbca</span><br></pre></td></tr></table></figure>
+
+<p>选择rac模式</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104142637632.png" alt="image-20220104142637632"></p>
+<p>创建数据库</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104142655532.png" alt="image-20220104142655532"></p>
+<p>选择自定义</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104142722154.png" alt="image-20220104142722154"></p>
+<p>填写实例ID:</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104142759183.png" alt="image-20220104142759183"></p>
+<p>EM：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104142834540.png" alt="image-20220104142834540"></p>
+<p>填写SYS密码：P@ssw0rd</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104142927756.png" alt="image-20220104142927756"></p>
+<p>选择数据存放盘：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104142945676.png" alt="image-20220104142945676"></p>
+<p>暂不开启闪回，建库后可随时开启：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104143018740.png" alt="image-20220104143018740"></p>
+<p>选择自定义组件，默认：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104143037219.png" alt="image-20220104143037219"></p>
+<p>配置初始化参数：</p>
+<p>内存：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">SGA &lt;= memory * 0.8 * 0.8</span><br><span class="line">PGA &lt;= memory * 0.8 * 0.2  (40% ~ 60%)</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220104143129101.png" alt="image-20220104143129101"></p>
+<p>进程数：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211230105346341.png"></p>
+<p>字符集：根据实际需求设置</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104143306605.png" alt="image-20220104143306605"></p>
+<p><strong>存储配置</strong></p>
+<p>控制文件：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211230110158202.png" alt="image-20211230110158202"></p>
+<p>表空间设置：</p>
+<blockquote>
+<p>每个数据文件设置为20G  USERS:5G </p>
+<p>自动扩展关闭</p>
+</blockquote>
+<p><img data-src="https://cdn.jonty.top/img/image-20211230110652517.png" alt="image-20211230110652517"></p>
+<p>重做日志文件：</p>
+<blockquote>
+<p>2组 10个  每个2G  (演示为200M)</p>
+</blockquote>
+<p><img data-src="https://cdn.jonty.top/img/image-20211230111057915.png" alt="image-20211230111057915"></p>
+<p><strong>创建选项</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104143603934.png" alt="image-20220104143603934"></p>
+<p>开始创建：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104143813380.png" alt="image-20220104143813380"></p>
+<p>创建成功：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220104151937257.png" alt="image-20220104151937257"></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">select instance_number,instance_name,startup_time,status from gv<span class="variable">$Instance</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220104154654400.png" alt="image-20220104154654400"></p>
+]]></content>
+      <categories>
+        <category>Oracle</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>RedHat安装Oracle数据库</title>
     <url>/2021/11/09/rhel-install-oracle-11g-r2/</url>
     <content><![CDATA[<p>📢：本文为实操记录，练习环境为RHEL7.6(本地虚拟机)，腾讯云Centos7.6实操安装成功。不正之处望指出。</p>
@@ -1965,8 +2320,8 @@
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>RedHat</tag>
         <tag>Oracle</tag>
+        <tag>RedHat</tag>
       </tags>
   </entry>
   <entry>

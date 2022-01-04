@@ -31,7 +31,7 @@
 <meta property="og:description" content="朝闻道，夕可眠矣">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Jonty">
-<meta property="article:tag" content=".NET C# NETCore ABP ABP vNext MES MedPro 王心怡 房东的猫 宋娜英 Developer China 上海 ShangHai Docker">
+<meta property="article:tag" content=".NET,C#,.NET Core,ABP,ABP vNext,MES, Oracle,DBA,Oracle Rac,SQL Server, Always On, 王心怡, 房东的猫, 宋娜英, Developer, China, 上海, ShangHai, Docker,">
 <meta name="twitter:card" content="summary">
 
 
@@ -162,7 +162,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -200,10 +200,10 @@
     </div>
     <ul class="links-of-blogroll-list">
         <li class="links-of-blogroll-item">
-          <a href="https://issues.wiki/" title="https:&#x2F;&#x2F;issues.wiki&#x2F;" rel="noopener" target="_blank">issues</a>
+          <a href="https://jontymin.github.io/" title="https:&#x2F;&#x2F;jontymin.github.io&#x2F;" rel="noopener" target="_blank">github</a>
         </li>
         <li class="links-of-blogroll-item">
-          <a href="https://my_netinlove.gitee.io/" title="https:&#x2F;&#x2F;my_netinlove.gitee.io&#x2F;" rel="noopener" target="_blank">GiteePage</a>
+          <a href="https://my_netinlove.gitee.io/" title="https:&#x2F;&#x2F;my_netinlove.gitee.io&#x2F;" rel="noopener" target="_blank">gitee-</a>
         </li>
         <li class="links-of-blogroll-item">
           <a href="https://space.bilibili.com/179850046" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;179850046" rel="noopener" target="_blank">bilibili</a>
@@ -212,7 +212,7 @@
           <a href="https://www.cnblogs.com/JontyWang/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JontyWang&#x2F;" rel="noopener" target="_blank">我的园子</a>
         </li>
         <li class="links-of-blogroll-item">
-          <a href="https://www.52abp.com/" title="https:&#x2F;&#x2F;www.52abp.com&#x2F;" rel="noopener" target="_blank">52ABP</a>
+          <a href="https://www.52abp.com/" title="https:&#x2F;&#x2F;www.52abp.com&#x2F;" rel="noopener" target="_blank">52abp</a>
         </li>
         <li class="links-of-blogroll-item">
           <a href="https://ldqk.xyz/" title="https:&#x2F;&#x2F;ldqk.xyz&#x2F;" rel="noopener" target="_blank">懒得勤快</a>
@@ -256,6 +256,102 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://jonty.top/2022/01/04/oracle-11gR2-rac/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="Jonty">
+      <meta itemprop="description" content="朝闻道，夕可眠矣">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jonty's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/04/oracle-11gR2-rac/" class="post-title-link" itemprop="url">Oracle11gR2 Rac集群搭建</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-01-04 21:27:43 / 修改时间：21:46:20" itemprop="dateCreated datePublished" datetime="2022-01-04T21:27:43+08:00">2022-01-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Oracle/" itemprop="url" rel="index"><span itemprop="name">Oracle</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>16k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>15 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Oracle11gR2 Rac集群搭建步骤记录</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/04/oracle-11gR2-rac/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -647,102 +743,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://jonty.top/2021/11/29/about-leap-year/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/header.jpg">
-      <meta itemprop="name" content="Jonty">
-      <meta itemprop="description" content="朝闻道，夕可眠矣">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jonty's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/11/29/about-leap-year/" class="post-title-link" itemprop="url">关于闰年那些事</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2021-11-29 21:53:14 / 修改时间：22:05:00" itemprop="dateCreated datePublished" datetime="2021-11-29T21:53:14+08:00">2021-11-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Share/" itemprop="url" rel="index"><span itemprop="name">Share</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.2k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>为什么“四年一闰，百年不闰，四百年再闰”？</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/11/29/about-leap-year/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
@@ -755,8 +755,8 @@
 
 
 <div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -767,13 +767,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">71k</span>
+    <span title="站点总字数">86k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:04</span>
+    <span title="站点阅读时长">1:19</span>
   </span>
 </div>
 <div class="busuanzi-count">
