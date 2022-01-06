@@ -119,6 +119,85 @@
   </entry>
   <entry>
     <title>温故而知新-C#泛型</title>
+    <url>/2021/10/04/csharp-generic-review-01/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在开发中，经常会遇到功能相同的模块，但是参数类型不同，这时候只能分别写不同的方法处理不同的数据类型。那么有没有一种办法，只用同一个方法来处理不同类型参数的方法</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowTypeName</span>(<span class="params"><span class="built_in">int</span> i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(i.GetType().Name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowTypeName</span>(<span class="params"><span class="built_in">string</span> i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(i.GetType().Name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowTypeName</span>(<span class="params">DateTime i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(i.GetType().Name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面几个方法分别获取<code>int、string、DateTime</code>类型的名称，可以看到对应写了三种类型的<code>重载</code>方法。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// int</span></span><br><span class="line">CommonMethod.ShowTypeName(<span class="number">1</span>);</span><br><span class="line"><span class="comment">// string</span></span><br><span class="line">CommonMethod.ShowTypeName(<span class="string">&quot;1&quot;</span>);</span><br><span class="line"><span class="comment">// datetime</span></span><br><span class="line">CommonMethod.ShowTypeName(DateTime.Now);</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211004162840338.png"></p>
+<p>这个时候我们就会想<strong>面向对象的继承</strong>，我们知道在<code>C#</code>语言中，所有的类型都继承自基类<code>object</code></p>
+<p>优化：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowObjectName</span>(<span class="params"><span class="built_in">object</span> i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(i.GetType().Name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211004163223821.png" alt="image-20211004163223821"></p>
+<p>可以看到，使用<code>object</code>类型作为参数传入达到了我们预期的效果，解决了代码的<strong>复用性</strong>。</p>
+<p>但是这里又会引发另一个问题：装箱和拆箱带来的性能损耗问题。</p>
+<blockquote>
+<p>装箱和拆箱：在把值类型转换为引用类型或把引用类型转换成值类型时，需要进行装箱和拆箱的操作。</p>
+<p>值类型存储在栈上，引用类型存储在堆上。</p>
+<p>值类型  ==&gt; 引用类型  装箱    隐式转换(自动转换)  </p>
+<p>引用类型 ==&gt; 值类型   拆箱    显示转换（强制转换）需要类型转换运算符</p>
+</blockquote>
+<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>泛型就是为了解决这个问题而产生的，在<code>.NET2.0</code>推出泛型</p>
+<blockquote>
+<p>泛型是<code>C#</code>和<code>.NET</code>的一个重要概念，不仅是<code>C#</code>语言的一部分而且和<code>IL</code>中间语言紧密结合。</p>
+<p>在泛型类型或方法定义中，类型参数是在其实例化泛型类型的一个变量时，客户端指定的特定类型的占位符。</p>
+<p>泛型类( <code>GenericList&lt;T&gt;</code>)无法按原样使用，因为它不是真正的类型；它更像是类型的蓝图。 若要使用 <code>GenericList&lt;T&gt;</code>，客户端代码必须通过指定尖括号内的类型参数来声明并实例化构造类型。 此特定类的类型参数可以是编译器可识别的任何类型。 可创建任意数量的构造类型实例，其中每个使用不同的类型参数。</p>
+</blockquote>
+<h4 id="定义泛型参数"><a href="#定义泛型参数" class="headerlink" title="定义泛型参数"></a>定义泛型参数</h4><p>优化：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowName</span>&lt;<span class="title">T</span>&gt;(<span class="params">T i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(i?.GetType().Name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">123</span>;</span><br><span class="line"><span class="keyword">var</span> s = <span class="string">&quot;Jonty&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> d = DateTime.Now;</span><br><span class="line"></span><br><span class="line">Console.WriteLine(<span class="string">&quot;***************CommonMethod*************&quot;</span>);</span><br><span class="line"><span class="comment">// int</span></span><br><span class="line">CommonMethod.ShowTypeName(i);</span><br><span class="line"><span class="comment">// string</span></span><br><span class="line">CommonMethod.ShowTypeName(s);</span><br><span class="line"><span class="comment">// datetime</span></span><br><span class="line">CommonMethod.ShowTypeName(d);</span><br><span class="line"></span><br><span class="line">Console.WriteLine(<span class="string">&quot;***************ObjectMethod*************&quot;</span>);</span><br><span class="line"><span class="comment">// int</span></span><br><span class="line">CommonMethod.ShowObjectName(i);</span><br><span class="line"><span class="comment">// string</span></span><br><span class="line">CommonMethod.ShowObjectName(s);</span><br><span class="line"><span class="comment">// datetime</span></span><br><span class="line">CommonMethod.ShowObjectName(d);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Console.WriteLine(<span class="string">&quot;***************GenericMethod*************&quot;</span>);</span><br><span class="line"><span class="comment">// int</span></span><br><span class="line">CommonMethod.ShowName(i);</span><br><span class="line"><span class="comment">// string</span></span><br><span class="line">CommonMethod.ShowName(s);</span><br><span class="line"><span class="comment">// datetime</span></span><br><span class="line">CommonMethod.ShowName(d);</span><br><span class="line"></span><br><span class="line">Console.ReadKey();</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，效果是一摸一样的：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211004170341353.png" alt="image-20211004170341353"></p>
+<p><strong>为什么泛型可以解决这个问题呢？</strong></p>
+<p>泛型是延迟声明的：即定义的时候没有指定具体的参数类型，把参数类型的声明推迟到了调用的时候才指定参数类型</p>
+<p><strong>泛型是如何工作的呢？</strong></p>
+<p>控制台程序最终会编译成一个exe程序，exe被点击的时候，会经过JIT(即时编译器)的编译，最终生成二进制代码，才能被计算机执行。泛型加入到语法以后，<code>visual studio</code>自带的编译器又做了升级，升级之后编译时遇到泛型，会做特殊的处理：生成占位符。再次经过JIT编译的时候，会把上面编译生成的占位符替换成具体的数据类型。</p>
+<p>示例:</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Console.WriteLine(<span class="keyword">typeof</span>(List&lt;&gt;));</span><br><span class="line">Console.WriteLine(<span class="keyword">typeof</span>(Dictionary&lt;,&gt;));</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p>可以看到，泛型在编译后会生成占位符</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211004171349172.png" alt="image-20211004171349172"></p>
+<p><strong>性能对比：</strong></p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Show</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> i = <span class="number">11932</span></span><br><span class="line">    <span class="built_in">long</span> commonSecond = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">long</span> objectSecond = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">long</span> genericSecond = <span class="number">0</span></span><br><span class="line">    &#123;</span><br><span class="line">        Stopwatch stopwatch = <span class="keyword">new</span>();</span><br><span class="line">        stopwatch.Start();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; <span class="number">1000000000</span>; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            ShowInt(i);</span><br><span class="line">        &#125;</span><br><span class="line">        stopwatch.Stop();</span><br><span class="line">        commonSecond = stopwatch.ElapsedMilliseconds;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">        Stopwatch stopwatch = <span class="keyword">new</span>();</span><br><span class="line">        stopwatch.Start();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; <span class="number">1000000000</span>; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            ShowObject(i);</span><br><span class="line">        &#125;</span><br><span class="line">        stopwatch.Stop();</span><br><span class="line">        objectSecond = stopwatch.ElapsedMilliseconds;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">        Stopwatch stopwatch = <span class="keyword">new</span>();</span><br><span class="line">        stopwatch.Start();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; <span class="number">1000000000</span>; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            Show(i);</span><br><span class="line">        &#125;</span><br><span class="line">        stopwatch.Stop();</span><br><span class="line">        genericSecond = stopwatch.ElapsedMilliseconds;</span><br><span class="line">    &#125;</span><br><span class="line">    Console.WriteLine(</span><br><span class="line">        <span class="string">$&quot;commonMethod:<span class="subst">&#123;commonSecond&#125;</span>\nobjectMethod:<span class="subst">&#123;objectSecond&#125;</span>\ngenericMethod:<span class="subst">&#123;genericSecond&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">region</span> Private Metho</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowInt</span>(<span class="params"><span class="built_in">int</span> i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowObject</span>(<span class="params"><span class="built_in">object</span> i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Show</span>&lt;<span class="title">T</span>&gt;(<span class="params">T i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endregion</span></span></span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p>泛型方法&lt;普通方法&lt;Object方法 </p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211004172530409.png" alt="image-20211004172530409"></p>
+<h3 id="类型安全"><a href="#类型安全" class="headerlink" title="类型安全"></a>类型安全</h3><p>泛型的另一个特性就是<strong>类型安全</strong></p>
+<p>示例：</p>
+<p><code>ArrayList</code>可以添加任意类型的参数</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">ArrayList arrayList = <span class="keyword">new</span> ArrayList();</span><br><span class="line">arrayList.Add(<span class="number">123</span>);</span><br><span class="line">arrayList.Add(<span class="string">&quot;jonty&quot;</span>);</span><br><span class="line">arrayList.Add(DateTime.Now);</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> arrayList)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(item);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用泛型可以进行类型约束：</p>
+<p>如果我们添加其他类型的参数则会编译报错，<strong>参数无效</strong></p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">List&lt;<span class="built_in">int</span>&gt; arrInts = <span class="keyword">new</span> List&lt;<span class="built_in">int</span>&gt;();</span><br><span class="line">arrInts.Add(<span class="number">1</span>);</span><br><span class="line">arrInts.Add(<span class="number">2</span>);</span><br><span class="line">arrInts.Add(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="命名约定"><a href="#命名约定" class="headerlink" title="命名约定"></a>命名约定</h3><ul>
+<li><p>泛型类型的名称首字母用<code>T</code></p>
+</li>
+<li><p>如果没有特殊要求，泛型类型允许用任何类代替；且只使用了一个泛型类型时，可以直接使用<code>T</code>作为泛型类型的名称</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">List</span>&lt;<span class="title">T</span>&gt;&#123;&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>如果泛型的类型有特殊的要求，或者使用了两个或多个泛型类型，那么泛型类应该使用描述性名称</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">Eventhandler</span>&lt;<span class="title">TEventArgs</span>&gt;(<span class="params">Object sender,TEventargs e</span>)</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SortedList</span>&lt;<span class="title">Tkey</span>,<span class="title">TValue</span>&gt;&#123;&#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>CSharp</category>
+      </categories>
+      <tags>
+        <tag>Generic</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>温故而知新-C#泛型</title>
     <url>/2021/10/08/csharp-generic-review-02/</url>
     <content><![CDATA[<h3 id="泛型类"><a href="#泛型类" class="headerlink" title="泛型类"></a>泛型类</h3><p>除了有<strong>泛型方法</strong>，还有<strong>泛型类</strong></p>
 <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DocumentManager</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">readonly</span>  <span class="title">Queue</span>&lt;<span class="title">T</span>&gt; _documentQueue</span>= <span class="keyword">new</span> Queue&lt;T&gt;();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> <span class="built_in">object</span> _lock = <span class="keyword">new</span> <span class="built_in">object</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">bool</span> IsAvailable =&gt;_documentQueue.Count &gt; <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">AddDocument</span>(<span class="params">T doc</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">lock</span> (_lock)</span><br><span class="line">        &#123;</span><br><span class="line">            _documentQueue.Enqueue(doc);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">GetDocument</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        T doc = <span class="literal">default</span>;</span><br><span class="line">        <span class="keyword">lock</span> (_lock)</span><br><span class="line">        &#123;</span><br><span class="line">            doc=_documentQueue.Dequeue();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> doc;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -271,85 +350,6 @@
 
 <p>如果不进行显示转换，则可以使用合并运算符从可空类型转换成非可空类型，关键词<code>??</code>，为转换定义一个默认值，以防可控类型的值为<code>null</code>。</p>
 <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span>? x = GetNullableType();</span><br><span class="line"><span class="built_in">int</span> y = x ?? <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>CSharp</category>
-      </categories>
-      <tags>
-        <tag>Generic</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>温故而知新-C#泛型</title>
-    <url>/2021/10/04/csharp-generic-review-01/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在开发中，经常会遇到功能相同的模块，但是参数类型不同，这时候只能分别写不同的方法处理不同的数据类型。那么有没有一种办法，只用同一个方法来处理不同类型参数的方法</p>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowTypeName</span>(<span class="params"><span class="built_in">int</span> i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(i.GetType().Name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowTypeName</span>(<span class="params"><span class="built_in">string</span> i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(i.GetType().Name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowTypeName</span>(<span class="params">DateTime i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(i.GetType().Name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面几个方法分别获取<code>int、string、DateTime</code>类型的名称，可以看到对应写了三种类型的<code>重载</code>方法。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// int</span></span><br><span class="line">CommonMethod.ShowTypeName(<span class="number">1</span>);</span><br><span class="line"><span class="comment">// string</span></span><br><span class="line">CommonMethod.ShowTypeName(<span class="string">&quot;1&quot;</span>);</span><br><span class="line"><span class="comment">// datetime</span></span><br><span class="line">CommonMethod.ShowTypeName(DateTime.Now);</span><br></pre></td></tr></table></figure>
-
-<p>结果：</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211004162840338.png"></p>
-<p>这个时候我们就会想<strong>面向对象的继承</strong>，我们知道在<code>C#</code>语言中，所有的类型都继承自基类<code>object</code></p>
-<p>优化：</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowObjectName</span>(<span class="params"><span class="built_in">object</span> i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(i.GetType().Name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>结果：</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211004163223821.png" alt="image-20211004163223821"></p>
-<p>可以看到，使用<code>object</code>类型作为参数传入达到了我们预期的效果，解决了代码的<strong>复用性</strong>。</p>
-<p>但是这里又会引发另一个问题：装箱和拆箱带来的性能损耗问题。</p>
-<blockquote>
-<p>装箱和拆箱：在把值类型转换为引用类型或把引用类型转换成值类型时，需要进行装箱和拆箱的操作。</p>
-<p>值类型存储在栈上，引用类型存储在堆上。</p>
-<p>值类型  ==&gt; 引用类型  装箱    隐式转换(自动转换)  </p>
-<p>引用类型 ==&gt; 值类型   拆箱    显示转换（强制转换）需要类型转换运算符</p>
-</blockquote>
-<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>泛型就是为了解决这个问题而产生的，在<code>.NET2.0</code>推出泛型</p>
-<blockquote>
-<p>泛型是<code>C#</code>和<code>.NET</code>的一个重要概念，不仅是<code>C#</code>语言的一部分而且和<code>IL</code>中间语言紧密结合。</p>
-<p>在泛型类型或方法定义中，类型参数是在其实例化泛型类型的一个变量时，客户端指定的特定类型的占位符。</p>
-<p>泛型类( <code>GenericList&lt;T&gt;</code>)无法按原样使用，因为它不是真正的类型；它更像是类型的蓝图。 若要使用 <code>GenericList&lt;T&gt;</code>，客户端代码必须通过指定尖括号内的类型参数来声明并实例化构造类型。 此特定类的类型参数可以是编译器可识别的任何类型。 可创建任意数量的构造类型实例，其中每个使用不同的类型参数。</p>
-</blockquote>
-<h4 id="定义泛型参数"><a href="#定义泛型参数" class="headerlink" title="定义泛型参数"></a>定义泛型参数</h4><p>优化：</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowName</span>&lt;<span class="title">T</span>&gt;(<span class="params">T i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(i?.GetType().Name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">123</span>;</span><br><span class="line"><span class="keyword">var</span> s = <span class="string">&quot;Jonty&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> d = DateTime.Now;</span><br><span class="line"></span><br><span class="line">Console.WriteLine(<span class="string">&quot;***************CommonMethod*************&quot;</span>);</span><br><span class="line"><span class="comment">// int</span></span><br><span class="line">CommonMethod.ShowTypeName(i);</span><br><span class="line"><span class="comment">// string</span></span><br><span class="line">CommonMethod.ShowTypeName(s);</span><br><span class="line"><span class="comment">// datetime</span></span><br><span class="line">CommonMethod.ShowTypeName(d);</span><br><span class="line"></span><br><span class="line">Console.WriteLine(<span class="string">&quot;***************ObjectMethod*************&quot;</span>);</span><br><span class="line"><span class="comment">// int</span></span><br><span class="line">CommonMethod.ShowObjectName(i);</span><br><span class="line"><span class="comment">// string</span></span><br><span class="line">CommonMethod.ShowObjectName(s);</span><br><span class="line"><span class="comment">// datetime</span></span><br><span class="line">CommonMethod.ShowObjectName(d);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Console.WriteLine(<span class="string">&quot;***************GenericMethod*************&quot;</span>);</span><br><span class="line"><span class="comment">// int</span></span><br><span class="line">CommonMethod.ShowName(i);</span><br><span class="line"><span class="comment">// string</span></span><br><span class="line">CommonMethod.ShowName(s);</span><br><span class="line"><span class="comment">// datetime</span></span><br><span class="line">CommonMethod.ShowName(d);</span><br><span class="line"></span><br><span class="line">Console.ReadKey();</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，效果是一摸一样的：</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211004170341353.png" alt="image-20211004170341353"></p>
-<p><strong>为什么泛型可以解决这个问题呢？</strong></p>
-<p>泛型是延迟声明的：即定义的时候没有指定具体的参数类型，把参数类型的声明推迟到了调用的时候才指定参数类型</p>
-<p><strong>泛型是如何工作的呢？</strong></p>
-<p>控制台程序最终会编译成一个exe程序，exe被点击的时候，会经过JIT(即时编译器)的编译，最终生成二进制代码，才能被计算机执行。泛型加入到语法以后，<code>visual studio</code>自带的编译器又做了升级，升级之后编译时遇到泛型，会做特殊的处理：生成占位符。再次经过JIT编译的时候，会把上面编译生成的占位符替换成具体的数据类型。</p>
-<p>示例:</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">Console.WriteLine(<span class="keyword">typeof</span>(List&lt;&gt;));</span><br><span class="line">Console.WriteLine(<span class="keyword">typeof</span>(Dictionary&lt;,&gt;));</span><br></pre></td></tr></table></figure>
-
-<p>结果：</p>
-<p>可以看到，泛型在编译后会生成占位符</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211004171349172.png" alt="image-20211004171349172"></p>
-<p><strong>性能对比：</strong></p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Show</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> i = <span class="number">11932</span></span><br><span class="line">    <span class="built_in">long</span> commonSecond = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">long</span> objectSecond = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">long</span> genericSecond = <span class="number">0</span></span><br><span class="line">    &#123;</span><br><span class="line">        Stopwatch stopwatch = <span class="keyword">new</span>();</span><br><span class="line">        stopwatch.Start();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; <span class="number">1000000000</span>; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            ShowInt(i);</span><br><span class="line">        &#125;</span><br><span class="line">        stopwatch.Stop();</span><br><span class="line">        commonSecond = stopwatch.ElapsedMilliseconds;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">        Stopwatch stopwatch = <span class="keyword">new</span>();</span><br><span class="line">        stopwatch.Start();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; <span class="number">1000000000</span>; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            ShowObject(i);</span><br><span class="line">        &#125;</span><br><span class="line">        stopwatch.Stop();</span><br><span class="line">        objectSecond = stopwatch.ElapsedMilliseconds;</span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">        Stopwatch stopwatch = <span class="keyword">new</span>();</span><br><span class="line">        stopwatch.Start();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; <span class="number">1000000000</span>; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            Show(i);</span><br><span class="line">        &#125;</span><br><span class="line">        stopwatch.Stop();</span><br><span class="line">        genericSecond = stopwatch.ElapsedMilliseconds;</span><br><span class="line">    &#125;</span><br><span class="line">    Console.WriteLine(</span><br><span class="line">        <span class="string">$&quot;commonMethod:<span class="subst">&#123;commonSecond&#125;</span>\nobjectMethod:<span class="subst">&#123;objectSecond&#125;</span>\ngenericMethod:<span class="subst">&#123;genericSecond&#125;</span>&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">region</span> Private Metho</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowInt</span>(<span class="params"><span class="built_in">int</span> i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ShowObject</span>(<span class="params"><span class="built_in">object</span> i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Show</span>&lt;<span class="title">T</span>&gt;(<span class="params">T i</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endregion</span></span></span><br></pre></td></tr></table></figure>
-
-<p>结果：</p>
-<p>泛型方法&lt;普通方法&lt;Object方法 </p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211004172530409.png" alt="image-20211004172530409"></p>
-<h3 id="类型安全"><a href="#类型安全" class="headerlink" title="类型安全"></a>类型安全</h3><p>泛型的另一个特性就是<strong>类型安全</strong></p>
-<p>示例：</p>
-<p><code>ArrayList</code>可以添加任意类型的参数</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">ArrayList arrayList = <span class="keyword">new</span> ArrayList();</span><br><span class="line">arrayList.Add(<span class="number">123</span>);</span><br><span class="line">arrayList.Add(<span class="string">&quot;jonty&quot;</span>);</span><br><span class="line">arrayList.Add(DateTime.Now);</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> arrayList)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(item);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用泛型可以进行类型约束：</p>
-<p>如果我们添加其他类型的参数则会编译报错，<strong>参数无效</strong></p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">List&lt;<span class="built_in">int</span>&gt; arrInts = <span class="keyword">new</span> List&lt;<span class="built_in">int</span>&gt;();</span><br><span class="line">arrInts.Add(<span class="number">1</span>);</span><br><span class="line">arrInts.Add(<span class="number">2</span>);</span><br><span class="line">arrInts.Add(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
-
-<h3 id="命名约定"><a href="#命名约定" class="headerlink" title="命名约定"></a>命名约定</h3><ul>
-<li><p>泛型类型的名称首字母用<code>T</code></p>
-</li>
-<li><p>如果没有特殊要求，泛型类型允许用任何类代替；且只使用了一个泛型类型时，可以直接使用<code>T</code>作为泛型类型的名称</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">List</span>&lt;<span class="title">T</span>&gt;&#123;&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>如果泛型的类型有特殊的要求，或者使用了两个或多个泛型类型，那么泛型类应该使用描述性名称</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="built_in">delegate</span> <span class="keyword">void</span> <span class="title">Eventhandler</span>&lt;<span class="title">TEventArgs</span>&gt;(<span class="params">Object sender,TEventargs e</span>)</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SortedList</span>&lt;<span class="title">Tkey</span>,<span class="title">TValue</span>&gt;&#123;&#125;;</span><br></pre></td></tr></table></figure></li>
-</ul>
 ]]></content>
       <categories>
         <category>CSharp</category>
@@ -668,9 +668,9 @@
 <p>连接远程库，进一步实现团队协作。</p>
 </blockquote>
 <p>git remote:查看远程库信息，详细信息加上-v选项</p>
-<p>git remote add origin <a href="mailto:&#103;&#x69;&#116;&#64;&#x67;&#x69;&#116;&#x68;&#117;&#x62;&#46;&#x63;&#111;&#109;">&#103;&#x69;&#116;&#64;&#x67;&#x69;&#116;&#x68;&#117;&#x62;&#46;&#x63;&#111;&#109;</a>:Summyj/xxx.git：将本地git仓库与github远程库想关联,也可以是其它库，远程库默认名字是origin，也可以设为其它，比如github</p>
+<p>git remote add origin <a href="mailto:&#103;&#105;&#116;&#64;&#103;&#x69;&#x74;&#104;&#x75;&#98;&#x2e;&#99;&#111;&#x6d;">&#103;&#105;&#116;&#64;&#103;&#x69;&#x74;&#104;&#x75;&#98;&#x2e;&#99;&#111;&#x6d;</a>:Summyj/xxx.git：将本地git仓库与github远程库想关联,也可以是其它库，远程库默认名字是origin，也可以设为其它，比如github</p>
 <p>git push -u origin xxx:把本地仓库指定分支·内容推送到远程，下次推送可以不用-u参数<br>因为第一次推送master分支时如果加上-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，所以在以后的推送或者拉取时就可以简化命令。</p>
-<p>git clone <a href="mailto:&#x67;&#105;&#116;&#x40;&#x67;&#x69;&#116;&#x68;&#x75;&#98;&#46;&#99;&#x6f;&#109;">&#x67;&#105;&#116;&#x40;&#x67;&#x69;&#116;&#x68;&#x75;&#98;&#46;&#99;&#x6f;&#109;</a>:xxx/xxx.git:从远程仓库克隆到本地，后边是地址</p>
+<p>git clone <a href="mailto:&#x67;&#105;&#x74;&#64;&#x67;&#105;&#116;&#104;&#117;&#x62;&#46;&#99;&#111;&#x6d;">&#x67;&#105;&#x74;&#64;&#x67;&#105;&#116;&#104;&#117;&#x62;&#46;&#99;&#111;&#x6d;</a>:xxx/xxx.git:从远程仓库克隆到本地，后边是地址</p>
 <p>git remotr rm origin:删除本地库关联的origin远程库</p>
 <h2 id="分支创建管理"><a href="#分支创建管理" class="headerlink" title="分支创建管理"></a>分支创建管理</h2><blockquote>
 <p>实现更安全便捷的版本控制。</p>
@@ -1284,30 +1284,6 @@
       </tags>
   </entry>
   <entry>
-    <title>知乎关于我国高等教育的看法</title>
-    <url>/2021/09/27/the-systematic-failure-of-higher-education-in-china/</url>
-    <content><![CDATA[<p>和老同学聊到在学校的生活，突然想到之前在知乎看到的这篇帖子，转载记录一下</p>
-<p><a href="https://www.zhihu.com/people/517a82a684971b49348575efaa8f6fdd">@Youngster38324</a> 的回答透露出来了我国高等教育系统中的不少问题：</p>
-<ol>
-<li><strong>「进大学前唯分数和同质化教育」</strong>导致了太多人去大学后根本不知道自己要干嘛，很多人专业根本就不是自己选的更不要说知道自己有没有兴趣了，即便是很多高分考生也路径依赖地以为继续努力填鸭就能成功，没有意识到高考后的人生已经换赛道了。作为解决方案，可以引入类似美国 AP（Advanced Placement）的预科制度以及调整整个社会鼓励向自我发展看而不是向钱看的风气。</li>
-<li><strong>「进大学后专业制度没有容错性」</strong>，即便已经发现自己不喜欢被录取专业了也没有办法，因为转专业制度不完善（通常要求你先要在你已经不喜欢了的本专业内卷到班级前多少名）。在不少西方学校，专业可以 undecided（先上课再决定专业，比如经典的哈佛 CS50，你上下来感兴趣了再去选 CS）；学位本身只是某个学科下课程学分累计的自然结果，因此可以灵活的转专业与多学位；班级这种促进内卷的概念也被弱化，强调跟自己比关注个人的成长，学生自己控制上几年课，念几个学位，中间休学一下都没关系。</li>
-<li>前两步的结果就是导致大学为了毕业率把<strong>「评判标准搞成了平均主义」</strong>，为了能够每年顺利向社会输送一批（80% 将来都不会从事本专业）的人才，打分根据每年学生情况动态规划自适应，把大学搞成了「严进宽出」。其实大学教育更应该强调「宽进严出」，无论你底子如何，无论重修几次，你只要通过了某个（相对稳定的）客观标准就是合格，为了保证该制度的机械性运作，就要辅以严格的日常作业计分，对「作弊」零容忍（自动化判重，发现一次重修两次退学）。</li>
-<li>平均主义进一步导致<strong>「课程设置没有灵活性无法自定义」</strong>，老师不但要照顾及格率还有一颗圣母心希望那些对专业没什么兴趣的人能好歹学到点东西，同时又真心欣赏且想要给予好学的尖子生资源，最后即便绞尽脑汁了也还是只能弄出个在差生里下限高在尖子生里上限低的课程安排两面不当人 —— 尖子生觉得课程要求太低不能激发自己的潜力喂不饱（常见于私下要求加难度或者去无学分旁听），摸鱼的觉得老师影响了我的快乐学习（常见于课堂上一布置作业下面就叫苦连天）该挂还是挂或者 60 分万岁。在不少西方学校学生，课程表可以自行安排，一个课可以开多个班次照顾灵活性，学霸可以比别人多上任意节课，也可以跨专业选课或者减少课程增加实习或研究，而且难度自选只要你点过前置技能就行。</li>
-</ol>
-<p>有类似迟先生这样诉求的人很多，可是一个系统很难由系统内的个体改变，所以很多个体选择了做局部优化趋利避害陪玩成为既得利益者，或者全局优化更换自己所处的系统。</p>
-<p>只要所处系统里的大部分个体都已经默许了这个游戏规则，无论迟先生是「凡尔赛」还是「理想主义」，改变赛道规则就会被其他个体认为侵害到利益。小孩才分对错，成年人的屁股都是歪得，都是各取所需。</p>
-<blockquote>
-<p>作者：黄玄<br>链接：<a href="https://www.zhihu.com/question/439622084/answer/1685314467">https://www.zhihu.com/question/439622084/answer/1685314467</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Share</category>
-      </categories>
-      <tags>
-        <tag>Zhihu</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>VMware桥接模式连接失败</title>
     <url>/2021/10/27/vmware-bridge-ping-nowhere/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在学习<code>Linux</code>以及<code>Oracle</code>数据库，为出差<code>AMD</code>做准备。（未知）顺便顺点CPU回来😂</p>
@@ -1371,6 +1347,30 @@
       <tags>
         <tag>Linux</tag>
         <tag>VMware</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>知乎关于我国高等教育的看法</title>
+    <url>/2021/09/27/the-systematic-failure-of-higher-education-in-china/</url>
+    <content><![CDATA[<p>和老同学聊到在学校的生活，突然想到之前在知乎看到的这篇帖子，转载记录一下</p>
+<p><a href="https://www.zhihu.com/people/517a82a684971b49348575efaa8f6fdd">@Youngster38324</a> 的回答透露出来了我国高等教育系统中的不少问题：</p>
+<ol>
+<li><strong>「进大学前唯分数和同质化教育」</strong>导致了太多人去大学后根本不知道自己要干嘛，很多人专业根本就不是自己选的更不要说知道自己有没有兴趣了，即便是很多高分考生也路径依赖地以为继续努力填鸭就能成功，没有意识到高考后的人生已经换赛道了。作为解决方案，可以引入类似美国 AP（Advanced Placement）的预科制度以及调整整个社会鼓励向自我发展看而不是向钱看的风气。</li>
+<li><strong>「进大学后专业制度没有容错性」</strong>，即便已经发现自己不喜欢被录取专业了也没有办法，因为转专业制度不完善（通常要求你先要在你已经不喜欢了的本专业内卷到班级前多少名）。在不少西方学校，专业可以 undecided（先上课再决定专业，比如经典的哈佛 CS50，你上下来感兴趣了再去选 CS）；学位本身只是某个学科下课程学分累计的自然结果，因此可以灵活的转专业与多学位；班级这种促进内卷的概念也被弱化，强调跟自己比关注个人的成长，学生自己控制上几年课，念几个学位，中间休学一下都没关系。</li>
+<li>前两步的结果就是导致大学为了毕业率把<strong>「评判标准搞成了平均主义」</strong>，为了能够每年顺利向社会输送一批（80% 将来都不会从事本专业）的人才，打分根据每年学生情况动态规划自适应，把大学搞成了「严进宽出」。其实大学教育更应该强调「宽进严出」，无论你底子如何，无论重修几次，你只要通过了某个（相对稳定的）客观标准就是合格，为了保证该制度的机械性运作，就要辅以严格的日常作业计分，对「作弊」零容忍（自动化判重，发现一次重修两次退学）。</li>
+<li>平均主义进一步导致<strong>「课程设置没有灵活性无法自定义」</strong>，老师不但要照顾及格率还有一颗圣母心希望那些对专业没什么兴趣的人能好歹学到点东西，同时又真心欣赏且想要给予好学的尖子生资源，最后即便绞尽脑汁了也还是只能弄出个在差生里下限高在尖子生里上限低的课程安排两面不当人 —— 尖子生觉得课程要求太低不能激发自己的潜力喂不饱（常见于私下要求加难度或者去无学分旁听），摸鱼的觉得老师影响了我的快乐学习（常见于课堂上一布置作业下面就叫苦连天）该挂还是挂或者 60 分万岁。在不少西方学校学生，课程表可以自行安排，一个课可以开多个班次照顾灵活性，学霸可以比别人多上任意节课，也可以跨专业选课或者减少课程增加实习或研究，而且难度自选只要你点过前置技能就行。</li>
+</ol>
+<p>有类似迟先生这样诉求的人很多，可是一个系统很难由系统内的个体改变，所以很多个体选择了做局部优化趋利避害陪玩成为既得利益者，或者全局优化更换自己所处的系统。</p>
+<p>只要所处系统里的大部分个体都已经默许了这个游戏规则，无论迟先生是「凡尔赛」还是「理想主义」，改变赛道规则就会被其他个体认为侵害到利益。小孩才分对错，成年人的屁股都是歪得，都是各取所需。</p>
+<blockquote>
+<p>作者：黄玄<br>链接：<a href="https://www.zhihu.com/question/439622084/answer/1685314467">https://www.zhihu.com/question/439622084/answer/1685314467</a><br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Share</category>
+      </categories>
+      <tags>
+        <tag>Zhihu</tag>
       </tags>
   </entry>
   <entry>
