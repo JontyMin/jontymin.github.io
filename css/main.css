@@ -1702,7 +1702,7 @@ pre code {
   width: 100%;
 }
 .with-love {
-  color: #ff0000;
+  color: #5B5B5B;
   display: inline-block;
   margin: 0 5px;
 }
@@ -3054,7 +3054,7 @@ hr {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #ff7dff;
+  background: #1c58ab;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
