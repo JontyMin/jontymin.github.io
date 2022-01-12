@@ -45,79 +45,6 @@
       </tags>
   </entry>
   <entry>
-    <title>浏览器实现静默打印</title>
-    <url>/2021/09/25/browser-silent-printing/</url>
-    <content><![CDATA[<h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>最近有一个需求涉及到<code>静默打印</code>,也就是打印时不需要弹出打印配置框，而是直接调用打印机</p>
-<img data-src="https://cdn.jonty.top/img/image-20210925223925277.png">
-
-<h4 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h4><p>经过讨论大概是以下几种方案：</p>
-<ul>
-<li>把打印配置弹窗干掉、模拟点击打印事件</li>
-<li>浏览器实现静默打印</li>
-<li>本地运行一个服务，客户端返回请求状态后请求本地接口调用打印</li>
-</ul>
-<h5 id="方案1"><a href="#方案1" class="headerlink" title="方案1"></a>方案1</h5><p>第一种没有去尝试，所以先讲讲第二种解决方案，通过前端控制浏览器打印，但是百度一圈下来的解决方案都是通过设置浏览器参数，然后创建一个快捷程序并设置启动参数，操作很简单，但实在不符合需求，总不能给每个客户也这样配置一边吧，所以第二种也<code>pass</code>。</p>
-<p>操作如下：</p>
-<img data-src="https://cdn.jonty.top/img/image-20210925225136606.png">
-
-<h5 id="方案3"><a href="#方案3" class="headerlink" title="方案3"></a>方案3</h5><p>重点讲一下方案，也是目前在探索中，后续有更好的方法会发出来，也欢迎各位提出更好的解决方案。</p>
-<p>目前仅支持windows环境，<code>winform</code>最终是<code>.exe</code>程序</p>
-<h4 id="新建Winform程序"><a href="#新建Winform程序" class="headerlink" title="新建Winform程序"></a>新建Winform程序</h4><h5 id="使用VS2019创建"><a href="#使用VS2019创建" class="headerlink" title="使用VS2019创建"></a>使用<code>VS2019</code>创建</h5><img data-src="https://cdn.jonty.top/img/image-20210925225722885.png">
-
-<h5 id="拖入ComboBox控件，用来选择本地打印机"><a href="#拖入ComboBox控件，用来选择本地打印机" class="headerlink" title="拖入ComboBox控件，用来选择本地打印机"></a>拖入<code>ComboBox</code>控件，用来选择本地打印机</h5><img data-src="https://cdn.jonty.top/img/image-20210925225843764.png">
-
-<h5 id="获取打印机列表填充下拉"><a href="#获取打印机列表填充下拉" class="headerlink" title="获取打印机列表填充下拉"></a>获取打印机列表填充下拉</h5><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 加载打印机列表</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">InitPrinterList</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> print = <span class="keyword">new</span> PrintDocument();</span><br><span class="line">    <span class="keyword">var</span> defaultPrinter = print.PrinterSettings.PrinterName;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; PrinterSettings.InstalledPrinters.Count; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> tmp = PrinterSettings.InstalledPrinters[i];</span><br><span class="line">        <span class="keyword">if</span> (tmp == defaultPrinter)</span><br><span class="line">        &#123;</span><br><span class="line">            tmp += <span class="string">&quot;(默认)&quot;</span>; <span class="comment">// 标记默认的打印机</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.comboBox1.Items.Add(tmp);  <span class="comment">// 下拉项新增</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Form1_Load</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    InitPrinterList(); <span class="comment">// 窗体加载事件中调用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="ctrl-f5运行窗体查看效果"><a href="#ctrl-f5运行窗体查看效果" class="headerlink" title="ctrl+f5运行窗体查看效果"></a><code>ctrl+f5</code>运行窗体查看效果</h5><img data-src="https://cdn.jonty.top/img/image-20210925230348173.png">
-
-<h4 id="创建服务"><a href="#创建服务" class="headerlink" title="创建服务"></a>创建服务</h4><p>没有使用<code>socket</code>,而是在<code>winform</code>中创建了一个<code>http</code>服务，并开放端口供浏览器本地请求</p>
-<p>先新增两个依赖：</p>
-<ol>
-<li>BeetleX 1.5.1.7 </li>
-<li>BeetleX.FastHttpApi 1.8.2.61</li>
-</ol>
-<p>这两个版本是支持<code>.net framework</code>的，<a href="https://github.com/IKende/BeetleX/">BeetleX</a>是一个基于.Net Core开发的一个开源跨平台TCP通讯框架，它提供了完整的会话服务管理，协议分析扩展，TLS支持和缓冲区管理等完全服务基础功能。有兴趣的可以去Github参观一下。</p>
-<h5 id="初始化Http服务"><a href="#初始化Http服务" class="headerlink" title="初始化Http服务"></a>初始化Http服务</h5><p>在Load方法中调用<code>InitHttpServer()</code></p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 初始化网关服务</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">InitHttpServer</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    _httpApiServer = <span class="keyword">new</span> HttpApiServer(<span class="keyword">new</span> HttpOptions()</span><br><span class="line">    &#123;</span><br><span class="line">        Port = <span class="number">9000</span>, <span class="comment">// 本地开放的端口 要注意不要被占用</span></span><br><span class="line">        LogToConsole = <span class="literal">true</span>,</span><br><span class="line">        LogLevel = BeetleX.EventArgs.LogType.Debug</span><br><span class="line">     &#125;);</span><br><span class="line">    _httpApiServer.IPv4Tables.AddWhite(<span class="string">&quot;127.0.0.1/24&quot;</span>);</span><br><span class="line">    _httpApiServer.Options.CrossDomain = <span class="keyword">new</span> OptionsAttribute() &#123; AllowOrigin = <span class="string">&quot;*&quot;</span>, AllowMethods = <span class="string">&quot;*&quot;</span>, AllowHeaders = <span class="string">&quot;*&quot;</span> &#125;; <span class="comment">// 跨域配置，这个很重要</span></span><br><span class="line">    _httpApiServer.Register(<span class="keyword">typeof</span>(Home).Assembly);</span><br><span class="line">    _httpApiServer.Open();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注册的程序就是<code>Controller</code></p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">Controller(BaseUrl = <span class="meta-string">&quot;/home&quot;</span>)</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Home</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> Hello Word</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;name&quot;&gt;</span>string:  you name<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>string<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">object</span> <span class="title">Hello</span>(<span class="params"><span class="built_in">string</span> name</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> &#123; Hello = <span class="string">&quot;hello &quot;</span> + name, Time = DateTime.Now &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>控制下服务的生命周期</p>
-<img data-src="https://cdn.jonty.top/img/image-20210925231850394.png">
-
-<p>使用<code>Postman</code>请求一下</p>
-<p><code>http://localhost:9000/home/Hello?name=test</code> 返回成功</p>
-<img data-src="https://cdn.jonty.top/img/image-20210925232302311.png">
-
-<h4 id="打印"><a href="#打印" class="headerlink" title="打印"></a>打印</h4><p>客户端向本地请求打印接口，传入参数</p>
-<p>这里传入了pdf文件地址，通过请求文件并打印</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 打印接口</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;url&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;printCount&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Print</span>(<span class="params"><span class="built_in">string</span> url, <span class="built_in">int</span> printCount</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    url = url.Replace(<span class="string">&quot;\n &quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (!(WebRequest.Create(url) <span class="keyword">is</span> HttpWebRequest request)) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (!(request.GetResponse() <span class="keyword">is</span> HttpWebResponse response)) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">var</span> stream = response.GetResponseStream();</span><br><span class="line">    <span class="comment">// 创建打印机</span></span><br><span class="line">    <span class="keyword">var</span> pdf = <span class="keyword">new</span> InputPdf(ReadFully(stream));</span><br><span class="line">    <span class="keyword">var</span> printJob = <span class="keyword">new</span> PrintJob(Printer.Default, pdf); <span class="comment">// 默认打印机</span></span><br><span class="line">    printJob.PrintOptions.Copies = printCount; <span class="comment">//打印数量</span></span><br><span class="line">    printJob.Print();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 读取字节流</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;input&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">byte</span>[] <span class="title">ReadFully</span>(<span class="params">Stream input</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> ms = <span class="keyword">new</span> MemoryStream())</span><br><span class="line">    &#123;</span><br><span class="line">        input.CopyTo(ms);</span><br><span class="line">        <span class="keyword">return</span> ms.ToArray();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>打印插件调用的<code>DynamicPdf</code></p>
-<p>打印插件文档：<a href="https://www.dynamicpdf.com/docs/dotnet/print-manager-print-options">https://www.dynamicpdf.com/docs/dotnet/print-manager-print-options</a> </p>
-</blockquote>
-<h4 id="优化建议："><a href="#优化建议：" class="headerlink" title="优化建议："></a>优化建议：</h4><p>可以通过下拉框选择的打印机打印,需要记录选择的打印机</p>
-<p>通过读取和设置<code>config</code>值实现,引入<code>System.Configuration</code></p>
-<p>ConfigHelper类：</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">ConfigHelper</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;summary&gt;</span> </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span>返回*.exe.config文件中appSettings配置节的value项  </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;/summary&gt;</span> </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;param name=&quot;strKey&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span> </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span> </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">GetAppConfig</span>(<span class="params"><span class="built_in">string</span> strKey</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> file = System.Windows.Forms.Application.ExecutablePath;</span><br><span class="line">        <span class="keyword">var</span> config = ConfigurationManager.OpenExeConfiguration(file);</span><br><span class="line">        <span class="keyword">return</span> config.AppSettings.Settings.AllKeys.Any(key =&gt; key == strKey) ? config.AppSettings.Settings[strKey].Value.ToString() : <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;summary&gt;</span>  </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span>在*.exe.config文件中appSettings配置节增加一对键值对  </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;/summary&gt;</span>  </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;param name=&quot;newKey&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span>  </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;param name=&quot;newValue&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span>  </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">UpdateAppConfig</span>(<span class="params"><span class="built_in">string</span> newKey, <span class="built_in">string</span> newValue</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> file = System.Windows.Forms.Application.ExecutablePath;</span><br><span class="line">        <span class="keyword">var</span> config = ConfigurationManager.OpenExeConfiguration(file);</span><br><span class="line">        <span class="keyword">var</span> exist = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> key <span class="keyword">in</span> config.AppSettings.Settings.AllKeys)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (key == newKey)</span><br><span class="line">            &#123;</span><br><span class="line">                exist = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (exist)</span><br><span class="line">        &#123;</span><br><span class="line">            config.AppSettings.Settings.Remove(newKey);</span><br><span class="line">        &#125;</span><br><span class="line">        config.AppSettings.Settings.Add(newKey, newValue);</span><br><span class="line">        config.Save(ConfigurationSaveMode.Modified);</span><br><span class="line">        ConfigurationManager.RefreshSection(<span class="string">&quot;appSettings&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="设置下拉选择事件"><a href="#设置下拉选择事件" class="headerlink" title="设置下拉选择事件"></a>设置下拉选择事件</h5><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">comboBox1_SelectedIndexChanged</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 更新setting设置</span></span><br><span class="line">    <span class="keyword">var</span> selectedPrint = <span class="keyword">this</span>.comboBox1.SelectedItem.ToString();</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">string</span>.IsNullOrEmpty(selectedPrint))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 移除掉初始化打印机列表添加的默认文本</span></span><br><span class="line">    <span class="keyword">if</span> (selectedPrint.Contains(<span class="string">&quot;默认&quot;</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        selectedPrint = selectedPrint.Replace(<span class="string">&quot;(默认)&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    ConfigHelper.UpdateAppConfig(<span class="string">&quot;defaultPrint&quot;</span>, selectedPrint);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="优化后的打印接口"><a href="#优化后的打印接口" class="headerlink" title="优化后的打印接口"></a>优化后的打印接口</h5><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">// 获取设置的打印机 （读取配置）</span></span><br><span class="line"><span class="keyword">var</span> defaultPrinter = ConfigHelper.GetAppConfig(<span class="string">&quot;defaultPrint&quot;</span>);</span><br><span class="line"><span class="comment">// 创建打印机</span></span><br><span class="line"><span class="keyword">var</span> printer = <span class="keyword">new</span> Printer(defaultPrinter);</span><br><span class="line"><span class="keyword">var</span> pdf = <span class="keyword">new</span> InputPdf(ReadFully(stream));</span><br><span class="line"><span class="keyword">var</span> printJob = <span class="keyword">new</span> PrintJob(printer, pdf);</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
-<p>这样就能实现简单的静默打印，当然还有很多欠缺之处，后续优化，不当之处请指出</p>
-]]></content>
-      <categories>
-        <category>.Net</category>
-      </categories>
-      <tags>
-        <tag>Winform</tag>
-        <tag>Print</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>温故而知新-C#泛型</title>
     <url>/2021/10/04/csharp-generic-review-01/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在开发中，经常会遇到功能相同的模块，但是参数类型不同，这时候只能分别写不同的方法处理不同的数据类型。那么有没有一种办法，只用同一个方法来处理不同类型参数的方法</p>
@@ -194,6 +121,79 @@
       </categories>
       <tags>
         <tag>Generic</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>浏览器实现静默打印</title>
+    <url>/2021/09/25/browser-silent-printing/</url>
+    <content><![CDATA[<h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>最近有一个需求涉及到<code>静默打印</code>,也就是打印时不需要弹出打印配置框，而是直接调用打印机</p>
+<img data-src="https://cdn.jonty.top/img/image-20210925223925277.png">
+
+<h4 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h4><p>经过讨论大概是以下几种方案：</p>
+<ul>
+<li>把打印配置弹窗干掉、模拟点击打印事件</li>
+<li>浏览器实现静默打印</li>
+<li>本地运行一个服务，客户端返回请求状态后请求本地接口调用打印</li>
+</ul>
+<h5 id="方案1"><a href="#方案1" class="headerlink" title="方案1"></a>方案1</h5><p>第一种没有去尝试，所以先讲讲第二种解决方案，通过前端控制浏览器打印，但是百度一圈下来的解决方案都是通过设置浏览器参数，然后创建一个快捷程序并设置启动参数，操作很简单，但实在不符合需求，总不能给每个客户也这样配置一边吧，所以第二种也<code>pass</code>。</p>
+<p>操作如下：</p>
+<img data-src="https://cdn.jonty.top/img/image-20210925225136606.png">
+
+<h5 id="方案3"><a href="#方案3" class="headerlink" title="方案3"></a>方案3</h5><p>重点讲一下方案，也是目前在探索中，后续有更好的方法会发出来，也欢迎各位提出更好的解决方案。</p>
+<p>目前仅支持windows环境，<code>winform</code>最终是<code>.exe</code>程序</p>
+<h4 id="新建Winform程序"><a href="#新建Winform程序" class="headerlink" title="新建Winform程序"></a>新建Winform程序</h4><h5 id="使用VS2019创建"><a href="#使用VS2019创建" class="headerlink" title="使用VS2019创建"></a>使用<code>VS2019</code>创建</h5><img data-src="https://cdn.jonty.top/img/image-20210925225722885.png">
+
+<h5 id="拖入ComboBox控件，用来选择本地打印机"><a href="#拖入ComboBox控件，用来选择本地打印机" class="headerlink" title="拖入ComboBox控件，用来选择本地打印机"></a>拖入<code>ComboBox</code>控件，用来选择本地打印机</h5><img data-src="https://cdn.jonty.top/img/image-20210925225843764.png">
+
+<h5 id="获取打印机列表填充下拉"><a href="#获取打印机列表填充下拉" class="headerlink" title="获取打印机列表填充下拉"></a>获取打印机列表填充下拉</h5><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 加载打印机列表</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">InitPrinterList</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> print = <span class="keyword">new</span> PrintDocument();</span><br><span class="line">    <span class="keyword">var</span> defaultPrinter = print.PrinterSettings.PrinterName;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; PrinterSettings.InstalledPrinters.Count; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> tmp = PrinterSettings.InstalledPrinters[i];</span><br><span class="line">        <span class="keyword">if</span> (tmp == defaultPrinter)</span><br><span class="line">        &#123;</span><br><span class="line">            tmp += <span class="string">&quot;(默认)&quot;</span>; <span class="comment">// 标记默认的打印机</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.comboBox1.Items.Add(tmp);  <span class="comment">// 下拉项新增</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Form1_Load</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    InitPrinterList(); <span class="comment">// 窗体加载事件中调用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="ctrl-f5运行窗体查看效果"><a href="#ctrl-f5运行窗体查看效果" class="headerlink" title="ctrl+f5运行窗体查看效果"></a><code>ctrl+f5</code>运行窗体查看效果</h5><img data-src="https://cdn.jonty.top/img/image-20210925230348173.png">
+
+<h4 id="创建服务"><a href="#创建服务" class="headerlink" title="创建服务"></a>创建服务</h4><p>没有使用<code>socket</code>,而是在<code>winform</code>中创建了一个<code>http</code>服务，并开放端口供浏览器本地请求</p>
+<p>先新增两个依赖：</p>
+<ol>
+<li>BeetleX 1.5.1.7 </li>
+<li>BeetleX.FastHttpApi 1.8.2.61</li>
+</ol>
+<p>这两个版本是支持<code>.net framework</code>的，<a href="https://github.com/IKende/BeetleX/">BeetleX</a>是一个基于.Net Core开发的一个开源跨平台TCP通讯框架，它提供了完整的会话服务管理，协议分析扩展，TLS支持和缓冲区管理等完全服务基础功能。有兴趣的可以去Github参观一下。</p>
+<h5 id="初始化Http服务"><a href="#初始化Http服务" class="headerlink" title="初始化Http服务"></a>初始化Http服务</h5><p>在Load方法中调用<code>InitHttpServer()</code></p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 初始化网关服务</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">InitHttpServer</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    _httpApiServer = <span class="keyword">new</span> HttpApiServer(<span class="keyword">new</span> HttpOptions()</span><br><span class="line">    &#123;</span><br><span class="line">        Port = <span class="number">9000</span>, <span class="comment">// 本地开放的端口 要注意不要被占用</span></span><br><span class="line">        LogToConsole = <span class="literal">true</span>,</span><br><span class="line">        LogLevel = BeetleX.EventArgs.LogType.Debug</span><br><span class="line">     &#125;);</span><br><span class="line">    _httpApiServer.IPv4Tables.AddWhite(<span class="string">&quot;127.0.0.1/24&quot;</span>);</span><br><span class="line">    _httpApiServer.Options.CrossDomain = <span class="keyword">new</span> OptionsAttribute() &#123; AllowOrigin = <span class="string">&quot;*&quot;</span>, AllowMethods = <span class="string">&quot;*&quot;</span>, AllowHeaders = <span class="string">&quot;*&quot;</span> &#125;; <span class="comment">// 跨域配置，这个很重要</span></span><br><span class="line">    _httpApiServer.Register(<span class="keyword">typeof</span>(Home).Assembly);</span><br><span class="line">    _httpApiServer.Open();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注册的程序就是<code>Controller</code></p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">Controller(BaseUrl = <span class="meta-string">&quot;/home&quot;</span>)</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Home</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> Hello Word</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;name&quot;&gt;</span>string:  you name<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span>string<span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">object</span> <span class="title">Hello</span>(<span class="params"><span class="built_in">string</span> name</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> &#123; Hello = <span class="string">&quot;hello &quot;</span> + name, Time = DateTime.Now &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>控制下服务的生命周期</p>
+<img data-src="https://cdn.jonty.top/img/image-20210925231850394.png">
+
+<p>使用<code>Postman</code>请求一下</p>
+<p><code>http://localhost:9000/home/Hello?name=test</code> 返回成功</p>
+<img data-src="https://cdn.jonty.top/img/image-20210925232302311.png">
+
+<h4 id="打印"><a href="#打印" class="headerlink" title="打印"></a>打印</h4><p>客户端向本地请求打印接口，传入参数</p>
+<p>这里传入了pdf文件地址，通过请求文件并打印</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 打印接口</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;url&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;printCount&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Print</span>(<span class="params"><span class="built_in">string</span> url, <span class="built_in">int</span> printCount</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    url = url.Replace(<span class="string">&quot;\n &quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (!(WebRequest.Create(url) <span class="keyword">is</span> HttpWebRequest request)) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (!(request.GetResponse() <span class="keyword">is</span> HttpWebResponse response)) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">var</span> stream = response.GetResponseStream();</span><br><span class="line">    <span class="comment">// 创建打印机</span></span><br><span class="line">    <span class="keyword">var</span> pdf = <span class="keyword">new</span> InputPdf(ReadFully(stream));</span><br><span class="line">    <span class="keyword">var</span> printJob = <span class="keyword">new</span> PrintJob(Printer.Default, pdf); <span class="comment">// 默认打印机</span></span><br><span class="line">    printJob.PrintOptions.Copies = printCount; <span class="comment">//打印数量</span></span><br><span class="line">    printJob.Print();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 读取字节流</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;input&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">byte</span>[] <span class="title">ReadFully</span>(<span class="params">Stream input</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">using</span> (<span class="keyword">var</span> ms = <span class="keyword">new</span> MemoryStream())</span><br><span class="line">    &#123;</span><br><span class="line">        input.CopyTo(ms);</span><br><span class="line">        <span class="keyword">return</span> ms.ToArray();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>打印插件调用的<code>DynamicPdf</code></p>
+<p>打印插件文档：<a href="https://www.dynamicpdf.com/docs/dotnet/print-manager-print-options">https://www.dynamicpdf.com/docs/dotnet/print-manager-print-options</a> </p>
+</blockquote>
+<h4 id="优化建议："><a href="#优化建议：" class="headerlink" title="优化建议："></a>优化建议：</h4><p>可以通过下拉框选择的打印机打印,需要记录选择的打印机</p>
+<p>通过读取和设置<code>config</code>值实现,引入<code>System.Configuration</code></p>
+<p>ConfigHelper类：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">ConfigHelper</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;summary&gt;</span> </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span>返回*.exe.config文件中appSettings配置节的value项  </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;/summary&gt;</span> </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;param name=&quot;strKey&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span> </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span> </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">string</span> <span class="title">GetAppConfig</span>(<span class="params"><span class="built_in">string</span> strKey</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> file = System.Windows.Forms.Application.ExecutablePath;</span><br><span class="line">        <span class="keyword">var</span> config = ConfigurationManager.OpenExeConfiguration(file);</span><br><span class="line">        <span class="keyword">return</span> config.AppSettings.Settings.AllKeys.Any(key =&gt; key == strKey) ? config.AppSettings.Settings[strKey].Value.ToString() : <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;summary&gt;</span>  </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span>在*.exe.config文件中appSettings配置节增加一对键值对  </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;/summary&gt;</span>  </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;param name=&quot;newKey&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span>  </span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span><span class="doctag">&lt;param name=&quot;newValue&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span>  </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">UpdateAppConfig</span>(<span class="params"><span class="built_in">string</span> newKey, <span class="built_in">string</span> newValue</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> file = System.Windows.Forms.Application.ExecutablePath;</span><br><span class="line">        <span class="keyword">var</span> config = ConfigurationManager.OpenExeConfiguration(file);</span><br><span class="line">        <span class="keyword">var</span> exist = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> key <span class="keyword">in</span> config.AppSettings.Settings.AllKeys)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (key == newKey)</span><br><span class="line">            &#123;</span><br><span class="line">                exist = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (exist)</span><br><span class="line">        &#123;</span><br><span class="line">            config.AppSettings.Settings.Remove(newKey);</span><br><span class="line">        &#125;</span><br><span class="line">        config.AppSettings.Settings.Add(newKey, newValue);</span><br><span class="line">        config.Save(ConfigurationSaveMode.Modified);</span><br><span class="line">        ConfigurationManager.RefreshSection(<span class="string">&quot;appSettings&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="设置下拉选择事件"><a href="#设置下拉选择事件" class="headerlink" title="设置下拉选择事件"></a>设置下拉选择事件</h5><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">comboBox1_SelectedIndexChanged</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 更新setting设置</span></span><br><span class="line">    <span class="keyword">var</span> selectedPrint = <span class="keyword">this</span>.comboBox1.SelectedItem.ToString();</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">string</span>.IsNullOrEmpty(selectedPrint))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 移除掉初始化打印机列表添加的默认文本</span></span><br><span class="line">    <span class="keyword">if</span> (selectedPrint.Contains(<span class="string">&quot;默认&quot;</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        selectedPrint = selectedPrint.Replace(<span class="string">&quot;(默认)&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    ConfigHelper.UpdateAppConfig(<span class="string">&quot;defaultPrint&quot;</span>, selectedPrint);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="优化后的打印接口"><a href="#优化后的打印接口" class="headerlink" title="优化后的打印接口"></a>优化后的打印接口</h5><figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">// 获取设置的打印机 （读取配置）</span></span><br><span class="line"><span class="keyword">var</span> defaultPrinter = ConfigHelper.GetAppConfig(<span class="string">&quot;defaultPrint&quot;</span>);</span><br><span class="line"><span class="comment">// 创建打印机</span></span><br><span class="line"><span class="keyword">var</span> printer = <span class="keyword">new</span> Printer(defaultPrinter);</span><br><span class="line"><span class="keyword">var</span> pdf = <span class="keyword">new</span> InputPdf(ReadFully(stream));</span><br><span class="line"><span class="keyword">var</span> printJob = <span class="keyword">new</span> PrintJob(printer, pdf);</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>这样就能实现简单的静默打印，当然还有很多欠缺之处，后续优化，不当之处请指出</p>
+]]></content>
+      <categories>
+        <category>.Net</category>
+      </categories>
+      <tags>
+        <tag>Winform</tag>
+        <tag>Print</tag>
       </tags>
   </entry>
   <entry>
@@ -668,9 +668,9 @@
 <p>连接远程库，进一步实现团队协作。</p>
 </blockquote>
 <p>git remote:查看远程库信息，详细信息加上-v选项</p>
-<p>git remote add origin <a href="mailto:&#x67;&#x69;&#x74;&#x40;&#103;&#x69;&#x74;&#104;&#x75;&#x62;&#46;&#99;&#111;&#x6d;">&#x67;&#x69;&#x74;&#x40;&#103;&#x69;&#x74;&#104;&#x75;&#x62;&#46;&#99;&#111;&#x6d;</a>:Summyj/xxx.git：将本地git仓库与github远程库想关联,也可以是其它库，远程库默认名字是origin，也可以设为其它，比如github</p>
+<p>git remote add origin <a href="mailto:&#x67;&#105;&#x74;&#64;&#103;&#x69;&#x74;&#x68;&#x75;&#x62;&#46;&#x63;&#111;&#109;">&#x67;&#105;&#x74;&#64;&#103;&#x69;&#x74;&#x68;&#x75;&#x62;&#46;&#x63;&#111;&#109;</a>:Summyj/xxx.git：将本地git仓库与github远程库想关联,也可以是其它库，远程库默认名字是origin，也可以设为其它，比如github</p>
 <p>git push -u origin xxx:把本地仓库指定分支·内容推送到远程，下次推送可以不用-u参数<br>因为第一次推送master分支时如果加上-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，所以在以后的推送或者拉取时就可以简化命令。</p>
-<p>git clone <a href="mailto:&#103;&#x69;&#116;&#x40;&#x67;&#105;&#x74;&#x68;&#117;&#x62;&#46;&#x63;&#111;&#x6d;">&#103;&#x69;&#116;&#x40;&#x67;&#105;&#x74;&#x68;&#117;&#x62;&#46;&#x63;&#111;&#x6d;</a>:xxx/xxx.git:从远程仓库克隆到本地，后边是地址</p>
+<p>git clone <a href="mailto:&#x67;&#x69;&#x74;&#64;&#x67;&#105;&#x74;&#x68;&#x75;&#x62;&#46;&#x63;&#x6f;&#x6d;">&#x67;&#x69;&#x74;&#64;&#x67;&#105;&#x74;&#x68;&#x75;&#x62;&#46;&#x63;&#x6f;&#x6d;</a>:xxx/xxx.git:从远程仓库克隆到本地，后边是地址</p>
 <p>git remotr rm origin:删除本地库关联的origin远程库</p>
 <h2 id="分支创建管理"><a href="#分支创建管理" class="headerlink" title="分支创建管理"></a>分支创建管理</h2><blockquote>
 <p>实现更安全便捷的版本控制。</p>
@@ -840,7 +840,7 @@
       </tags>
   </entry>
   <entry>
-    <title>RHEL7.6安装单机Oracle19c</title>
+    <title>Oracle 19c Single 安装</title>
     <url>/2022/01/09/rhel7-6-install-oracle19c-single/</url>
     <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>19C 是未来几年 Oracle 数据库的大趋势，同样的作为长期稳定版，11GR2 在 2020 年 10 月份官方就宣布停止 Support 了，19C 将成为新的长期稳定版，并持续支持到 2027 年，也就意味着 19C 版本将成为最佳选择</p>
 <p><img data-src="https://cdn.jonty.top/img/image-20220109234706402.png" alt="image-20220109234706402"></p>
@@ -1934,238 +1934,6 @@
       </tags>
   </entry>
   <entry>
-    <title>RedHat安装Oracle数据库</title>
-    <url>/2021/11/09/rhel-install-oracle-11g-r2/</url>
-    <content><![CDATA[<p>📢：本文为实操记录，练习环境为RHEL7.6(本地虚拟机)，腾讯云Centos7.6实操安装成功。不正之处望指出。</p>
-<p>关于虚拟机安装Linux操作系统,<a href="https://jonty.top/2021/10/27/vmware-install-linux/">点击查看</a></p>
-<h2 id="Linux主机配置"><a href="#Linux主机配置" class="headerlink" title="Linux主机配置"></a>Linux主机配置</h2><h3 id="主机名和网络配置"><a href="#主机名和网络配置" class="headerlink" title="主机名和网络配置"></a>主机名和网络配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/hosts</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#OracleBegin##</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#Public IP</span></span></span><br><span class="line">192.168.1.79   orcl79</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#OracleEnd##</span></span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104095943481.png" alt="image-20211104095943481"></p>
-<h3 id="hosts文件配置"><a href="#hosts文件配置" class="headerlink" title="hosts文件配置"></a>hosts文件配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vi /etc/hosts</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104100304275.png" alt="image-20211104100304275"></p>
-<h3 id="防火墙配置"><a href="#防火墙配置" class="headerlink" title="防火墙配置"></a>防火墙配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104100742682.png" alt="image-20211104100742682"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104100906781.png" alt="image-20211104100906781"></p>
-<h3 id="SELINUX配置"><a href="#SELINUX配置" class="headerlink" title="SELINUX配置"></a>SELINUX配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27; /etc/selinux/config</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104101228439.png" alt="image-20211104101228439"></p>
-<h3 id="挂载镜像"><a href="#挂载镜像" class="headerlink" title="挂载镜像"></a>挂载镜像</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mount /dev/cdrom /mnt</span><br><span class="line">cat &lt;&lt;EOF&gt;/etc/yum.repos.d/local.repo</span><br><span class="line">[local]</span><br><span class="line">name=local</span><br><span class="line">baseurl=file:///mnt</span><br><span class="line">gpgcheck=0</span><br><span class="line">enabled=1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104101459247.png" alt="image-20211104101459247"></p>
-<h3 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install -y bc \</span><br><span class="line">binutils \</span><br><span class="line">compat-libcap1 \</span><br><span class="line">compat-libstdc++-33 \</span><br><span class="line">gcc \</span><br><span class="line">gcc-c++ \</span><br><span class="line">elfutils-libelf \</span><br><span class="line">elfutils-libelf-devel \</span><br><span class="line">glibc \</span><br><span class="line">glibc-devel \</span><br><span class="line">ksh \</span><br><span class="line">libaio \</span><br><span class="line">libaio-devel \</span><br><span class="line">libgcc \</span><br><span class="line">libstdc++ \</span><br><span class="line">libstdc++-devel \</span><br><span class="line">libxcb \</span><br><span class="line">libX11 \</span><br><span class="line">libXau \</span><br><span class="line">libXi \</span><br><span class="line">libXtst \</span><br><span class="line">libXrender \</span><br><span class="line">libXrender-devel \</span><br><span class="line">make \</span><br><span class="line">net-tools \</span><br><span class="line">nfs-utils \</span><br><span class="line">smartmontools \</span><br><span class="line">sysstat \</span><br><span class="line">e2fsprogs \</span><br><span class="line">e2fsprogs-libs \</span><br><span class="line">fontconfig-devel \</span><br><span class="line">expect \</span><br><span class="line">unzip \</span><br><span class="line">openssh-clients \</span><br><span class="line">readline* \</span><br><span class="line">psmisc --skip-broken</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104102036281.png" alt="image-20211104102036281"></p>
-<p>安装缺少的compat-libstdc++包</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rpm -ivh compat-libstdc++-33-3.2.3-72.el7.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -q bc binutils compat-libcap1 compat-libstdc++-33 gcc gcc-c++ elfutils-libelf elfutils-libelf-devel glibc glibc-devel ksh libaio libaio-devel libgcc libstdc++ libstdc++-devel libxcb libX11 libXau libXi libXtst libXrender libXrender-devel make net-tools nfs-utils smartmontools sysstat e2fsprogs e2fsprogs-libs fontconfig-devel expect unzip openssh-clients readline</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104102049805.png" alt="image-20211104102049805"></p>
-<h3 id="配置ZeroConf"><a href="#配置ZeroConf" class="headerlink" title="配置ZeroConf"></a>配置ZeroConf</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#关闭Zeroconf service的服务守护进程</span></span></span><br><span class="line">systemctl stop avahi-daemon.socket</span><br><span class="line">systemctl stop avahi-daemon.service</span><br><span class="line">systemctl disable avahi-daemon.service</span><br><span class="line">systemctl disable avahi-daemon.socket</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#关闭NOZEROCONF</span></span></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/sysconfig/network</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">NOZEROCONF=yes</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104103506861.png" alt="image-20211104103506861"></p>
-<h3 id="关闭透明大页和numa"><a href="#关闭透明大页和numa" class="headerlink" title="关闭透明大页和numa"></a>关闭透明大页和numa</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/quiet/quiet transparent_hugepage=never numa=off/&#x27; /etc/default/grub</span><br><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104103747755.png" alt="image-20211104103747755"></p>
-<h3 id="配置系统参数文件"><a href="#配置系统参数文件" class="headerlink" title="配置系统参数文件"></a>配置系统参数文件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#计算shmall和shmmax值</span></span></span><br><span class="line">memTotal=$(grep MemTotal /proc/meminfo | awk &#x27;&#123;print $2&#125;&#x27;)</span><br><span class="line">totalMemory=$((memTotal / 2048))</span><br><span class="line">shmall=$((memTotal / 4))</span><br><span class="line">if [ $shmall -lt 2097152 ]; then</span><br><span class="line">  shmall=2097152</span><br><span class="line">fi</span><br><span class="line">shmmax=$((memTotal * 1024 - 1))</span><br><span class="line">if [ &quot;$shmmax&quot; -lt 4294967295 ]; then</span><br><span class="line">  shmmax=4294967295</span><br><span class="line">fi</span><br><span class="line">echo $shmall</span><br><span class="line">echo $shmmax</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#配置系统参数</span></span></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/sysctl.conf</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#shmmal&#x27;s Calculation formula: physical memory 8G：(8*1024*1024*1024)/4096=2097152</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#shmmax&#x27;s Calculation formula: physical memory 8G：(8/2)*1024*1024*1024 -1=4294967295</span></span></span><br><span class="line">fs.aio-max-nr = 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall = $shmall  # 单个共享内存段最大值</span><br><span class="line">kernel.shmmax = $shmmax  # 共享内存页数</span><br><span class="line">kernel.shmmni = 4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048576</span><br><span class="line">EOF</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#系统参数生效</span></span></span><br><span class="line">sysctl -p</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/sysctl.conf</span><br><span class="line">fs.aio-max-nr = 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall = 2097152</span><br><span class="line">kernel.shmmax = 4294967295</span><br><span class="line">kernel.shmmni = 4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048576</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kernel.shmall = $shmall  # 单个共享内存段最大值</span><br><span class="line">kernel.shmmax = $shmmax  # 共享内存页数</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211115173131542.png" alt="image-20211115173131542"></p>
-<h3 id="配置系统资源限制"><a href="#配置系统资源限制" class="headerlink" title="配置系统资源限制"></a>配置系统资源限制</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/security/limits.conf</span><br><span class="line">oracle soft nofile 16384</span><br><span class="line">oracle hard nofile 65536</span><br><span class="line">oracle soft stack 10240</span><br><span class="line">oracle hard stack 32768</span><br><span class="line">oracle soft nproc 16384 </span><br><span class="line">oracle hard nproc 16384 </span><br><span class="line">oracle hard memlock 8000000</span><br><span class="line">oracle soft memlock 8000000</span><br><span class="line">EOF</span><br><span class="line"><span class="meta">#</span><span class="bash"> 单位kb 略低于内存</span></span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/security/limits.conf</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">oracle soft nofile 1024</span><br><span class="line">oracle hard nofile 65536</span><br><span class="line">oracle soft stack 10240</span><br><span class="line">oracle hard stack 32768</span><br><span class="line">oracle soft nproc 2047 </span><br><span class="line">oracle hard nproc 16384 </span><br><span class="line">oracle hard memlock 8000000</span><br><span class="line">oracle soft memlock 8000000</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/pam.d/login</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">session required pam_limits.so </span><br><span class="line">session required /lib64/security/pam_limits.so</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<h3 id="创建用户和组"><a href="#创建用户和组" class="headerlink" title="创建用户和组"></a>创建用户和组</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/usr/sbin/groupadd -g 54321 oinstall</span><br><span class="line">/usr/sbin/groupadd -g 54322 dba</span><br><span class="line">/usr/sbin/groupadd -g 54323 oper</span><br><span class="line"></span><br><span class="line">/usr/sbin/useradd -u 54321 -g oinstall -G dba,oper oracle</span><br><span class="line">echo oracle | passwd --stdin oracle</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="创建Oracle安装目录"><a href="#创建Oracle安装目录" class="headerlink" title="创建Oracle安装目录"></a>创建Oracle安装目录</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkdir -p /u01/app/oracle/product/11.2.0/db</span><br><span class="line">mkdir -p /u01/app/oraInventory</span><br><span class="line">mkdir -p /oradata</span><br><span class="line">chown -R oracle:oinstall /oradata</span><br><span class="line">chown -R oracle:oinstall /u01/app</span><br><span class="line">chmod -R 775 /u01/app</span><br></pre></td></tr></table></figure>
-
-<h3 id="用户环境变量配置"><a href="#用户环境变量配置" class="headerlink" title="用户环境变量配置"></a>用户环境变量配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/home/oracle/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleBegin#########################</span></span></span><br><span class="line">umask 022</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export TMPDIR=\$TMP</span><br><span class="line">export NLS_LANG=AMERICAN_AMERICA.AL32UTF8</span><br><span class="line">export ORACLE_BASE=/u01/app/oracle</span><br><span class="line">export ORACLE_HOME=/u01/app/oracle/product/11.2.0/db</span><br><span class="line">export ORACLE_HOSTNAME=orcl79</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export TNS_ADMIN=\$ORACLE_HOME/network/admin</span><br><span class="line">export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib</span><br><span class="line">export ORACLE_SID=orcl</span><br><span class="line">export PATH=/usr/sbin:\$PATH</span><br><span class="line">export PATH=\$ORACLE_HOME/bin:\$ORACLE_HOME/OPatch:\$PATH</span><br><span class="line">alias sas=&#x27;sqlplus / as sysdba&#x27;</span><br><span class="line">export PS1=&quot;[\`whoami\`@\`hostname\`:&quot;&#x27;\$PWD]\$ &#x27;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
-<h2 id="Oracle软件安装"><a href="#Oracle软件安装" class="headerlink" title="Oracle软件安装"></a>Oracle软件安装</h2><p><a href="https://luciferliu.blog.csdn.net/article/details/118529918">https://luciferliu.blog.csdn.net/article/details/118529918</a></p>
-<h3 id="软件包上传"><a href="#软件包上传" class="headerlink" title="软件包上传"></a>软件包上传</h3><p><img data-src="https://cdn.jonty.top/img/image-20211104171706862.png" alt="image-20211104171706862"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104171845746.png" alt="image-20211104171845746"></p>
-<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>按顺序解压1、2软件包</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">unzip -q p13390677_112040_Linux-x86-64_1of7.zip</span><br><span class="line">unzip -q p13390677_112040_Linux-x86-64_2of7.zip</span><br><span class="line"></span><br><span class="line">// 授权soft  to oracle</span><br><span class="line">chown -R oracle:oinstall /soft</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="VNC配置"><a href="#VNC配置" class="headerlink" title="VNC配置"></a>VNC配置</h4><h5 id="安装GNOME桌面"><a href="#安装GNOME桌面" class="headerlink" title="安装GNOME桌面"></a>安装GNOME桌面</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 列出的组列表里有GNOME Desktop。</span></span><br><span class="line">yum grouplist  </span><br><span class="line"><span class="meta">#</span><span class="bash">安装之</span></span><br><span class="line">yum groupinstall -y &quot;GNOME Desktop&quot; </span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装完成后，修改默认启动方式为图形化界面</span></span><br><span class="line">systemctl set-default graphical.target  //设置成图形模式 </span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果要换回来</span> </span><br><span class="line">systemctl set-default multi-user.target  //设置成命令模式 </span><br><span class="line"><span class="meta">#</span><span class="bash">然后重启系统即可</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="安装VNC服务"><a href="#安装VNC服务" class="headerlink" title="安装VNC服务"></a>安装VNC服务</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install tigervnc-server -y</span><br><span class="line"></span><br><span class="line">rpm -qa|grep tigervnc-server -- 验证是否安装成功</span><br></pre></td></tr></table></figure>
-
-<h5 id="打开VNC服务"><a href="#打开VNC服务" class="headerlink" title="打开VNC服务"></a>打开VNC服务</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vncserver :1  # 5901</span><br><span class="line"></span><br><span class="line">vncserver -kill :1  # 关闭</span><br><span class="line"></span><br><span class="line">vncpasswd # 重置密码</span><br></pre></td></tr></table></figure>
-
-<p>然后配置好密码使用<code>VNC Viewer</code>连接远程桌面</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211108134312717.png" alt="image-20211108134312717"></p>
-<blockquote>
-<p>教程 ： <a href="https://blog.csdn.net/nahancy/article/details/86316971">https://blog.csdn.net/nahancy/article/details/86316971</a></p>
-<p>VNC下载：链接：<a href="https://pan.baidu.com/s/1fEf87xSB09gWxwswNXFeYw">https://pan.baidu.com/s/1fEf87xSB09gWxwswNXFeYw</a><br>提取码：3w9b </p>
-</blockquote>
-<h4 id="执行Oracle安装脚本"><a href="#执行Oracle安装脚本" class="headerlink" title="执行Oracle安装脚本"></a>执行Oracle安装脚本</h4><p>进入<code>/soft/database</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./runInstaller -jreLoc /etc/alternatives/jre_1.8.0</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104172834599.png" alt="image-20211104172834599"></p>
-<p><strong>安装检查的问题</strong>：</p>
-<p>1、must be configured to display at least 256 colors</p>
-<p>解决方法：使用oracle用户打开vnserver</p>
-<p>2、交换空间需要大于150MB</p>
-<p>结局方法：</p>
-<p>增加<code>swap</code>分区</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=/home/swapfile bs=1M count=512</span><br><span class="line">mkswap /home/swapfile</span><br><span class="line">swapon /home/swapfile</span><br></pre></td></tr></table></figure>
-
-<p>然后修改 /etc/fstab，加上：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"> vim /etc/fstab</span><br><span class="line">/home/swapfile swap swap defaults 0 0</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="配置安全更新"><a href="#配置安全更新" class="headerlink" title="配置安全更新"></a>配置安全更新</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104172939686.png" alt="image-20211104172939686"></p>
-<h4 id="下载软件更新"><a href="#下载软件更新" class="headerlink" title="下载软件更新"></a>下载软件更新</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173006944.png" alt="image-20211104173006944"></p>
-<h4 id="安装选项"><a href="#安装选项" class="headerlink" title="安装选项"></a>安装选项</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173036634.png" alt="image-20211104173036634"></p>
-<h4 id="安装选项-1"><a href="#安装选项-1" class="headerlink" title="安装选项"></a>安装选项</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173111607.png" alt="image-20211104173111607"></p>
-<h4 id="数据库版本"><a href="#数据库版本" class="headerlink" title="数据库版本"></a>数据库版本</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173154202.png" alt="image-20211104173154202"></p>
-<h4 id="安装位置"><a href="#安装位置" class="headerlink" title="安装位置"></a>安装位置</h4><p>默认</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104173224434.png" alt="image-20211104173224434"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104173247574.png" alt="image-20211104173247574"></p>
-<h4 id="操作系统组"><a href="#操作系统组" class="headerlink" title="操作系统组"></a>操作系统组</h4><p>默认</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104173318474.png" alt="image-20211104173318474"></p>
-<h4 id="安装前检查"><a href="#安装前检查" class="headerlink" title="安装前检查"></a>安装前检查</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173400667.png" alt="image-20211104173400667"></p>
-<p>安装</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rpm -ivh pdksh-5.2.14-37.el5.x86_64.rpm</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104173503682.png" alt="image-20211104173503682"></p>
-<p>重新检查</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104173621400.png" alt="image-20211104173621400"></p>
-<p>等待安装</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104173754434.png" alt="image-20211104173754434"></p>
-<p><strong>错误解决</strong></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104173840559.png" alt="image-20211104173840559"></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">sed -i &#x27;s/^\(\s*\$(MK_EMAGENT_NMECTL)\)\s*$/\1 -lnnz11/g&#x27; $ORACLE_HOME/sysman/lib/ins_emagent.mk</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104174044437.png" alt="image-20211104174044437"></p>
-<h4 id="执行配置脚本"><a href="#执行配置脚本" class="headerlink" title="执行配置脚本"></a>执行配置脚本</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - root</span><br><span class="line">/u01/app/oraInventory/orainstRoot.sh</span><br><span class="line">/u01/app/oraInventory/orainstRoot.sh</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104174220290.png" alt="image-20211104174220290"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104174230792.png" alt="image-20211104174230792"></p>
-<h4 id="安装完成"><a href="#安装完成" class="headerlink" title="安装完成"></a>安装完成</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104174313280.png" alt="image-20211104174313280"></p>
-<p>安装完成后重启主机</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><h4 id="打开监听"><a href="#打开监听" class="headerlink" title="打开监听"></a>打开监听</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">lsnrctl start</span><br><span class="line">lsnrctl status</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175006137.png" alt="image-20211104175006137"></p>
-<h4 id="打开配置工具"><a href="#打开配置工具" class="headerlink" title="打开配置工具"></a>打开配置工具</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export LANG=en_US</span><br><span class="line">dbca</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175143670.png" alt="image-20211104175143670"></p>
-<h4 id="创建数据库-1"><a href="#创建数据库-1" class="headerlink" title="创建数据库"></a>创建数据库</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104175219629.png" alt="image-20211104175219629"></p>
-<p>自定义模式</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175242442.png" alt="image-20211104175242442"></p>
-<p>实例名</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175309394.png" alt="image-20211104175309394"></p>
-<p>EM</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175402390.png" alt="image-20211104175402390"></p>
-<p>使用统一密码</p>
-<p><code>P@ssw0rd</code></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175458122.png" alt="image-20211104175458122"></p>
-<p>使用建好的数据文件保存地址</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175606842.png" alt="image-20211104175606842"></p>
-<p>关闭闪回和归档</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175643304.png" alt="image-20211104175643304"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175710858.png" alt="image-20211104175710858"></p>
-<p>内存分配</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175742728.png" alt="image-20211104175742728"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175807092.png" alt="image-20211104175807092"></p>
-<p>字符集配置</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104175832188.png" alt="image-20211104175832188"></p>
-<p>下一步</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104190456300.png" alt="image-20211104190456300"></p>
-<p>下一步</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104190517979.png" alt="image-20211104190517979"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104190603367.png" alt="image-20211104190603367"></p>
-<p>等待创建完成</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104190644897.png" alt="image-20211104190644897"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211104194542389.png" alt="image-20211104194542389"></p>
-<h4 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h4><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">su <span class="operator">-</span> oracle</span><br><span class="line">sqlplus <span class="operator">/</span> <span class="keyword">as</span> sysdba</span><br><span class="line"></span><br><span class="line">## 重启后启动数据库</span><br><span class="line">startup</span><br><span class="line"></span><br><span class="line">shutdown immediate; # 关闭数据库</span><br><span class="line"></span><br><span class="line">$ echo $ORACLE_SID  <span class="comment">-- 实例ID</span></span><br><span class="line">....                    <span class="comment">--&gt;&gt; Look what you get</span></span><br><span class="line">$ echo $ORACLE_HOME <span class="comment">-- 安装目录</span></span><br><span class="line">....                  </span><br><span class="line">$ ps <span class="operator">-</span>ef <span class="operator">|</span> grep smon    <span class="comment">--&gt;&gt; Look for smon background process which</span></span><br><span class="line">ora_smon_InfraDB        <span class="comment">--&gt;&gt; should include ORACLE_SID in it.</span></span><br><span class="line"></span><br><span class="line">$ ORACLE_SID<span class="operator">=</span>InfraDB    <span class="comment">--&gt;&gt; set to a valid value like these ones.</span></span><br><span class="line">$ ORACLE_HOME<span class="operator">=</span><span class="operator">/</span>u01<span class="operator">/</span>app<span class="operator">/</span>oracle<span class="operator">/</span>product<span class="operator">/</span><span class="number">12.2</span><span class="number">.0</span><span class="number">.1</span><span class="operator">/</span>dbhome_1</span><br><span class="line"></span><br><span class="line">$ lsnrctl status        <span class="comment">--&gt;&gt; Look whether listener is ON</span></span><br><span class="line">$ lsnrctl <span class="keyword">start</span>         <span class="comment">--&gt;&gt; If not, then start the listener.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> v$database;</span><br><span class="line"></span><br><span class="line">##创建数据库用户</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> test identified <span class="keyword">by</span> test;</span><br><span class="line"><span class="keyword">grant</span> dba <span class="keyword">to</span> test; # RESOURCE</span><br><span class="line"><span class="keyword">commit</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">create</span> session <span class="keyword">to</span> test</span><br><span class="line">conn test<span class="operator">/</span>test</span><br><span class="line"></span><br><span class="line">##创建表</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> student (id number <span class="keyword">not</span> <span class="keyword">null</span>,name varchar2(<span class="number">100</span>));</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> student <span class="keyword">values</span> (<span class="number">1</span>,<span class="string">&#x27;jonty&#x27;</span>);</span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211104194801063.png" alt="image-20211104194801063"></p>
-<p><strong>注意</strong>：如果执行SQL命令<a href="https://stackoverflow.com/questions/50219312/ora-01034-oracle-not-available">ORA-01034: ORACLE not available</a>，可能是实例ID对不上</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo $ORACLE_SID   -- 查看当前实例</span><br><span class="line"></span><br><span class="line">echo $ORACLE_HOME -- 安装目录</span><br><span class="line"></span><br><span class="line">ORACLE_SID=medprodb  -- 设置</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211108134715074.png" alt="image-20211108134715074"></p>
-<h2 id="数据库补丁安装"><a href="#数据库补丁安装" class="headerlink" title="数据库补丁安装"></a>数据库补丁安装</h2><h3 id="上传补丁"><a href="#上传补丁" class="headerlink" title="上传补丁"></a>上传补丁</h3><p>上传PSU文件夹到<code>/soft</code>目录下并解压</p>
-<p> p6880880_112000_Linux-x86-64.zip</p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211118190817028.png" alt="image-20211118190817028"></p>
-<h3 id="关闭数据库服务"><a href="#关闭数据库服务" class="headerlink" title="关闭数据库服务"></a>关闭数据库服务</h3><p>停掉所有数据库服务</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">lsnrctl stop # 关闭监听</span><br><span class="line"></span><br><span class="line">emctl stop dbconsole; # 关闭EM</span><br><span class="line"></span><br><span class="line">shutdown immediate; # 关闭数据库</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="替换OPatch"><a href="#替换OPatch" class="headerlink" title="替换OPatch"></a>替换OPatch</h3><p>替换<strong>OPatch</strong>工具</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd $ORACLE_HOME</span><br><span class="line">cd /OPatch</span><br><span class="line">./opatch version</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211118192559635.png" alt="image-20211118192559635"></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mv Opatch OPatch_old # 备份</span><br><span class="line">cp -r /soft/Opatch . # 复制</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211118193207365.png" alt="image-20211118193207365"></p>
-<h3 id="执行补丁脚本"><a href="#执行补丁脚本" class="headerlink" title="执行补丁脚本"></a>执行补丁脚本</h3><p>进入补丁目录</p>
-<p>查看<code>README.html</code>文档</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">opatch prereq CheckConflictAgainstOHWithDetail -ph ./</span><br><span class="line">opatch apply</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果OPatch failed with error code 73</span></span><br><span class="line">ps -ef|grep smon</span><br><span class="line">kill -9 进程id</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211118194022739.png" alt="image-20211118194022739"></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">opatch lsinventory # 查看</span><br><span class="line"></span><br><span class="line">cd $ORACLE_HOME/rdbms/admin</span><br><span class="line">sqlplus / as sysdba</span><br><span class="line">startup # 启动</span><br><span class="line">@catbundle.sql psu apply # 执行脚本</span><br><span class="line">@utlrp.sql</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211118194940622.png" alt="image-20211118194940622"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211118195242997.png" alt="image-20211118195242997"></p>
-<p>重启数据库</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">shutdown immediate;</span><br><span class="line">startup;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="基础维护"><a href="#基础维护" class="headerlink" title="基础维护"></a>基础维护</h2><h3 id="关闭密码过期"><a href="#关闭密码过期" class="headerlink" title="关闭密码过期"></a>关闭密码过期</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_profiles <span class="keyword">where</span> profile <span class="operator">=</span> <span class="string">&#x27;DEFAULT&#x27;</span>; # 查看</span><br><span class="line"><span class="keyword">alter</span> profile <span class="keyword">default</span> limit PASSWORD_LIFE_TIME UNLIMITED;</span><br></pre></td></tr></table></figure>
-
-<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> audit; # 审计</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> audit_trail <span class="operator">=</span> <span class="keyword">none</span> <span class="keyword">scope</span> <span class="operator">=</span> spfile;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> v$datafile; # 查看数据文件</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> sga; # 查看sga</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> pga; # 查看pga</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> proc; # 进程数</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> <span class="keyword">open</span>; # 游标</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> open_cursors <span class="operator">=</span> <span class="number">2000</span> <span class="keyword">scope</span> <span class="operator">=</span> spfile;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="警告日志"><a href="#警告日志" class="headerlink" title="警告日志"></a>警告日志</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> dump</span><br><span class="line">cd <span class="operator">/</span>u01<span class="operator">/</span>app<span class="operator">/</span>oracle<span class="operator">/</span>diag<span class="operator">/</span>rdbms<span class="operator">/</span>orcl<span class="operator">/</span>orcl<span class="operator">/</span>trace</span><br></pre></td></tr></table></figure>
-
-<p><img data-src="https://cdn.jonty.top/img/image-20211118201536713.png" alt="image-20211118201536713"></p>
-<p><img data-src="https://cdn.jonty.top/img/image-20211118201633885.png" alt="image-20211118201633885"></p>
-<h3 id="归档日志"><a href="#归档日志" class="headerlink" title="归档日志"></a>归档日志</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">archive log list;</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> recover;</span><br><span class="line"></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> db_recovery_file_dest_size<span class="operator">=</span><span class="number">5</span>g;</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> db_recovery_file_dest <span class="operator">=</span> <span class="string">&#x27;/archive&#x27;</span>;</span><br><span class="line">shutdown immediate;</span><br><span class="line">startup mount;</span><br><span class="line"><span class="keyword">alter</span> database archivelog;</span><br><span class="line">archive log list;</span><br><span class="line"><span class="keyword">alter</span> database <span class="keyword">open</span>;</span><br></pre></td></tr></table></figure>
-
-<p>配置完成后关闭，迁移数据后生产再打开</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">shutdown immediate;</span><br><span class="line">startup mount;</span><br><span class="line"><span class="keyword">alter</span> database noarchivelog;</span><br><span class="line"><span class="keyword">alter</span> database <span class="keyword">open</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>备份一下</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> root用户</span></span><br><span class="line">tar zcvf oracle.tar.gz /u01/app/oracle</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>Oracle</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Oracle</tag>
-        <tag>RedHat</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Oracle11gR2 Rac集群搭建</title>
     <url>/2022/01/04/oracle-11gR2-rac/</url>
     <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><strong>Oracle RAC是什么?</strong></p>
@@ -2511,6 +2279,708 @@
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">select instance_number,instance_name,startup_time,status from gv<span class="variable">$Instance</span>;</span><br></pre></td></tr></table></figure>
 
 <p><img data-src="https://cdn.jonty.top/img/image-20220104154654400.png" alt="image-20220104154654400"></p>
+]]></content>
+      <categories>
+        <category>Oracle</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>RedHat安装Oracle数据库</title>
+    <url>/2021/11/09/rhel-install-oracle-11g-r2/</url>
+    <content><![CDATA[<p>📢：本文为实操记录，练习环境为RHEL7.6(本地虚拟机)，腾讯云Centos7.6实操安装成功。不正之处望指出。</p>
+<p>关于虚拟机安装Linux操作系统,<a href="https://jonty.top/2021/10/27/vmware-install-linux/">点击查看</a></p>
+<h2 id="Linux主机配置"><a href="#Linux主机配置" class="headerlink" title="Linux主机配置"></a>Linux主机配置</h2><h3 id="主机名和网络配置"><a href="#主机名和网络配置" class="headerlink" title="主机名和网络配置"></a>主机名和网络配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/hosts</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#OracleBegin##</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#Public IP</span></span></span><br><span class="line">192.168.1.79   orcl79</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#OracleEnd##</span></span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104095943481.png" alt="image-20211104095943481"></p>
+<h3 id="hosts文件配置"><a href="#hosts文件配置" class="headerlink" title="hosts文件配置"></a>hosts文件配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vi /etc/hosts</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104100304275.png" alt="image-20211104100304275"></p>
+<h3 id="防火墙配置"><a href="#防火墙配置" class="headerlink" title="防火墙配置"></a>防火墙配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104100742682.png" alt="image-20211104100742682"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104100906781.png" alt="image-20211104100906781"></p>
+<h3 id="SELINUX配置"><a href="#SELINUX配置" class="headerlink" title="SELINUX配置"></a>SELINUX配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27; /etc/selinux/config</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104101228439.png" alt="image-20211104101228439"></p>
+<h3 id="挂载镜像"><a href="#挂载镜像" class="headerlink" title="挂载镜像"></a>挂载镜像</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mount /dev/cdrom /mnt</span><br><span class="line">cat &lt;&lt;EOF&gt;/etc/yum.repos.d/local.repo</span><br><span class="line">[local]</span><br><span class="line">name=local</span><br><span class="line">baseurl=file:///mnt</span><br><span class="line">gpgcheck=0</span><br><span class="line">enabled=1</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104101459247.png" alt="image-20211104101459247"></p>
+<h3 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install -y bc \</span><br><span class="line">binutils \</span><br><span class="line">compat-libcap1 \</span><br><span class="line">compat-libstdc++-33 \</span><br><span class="line">gcc \</span><br><span class="line">gcc-c++ \</span><br><span class="line">elfutils-libelf \</span><br><span class="line">elfutils-libelf-devel \</span><br><span class="line">glibc \</span><br><span class="line">glibc-devel \</span><br><span class="line">ksh \</span><br><span class="line">libaio \</span><br><span class="line">libaio-devel \</span><br><span class="line">libgcc \</span><br><span class="line">libstdc++ \</span><br><span class="line">libstdc++-devel \</span><br><span class="line">libxcb \</span><br><span class="line">libX11 \</span><br><span class="line">libXau \</span><br><span class="line">libXi \</span><br><span class="line">libXtst \</span><br><span class="line">libXrender \</span><br><span class="line">libXrender-devel \</span><br><span class="line">make \</span><br><span class="line">net-tools \</span><br><span class="line">nfs-utils \</span><br><span class="line">smartmontools \</span><br><span class="line">sysstat \</span><br><span class="line">e2fsprogs \</span><br><span class="line">e2fsprogs-libs \</span><br><span class="line">fontconfig-devel \</span><br><span class="line">expect \</span><br><span class="line">unzip \</span><br><span class="line">openssh-clients \</span><br><span class="line">readline* \</span><br><span class="line">psmisc --skip-broken</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104102036281.png" alt="image-20211104102036281"></p>
+<p>安装缺少的compat-libstdc++包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rpm -ivh compat-libstdc++-33-3.2.3-72.el7.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -q bc binutils compat-libcap1 compat-libstdc++-33 gcc gcc-c++ elfutils-libelf elfutils-libelf-devel glibc glibc-devel ksh libaio libaio-devel libgcc libstdc++ libstdc++-devel libxcb libX11 libXau libXi libXtst libXrender libXrender-devel make net-tools nfs-utils smartmontools sysstat e2fsprogs e2fsprogs-libs fontconfig-devel expect unzip openssh-clients readline</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104102049805.png" alt="image-20211104102049805"></p>
+<h3 id="配置ZeroConf"><a href="#配置ZeroConf" class="headerlink" title="配置ZeroConf"></a>配置ZeroConf</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#关闭Zeroconf service的服务守护进程</span></span></span><br><span class="line">systemctl stop avahi-daemon.socket</span><br><span class="line">systemctl stop avahi-daemon.service</span><br><span class="line">systemctl disable avahi-daemon.service</span><br><span class="line">systemctl disable avahi-daemon.socket</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#关闭NOZEROCONF</span></span></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/sysconfig/network</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">NOZEROCONF=yes</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104103506861.png" alt="image-20211104103506861"></p>
+<h3 id="关闭透明大页和numa"><a href="#关闭透明大页和numa" class="headerlink" title="关闭透明大页和numa"></a>关闭透明大页和numa</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/quiet/quiet transparent_hugepage=never numa=off/&#x27; /etc/default/grub</span><br><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104103747755.png" alt="image-20211104103747755"></p>
+<h3 id="配置系统参数文件"><a href="#配置系统参数文件" class="headerlink" title="配置系统参数文件"></a>配置系统参数文件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#计算shmall和shmmax值</span></span></span><br><span class="line">memTotal=$(grep MemTotal /proc/meminfo | awk &#x27;&#123;print $2&#125;&#x27;)</span><br><span class="line">totalMemory=$((memTotal / 2048))</span><br><span class="line">shmall=$((memTotal / 4))</span><br><span class="line">if [ $shmall -lt 2097152 ]; then</span><br><span class="line">  shmall=2097152</span><br><span class="line">fi</span><br><span class="line">shmmax=$((memTotal * 1024 - 1))</span><br><span class="line">if [ &quot;$shmmax&quot; -lt 4294967295 ]; then</span><br><span class="line">  shmmax=4294967295</span><br><span class="line">fi</span><br><span class="line">echo $shmall</span><br><span class="line">echo $shmmax</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#配置系统参数</span></span></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/sysctl.conf</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#shmmal&#x27;s Calculation formula: physical memory 8G：(8*1024*1024*1024)/4096=2097152</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#shmmax&#x27;s Calculation formula: physical memory 8G：(8/2)*1024*1024*1024 -1=4294967295</span></span></span><br><span class="line">fs.aio-max-nr = 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall = $shmall  # 单个共享内存段最大值</span><br><span class="line">kernel.shmmax = $shmmax  # 共享内存页数</span><br><span class="line">kernel.shmmni = 4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048576</span><br><span class="line">EOF</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#系统参数生效</span></span></span><br><span class="line">sysctl -p</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/sysctl.conf</span><br><span class="line">fs.aio-max-nr = 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall = 2097152</span><br><span class="line">kernel.shmmax = 4294967295</span><br><span class="line">kernel.shmmni = 4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048576</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">kernel.shmall = $shmall  # 单个共享内存段最大值</span><br><span class="line">kernel.shmmax = $shmmax  # 共享内存页数</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211115173131542.png" alt="image-20211115173131542"></p>
+<h3 id="配置系统资源限制"><a href="#配置系统资源限制" class="headerlink" title="配置系统资源限制"></a>配置系统资源限制</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/security/limits.conf</span><br><span class="line">oracle soft nofile 16384</span><br><span class="line">oracle hard nofile 65536</span><br><span class="line">oracle soft stack 10240</span><br><span class="line">oracle hard stack 32768</span><br><span class="line">oracle soft nproc 16384 </span><br><span class="line">oracle hard nproc 16384 </span><br><span class="line">oracle hard memlock 8000000</span><br><span class="line">oracle soft memlock 8000000</span><br><span class="line">EOF</span><br><span class="line"><span class="meta">#</span><span class="bash"> 单位kb 略低于内存</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/security/limits.conf</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">oracle soft nofile 1024</span><br><span class="line">oracle hard nofile 65536</span><br><span class="line">oracle soft stack 10240</span><br><span class="line">oracle hard stack 32768</span><br><span class="line">oracle soft nproc 2047 </span><br><span class="line">oracle hard nproc 16384 </span><br><span class="line">oracle hard memlock 8000000</span><br><span class="line">oracle soft memlock 8000000</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cat &lt;&lt;EOF &gt;&gt;/etc/pam.d/login</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleBegin</span></span><br><span class="line">session required pam_limits.so </span><br><span class="line">session required /lib64/security/pam_limits.so</span><br><span class="line"><span class="meta">#</span><span class="bash">OracleEnd</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建用户和组"><a href="#创建用户和组" class="headerlink" title="创建用户和组"></a>创建用户和组</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/usr/sbin/groupadd -g 54321 oinstall</span><br><span class="line">/usr/sbin/groupadd -g 54322 dba</span><br><span class="line">/usr/sbin/groupadd -g 54323 oper</span><br><span class="line"></span><br><span class="line">/usr/sbin/useradd -u 54321 -g oinstall -G dba,oper oracle</span><br><span class="line">echo oracle | passwd --stdin oracle</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建Oracle安装目录"><a href="#创建Oracle安装目录" class="headerlink" title="创建Oracle安装目录"></a>创建Oracle安装目录</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkdir -p /u01/app/oracle/product/11.2.0/db</span><br><span class="line">mkdir -p /u01/app/oraInventory</span><br><span class="line">mkdir -p /oradata</span><br><span class="line">chown -R oracle:oinstall /oradata</span><br><span class="line">chown -R oracle:oinstall /u01/app</span><br><span class="line">chmod -R 775 /u01/app</span><br></pre></td></tr></table></figure>
+
+<h3 id="用户环境变量配置"><a href="#用户环境变量配置" class="headerlink" title="用户环境变量配置"></a>用户环境变量配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt;&gt;/home/oracle/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleBegin#########################</span></span></span><br><span class="line">umask 022</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export TMPDIR=\$TMP</span><br><span class="line">export NLS_LANG=AMERICAN_AMERICA.AL32UTF8</span><br><span class="line">export ORACLE_BASE=/u01/app/oracle</span><br><span class="line">export ORACLE_HOME=/u01/app/oracle/product/11.2.0/db</span><br><span class="line">export ORACLE_HOSTNAME=orcl79</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export TNS_ADMIN=\$ORACLE_HOME/network/admin</span><br><span class="line">export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib</span><br><span class="line">export ORACLE_SID=orcl</span><br><span class="line">export PATH=/usr/sbin:\$PATH</span><br><span class="line">export PATH=\$ORACLE_HOME/bin:\$ORACLE_HOME/OPatch:\$PATH</span><br><span class="line">alias sas=&#x27;sqlplus / as sysdba&#x27;</span><br><span class="line">export PS1=&quot;[\`whoami\`@\`hostname\`:&quot;&#x27;\$PWD]\$ &#x27;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h2 id="Oracle软件安装"><a href="#Oracle软件安装" class="headerlink" title="Oracle软件安装"></a>Oracle软件安装</h2><p><a href="https://luciferliu.blog.csdn.net/article/details/118529918">https://luciferliu.blog.csdn.net/article/details/118529918</a></p>
+<h3 id="软件包上传"><a href="#软件包上传" class="headerlink" title="软件包上传"></a>软件包上传</h3><p><img data-src="https://cdn.jonty.top/img/image-20211104171706862.png" alt="image-20211104171706862"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104171845746.png" alt="image-20211104171845746"></p>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>按顺序解压1、2软件包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">unzip -q p13390677_112040_Linux-x86-64_1of7.zip</span><br><span class="line">unzip -q p13390677_112040_Linux-x86-64_2of7.zip</span><br><span class="line"></span><br><span class="line">// 授权soft  to oracle</span><br><span class="line">chown -R oracle:oinstall /soft</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="VNC配置"><a href="#VNC配置" class="headerlink" title="VNC配置"></a>VNC配置</h4><h5 id="安装GNOME桌面"><a href="#安装GNOME桌面" class="headerlink" title="安装GNOME桌面"></a>安装GNOME桌面</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 列出的组列表里有GNOME Desktop。</span></span><br><span class="line">yum grouplist  </span><br><span class="line"><span class="meta">#</span><span class="bash">安装之</span></span><br><span class="line">yum groupinstall -y &quot;GNOME Desktop&quot; </span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装完成后，修改默认启动方式为图形化界面</span></span><br><span class="line">systemctl set-default graphical.target  //设置成图形模式 </span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果要换回来</span> </span><br><span class="line">systemctl set-default multi-user.target  //设置成命令模式 </span><br><span class="line"><span class="meta">#</span><span class="bash">然后重启系统即可</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="安装VNC服务"><a href="#安装VNC服务" class="headerlink" title="安装VNC服务"></a>安装VNC服务</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install tigervnc-server -y</span><br><span class="line"></span><br><span class="line">rpm -qa|grep tigervnc-server -- 验证是否安装成功</span><br></pre></td></tr></table></figure>
+
+<h5 id="打开VNC服务"><a href="#打开VNC服务" class="headerlink" title="打开VNC服务"></a>打开VNC服务</h5><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vncserver :1  # 5901</span><br><span class="line"></span><br><span class="line">vncserver -kill :1  # 关闭</span><br><span class="line"></span><br><span class="line">vncpasswd # 重置密码</span><br></pre></td></tr></table></figure>
+
+<p>然后配置好密码使用<code>VNC Viewer</code>连接远程桌面</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211108134312717.png" alt="image-20211108134312717"></p>
+<blockquote>
+<p>教程 ： <a href="https://blog.csdn.net/nahancy/article/details/86316971">https://blog.csdn.net/nahancy/article/details/86316971</a></p>
+<p>VNC下载：链接：<a href="https://pan.baidu.com/s/1fEf87xSB09gWxwswNXFeYw">https://pan.baidu.com/s/1fEf87xSB09gWxwswNXFeYw</a><br>提取码：3w9b </p>
+</blockquote>
+<h4 id="执行Oracle安装脚本"><a href="#执行Oracle安装脚本" class="headerlink" title="执行Oracle安装脚本"></a>执行Oracle安装脚本</h4><p>进入<code>/soft/database</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./runInstaller -jreLoc /etc/alternatives/jre_1.8.0</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104172834599.png" alt="image-20211104172834599"></p>
+<p><strong>安装检查的问题</strong>：</p>
+<p>1、must be configured to display at least 256 colors</p>
+<p>解决方法：使用oracle用户打开vnserver</p>
+<p>2、交换空间需要大于150MB</p>
+<p>结局方法：</p>
+<p>增加<code>swap</code>分区</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dd if=/dev/zero of=/home/swapfile bs=1M count=512</span><br><span class="line">mkswap /home/swapfile</span><br><span class="line">swapon /home/swapfile</span><br></pre></td></tr></table></figure>
+
+<p>然后修改 /etc/fstab，加上：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"> vim /etc/fstab</span><br><span class="line">/home/swapfile swap swap defaults 0 0</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="配置安全更新"><a href="#配置安全更新" class="headerlink" title="配置安全更新"></a>配置安全更新</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104172939686.png" alt="image-20211104172939686"></p>
+<h4 id="下载软件更新"><a href="#下载软件更新" class="headerlink" title="下载软件更新"></a>下载软件更新</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173006944.png" alt="image-20211104173006944"></p>
+<h4 id="安装选项"><a href="#安装选项" class="headerlink" title="安装选项"></a>安装选项</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173036634.png" alt="image-20211104173036634"></p>
+<h4 id="安装选项-1"><a href="#安装选项-1" class="headerlink" title="安装选项"></a>安装选项</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173111607.png" alt="image-20211104173111607"></p>
+<h4 id="数据库版本"><a href="#数据库版本" class="headerlink" title="数据库版本"></a>数据库版本</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173154202.png" alt="image-20211104173154202"></p>
+<h4 id="安装位置"><a href="#安装位置" class="headerlink" title="安装位置"></a>安装位置</h4><p>默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173224434.png" alt="image-20211104173224434"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173247574.png" alt="image-20211104173247574"></p>
+<h4 id="操作系统组"><a href="#操作系统组" class="headerlink" title="操作系统组"></a>操作系统组</h4><p>默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173318474.png" alt="image-20211104173318474"></p>
+<h4 id="安装前检查"><a href="#安装前检查" class="headerlink" title="安装前检查"></a>安装前检查</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104173400667.png" alt="image-20211104173400667"></p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rpm -ivh pdksh-5.2.14-37.el5.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173503682.png" alt="image-20211104173503682"></p>
+<p>重新检查</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173621400.png" alt="image-20211104173621400"></p>
+<p>等待安装</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173754434.png" alt="image-20211104173754434"></p>
+<p><strong>错误解决</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104173840559.png" alt="image-20211104173840559"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">sed -i &#x27;s/^\(\s*\$(MK_EMAGENT_NMECTL)\)\s*$/\1 -lnnz11/g&#x27; $ORACLE_HOME/sysman/lib/ins_emagent.mk</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104174044437.png" alt="image-20211104174044437"></p>
+<h4 id="执行配置脚本"><a href="#执行配置脚本" class="headerlink" title="执行配置脚本"></a>执行配置脚本</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - root</span><br><span class="line">/u01/app/oraInventory/orainstRoot.sh</span><br><span class="line">/u01/app/oraInventory/orainstRoot.sh</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104174220290.png" alt="image-20211104174220290"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104174230792.png" alt="image-20211104174230792"></p>
+<h4 id="安装完成"><a href="#安装完成" class="headerlink" title="安装完成"></a>安装完成</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104174313280.png" alt="image-20211104174313280"></p>
+<p>安装完成后重启主机</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><h4 id="打开监听"><a href="#打开监听" class="headerlink" title="打开监听"></a>打开监听</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">lsnrctl start</span><br><span class="line">lsnrctl status</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175006137.png" alt="image-20211104175006137"></p>
+<h4 id="打开配置工具"><a href="#打开配置工具" class="headerlink" title="打开配置工具"></a>打开配置工具</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export LANG=en_US</span><br><span class="line">dbca</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175143670.png" alt="image-20211104175143670"></p>
+<h4 id="创建数据库-1"><a href="#创建数据库-1" class="headerlink" title="创建数据库"></a>创建数据库</h4><p><img data-src="https://cdn.jonty.top/img/image-20211104175219629.png" alt="image-20211104175219629"></p>
+<p>自定义模式</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175242442.png" alt="image-20211104175242442"></p>
+<p>实例名</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175309394.png" alt="image-20211104175309394"></p>
+<p>EM</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175402390.png" alt="image-20211104175402390"></p>
+<p>使用统一密码</p>
+<p><code>P@ssw0rd</code></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175458122.png" alt="image-20211104175458122"></p>
+<p>使用建好的数据文件保存地址</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175606842.png" alt="image-20211104175606842"></p>
+<p>关闭闪回和归档</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175643304.png" alt="image-20211104175643304"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175710858.png" alt="image-20211104175710858"></p>
+<p>内存分配</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175742728.png" alt="image-20211104175742728"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175807092.png" alt="image-20211104175807092"></p>
+<p>字符集配置</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104175832188.png" alt="image-20211104175832188"></p>
+<p>下一步</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104190456300.png" alt="image-20211104190456300"></p>
+<p>下一步</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104190517979.png" alt="image-20211104190517979"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104190603367.png" alt="image-20211104190603367"></p>
+<p>等待创建完成</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104190644897.png" alt="image-20211104190644897"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211104194542389.png" alt="image-20211104194542389"></p>
+<h4 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h4><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">su <span class="operator">-</span> oracle</span><br><span class="line">sqlplus <span class="operator">/</span> <span class="keyword">as</span> sysdba</span><br><span class="line"></span><br><span class="line">## 重启后启动数据库</span><br><span class="line">startup</span><br><span class="line"></span><br><span class="line">shutdown immediate; # 关闭数据库</span><br><span class="line"></span><br><span class="line">$ echo $ORACLE_SID  <span class="comment">-- 实例ID</span></span><br><span class="line">....                    <span class="comment">--&gt;&gt; Look what you get</span></span><br><span class="line">$ echo $ORACLE_HOME <span class="comment">-- 安装目录</span></span><br><span class="line">....                  </span><br><span class="line">$ ps <span class="operator">-</span>ef <span class="operator">|</span> grep smon    <span class="comment">--&gt;&gt; Look for smon background process which</span></span><br><span class="line">ora_smon_InfraDB        <span class="comment">--&gt;&gt; should include ORACLE_SID in it.</span></span><br><span class="line"></span><br><span class="line">$ ORACLE_SID<span class="operator">=</span>InfraDB    <span class="comment">--&gt;&gt; set to a valid value like these ones.</span></span><br><span class="line">$ ORACLE_HOME<span class="operator">=</span><span class="operator">/</span>u01<span class="operator">/</span>app<span class="operator">/</span>oracle<span class="operator">/</span>product<span class="operator">/</span><span class="number">12.2</span><span class="number">.0</span><span class="number">.1</span><span class="operator">/</span>dbhome_1</span><br><span class="line"></span><br><span class="line">$ lsnrctl status        <span class="comment">--&gt;&gt; Look whether listener is ON</span></span><br><span class="line">$ lsnrctl <span class="keyword">start</span>         <span class="comment">--&gt;&gt; If not, then start the listener.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> v$database;</span><br><span class="line"></span><br><span class="line">##创建数据库用户</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> test identified <span class="keyword">by</span> test;</span><br><span class="line"><span class="keyword">grant</span> dba <span class="keyword">to</span> test; # RESOURCE</span><br><span class="line"><span class="keyword">commit</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">create</span> session <span class="keyword">to</span> test</span><br><span class="line">conn test<span class="operator">/</span>test</span><br><span class="line"></span><br><span class="line">##创建表</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> student (id number <span class="keyword">not</span> <span class="keyword">null</span>,name varchar2(<span class="number">100</span>));</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> student <span class="keyword">values</span> (<span class="number">1</span>,<span class="string">&#x27;jonty&#x27;</span>);</span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211104194801063.png" alt="image-20211104194801063"></p>
+<p><strong>注意</strong>：如果执行SQL命令<a href="https://stackoverflow.com/questions/50219312/ora-01034-oracle-not-available">ORA-01034: ORACLE not available</a>，可能是实例ID对不上</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">echo $ORACLE_SID   -- 查看当前实例</span><br><span class="line"></span><br><span class="line">echo $ORACLE_HOME -- 安装目录</span><br><span class="line"></span><br><span class="line">ORACLE_SID=medprodb  -- 设置</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211108134715074.png" alt="image-20211108134715074"></p>
+<h2 id="数据库补丁安装"><a href="#数据库补丁安装" class="headerlink" title="数据库补丁安装"></a>数据库补丁安装</h2><h3 id="上传补丁"><a href="#上传补丁" class="headerlink" title="上传补丁"></a>上传补丁</h3><p>上传PSU文件夹到<code>/soft</code>目录下并解压</p>
+<p> p6880880_112000_Linux-x86-64.zip</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211118190817028.png" alt="image-20211118190817028"></p>
+<h3 id="关闭数据库服务"><a href="#关闭数据库服务" class="headerlink" title="关闭数据库服务"></a>关闭数据库服务</h3><p>停掉所有数据库服务</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">lsnrctl stop # 关闭监听</span><br><span class="line"></span><br><span class="line">emctl stop dbconsole; # 关闭EM</span><br><span class="line"></span><br><span class="line">shutdown immediate; # 关闭数据库</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="替换OPatch"><a href="#替换OPatch" class="headerlink" title="替换OPatch"></a>替换OPatch</h3><p>替换<strong>OPatch</strong>工具</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd $ORACLE_HOME</span><br><span class="line">cd /OPatch</span><br><span class="line">./opatch version</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211118192559635.png" alt="image-20211118192559635"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mv Opatch OPatch_old # 备份</span><br><span class="line">cp -r /soft/Opatch . # 复制</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211118193207365.png" alt="image-20211118193207365"></p>
+<h3 id="执行补丁脚本"><a href="#执行补丁脚本" class="headerlink" title="执行补丁脚本"></a>执行补丁脚本</h3><p>进入补丁目录</p>
+<p>查看<code>README.html</code>文档</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">opatch prereq CheckConflictAgainstOHWithDetail -ph ./</span><br><span class="line">opatch apply</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果OPatch failed with error code 73</span></span><br><span class="line">ps -ef|grep smon</span><br><span class="line">kill -9 进程id</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211118194022739.png" alt="image-20211118194022739"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">opatch lsinventory # 查看</span><br><span class="line"></span><br><span class="line">cd $ORACLE_HOME/rdbms/admin</span><br><span class="line">sqlplus / as sysdba</span><br><span class="line">startup # 启动</span><br><span class="line">@catbundle.sql psu apply # 执行脚本</span><br><span class="line">@utlrp.sql</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211118194940622.png" alt="image-20211118194940622"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211118195242997.png" alt="image-20211118195242997"></p>
+<p>重启数据库</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">shutdown immediate;</span><br><span class="line">startup;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="基础维护"><a href="#基础维护" class="headerlink" title="基础维护"></a>基础维护</h2><h3 id="关闭密码过期"><a href="#关闭密码过期" class="headerlink" title="关闭密码过期"></a>关闭密码过期</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dba_profiles <span class="keyword">where</span> profile <span class="operator">=</span> <span class="string">&#x27;DEFAULT&#x27;</span>; # 查看</span><br><span class="line"><span class="keyword">alter</span> profile <span class="keyword">default</span> limit PASSWORD_LIFE_TIME UNLIMITED;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> audit; # 审计</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> audit_trail <span class="operator">=</span> <span class="keyword">none</span> <span class="keyword">scope</span> <span class="operator">=</span> spfile;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> name <span class="keyword">from</span> v$datafile; # 查看数据文件</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> sga; # 查看sga</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> pga; # 查看pga</span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> proc; # 进程数</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> <span class="keyword">open</span>; # 游标</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> open_cursors <span class="operator">=</span> <span class="number">2000</span> <span class="keyword">scope</span> <span class="operator">=</span> spfile;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="警告日志"><a href="#警告日志" class="headerlink" title="警告日志"></a>警告日志</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> dump</span><br><span class="line">cd <span class="operator">/</span>u01<span class="operator">/</span>app<span class="operator">/</span>oracle<span class="operator">/</span>diag<span class="operator">/</span>rdbms<span class="operator">/</span>orcl<span class="operator">/</span>orcl<span class="operator">/</span>trace</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20211118201536713.png" alt="image-20211118201536713"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20211118201633885.png" alt="image-20211118201633885"></p>
+<h3 id="归档日志"><a href="#归档日志" class="headerlink" title="归档日志"></a>归档日志</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">archive log list;</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">parameter</span> recover;</span><br><span class="line"></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> db_recovery_file_dest_size<span class="operator">=</span><span class="number">5</span>g;</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">system</span> <span class="keyword">set</span> db_recovery_file_dest <span class="operator">=</span> <span class="string">&#x27;/archive&#x27;</span>;</span><br><span class="line">shutdown immediate;</span><br><span class="line">startup mount;</span><br><span class="line"><span class="keyword">alter</span> database archivelog;</span><br><span class="line">archive log list;</span><br><span class="line"><span class="keyword">alter</span> database <span class="keyword">open</span>;</span><br></pre></td></tr></table></figure>
+
+<p>配置完成后关闭，迁移数据后生产再打开</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">shutdown immediate;</span><br><span class="line">startup mount;</span><br><span class="line"><span class="keyword">alter</span> database noarchivelog;</span><br><span class="line"><span class="keyword">alter</span> database <span class="keyword">open</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>备份一下</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> root用户</span></span><br><span class="line">tar zcvf oracle.tar.gz /u01/app/oracle</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>Oracle</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Oracle</tag>
+        <tag>RedHat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Oracle 19c RAC集群搭建</title>
+    <url>/2022/01/12/rhel7-6-install-oracle19c-rac/</url>
+    <content><![CDATA[<h3 id="系统规划"><a href="#系统规划" class="headerlink" title="系统规划"></a>系统规划</h3><p>项目环境：虚拟机</p>
+<p>主机：3台 </p>
+<ul>
+<li>2台运行RAC集群</li>
+<li>1台共享存储</li>
+</ul>
+<p>CPU和内存资源：</p>
+<p>RAC集群：4U/8G</p>
+<p>共享存储：2U/4G</p>
+<h3 id="网络规划"><a href="#网络规划" class="headerlink" title="网络规划"></a>网络规划</h3><p>Public IP (内部访问)</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">192.168.2.63 rac1</span><br><span class="line">192.168.2.64 rac2</span><br></pre></td></tr></table></figure>
+
+<p>Private IP（节点心跳网络）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">10.10.10.63 rac1-priv</span><br><span class="line">10.10.10.64 rac2-priv</span><br></pre></td></tr></table></figure>
+
+<p>Virtual IP（提供客户端访问 漂移）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">192.168.2.65 rac1-vip</span><br><span class="line">192.168.2.66 rac2-vip</span><br></pre></td></tr></table></figure>
+
+<p>SCAN IP（客户端访问 均衡）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">192.168.2.67</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>主机版本</th>
+<th>主机名</th>
+<th>实例名</th>
+<th>Oracle版本</th>
+<th>public ip</th>
+<th>private ip</th>
+<th>virtual ip</th>
+<th>scan ip</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>rhel7.6</td>
+<td>rac1</td>
+<td>mesdb1</td>
+<td>19.3</td>
+<td>192.168.2.63</td>
+<td>10.10.10.63</td>
+<td>192.168.2.65</td>
+<td>192.168.2.67</td>
+</tr>
+<tr>
+<td>2</td>
+<td>rhel7.6</td>
+<td>rac2</td>
+<td>mesdb2</td>
+<td>19.3</td>
+<td>192.168.2.64</td>
+<td>10.10.10.64</td>
+<td>192.168.2.66</td>
+<td>192.168.2.67</td>
+</tr>
+</tbody></table>
+<h3 id="存储规划"><a href="#存储规划" class="headerlink" title="存储规划"></a>存储规划</h3><p><strong>系统：</strong></p>
+<ul>
+<li><p>/:50g</p>
+</li>
+<li><p>/oracle:100g</p>
+</li>
+<li><p>/backup:200g</p>
+</li>
+</ul>
+<p><strong>共享存储</strong></p>
+<ul>
+<li><p>dggrid1 :1g*3</p>
+</li>
+<li><p>dggrid2 :1g*3</p>
+</li>
+<li><p>dgsystem:8g*1</p>
+</li>
+<li><p>dgrecovery:3g*1</p>
+</li>
+<li><p>dgdata01:2g*1</p>
+</li>
+</ul>
+<p><strong>生产数据库空间要求</strong>：1T数据</p>
+<ul>
+<li><p>dggrid1 :2g*3</p>
+</li>
+<li><p>dggrid2 :2g*3</p>
+</li>
+<li><p>dgsystem:200g*1</p>
+</li>
+<li><p>dgrecovery:1T= 200g*5</p>
+</li>
+<li><p>dgdata01:1T= 200g*5</p>
+</li>
+<li><p>备份：/backup 3T= 1T *3</p>
+</li>
+</ul>
+<h3 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h3><h4 id="hosts配置"><a href="#hosts配置" class="headerlink" title="hosts配置"></a>hosts配置</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/hosts</span><br><span class="line"><span class="meta">#</span><span class="bash">Public IP</span></span><br><span class="line">192.168.2.63 	rac1</span><br><span class="line">192.168.2.64 	rac2</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">Private IP</span></span><br><span class="line">10.10.10.63 rac1-priv</span><br><span class="line">10.10.10.64 rac2-priv</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">Vip IP</span></span><br><span class="line">192.168.2.65 rac1-vip</span><br><span class="line">192.168.2.66 rac2-vip</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">Scan IP</span></span><br><span class="line">192.168.2.67 rac-scan</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h4 id="存储配置"><a href="#存储配置" class="headerlink" title="存储配置"></a>存储配置</h4><p><code>rac1&amp;rac2</code></p>
+<p>服务器主机的存储:lvm</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pvcreate /dev/sdb /dev/sdc</span><br><span class="line"></span><br><span class="line">vgcreate oraclevg /dev/sdb</span><br><span class="line">vgcreate backupvg /dev/sdc</span><br><span class="line"></span><br><span class="line">lvcreate -n oraclelv -L 100000M oraclevg</span><br><span class="line">lvcreate -n backuplv -L 200000M backupvg</span><br></pre></td></tr></table></figure>
+
+<p>格式化：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkfs.xfs /dev/backupvg/backuplv</span><br><span class="line">mkfs.xfs /dev/oraclevg/oraclelv</span><br></pre></td></tr></table></figure>
+
+<p>挂载：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vi /etc/fstab</span><br><span class="line">/dev/backupvg/backuplv	/backup		xfs		defaults	0 0</span><br><span class="line">/dev/oraclevg/oraclelv	/oracle		xfs		defaults	0 0</span><br><span class="line"></span><br><span class="line">mkdir /oracle</span><br><span class="line">mkdir /backup</span><br><span class="line"></span><br><span class="line">mount /oracle</span><br><span class="line">mount /backup</span><br></pre></td></tr></table></figure>
+
+<h4 id="ASM磁盘"><a href="#ASM磁盘" class="headerlink" title="ASM磁盘"></a>ASM磁盘</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#iscsi识别共享存储</span></span></span><br><span class="line">yum install -y iscsi-initiator-utils*</span><br><span class="line"></span><br><span class="line">systemctl enable iscsi</span><br><span class="line">systemctl start iscsi</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#输出targetname，10.10.10.68为iscsi共享存储设备IP地址</span></span></span><br><span class="line">iscsiadm -m discovery -t st -p 10.10.10.68</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#连接共享存储</span></span></span><br><span class="line">iscsiadm -m node -T iqn.1991-05.com.microsoft:win-arg9liue0mv-mesdb-target -p 10.10.10.68 -l</span><br><span class="line">lsblk</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>todo 多路径配置</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">for i in d e f g h i j k l;</span><br><span class="line">do  </span><br><span class="line">echo &quot;KERNEL==\&quot;sd?\&quot;,SUBSYSTEM==\&quot;block\&quot;, PROGRAM==\&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/\$name\&quot;,RESULT==\&quot;`/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/sd$i`\&quot;, SYMLINK+=\&quot;asm-disk$i\&quot;,OWNER=\&quot;grid\&quot;, GROUP=\&quot;asmadmin\&quot;,MODE=\&quot;0660\&quot;&quot;</span><br><span class="line">done  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adc8646bc8413b34f9a&quot;, SYMLINK+=&quot;asm-dggrid01&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adc9617e1089ab64fb4&quot;, SYMLINK+=&quot;asm-dggrid02&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adcb020780584975001&quot;, SYMLINK+=&quot;asm-dggrid03&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adcba8050aa37c7be56&quot;, SYMLINK+=&quot;asm-dggrid04&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adc9952fc11f7dfd9fb&quot;, SYMLINK+=&quot;asm-dggrid05&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adc99341d2d641e1b3c&quot;, SYMLINK+=&quot;asm-dggrid06&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adc889634115ea78a36&quot;, SYMLINK+=&quot;asm-dgsystem01&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adc8ed98c025a591e68&quot;, SYMLINK+=&quot;asm-dgrecovery01&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adca5b7eca16123d815&quot;, SYMLINK+=&quot;asm-dgdata01&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">vi /etc/udev/rules.d/99-oracle-asmdevices.rules</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#重载udev</span></span></span><br><span class="line">udevadm control --reload-rules</span><br><span class="line">udevadm trigger --type=devices</span><br><span class="line"></span><br><span class="line">ls -lsa /dev/asm*</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110141222202.png" alt="image-20220110141222202"></p>
+<h4 id="配置yum源"><a href="#配置yum源" class="headerlink" title="配置yum源"></a>配置yum源</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 挂载镜像</span></span></span><br><span class="line">mount /dev/cdrom /mnt</span><br><span class="line">df -Th</span><br></pre></td></tr></table></figure>
+
+<p>配置yum源</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/yum.repos.d/local.repo</span><br><span class="line">[local]</span><br><span class="line">name=local</span><br><span class="line">baseurl=file:///mnt</span><br><span class="line">gpgcheck=0</span><br><span class="line">enabled=1</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">yum repolist all</span><br></pre></td></tr></table></figure>
+
+<p>安装依赖包：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum groupinstall -y &quot;Server with GUI&quot;</span><br><span class="line">yum install -y bc \</span><br><span class="line">binutils \</span><br><span class="line">compat-libcap1 \</span><br><span class="line">compat-libstdc++-33 \</span><br><span class="line">gcc \</span><br><span class="line">gcc-c++ \</span><br><span class="line">elfutils-libelf \</span><br><span class="line">elfutils-libelf-devel \</span><br><span class="line">glibc \</span><br><span class="line">glibc-devel \</span><br><span class="line">ksh \</span><br><span class="line">libaio \</span><br><span class="line">libaio-devel \</span><br><span class="line">libgcc \</span><br><span class="line">libstdc++ \</span><br><span class="line">libstdc++-devel \</span><br><span class="line">libxcb \</span><br><span class="line">libX11 \</span><br><span class="line">libXau \</span><br><span class="line">libXi \</span><br><span class="line">libXtst \</span><br><span class="line">libXrender \</span><br><span class="line">libXrender-devel \</span><br><span class="line">make \</span><br><span class="line">net-tools \</span><br><span class="line">nfs-utils \</span><br><span class="line">smartmontools \</span><br><span class="line">sysstat \</span><br><span class="line">e2fsprogs \</span><br><span class="line">e2fsprogs-libs \</span><br><span class="line">fontconfig-devel \</span><br><span class="line">expect \</span><br><span class="line">unzip \</span><br><span class="line">openssh-clients \</span><br><span class="line">readline* \</span><br><span class="line">tigervnc* \</span><br><span class="line">psmisc --skip-broken</span><br></pre></td></tr></table></figure>
+
+<p>手动上传安装缺失依赖包：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkdir /soft</span><br><span class="line">cd /soft</span><br><span class="line">rpm -ivh compat-libstdc++-33-3.2.3-72.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>检查依赖包安装</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rpm -q bc binutils compat-libcap1 compat-libstdc++-33 gcc gcc-c++ elfutils-libelf elfutils-libelf-devel glibc glibc-devel ksh libaio libaio-devel libgcc libstdc++ libstdc++-devel libxcb libX11 libXau libXi libXtst libXrender libXrender-devel make net-tools nfs-utils smartmontools sysstat e2fsprogs e2fsprogs-libs fontconfig-devel expect unzip openssh-clients readline | grep &quot;not installed&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="防火墙配置"><a href="#防火墙配置" class="headerlink" title="防火墙配置"></a>防火墙配置</h4><p><code>rac1&amp;rac2</code></p>
+<p>关闭防火墙</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld.service</span><br><span class="line">systemctl disable firewalld.service</span><br><span class="line">systemctl status firewalld.service</span><br></pre></td></tr></table></figure>
+
+<h4 id="selinux-配置"><a href="#selinux-配置" class="headerlink" title="selinux 配置"></a>selinux 配置</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27; /etc/selinux/config</span><br><span class="line">setenforce 0</span><br><span class="line">getenforce</span><br></pre></td></tr></table></figure>
+
+<h4 id="时间同步配置"><a href="#时间同步配置" class="headerlink" title="时间同步配置"></a>时间同步配置</h4><p><code>rac1&amp;rac2</code></p>
+<p>禁用<code>chronyd</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install -y chrony</span><br><span class="line">timedatectl set-timezone Asia/Shanghai</span><br><span class="line">systemctl stop chronyd.service</span><br><span class="line">systemctl disable chronyd.service</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>ntp</code>同步时间</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/var/spool/cron/root</span><br><span class="line">00 12 * * * /usr/sbin/ntpdate -u ntp1.aliyun.com &amp;&amp; /usr/sbin/hwclock -w</span><br><span class="line">EOF</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#查看计划任务</span></span></span><br><span class="line">crontab -l</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#手动执行</span></span></span><br><span class="line">/usr/sbin/ntpdate -u ntp1.aliyun.com &amp;&amp; /usr/sbin/hwclock -w</span><br></pre></td></tr></table></figure>
+
+<h4 id="关闭透明大页和numa"><a href="#关闭透明大页和numa" class="headerlink" title="关闭透明大页和numa"></a>关闭透明大页和numa</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sed -i &#x27;s/quiet/quiet transparent_hugepage=never numa=off/&#x27; /etc/default/grub</span><br><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br></pre></td></tr></table></figure>
+
+<p>重启后检查是否生效</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat /sys/kernel/mm/transparent_hugepage/enabled</span><br><span class="line">cat /proc/cmdline</span><br></pre></td></tr></table></figure>
+
+<h4 id="avahi-daemon-配置"><a href="#avahi-daemon-配置" class="headerlink" title="avahi-daemon 配置"></a>avahi-daemon 配置</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install -y avahi*</span><br><span class="line">systemctl stop avahi-daemon.socket</span><br><span class="line">systemctl stop avahi-daemon.service</span><br><span class="line">pgrep -f avahi-daemon | awk &#x27;&#123;print &quot;kill -9 &quot;$2&#125;&#x27;</span><br><span class="line">systemctl disable avahi-daemon.socket</span><br><span class="line">systemctl disable avahi-daemon.service</span><br></pre></td></tr></table></figure>
+
+<h4 id="NOZEROCONF配置"><a href="#NOZEROCONF配置" class="headerlink" title="NOZEROCONF配置"></a>NOZEROCONF配置</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/sysconfig/network</span><br><span class="line">NOZEROCONF=yes</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h4 id="系统资源限制"><a href="#系统资源限制" class="headerlink" title="系统资源限制"></a>系统资源限制</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/security/limits.conf</span><br><span class="line">oracle soft nofile 1024</span><br><span class="line">oracle hard nofile 65536</span><br><span class="line">oracle soft stack 10240</span><br><span class="line">oracle hard stack 32768</span><br><span class="line">oracle soft nproc 2047</span><br><span class="line">oracle hard nproc 16384</span><br><span class="line">oracle hard memlock 134217728</span><br><span class="line">oracle soft memlock 134217728</span><br><span class="line"></span><br><span class="line">grid soft nofile 1024</span><br><span class="line">grid hard nofile 65536</span><br><span class="line">grid soft stack 10240</span><br><span class="line">grid hard stack 32768</span><br><span class="line">grid soft nproc 2047</span><br><span class="line">grid hard nproc 16384</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p>配置pam.d/login：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/pam.d/login</span><br><span class="line">session required pam_limits.so </span><br><span class="line">session required /lib64/security/pam_limits.so</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h4 id="系统参数配置"><a href="#系统参数配置" class="headerlink" title="系统参数配置"></a>系统参数配置</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">memTotal=$(grep MemTotal /proc/meminfo | awk &#x27;&#123;print $2&#125;&#x27;)</span><br><span class="line">totalMemory=$((memTotal / 2048))</span><br><span class="line">shmall=$((memTotal / 4))</span><br><span class="line">if [ $shmall -lt 2097152 ]; then</span><br><span class="line">	shmall=2097152</span><br><span class="line">fi</span><br><span class="line">shmmax=$((memTotal * 1024 - 1))</span><br><span class="line">if [ &quot;$shmmax&quot; -lt 4294967295 ]; then</span><br><span class="line">	shmmax=4294967295</span><br><span class="line">fi</span><br><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/sysctl.conf</span><br><span class="line">fs.aio-max-nr = 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall = $shmall</span><br><span class="line">kernel.shmmax = $shmmax</span><br><span class="line">kernel.shmmni = 4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048576</span><br><span class="line">net.ipv4.conf.ens224.rp_filter = 1</span><br><span class="line">net.ipv4.conf.ens192.rp_filter = 2</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p>生效：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+
+<h4 id="用户、组、目录创建"><a href="#用户、组、目录创建" class="headerlink" title="用户、组、目录创建"></a>用户、组、目录创建</h4><p><code>rac1&amp;rac2</code></p>
+<p>用户组</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/usr/sbin/groupadd -g 54321 oinstall</span><br><span class="line">/usr/sbin/groupadd -g 54322 dba</span><br><span class="line">/usr/sbin/groupadd -g 54323 oper</span><br><span class="line">/usr/sbin/groupadd -g 54324 backupdba</span><br><span class="line">/usr/sbin/groupadd -g 54325 dgdba</span><br><span class="line">/usr/sbin/groupadd -g 54326 kmdba</span><br><span class="line">/usr/sbin/groupadd -g 54327 asmdba</span><br><span class="line">/usr/sbin/groupadd -g 54328 asmoper</span><br><span class="line">/usr/sbin/groupadd -g 54329 asmadmin</span><br><span class="line">/usr/sbin/groupadd -g 54330 racdba</span><br></pre></td></tr></table></figure>
+
+<p>用户</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/usr/sbin/useradd -u 11012 -g oinstall -G asmadmin,asmdba,asmoper,dba,racdba,oper grid</span><br><span class="line">/usr/sbin/useradd -u 54321 -g oinstall -G asmdba,dba,backupdba,dgdba,kmdba,racdba,oper oracle</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#修改用户密码为oracle</span></span></span><br><span class="line">echo &quot;oracle&quot; |passwd oracle --stdin</span><br><span class="line">echo &quot;oracle&quot; |passwd grid --stdin</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#查看用户组</span></span></span><br><span class="line">id grid</span><br><span class="line">id oracle</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#重载udev</span></span></span><br><span class="line">udevadm control --reload-rules</span><br><span class="line">udevadm trigger --type-devices</span><br><span class="line">ll /dev/asm*</span><br></pre></td></tr></table></figure>
+
+<p>目录</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkdir -p /oracle/app/19.3.0/grid</span><br><span class="line">mkdir -p /oracle/app/grid</span><br><span class="line">mkdir -p /oracle/app/oracle/product/19.3.0/db</span><br><span class="line">mkdir -p /oracle/app/oraInventory</span><br><span class="line">mkdir -p /home/oracle/scripts</span><br><span class="line">chown -R oracle:oinstall /backup</span><br><span class="line">chown -R oracle:oinstall /home/oracle/scripts</span><br><span class="line">chown -R grid:oinstall /oracle</span><br><span class="line">chown -R grid:oinstall /oracle/app/grid</span><br><span class="line">chown -R grid:oinstall /oracle/app/19.3.0/grid</span><br><span class="line">chown -R grid:oinstall /oracle/app/oraInventory</span><br><span class="line">chown -R oracle:oinstall /oracle/app/oracle</span><br><span class="line">chmod -R 775 /oracle</span><br></pre></td></tr></table></figure>
+
+<h4 id="环境变量配置"><a href="#环境变量配置" class="headerlink" title="环境变量配置"></a>环境变量配置</h4><p><code>rac1&amp;rac2</code></p>
+<p>grid用户：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/home/grid/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleBegin#########################</span></span></span><br><span class="line">umask 022</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export TMPDIR=\$TMP</span><br><span class="line">export NLS_LANG=AMERICAN_AMERICA.AL32UTF8</span><br><span class="line">export ORACLE_BASE=/oracle/app/grid</span><br><span class="line">export ORACLE_HOME=/oracle/app/19.3.0/grid</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export TNS_ADMIN=\$ORACLE_HOME/network/admin</span><br><span class="line">export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib</span><br><span class="line">export ORACLE_SID=+ASM2</span><br><span class="line">export PATH=/usr/sbin:\$PATH</span><br><span class="line">export PATH=\$ORACLE_HOME/bin:\$ORACLE_HOME/OPatch:\$PATH</span><br><span class="line">alias sas=&#x27;sqlplus / as sysasm&#x27;</span><br><span class="line">export PS1=&quot;[\`whoami\`@\`hostname\`:&quot;&#x27;\$PWD]\$ &#x27; </span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意：</strong> 每个节点的 ORACLE_SID 不一样（+ASM1/+ASM2），需要自行修改</p>
+</blockquote>
+<p>oracle用户：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/home/oracle/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleBegin#########################</span></span></span><br><span class="line">umask 022</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export TMPDIR=\$TMP</span><br><span class="line">export NLS_LANG=AMERICAN_AMERICA.AL32UTF8</span><br><span class="line">export ORACLE_BASE=/oracle/app/oracle</span><br><span class="line">export ORACLE_HOME=\$ORACLE_BASE/product/19.3.0/db</span><br><span class="line">export ORACLE_HOSTNAME=rac2</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export TNS_ADMIN=\$ORACLE_HOME/network/admin</span><br><span class="line">export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib</span><br><span class="line">export ORACLE_SID=mesdb2</span><br><span class="line">export PATH=/usr/sbin:\$PATH</span><br><span class="line">export PATH=\$ORACLE_HOME/bin:\$ORACLE_HOME/OPatch:\$PATH</span><br><span class="line">alias sas=&#x27;sqlplus / as sysdba&#x27;</span><br><span class="line">export PS1=&quot;[\`whoami\`@\`hostname\`:&quot;&#x27;\$PWD]\$ &#x27;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleEnd#########################</span></span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> <strong>注意：</strong> 每个节点的 ORACLE_HOSTNAME（rac1/rac2）和 ORACLE_SID（mesdb1/mesdb2）不一样，需要自行修改</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 重启系统</span></span></span><br><span class="line">shutdown -r now</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装包上传解压"><a href="#安装包上传解压" class="headerlink" title="安装包上传解压"></a>安装包上传解压</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#创建安装介质存放目录</span></span></span><br><span class="line">mkdir /soft</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#上传安装介质到/soft目录</span></span></span><br><span class="line">LINUX.X64_193000_db_home.zip</span><br><span class="line">LINUX.X64_193000_grid_home.zip</span><br><span class="line">p32545008_190000_Linux-x86-64.zip</span><br><span class="line">p6880880_190000_Linux-x86-64.zip</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>19C 的安装包需要解压到对应的 ORACLE_HOME 目录下</p>
+</blockquote>
+<p>静默解压<code>grid</code>安装包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chown -R grid:oinstall /soft</span><br><span class="line">su - grid -c &quot;unzip -q /soft/LINUX.X64_193000_grid_home.zip -d /oracle/app/19.3.0/grid/&quot;</span><br></pre></td></tr></table></figure>
+
+<p>静默解压<code>oracle</code>安装包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chown -R oracle:oinstall /soft</span><br><span class="line">su - oracle -c &quot;unzip -q /soft/LINUX.X64_193000_db_home.zip -d /oracle/app/oracle/product/19.3.0/db/&quot;</span><br></pre></td></tr></table></figure>
+
+<p>静默解压补丁安装包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /soft</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#解压OPatch补丁包</span></span></span><br><span class="line">chown -R grid:oinstall /soft</span><br><span class="line">su - grid -c &quot;unzip -q -o /soft/p6880880_190000_Linux-x86-64.zip -d /oracle/app/19.3.0/grid&quot;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#解压RU补丁包</span></span></span><br><span class="line">su - grid -c &quot;unzip -q /soft/p32545008_190000_Linux-x86-64.zip -d /soft&quot;</span><br><span class="line"></span><br><span class="line">chown -R oracle:oinstall /soft</span><br><span class="line">su - oracle -c &quot;unzip -q -o /soft/p6880880_190000_Linux-x86-64.zip -d /oracle/app/oracle/product/19.3.0/db&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p><strong>注意：</strong> 由于19C支持安装grid软件前打RU补丁，因此提前解压OPatch和RU补丁，为安装做准备</p>
+</blockquote>
+<h4 id="cvuqdisk安装"><a href="#cvuqdisk安装" class="headerlink" title="cvuqdisk安装"></a>cvuqdisk安装</h4><p>root用户下，cvuqdisk安装（rac01&amp;rac02):</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rpm -ivh /oracle/app/19.3.0/grid/cv/rpm/cvuqdisk-1.0.10-1.rpm </span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#传输到节点二安装</span></span></span><br><span class="line"></span><br><span class="line">scp /oracle/app/19.3.0/grid/cv/rpm/cvuqdisk-1.0.10-1.rpm rac2:/tmp</span><br><span class="line">rpm -ivh /tmp/cvuqdisk-1.0.10-1.rpm </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意：</strong> 19C 版本的 cvu 包换位置了，目录为：<code>$ORACLE_HOME/cv/rpm/</code>，以上所有软件只需要在节点一上传解压即可</p>
+</blockquote>
+<h3 id="安装Grid软件"><a href="#安装Grid软件" class="headerlink" title="安装Grid软件"></a>安装Grid软件</h3><p>配置<code>grid</code>用户vnc</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install -y tigervnc*</span><br><span class="line">chown -R grid:oinstall /soft</span><br><span class="line">su - grid</span><br><span class="line">vncserver</span><br></pre></td></tr></table></figure>
+
+<p>开始安装：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#应用环境变量</span></span></span><br><span class="line">source ~/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#进入安装目录</span></span></span><br><span class="line">cd $ORACLE_HOME</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#执行安装程序开始安装，通过-applyRU参数指向补丁解压位置，提前安装grid补丁</span></span></span><br><span class="line">./gridSetup.sh -applyRU /soft/32545008</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110145154657.png" alt="image-20220110145154657"></p>
+<p>打完补丁，进入安装界面，选择集群安装</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110145247453.png" alt="image-20220110145247453"></p>
+<p>选择<code>standlone</code>模式</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110145325890.png" alt="image-20220110145325890"></p>
+<p>修改<code>scan</code>名称与<code>hosts</code>文件配置一致</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110145429347.png" alt="image-20220110145429347"></p>
+<p>添加<code>rac2</code>节点，配置互信</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110145805853.png" alt="image-20220110145805853"></p>
+<p>网卡配置</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110150250058.png" alt="image-20220110150250058"></p>
+<p>存储类型，选择<code>ASM</code></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110150520054.png" alt="image-20220110150520054"></p>
+<p>GIMR，这里不选择安装：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110150553342.png" alt="image-20220110150553342"></p>
+<p>ASM磁盘组</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110150816058.png" alt="image-20220110150816058"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110150759154.png" alt="image-20220110150759154"></p>
+<p>ASM密码 mesasm2022</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110150920096.png" alt="image-20220110150920096"></p>
+<p>默认，下一步</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110151006818.png" alt="image-20220110151006818"></p>
+<p>EM管理，暂不开启</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110151033309.png" alt="image-20220110151033309"></p>
+<p>管理组，默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110151056236.png" alt="image-20220110151056236"></p>
+<p>安装地址，默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110151115523.png" alt="image-20220110151115523"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110151129756.png" alt="image-20220110151129756"></p>
+<p>不自动执行脚本</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110151215234.png" alt="image-20220110151215234"></p>
+<p>安装前检查</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110151243543.png" alt="image-20220110151243543"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110152429085.png" alt="image-20220110152429085"></p>
+<p>忽略，开始安装</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110152505759.png" alt="image-20220110152505759"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110152517367.png" alt="image-20220110152517367"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110152542962.png" alt="image-20220110152542962"></p>
+<p>执行<code>root</code>脚本</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110152952149.png" alt="image-20220110152952149"></p>
+<p>先在节点1执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/oracle/app/oraInventory/orainstRoot.sh</span><br><span class="line">/oracle/app/19.3.0/grid/root.sh</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110154201184.png" alt="image-20220110154201184"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110154722451.png" alt="image-20220110154722451"></p>
+<p>执行完成后，继续安装</p>
+<p>忽略</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110154915575.png" alt="image-20220110154915575"></p>
+<p>安装完成</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110154946582.png" alt="image-20220110154946582"></p>
+<p>检查集群状态</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - grid</span><br><span class="line">crsctl stat res -t</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110160312452.png" alt="image-20220110160312452"></p>
+<p>检查<code>grid</code>补丁</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - grid</span><br><span class="line">opatch lspatches</span><br><span class="line">sqlplus -version</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110160414752.png" alt="image-20220110160414752"></p>
+<h3 id="创建磁盘组"><a href="#创建磁盘组" class="headerlink" title="创建磁盘组"></a>创建磁盘组</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">asmca</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110155103889.png" alt="image-20220110155103889"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110155557309.png" alt="image-20220110155557309"></p>
+<p>检查asm磁盘：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">asmcmd lsdg</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 重启检查集群状态</span></span></span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110160532100.png" alt="image-20220110160532100"></p>
+<h3 id="安装Oracle软件"><a href="#安装Oracle软件" class="headerlink" title="安装Oracle软件"></a>安装Oracle软件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chown -R oracle:oinstall /soft</span><br><span class="line">su - oracle</span><br><span class="line">vncserver</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#应用环境变量</span></span></span><br><span class="line">source ~/.bash_profile</span><br><span class="line">cd $ORACLE_HOME</span><br><span class="line">./runInstaller -applyRU /soft/32545008/</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171230005.png" alt="image-20220110171230005"></p>
+<p>进入安装界面，选择<strong>仅安装软件</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171312175.png" alt="image-20220110171312175"></p>
+<p>选择集群模式：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171332064.png" alt="image-20220110171332064"></p>
+<p>配置互信</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171428128.png" alt="image-20220110171428128"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171419257.png" alt="image-20220110171419257"></p>
+<p>安装企业版</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171459738.png" alt="image-20220110171459738"></p>
+<p>安装位置，默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171525099.png" alt="image-20220110171525099"></p>
+<p>用户组 默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171546241.png" alt="image-20220110171546241"></p>
+<p>不配置自动执行脚本</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171930293.png" alt="image-20220110171930293"></p>
+<p>安装前检查</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110172130358.png" alt="image-20220110172130358"></p>
+<p>只配置了一个SCAN,关于DNS相关的都忽略</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110172448494.png" alt="image-20220110172448494"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110172946918.png" alt="image-20220110172946918"></p>
+<p>开始安装</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110173710548.png" alt="image-20220110173710353"></p>
+<p>执行root脚本</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/oracle/app/oracle/product/19.3.0/db/root.sh</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110173804416.png" alt="image-20220110173804416"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110173827746.png" alt="image-20220110173827746"></p>
+<p>检查补丁版本</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">opatch lspatches</span><br><span class="line">sqlplus -version</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110173912817.png" alt="image-20220110173912817"></p>
+<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">dbca</span><br></pre></td></tr></table></figure>
+
+<p>选择创建数据库实例</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110180252118.png" alt="image-20220110180252118"></p>
+<p>自定义模式</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110180553410.png" alt="image-20220110180553410"></p>
+<p>自定义数据库</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110180630914.png" alt="image-20220110180630914"></p>
+<p>选择节点</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110180642777.png" alt="image-20220110180642777"></p>
+<p>PDB&amp;CDB</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110180720005.png" alt="image-20220110180720005"></p>
+<p>存储配置</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110181334789.png" alt="image-20220110181334789"></p>
+<p>暂不开启归档闪回</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111090704484.png" alt="image-20220111090704484"></p>
+<p>生产环境无特殊要求全部安装</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111090911968.png" alt="image-20220111090911968"></p>
+<p>配置项：</p>
+<p>内存：SGA&amp;PGA</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111091136127.png" alt="image-20220111091136127"></p>
+<p>进程数：1500</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111091201951.png" alt="image-20220111091201951"></p>
+<p>字符集：16GBK</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111091226787.png" alt="image-20220111091226787"></p>
+<p>EM管理器，暂不开启</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111091648137.png" alt="image-20220111091648137"></p>
+<p>sys/system密码：mesdb2022</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111091717329.png" alt="image-20220111091717329"></p>
+<p>创建选项，默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111091941917.png" alt="image-20220111091941917"></p>
+<p>预检查</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111092033716.png" alt="image-20220111092033716"></p>
+<p>可忽略</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111092121232.png" alt="image-20220111092121232"></p>
+<p>开始创建</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111092147664.png" alt="image-20220111092147664"></p>
+<p>创建完成</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111105256812.png" alt="image-20220111105256812"></p>
+<p>检查：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看集群状态</span></span><br><span class="line">crsctl stat res -t  </span><br><span class="line"></span><br><span class="line">sqlplus / as sysdba</span><br><span class="line">select instance_name,status from gv$instance;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111105817916.png" alt="image-20220111105817916"></p>
+<h3 id="基础维护"><a href="#基础维护" class="headerlink" title="基础维护"></a>基础维护</h3><h4 id="RAC停止"><a href="#RAC停止" class="headerlink" title="RAC停止"></a>RAC停止</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">sqlplus &quot;/as sysdba&quot;</span><br><span class="line">shutdown immediate;</span><br><span class="line"></span><br><span class="line">su - grid</span><br><span class="line">crsctl stop crs</span><br></pre></td></tr></table></figure>
+
+<h4 id="RAC启动"><a href="#RAC启动" class="headerlink" title="RAC启动"></a>RAC启动</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su - grid</span><br><span class="line">crsctl start crs</span><br><span class="line">crsctl status res -t</span><br><span class="line"></span><br><span class="line">-- crsctl disable crs</span><br><span class="line"></span><br><span class="line">alter pluggable database mespdb open;</span><br></pre></td></tr></table></figure>
+
+<p>自启动触发器</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">CREATE TRIGGER open_all_pdbs</span><br><span class="line">	ALTER STARTUP ON DATABASE</span><br><span class="line">BEGIN</span><br><span class="line">	EXECUTE IMMEDIATE &#x27;alter pluggable database all open&#x27;;</span><br><span class="line">END open_all_pdbsl;</span><br><span class="line">/</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="查看资源状态"><a href="#查看资源状态" class="headerlink" title="查看资源状态"></a>查看资源状态</h4><p>grid:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[grid@rac2:/home/grid]$ crsctl stat res -t</span><br></pre></td></tr></table></figure>
+
+<p>oracle:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">srvctl status database -db mesdb</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111133031684.png" alt="image-20220111133031684"></p>
+<h4 id="PDB-amp-CDB"><a href="#PDB-amp-CDB" class="headerlink" title="PDB&amp;CDB"></a>PDB&amp;CDB</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 查看当前容器</span></span></span><br><span class="line">show con_name;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 查看所有PDB</span></span></span><br><span class="line">show pdbs</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 切换pdb</span></span></span><br><span class="line">alter session set container = mespdb;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 切换根容器</span></span></span><br><span class="line">conn /as sysdba</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111133445262.png" alt="image-20220111133445262"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 创建表空间</span></span></span><br><span class="line">create tablespace mes datafile &#x27;+dgdata01&#x27; size 20m;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 查看数据文件</span></span></span><br><span class="line">select name from v$datafile;</span><br><span class="line"></span><br><span class="line">create user mesadmin identified by mes2022 default tablespace mes;</span><br><span class="line"></span><br><span class="line">grant dba to mesadmin;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111135231663.png" alt="image-20220111135231663"></p>
+<p>创建测试数据</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">create table EMPLOYEE (id number(12) primary key,name varchar(20));</span><br><span class="line">insert into EMPLOYEE values(1,&#x27;Oracle&#x27;);</span><br><span class="line">insert into EMPLOYEE values(2,&#x27;EAP&#x27;);</span><br><span class="line">commit;</span><br><span class="line"></span><br><span class="line">select * from EMPLOYEE</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111135523550.png" alt="image-20220111135523550"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111135537825.png" alt="image-20220111135537825"></p>
+<p>节点2：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111135703283.png" alt="image-20220111135703283"></p>
+<h4 id="OCR镜像"><a href="#OCR镜像" class="headerlink" title="OCR镜像"></a>OCR镜像</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ocrconfig -add +DGGRID2</span><br><span class="line">ocrcheck</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111143132715.png" alt="image-20220111143132715"></p>
+<h4 id="密码过期策略"><a href="#密码过期策略" class="headerlink" title="密码过期策略"></a>密码过期策略</h4><blockquote>
+<p>后续配置在容器数据库下修改</p>
+</blockquote>
+<p>关闭密码 180 天过期限制</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">conn /as sysdba</span><br><span class="line">select * from dba_profiles where profile=&#x27;DEFAULT&#x27; and resource_name=&#x27;PASSWORD_LIFE_TIME&#x27;;</span><br><span class="line">alter profile default limit password_life_time unlimited;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111145953420.png" alt="image-20220111145953420"></p>
+<h4 id="关闭审计"><a href="#关闭审计" class="headerlink" title="关闭审计"></a>关闭审计</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">show parameter audit;</span><br><span class="line">alter system set audit_trail=none scope = spfile;</span><br></pre></td></tr></table></figure>
+
+<h4 id="归档"><a href="#归档" class="headerlink" title="归档"></a>归档</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">archive log list;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111151040444.png" alt="image-20220111151040444"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">show parameter recover;</span><br><span class="line">alter system set db_recovery_file_dest_size=10g; ## 略小于存储 留出冗余空间</span><br><span class="line">alter system set db_recovery_file_dest=&#x27;+dgrecovery&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111151357258.png" alt="image-20220111151357258"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">alter system set cluster_database=false scope=spfile;</span><br><span class="line">shutdown immediate; ## 关闭两个节点</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 启动rac1到mount状态</span></span></span><br><span class="line">startup mount;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 开启归档</span></span></span><br><span class="line">alter database archivelog;</span><br><span class="line">alter system set cluster_database=true scope=spfile;</span><br><span class="line">shutdown immediate;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 2节点启动数据库</span></span></span><br><span class="line">startup; </span><br></pre></td></tr></table></figure>
+
+<p><strong>检查归档状态，切换日志</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">archive log list;</span><br><span class="line">alter system switch logfile;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111153451555.png" alt="image-20220111153451555"></p>
+<h4 id="闪回"><a href="#闪回" class="headerlink" title="闪回"></a>闪回</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 生产环境不开启闪回</span></span></span><br><span class="line">alter database flashback on;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 关闭</span></span></span><br><span class="line">alter database flashback off;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="其他参数"><a href="#其他参数" class="headerlink" title="其他参数"></a>其他参数</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">show parameter db_files;</span><br><span class="line">alter system set db_files=8191 scope=spfile;</span><br><span class="line"></span><br><span class="line">show parameter processes;</span><br><span class="line"></span><br><span class="line">show parameter open_cursors;</span><br><span class="line">alter system set open_cursors=2000 scope=spfile;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111150512989.png" alt="image-20220111150512989"></p>
+<h3 id="集群测试"><a href="#集群测试" class="headerlink" title="集群测试"></a>集群测试</h3><p><code>hosts</code>:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">192.168.2.67 rac-scan</span><br></pre></td></tr></table></figure>
+
+<p><code>tnsnames.ora</code>:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mesdb =</span><br><span class="line">  (DESCRIPTION =</span><br><span class="line">    (ADDRESS = (PROTOCOL = TCP)(HOST = rac-scan)(PORT = 1521))</span><br><span class="line">    (CONNECT_DATA =</span><br><span class="line">      (SERVER = DEDICATED)</span><br><span class="line">      (SERVICE_NAME = mesdb)</span><br><span class="line">    )</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">mespdb =</span><br><span class="line">  (DESCRIPTION =</span><br><span class="line">    (ADDRESS = (PROTOCOL = TCP)(HOST = rac-scan)(PORT = 1521))</span><br><span class="line">    (CONNECT_DATA =</span><br><span class="line">      (SERVER = DEDICATED)</span><br><span class="line">      (SERVICE_NAME = mespdb)</span><br><span class="line">    )</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111173611145.png" alt="image-20220111173611145"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sqlplus /nolog</span><br><span class="line">conn system/mesdb2022@mesdb</span><br><span class="line">select instance_name from v$instance;</span><br></pre></td></tr></table></figure>
+
+<p>4个窗口分别是 mesdb2、mesdb1、mesdb2、mesdb1</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111174008051.png" alt="image-20220111174008051"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">crsctl stop crs # 关闭</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111180802477.png" alt="image-20220111180802477"></p>
+<h4 id="OLTP"><a href="#OLTP" class="headerlink" title="OLTP"></a>OLTP</h4><p><code>session</code>:基于会话，如果用户连接丢失,将创建一个新的会话连接到备用节点,用户的所有未提交的操作必须回滚,然后再次执行,SELECT操作也被中止</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mesdb =</span><br><span class="line">  (DESCRIPTION =</span><br><span class="line">    (ADDRESS = (PROTOCOL = TCP)(HOST = rac-scan)(PORT = 1521))</span><br><span class="line">    (LOAD_BALANCE = yes)</span><br><span class="line">    (FAILOVER = ON)</span><br><span class="line">    (CONNECT_DATA =</span><br><span class="line">      (SERVER = DEDICATED)</span><br><span class="line">      (SERVICE_NAME = mesdb)</span><br><span class="line">      (FAILOVER_MODE =</span><br><span class="line">        (TYPE = SESSION)</span><br><span class="line">        (METHOD = BASIC)</span><br><span class="line">      )</span><br><span class="line">    )</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220112093541671.png" alt="image-20220112093541671"></p>
+<h4 id="OLAP"><a href="#OLAP" class="headerlink" title="OLAP"></a>OLAP</h4><p>建议使用</p>
+<p><code>select</code>:如果用户连接丢失,将使用游标和之前的快照继续执行SELECT操作,叫做SQL接管,SQL接管能够无缝接管理的事务类型只有SELECT语句.其它的操作也必须要回滚然后再次执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mesdb =</span><br><span class="line">  (DESCRIPTION =</span><br><span class="line">    (ADDRESS = (PROTOCOL = TCP)(HOST = rac-scan)(PORT = 1521))</span><br><span class="line">    (LOAD_BALANCE = yes)</span><br><span class="line">    (FAILOVER = ON)</span><br><span class="line">    (CONNECT_DATA =</span><br><span class="line">      (SERVER = DEDICATED)</span><br><span class="line">      (SERVICE_NAME = mesdb)</span><br><span class="line">      (FAILOVER_MODE =</span><br><span class="line">        (TYPE = SELECT)</span><br><span class="line">        (METHOD = BASIC)</span><br><span class="line">      )</span><br><span class="line">    )</span><br><span class="line">  )  </span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220112093721196.png" alt="image-20220112093721196"></p>
+<blockquote>
+<p>参考资料：<a href="http://blog.itpub.net/31397003/viewspace-2144255/">Oracle RAC Failover 详解</a></p>
+</blockquote>
 ]]></content>
       <categories>
         <category>Oracle</category>

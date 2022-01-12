@@ -1,5 +1,5 @@
+https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/
 https://jonty.top/2022/01/09/rhel7-6-install-oracle19c-single/
 https://jonty.top/2022/01/04/oracle-11gR2-rac/
 https://jonty.top/2021/12/12/sqlserver-always-on/
 https://jonty.top/2021/12/05/getting-started-with-git/
-https://jonty.top/2021/12/02/sqlserver-ha-02/

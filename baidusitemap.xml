@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/</loc>
+    <lastmod>2022-01-12</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2022/01/09/rhel7-6-install-oracle19c-single/</loc>
-    <lastmod>2022-01-09</lastmod>
+    <lastmod>2022-01-12</lastmod>
   </url>
   <url>
     <loc>https://jonty.top/2022/01/04/oracle-11gR2-rac/</loc>

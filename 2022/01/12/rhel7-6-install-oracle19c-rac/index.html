@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="WSIOb3JOJfAsz23EBri68OoFPPfXmPefVY8l9LWiuuQ">
+  <meta name="msvalidate.01" content="BEA1533D8925BA7876293C434544D574">
+  <meta name="baidu-site-verification" content="code-xBDMwADkQe">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=ZCOOL+XiaoWei:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="基于RHEL7.6搭建Oracle19c RAC 集群数据库以及基础配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle 19c RAC集群搭建">
+<meta property="og:url" content="https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/index.html">
+<meta property="og:site_name" content="JontyWang">
+<meta property="og:description" content="基于RHEL7.6搭建Oracle19c RAC 集群数据库以及基础配置">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110141222202.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110145154657.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110145247453.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110145325890.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110145429347.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110145805853.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110150250058.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110150520054.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110150553342.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110150816058.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110150759154.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110150920096.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110151006818.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110151033309.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110151056236.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110151115523.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110151129756.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110151215234.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110151243543.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110152429085.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110152505759.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110152517367.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110152542962.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110152952149.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110154201184.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110154722451.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110154915575.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110154946582.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110160312452.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110160414752.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110155103889.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110155557309.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110160532100.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110171230005.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110171312175.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110171332064.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110171428128.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110171419257.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110171459738.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110171525099.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110171546241.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110171930293.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110172130358.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110172448494.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110172946918.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110173710548.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110173804416.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110173827746.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110173912817.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110180252118.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110180553410.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110180630914.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110180642777.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110180720005.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220110181334789.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111090704484.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111090911968.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111091136127.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111091201951.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111091226787.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111091648137.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111091717329.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111091941917.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111092033716.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111092121232.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111092147664.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111105256812.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111105817916.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111133031684.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111133445262.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111135231663.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111135523550.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111135537825.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111135703283.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111143132715.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111145953420.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111151040444.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111151357258.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111153451555.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111150512989.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111173611145.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111174008051.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220111180802477.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220112093541671.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220112093721196.png">
+<meta property="article:published_time" content="2022-01-12T12:44:39.000Z">
+<meta property="article:modified_time" content="2022-01-12T13:27:18.443Z">
+<meta property="article:author" content="JontyWang">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Oracle">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jonty.top/img/image-20220110141222202.png">
+
+
+<link rel="canonical" href="https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/","path":"2022/01/12/rhel7-6-install-oracle19c-rac/","title":"Oracle 19c RAC集群搭建"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Oracle 19c RAC集群搭建 | JontyWang</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?276415dc0899b092905c4c2730a113a8"></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="JontyWang" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">JontyWang</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">栖迟於一丘</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%A7%84%E5%88%92"><span class="nav-number">1.</span> <span class="nav-text">系统规划</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%A7%84%E5%88%92"><span class="nav-number">2.</span> <span class="nav-text">网络规划</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E8%A7%84%E5%88%92"><span class="nav-number">3.</span> <span class="nav-text">存储规划</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">系统配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#hosts%E9%85%8D%E7%BD%AE"><span class="nav-number">4.1.</span> <span class="nav-text">hosts配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E9%85%8D%E7%BD%AE"><span class="nav-number">4.2.</span> <span class="nav-text">存储配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ASM%E7%A3%81%E7%9B%98"><span class="nav-number">4.3.</span> <span class="nav-text">ASM磁盘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEyum%E6%BA%90"><span class="nav-number">4.4.</span> <span class="nav-text">配置yum源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E9%85%8D%E7%BD%AE"><span class="nav-number">4.5.</span> <span class="nav-text">防火墙配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#selinux-%E9%85%8D%E7%BD%AE"><span class="nav-number">4.6.</span> <span class="nav-text">selinux 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5%E9%85%8D%E7%BD%AE"><span class="nav-number">4.7.</span> <span class="nav-text">时间同步配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E9%80%8F%E6%98%8E%E5%A4%A7%E9%A1%B5%E5%92%8Cnuma"><span class="nav-number">4.8.</span> <span class="nav-text">关闭透明大页和numa</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#avahi-daemon-%E9%85%8D%E7%BD%AE"><span class="nav-number">4.9.</span> <span class="nav-text">avahi-daemon 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NOZEROCONF%E9%85%8D%E7%BD%AE"><span class="nav-number">4.10.</span> <span class="nav-text">NOZEROCONF配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6"><span class="nav-number">4.11.</span> <span class="nav-text">系统资源限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE"><span class="nav-number">4.12.</span> <span class="nav-text">系统参数配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E3%80%81%E7%BB%84%E3%80%81%E7%9B%AE%E5%BD%95%E5%88%9B%E5%BB%BA"><span class="nav-number">4.13.</span> <span class="nav-text">用户、组、目录创建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE"><span class="nav-number">4.14.</span> <span class="nav-text">环境变量配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%8C%85%E4%B8%8A%E4%BC%A0%E8%A7%A3%E5%8E%8B"><span class="nav-number">4.15.</span> <span class="nav-text">安装包上传解压</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cvuqdisk%E5%AE%89%E8%A3%85"><span class="nav-number">4.16.</span> <span class="nav-text">cvuqdisk安装</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Grid%E8%BD%AF%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">安装Grid软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%A3%81%E7%9B%98%E7%BB%84"><span class="nav-number">6.</span> <span class="nav-text">创建磁盘组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Oracle%E8%BD%AF%E4%BB%B6"><span class="nav-number">7.</span> <span class="nav-text">安装Oracle软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">8.</span> <span class="nav-text">创建数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%BB%B4%E6%8A%A4"><span class="nav-number">9.</span> <span class="nav-text">基础维护</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RAC%E5%81%9C%E6%AD%A2"><span class="nav-number">9.1.</span> <span class="nav-text">RAC停止</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RAC%E5%90%AF%E5%8A%A8"><span class="nav-number">9.2.</span> <span class="nav-text">RAC启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%B5%84%E6%BA%90%E7%8A%B6%E6%80%81"><span class="nav-number">9.3.</span> <span class="nav-text">查看资源状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PDB-amp-CDB"><span class="nav-number">9.4.</span> <span class="nav-text">PDB&amp;CDB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OCR%E9%95%9C%E5%83%8F"><span class="nav-number">9.5.</span> <span class="nav-text">OCR镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5"><span class="nav-number">9.6.</span> <span class="nav-text">密码过期策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E5%AE%A1%E8%AE%A1"><span class="nav-number">9.7.</span> <span class="nav-text">关闭审计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BD%92%E6%A1%A3"><span class="nav-number">9.8.</span> <span class="nav-text">归档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AA%E5%9B%9E"><span class="nav-number">9.9.</span> <span class="nav-text">闪回</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%8F%82%E6%95%B0"><span class="nav-number">9.10.</span> <span class="nav-text">其他参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E6%B5%8B%E8%AF%95"><span class="nav-number">10.</span> <span class="nav-text">集群测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#OLTP"><span class="nav-number">10.1.</span> <span class="nav-text">OLTP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OLAP"><span class="nav-number">10.2.</span> <span class="nav-text">OLAP</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="JontyWang"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">JontyWang</p>
+  <div class="site-description" itemprop="description">朝闻道，夕可眠矣</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JontyMin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JontyMin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:amazing4677@gmail.com" title="E-Mail → mailto:amazing4677@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/users/14014911/jonty" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;users&#x2F;14014911&#x2F;jonty" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>StackOverflow</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://jontymin.github.io/" title="https:&#x2F;&#x2F;jontymin.github.io&#x2F;" rel="noopener" target="_blank">github</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://my_netinlove.gitee.io/" title="https:&#x2F;&#x2F;my_netinlove.gitee.io&#x2F;" rel="noopener" target="_blank">gitee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/179850046" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;179850046" rel="noopener" target="_blank">bilibili</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/JontyWang/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JontyWang&#x2F;" rel="noopener" target="_blank">我的园子</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ldqk.xyz/" title="https:&#x2F;&#x2F;ldqk.xyz&#x2F;" rel="noopener" target="_blank">懒得勤快</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://luciferliu.blog.csdn.net/" title="https:&#x2F;&#x2F;luciferliu.blog.csdn.net&#x2F;" rel="noopener" target="_blank">Lucifer三思而后行</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/edisonchou/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;edisonchou&#x2F;" rel="noopener" target="_blank">EdisonZhou</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.aliyun.com/minisite/goods?userCode=b0skjdai&share_source=copy_link" title="https:&#x2F;&#x2F;www.aliyun.com&#x2F;minisite&#x2F;goods?userCode&#x3D;b0skjdai&amp;share_source&#x3D;copy_link" rel="noopener" target="_blank">Aliyun</a>
+        </li>
+    </ul>
+  </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1417862046&auto=0&height=66"></iframe>
+
+          </div>
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+
+  </aside>
+  <div class="sidebar-dimmer">
+  
+  </div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="JontyWang">
+      <meta itemprop="description" content="朝闻道，夕可眠矣">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JontyWang">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Oracle 19c RAC集群搭建
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-01-12 20:44:39 / 修改时间：21:27:18" itemprop="dateCreated datePublished" datetime="2022-01-12T20:44:39+08:00">2022-01-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Oracle/" itemprop="url" rel="index"><span itemprop="name">Oracle</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>16k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>15 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">基于RHEL7.6搭建Oracle19c RAC 集群数据库以及基础配置</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="系统规划"><a href="#系统规划" class="headerlink" title="系统规划"></a>系统规划</h3><p>项目环境：虚拟机</p>
+<p>主机：3台 </p>
+<ul>
+<li>2台运行RAC集群</li>
+<li>1台共享存储</li>
+</ul>
+<p>CPU和内存资源：</p>
+<p>RAC集群：4U/8G</p>
+<p>共享存储：2U/4G</p>
+<h3 id="网络规划"><a href="#网络规划" class="headerlink" title="网络规划"></a>网络规划</h3><p>Public IP (内部访问)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">192.168.2.63 rac1</span><br><span class="line">192.168.2.64 rac2</span><br></pre></td></tr></table></figure>
+
+<p>Private IP（节点心跳网络）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">10.10.10.63 rac1-priv</span><br><span class="line">10.10.10.64 rac2-priv</span><br></pre></td></tr></table></figure>
+
+<p>Virtual IP（提供客户端访问 漂移）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">192.168.2.65 rac1-vip</span><br><span class="line">192.168.2.66 rac2-vip</span><br></pre></td></tr></table></figure>
+
+<p>SCAN IP（客户端访问 均衡）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.2.67</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>主机版本</th>
+<th>主机名</th>
+<th>实例名</th>
+<th>Oracle版本</th>
+<th>public ip</th>
+<th>private ip</th>
+<th>virtual ip</th>
+<th>scan ip</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>rhel7.6</td>
+<td>rac1</td>
+<td>mesdb1</td>
+<td>19.3</td>
+<td>192.168.2.63</td>
+<td>10.10.10.63</td>
+<td>192.168.2.65</td>
+<td>192.168.2.67</td>
+</tr>
+<tr>
+<td>2</td>
+<td>rhel7.6</td>
+<td>rac2</td>
+<td>mesdb2</td>
+<td>19.3</td>
+<td>192.168.2.64</td>
+<td>10.10.10.64</td>
+<td>192.168.2.66</td>
+<td>192.168.2.67</td>
+</tr>
+</tbody></table>
+<h3 id="存储规划"><a href="#存储规划" class="headerlink" title="存储规划"></a>存储规划</h3><p><strong>系统：</strong></p>
+<ul>
+<li><p>/:50g</p>
+</li>
+<li><p>/oracle:100g</p>
+</li>
+<li><p>/backup:200g</p>
+</li>
+</ul>
+<p><strong>共享存储</strong></p>
+<ul>
+<li><p>dggrid1 :1g*3</p>
+</li>
+<li><p>dggrid2 :1g*3</p>
+</li>
+<li><p>dgsystem:8g*1</p>
+</li>
+<li><p>dgrecovery:3g*1</p>
+</li>
+<li><p>dgdata01:2g*1</p>
+</li>
+</ul>
+<p><strong>生产数据库空间要求</strong>：1T数据</p>
+<ul>
+<li><p>dggrid1 :2g*3</p>
+</li>
+<li><p>dggrid2 :2g*3</p>
+</li>
+<li><p>dgsystem:200g*1</p>
+</li>
+<li><p>dgrecovery:1T= 200g*5</p>
+</li>
+<li><p>dgdata01:1T= 200g*5</p>
+</li>
+<li><p>备份：/backup 3T= 1T *3</p>
+</li>
+</ul>
+<h3 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h3><h4 id="hosts配置"><a href="#hosts配置" class="headerlink" title="hosts配置"></a>hosts配置</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/hosts</span><br><span class="line"><span class="meta">#</span><span class="bash">Public IP</span></span><br><span class="line">192.168.2.63 	rac1</span><br><span class="line">192.168.2.64 	rac2</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">Private IP</span></span><br><span class="line">10.10.10.63 rac1-priv</span><br><span class="line">10.10.10.64 rac2-priv</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">Vip IP</span></span><br><span class="line">192.168.2.65 rac1-vip</span><br><span class="line">192.168.2.66 rac2-vip</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">Scan IP</span></span><br><span class="line">192.168.2.67 rac-scan</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h4 id="存储配置"><a href="#存储配置" class="headerlink" title="存储配置"></a>存储配置</h4><p><code>rac1&amp;rac2</code></p>
+<p>服务器主机的存储:lvm</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pvcreate /dev/sdb /dev/sdc</span><br><span class="line"></span><br><span class="line">vgcreate oraclevg /dev/sdb</span><br><span class="line">vgcreate backupvg /dev/sdc</span><br><span class="line"></span><br><span class="line">lvcreate -n oraclelv -L 100000M oraclevg</span><br><span class="line">lvcreate -n backuplv -L 200000M backupvg</span><br></pre></td></tr></table></figure>
+
+<p>格式化：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkfs.xfs /dev/backupvg/backuplv</span><br><span class="line">mkfs.xfs /dev/oraclevg/oraclelv</span><br></pre></td></tr></table></figure>
+
+<p>挂载：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/fstab</span><br><span class="line">/dev/backupvg/backuplv	/backup		xfs		defaults	0 0</span><br><span class="line">/dev/oraclevg/oraclelv	/oracle		xfs		defaults	0 0</span><br><span class="line"></span><br><span class="line">mkdir /oracle</span><br><span class="line">mkdir /backup</span><br><span class="line"></span><br><span class="line">mount /oracle</span><br><span class="line">mount /backup</span><br></pre></td></tr></table></figure>
+
+<h4 id="ASM磁盘"><a href="#ASM磁盘" class="headerlink" title="ASM磁盘"></a>ASM磁盘</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#iscsi识别共享存储</span></span></span><br><span class="line">yum install -y iscsi-initiator-utils*</span><br><span class="line"></span><br><span class="line">systemctl enable iscsi</span><br><span class="line">systemctl start iscsi</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#输出targetname，10.10.10.68为iscsi共享存储设备IP地址</span></span></span><br><span class="line">iscsiadm -m discovery -t st -p 10.10.10.68</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#连接共享存储</span></span></span><br><span class="line">iscsiadm -m node -T iqn.1991-05.com.microsoft:win-arg9liue0mv-mesdb-target -p 10.10.10.68 -l</span><br><span class="line">lsblk</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>todo 多路径配置</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">for i in d e f g h i j k l;</span><br><span class="line">do  </span><br><span class="line">echo &quot;KERNEL==\&quot;sd?\&quot;,SUBSYSTEM==\&quot;block\&quot;, PROGRAM==\&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/\$name\&quot;,RESULT==\&quot;`/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/sd$i`\&quot;, SYMLINK+=\&quot;asm-disk$i\&quot;,OWNER=\&quot;grid\&quot;, GROUP=\&quot;asmadmin\&quot;,MODE=\&quot;0660\&quot;&quot;</span><br><span class="line">done  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adc8646bc8413b34f9a&quot;, SYMLINK+=&quot;asm-dggrid01&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adc9617e1089ab64fb4&quot;, SYMLINK+=&quot;asm-dggrid02&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adcb020780584975001&quot;, SYMLINK+=&quot;asm-dggrid03&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adcba8050aa37c7be56&quot;, SYMLINK+=&quot;asm-dggrid04&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adc9952fc11f7dfd9fb&quot;, SYMLINK+=&quot;asm-dggrid05&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adc99341d2d641e1b3c&quot;, SYMLINK+=&quot;asm-dggrid06&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adc889634115ea78a36&quot;, SYMLINK+=&quot;asm-dgsystem01&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adc8ed98c025a591e68&quot;, SYMLINK+=&quot;asm-dgrecovery01&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line">KERNEL==&quot;sd?&quot;,SUBSYSTEM==&quot;block&quot;, PROGRAM==&quot;/usr/lib/udev/scsi_id --whitelisted --replace-whitespace --device=/dev/$name&quot;,RESULT==&quot;360003ff44dc75adca5b7eca16123d815&quot;, SYMLINK+=&quot;asm-dgdata01&quot;,OWNER=&quot;grid&quot;, GROUP=&quot;asmadmin&quot;,MODE=&quot;0660&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">vi /etc/udev/rules.d/99-oracle-asmdevices.rules</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#重载udev</span></span></span><br><span class="line">udevadm control --reload-rules</span><br><span class="line">udevadm trigger --type=devices</span><br><span class="line"></span><br><span class="line">ls -lsa /dev/asm*</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110141222202.png" alt="image-20220110141222202"></p>
+<h4 id="配置yum源"><a href="#配置yum源" class="headerlink" title="配置yum源"></a>配置yum源</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 挂载镜像</span></span></span><br><span class="line">mount /dev/cdrom /mnt</span><br><span class="line">df -Th</span><br></pre></td></tr></table></figure>
+
+<p>配置yum源</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/yum.repos.d/local.repo</span><br><span class="line">[local]</span><br><span class="line">name=local</span><br><span class="line">baseurl=file:///mnt</span><br><span class="line">gpgcheck=0</span><br><span class="line">enabled=1</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">yum repolist all</span><br></pre></td></tr></table></figure>
+
+<p>安装依赖包：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">yum groupinstall -y &quot;Server with GUI&quot;</span><br><span class="line">yum install -y bc \</span><br><span class="line">binutils \</span><br><span class="line">compat-libcap1 \</span><br><span class="line">compat-libstdc++-33 \</span><br><span class="line">gcc \</span><br><span class="line">gcc-c++ \</span><br><span class="line">elfutils-libelf \</span><br><span class="line">elfutils-libelf-devel \</span><br><span class="line">glibc \</span><br><span class="line">glibc-devel \</span><br><span class="line">ksh \</span><br><span class="line">libaio \</span><br><span class="line">libaio-devel \</span><br><span class="line">libgcc \</span><br><span class="line">libstdc++ \</span><br><span class="line">libstdc++-devel \</span><br><span class="line">libxcb \</span><br><span class="line">libX11 \</span><br><span class="line">libXau \</span><br><span class="line">libXi \</span><br><span class="line">libXtst \</span><br><span class="line">libXrender \</span><br><span class="line">libXrender-devel \</span><br><span class="line">make \</span><br><span class="line">net-tools \</span><br><span class="line">nfs-utils \</span><br><span class="line">smartmontools \</span><br><span class="line">sysstat \</span><br><span class="line">e2fsprogs \</span><br><span class="line">e2fsprogs-libs \</span><br><span class="line">fontconfig-devel \</span><br><span class="line">expect \</span><br><span class="line">unzip \</span><br><span class="line">openssh-clients \</span><br><span class="line">readline* \</span><br><span class="line">tigervnc* \</span><br><span class="line">psmisc --skip-broken</span><br></pre></td></tr></table></figure>
+
+<p>手动上传安装缺失依赖包：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /soft</span><br><span class="line">cd /soft</span><br><span class="line">rpm -ivh compat-libstdc++-33-3.2.3-72.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>检查依赖包安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -q bc binutils compat-libcap1 compat-libstdc++-33 gcc gcc-c++ elfutils-libelf elfutils-libelf-devel glibc glibc-devel ksh libaio libaio-devel libgcc libstdc++ libstdc++-devel libxcb libX11 libXau libXi libXtst libXrender libXrender-devel make net-tools nfs-utils smartmontools sysstat e2fsprogs e2fsprogs-libs fontconfig-devel expect unzip openssh-clients readline | grep &quot;not installed&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="防火墙配置"><a href="#防火墙配置" class="headerlink" title="防火墙配置"></a>防火墙配置</h4><p><code>rac1&amp;rac2</code></p>
+<p>关闭防火墙</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld.service</span><br><span class="line">systemctl disable firewalld.service</span><br><span class="line">systemctl status firewalld.service</span><br></pre></td></tr></table></figure>
+
+<h4 id="selinux-配置"><a href="#selinux-配置" class="headerlink" title="selinux 配置"></a>selinux 配置</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sed -i &#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27; /etc/selinux/config</span><br><span class="line">setenforce 0</span><br><span class="line">getenforce</span><br></pre></td></tr></table></figure>
+
+<h4 id="时间同步配置"><a href="#时间同步配置" class="headerlink" title="时间同步配置"></a>时间同步配置</h4><p><code>rac1&amp;rac2</code></p>
+<p>禁用<code>chronyd</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install -y chrony</span><br><span class="line">timedatectl set-timezone Asia/Shanghai</span><br><span class="line">systemctl stop chronyd.service</span><br><span class="line">systemctl disable chronyd.service</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>ntp</code>同步时间</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/var/spool/cron/root</span><br><span class="line">00 12 * * * /usr/sbin/ntpdate -u ntp1.aliyun.com &amp;&amp; /usr/sbin/hwclock -w</span><br><span class="line">EOF</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#查看计划任务</span></span></span><br><span class="line">crontab -l</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#手动执行</span></span></span><br><span class="line">/usr/sbin/ntpdate -u ntp1.aliyun.com &amp;&amp; /usr/sbin/hwclock -w</span><br></pre></td></tr></table></figure>
+
+<h4 id="关闭透明大页和numa"><a href="#关闭透明大页和numa" class="headerlink" title="关闭透明大页和numa"></a>关闭透明大页和numa</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sed -i &#x27;s/quiet/quiet transparent_hugepage=never numa=off/&#x27; /etc/default/grub</span><br><span class="line">grub2-mkconfig -o /boot/grub2/grub.cfg</span><br></pre></td></tr></table></figure>
+
+<p>重启后检查是否生效</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /sys/kernel/mm/transparent_hugepage/enabled</span><br><span class="line">cat /proc/cmdline</span><br></pre></td></tr></table></figure>
+
+<h4 id="avahi-daemon-配置"><a href="#avahi-daemon-配置" class="headerlink" title="avahi-daemon 配置"></a>avahi-daemon 配置</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">yum install -y avahi*</span><br><span class="line">systemctl stop avahi-daemon.socket</span><br><span class="line">systemctl stop avahi-daemon.service</span><br><span class="line">pgrep -f avahi-daemon | awk &#x27;&#123;print &quot;kill -9 &quot;$2&#125;&#x27;</span><br><span class="line">systemctl disable avahi-daemon.socket</span><br><span class="line">systemctl disable avahi-daemon.service</span><br></pre></td></tr></table></figure>
+
+<h4 id="NOZEROCONF配置"><a href="#NOZEROCONF配置" class="headerlink" title="NOZEROCONF配置"></a>NOZEROCONF配置</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/sysconfig/network</span><br><span class="line">NOZEROCONF=yes</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h4 id="系统资源限制"><a href="#系统资源限制" class="headerlink" title="系统资源限制"></a>系统资源限制</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/security/limits.conf</span><br><span class="line">oracle soft nofile 1024</span><br><span class="line">oracle hard nofile 65536</span><br><span class="line">oracle soft stack 10240</span><br><span class="line">oracle hard stack 32768</span><br><span class="line">oracle soft nproc 2047</span><br><span class="line">oracle hard nproc 16384</span><br><span class="line">oracle hard memlock 134217728</span><br><span class="line">oracle soft memlock 134217728</span><br><span class="line"></span><br><span class="line">grid soft nofile 1024</span><br><span class="line">grid hard nofile 65536</span><br><span class="line">grid soft stack 10240</span><br><span class="line">grid hard stack 32768</span><br><span class="line">grid soft nproc 2047</span><br><span class="line">grid hard nproc 16384</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p>配置pam.d/login：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/pam.d/login</span><br><span class="line">session required pam_limits.so </span><br><span class="line">session required /lib64/security/pam_limits.so</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h4 id="系统参数配置"><a href="#系统参数配置" class="headerlink" title="系统参数配置"></a>系统参数配置</h4><p><code>rac1&amp;rac2</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">memTotal=$(grep MemTotal /proc/meminfo | awk &#x27;&#123;print $2&#125;&#x27;)</span><br><span class="line">totalMemory=$((memTotal / 2048))</span><br><span class="line">shmall=$((memTotal / 4))</span><br><span class="line">if [ $shmall -lt 2097152 ]; then</span><br><span class="line">	shmall=2097152</span><br><span class="line">fi</span><br><span class="line">shmmax=$((memTotal * 1024 - 1))</span><br><span class="line">if [ &quot;$shmmax&quot; -lt 4294967295 ]; then</span><br><span class="line">	shmmax=4294967295</span><br><span class="line">fi</span><br><span class="line">cat &lt;&lt;EOF&gt;&gt;/etc/sysctl.conf</span><br><span class="line">fs.aio-max-nr = 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall = $shmall</span><br><span class="line">kernel.shmmax = $shmmax</span><br><span class="line">kernel.shmmni = 4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048576</span><br><span class="line">net.ipv4.conf.ens224.rp_filter = 1</span><br><span class="line">net.ipv4.conf.ens192.rp_filter = 2</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p>生效：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+
+<h4 id="用户、组、目录创建"><a href="#用户、组、目录创建" class="headerlink" title="用户、组、目录创建"></a>用户、组、目录创建</h4><p><code>rac1&amp;rac2</code></p>
+<p>用户组</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/groupadd -g 54321 oinstall</span><br><span class="line">/usr/sbin/groupadd -g 54322 dba</span><br><span class="line">/usr/sbin/groupadd -g 54323 oper</span><br><span class="line">/usr/sbin/groupadd -g 54324 backupdba</span><br><span class="line">/usr/sbin/groupadd -g 54325 dgdba</span><br><span class="line">/usr/sbin/groupadd -g 54326 kmdba</span><br><span class="line">/usr/sbin/groupadd -g 54327 asmdba</span><br><span class="line">/usr/sbin/groupadd -g 54328 asmoper</span><br><span class="line">/usr/sbin/groupadd -g 54329 asmadmin</span><br><span class="line">/usr/sbin/groupadd -g 54330 racdba</span><br></pre></td></tr></table></figure>
+
+<p>用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/useradd -u 11012 -g oinstall -G asmadmin,asmdba,asmoper,dba,racdba,oper grid</span><br><span class="line">/usr/sbin/useradd -u 54321 -g oinstall -G asmdba,dba,backupdba,dgdba,kmdba,racdba,oper oracle</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#修改用户密码为oracle</span></span></span><br><span class="line">echo &quot;oracle&quot; |passwd oracle --stdin</span><br><span class="line">echo &quot;oracle&quot; |passwd grid --stdin</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#查看用户组</span></span></span><br><span class="line">id grid</span><br><span class="line">id oracle</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#重载udev</span></span></span><br><span class="line">udevadm control --reload-rules</span><br><span class="line">udevadm trigger --type-devices</span><br><span class="line">ll /dev/asm*</span><br></pre></td></tr></table></figure>
+
+<p>目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /oracle/app/19.3.0/grid</span><br><span class="line">mkdir -p /oracle/app/grid</span><br><span class="line">mkdir -p /oracle/app/oracle/product/19.3.0/db</span><br><span class="line">mkdir -p /oracle/app/oraInventory</span><br><span class="line">mkdir -p /home/oracle/scripts</span><br><span class="line">chown -R oracle:oinstall /backup</span><br><span class="line">chown -R oracle:oinstall /home/oracle/scripts</span><br><span class="line">chown -R grid:oinstall /oracle</span><br><span class="line">chown -R grid:oinstall /oracle/app/grid</span><br><span class="line">chown -R grid:oinstall /oracle/app/19.3.0/grid</span><br><span class="line">chown -R grid:oinstall /oracle/app/oraInventory</span><br><span class="line">chown -R oracle:oinstall /oracle/app/oracle</span><br><span class="line">chmod -R 775 /oracle</span><br></pre></td></tr></table></figure>
+
+<h4 id="环境变量配置"><a href="#环境变量配置" class="headerlink" title="环境变量配置"></a>环境变量配置</h4><p><code>rac1&amp;rac2</code></p>
+<p>grid用户：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/home/grid/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleBegin#########################</span></span></span><br><span class="line">umask 022</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export TMPDIR=\$TMP</span><br><span class="line">export NLS_LANG=AMERICAN_AMERICA.AL32UTF8</span><br><span class="line">export ORACLE_BASE=/oracle/app/grid</span><br><span class="line">export ORACLE_HOME=/oracle/app/19.3.0/grid</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export TNS_ADMIN=\$ORACLE_HOME/network/admin</span><br><span class="line">export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib</span><br><span class="line">export ORACLE_SID=+ASM2</span><br><span class="line">export PATH=/usr/sbin:\$PATH</span><br><span class="line">export PATH=\$ORACLE_HOME/bin:\$ORACLE_HOME/OPatch:\$PATH</span><br><span class="line">alias sas=&#x27;sqlplus / as sysasm&#x27;</span><br><span class="line">export PS1=&quot;[\`whoami\`@\`hostname\`:&quot;&#x27;\$PWD]\$ &#x27; </span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意：</strong> 每个节点的 ORACLE_SID 不一样（+ASM1/+ASM2），需要自行修改</p>
+</blockquote>
+<p>oracle用户：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF&gt;&gt;/home/oracle/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleBegin#########################</span></span></span><br><span class="line">umask 022</span><br><span class="line">export TMP=/tmp</span><br><span class="line">export TMPDIR=\$TMP</span><br><span class="line">export NLS_LANG=AMERICAN_AMERICA.AL32UTF8</span><br><span class="line">export ORACLE_BASE=/oracle/app/oracle</span><br><span class="line">export ORACLE_HOME=\$ORACLE_BASE/product/19.3.0/db</span><br><span class="line">export ORACLE_HOSTNAME=rac2</span><br><span class="line">export ORACLE_TERM=xterm</span><br><span class="line">export TNS_ADMIN=\$ORACLE_HOME/network/admin</span><br><span class="line">export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib</span><br><span class="line">export ORACLE_SID=mesdb2</span><br><span class="line">export PATH=/usr/sbin:\$PATH</span><br><span class="line">export PATH=\$ORACLE_HOME/bin:\$ORACLE_HOME/OPatch:\$PATH</span><br><span class="line">alias sas=&#x27;sqlplus / as sysdba&#x27;</span><br><span class="line">export PS1=&quot;[\`whoami\`@\`hostname\`:&quot;&#x27;\$PWD]\$ &#x27;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###############OracleEnd#########################</span></span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> <strong>注意：</strong> 每个节点的 ORACLE_HOSTNAME（rac1/rac2）和 ORACLE_SID（mesdb1/mesdb2）不一样，需要自行修改</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 重启系统</span></span></span><br><span class="line">shutdown -r now</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装包上传解压"><a href="#安装包上传解压" class="headerlink" title="安装包上传解压"></a>安装包上传解压</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#创建安装介质存放目录</span></span></span><br><span class="line">mkdir /soft</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#上传安装介质到/soft目录</span></span></span><br><span class="line">LINUX.X64_193000_db_home.zip</span><br><span class="line">LINUX.X64_193000_grid_home.zip</span><br><span class="line">p32545008_190000_Linux-x86-64.zip</span><br><span class="line">p6880880_190000_Linux-x86-64.zip</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>19C 的安装包需要解压到对应的 ORACLE_HOME 目录下</p>
+</blockquote>
+<p>静默解压<code>grid</code>安装包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chown -R grid:oinstall /soft</span><br><span class="line">su - grid -c &quot;unzip -q /soft/LINUX.X64_193000_grid_home.zip -d /oracle/app/19.3.0/grid/&quot;</span><br></pre></td></tr></table></figure>
+
+<p>静默解压<code>oracle</code>安装包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chown -R oracle:oinstall /soft</span><br><span class="line">su - oracle -c &quot;unzip -q /soft/LINUX.X64_193000_db_home.zip -d /oracle/app/oracle/product/19.3.0/db/&quot;</span><br></pre></td></tr></table></figure>
+
+<p>静默解压补丁安装包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">cd /soft</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#解压OPatch补丁包</span></span></span><br><span class="line">chown -R grid:oinstall /soft</span><br><span class="line">su - grid -c &quot;unzip -q -o /soft/p6880880_190000_Linux-x86-64.zip -d /oracle/app/19.3.0/grid&quot;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#解压RU补丁包</span></span></span><br><span class="line">su - grid -c &quot;unzip -q /soft/p32545008_190000_Linux-x86-64.zip -d /soft&quot;</span><br><span class="line"></span><br><span class="line">chown -R oracle:oinstall /soft</span><br><span class="line">su - oracle -c &quot;unzip -q -o /soft/p6880880_190000_Linux-x86-64.zip -d /oracle/app/oracle/product/19.3.0/db&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p><strong>注意：</strong> 由于19C支持安装grid软件前打RU补丁，因此提前解压OPatch和RU补丁，为安装做准备</p>
+</blockquote>
+<h4 id="cvuqdisk安装"><a href="#cvuqdisk安装" class="headerlink" title="cvuqdisk安装"></a>cvuqdisk安装</h4><p>root用户下，cvuqdisk安装（rac01&amp;rac02):</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh /oracle/app/19.3.0/grid/cv/rpm/cvuqdisk-1.0.10-1.rpm </span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#传输到节点二安装</span></span></span><br><span class="line"></span><br><span class="line">scp /oracle/app/19.3.0/grid/cv/rpm/cvuqdisk-1.0.10-1.rpm rac2:/tmp</span><br><span class="line">rpm -ivh /tmp/cvuqdisk-1.0.10-1.rpm </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意：</strong> 19C 版本的 cvu 包换位置了，目录为：<code>$ORACLE_HOME/cv/rpm/</code>，以上所有软件只需要在节点一上传解压即可</p>
+</blockquote>
+<h3 id="安装Grid软件"><a href="#安装Grid软件" class="headerlink" title="安装Grid软件"></a>安装Grid软件</h3><p>配置<code>grid</code>用户vnc</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install -y tigervnc*</span><br><span class="line">chown -R grid:oinstall /soft</span><br><span class="line">su - grid</span><br><span class="line">vncserver</span><br></pre></td></tr></table></figure>
+
+<p>开始安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#应用环境变量</span></span></span><br><span class="line">source ~/.bash_profile</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#进入安装目录</span></span></span><br><span class="line">cd $ORACLE_HOME</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#执行安装程序开始安装，通过-applyRU参数指向补丁解压位置，提前安装grid补丁</span></span></span><br><span class="line">./gridSetup.sh -applyRU /soft/32545008</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110145154657.png" alt="image-20220110145154657"></p>
+<p>打完补丁，进入安装界面，选择集群安装</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110145247453.png" alt="image-20220110145247453"></p>
+<p>选择<code>standlone</code>模式</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110145325890.png" alt="image-20220110145325890"></p>
+<p>修改<code>scan</code>名称与<code>hosts</code>文件配置一致</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110145429347.png" alt="image-20220110145429347"></p>
+<p>添加<code>rac2</code>节点，配置互信</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110145805853.png" alt="image-20220110145805853"></p>
+<p>网卡配置</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110150250058.png" alt="image-20220110150250058"></p>
+<p>存储类型，选择<code>ASM</code></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110150520054.png" alt="image-20220110150520054"></p>
+<p>GIMR，这里不选择安装：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110150553342.png" alt="image-20220110150553342"></p>
+<p>ASM磁盘组</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110150816058.png" alt="image-20220110150816058"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110150759154.png" alt="image-20220110150759154"></p>
+<p>ASM密码 mesasm2022</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110150920096.png" alt="image-20220110150920096"></p>
+<p>默认，下一步</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110151006818.png" alt="image-20220110151006818"></p>
+<p>EM管理，暂不开启</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110151033309.png" alt="image-20220110151033309"></p>
+<p>管理组，默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110151056236.png" alt="image-20220110151056236"></p>
+<p>安装地址，默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110151115523.png" alt="image-20220110151115523"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110151129756.png" alt="image-20220110151129756"></p>
+<p>不自动执行脚本</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110151215234.png" alt="image-20220110151215234"></p>
+<p>安装前检查</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110151243543.png" alt="image-20220110151243543"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110152429085.png" alt="image-20220110152429085"></p>
+<p>忽略，开始安装</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110152505759.png" alt="image-20220110152505759"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110152517367.png" alt="image-20220110152517367"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110152542962.png" alt="image-20220110152542962"></p>
+<p>执行<code>root</code>脚本</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110152952149.png" alt="image-20220110152952149"></p>
+<p>先在节点1执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/oracle/app/oraInventory/orainstRoot.sh</span><br><span class="line">/oracle/app/19.3.0/grid/root.sh</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110154201184.png" alt="image-20220110154201184"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110154722451.png" alt="image-20220110154722451"></p>
+<p>执行完成后，继续安装</p>
+<p>忽略</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110154915575.png" alt="image-20220110154915575"></p>
+<p>安装完成</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110154946582.png" alt="image-20220110154946582"></p>
+<p>检查集群状态</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su - grid</span><br><span class="line">crsctl stat res -t</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110160312452.png" alt="image-20220110160312452"></p>
+<p>检查<code>grid</code>补丁</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su - grid</span><br><span class="line">opatch lspatches</span><br><span class="line">sqlplus -version</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110160414752.png" alt="image-20220110160414752"></p>
+<h3 id="创建磁盘组"><a href="#创建磁盘组" class="headerlink" title="创建磁盘组"></a>创建磁盘组</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">asmca</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110155103889.png" alt="image-20220110155103889"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110155557309.png" alt="image-20220110155557309"></p>
+<p>检查asm磁盘：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">asmcmd lsdg</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 重启检查集群状态</span></span></span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110160532100.png" alt="image-20220110160532100"></p>
+<h3 id="安装Oracle软件"><a href="#安装Oracle软件" class="headerlink" title="安装Oracle软件"></a>安装Oracle软件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">chown -R oracle:oinstall /soft</span><br><span class="line">su - oracle</span><br><span class="line">vncserver</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#应用环境变量</span></span></span><br><span class="line">source ~/.bash_profile</span><br><span class="line">cd $ORACLE_HOME</span><br><span class="line">./runInstaller -applyRU /soft/32545008/</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171230005.png" alt="image-20220110171230005"></p>
+<p>进入安装界面，选择<strong>仅安装软件</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171312175.png" alt="image-20220110171312175"></p>
+<p>选择集群模式：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171332064.png" alt="image-20220110171332064"></p>
+<p>配置互信</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171428128.png" alt="image-20220110171428128"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171419257.png" alt="image-20220110171419257"></p>
+<p>安装企业版</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171459738.png" alt="image-20220110171459738"></p>
+<p>安装位置，默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171525099.png" alt="image-20220110171525099"></p>
+<p>用户组 默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171546241.png" alt="image-20220110171546241"></p>
+<p>不配置自动执行脚本</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110171930293.png" alt="image-20220110171930293"></p>
+<p>安装前检查</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110172130358.png" alt="image-20220110172130358"></p>
+<p>只配置了一个SCAN,关于DNS相关的都忽略</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110172448494.png" alt="image-20220110172448494"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110172946918.png" alt="image-20220110172946918"></p>
+<p>开始安装</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110173710548.png" alt="image-20220110173710353"></p>
+<p>执行root脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/oracle/app/oracle/product/19.3.0/db/root.sh</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110173804416.png" alt="image-20220110173804416"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110173827746.png" alt="image-20220110173827746"></p>
+<p>检查补丁版本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">opatch lspatches</span><br><span class="line">sqlplus -version</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220110173912817.png" alt="image-20220110173912817"></p>
+<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dbca</span><br></pre></td></tr></table></figure>
+
+<p>选择创建数据库实例</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110180252118.png" alt="image-20220110180252118"></p>
+<p>自定义模式</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110180553410.png" alt="image-20220110180553410"></p>
+<p>自定义数据库</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110180630914.png" alt="image-20220110180630914"></p>
+<p>选择节点</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110180642777.png" alt="image-20220110180642777"></p>
+<p>PDB&amp;CDB</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110180720005.png" alt="image-20220110180720005"></p>
+<p>存储配置</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220110181334789.png" alt="image-20220110181334789"></p>
+<p>暂不开启归档闪回</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111090704484.png" alt="image-20220111090704484"></p>
+<p>生产环境无特殊要求全部安装</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111090911968.png" alt="image-20220111090911968"></p>
+<p>配置项：</p>
+<p>内存：SGA&amp;PGA</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111091136127.png" alt="image-20220111091136127"></p>
+<p>进程数：1500</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111091201951.png" alt="image-20220111091201951"></p>
+<p>字符集：16GBK</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111091226787.png" alt="image-20220111091226787"></p>
+<p>EM管理器，暂不开启</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111091648137.png" alt="image-20220111091648137"></p>
+<p>sys/system密码：mesdb2022</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111091717329.png" alt="image-20220111091717329"></p>
+<p>创建选项，默认</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111091941917.png" alt="image-20220111091941917"></p>
+<p>预检查</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111092033716.png" alt="image-20220111092033716"></p>
+<p>可忽略</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111092121232.png" alt="image-20220111092121232"></p>
+<p>开始创建</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111092147664.png" alt="image-20220111092147664"></p>
+<p>创建完成</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111105256812.png" alt="image-20220111105256812"></p>
+<p>检查：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看集群状态</span></span><br><span class="line">crsctl stat res -t  </span><br><span class="line"></span><br><span class="line">sqlplus / as sysdba</span><br><span class="line">select instance_name,status from gv$instance;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111105817916.png" alt="image-20220111105817916"></p>
+<h3 id="基础维护"><a href="#基础维护" class="headerlink" title="基础维护"></a>基础维护</h3><h4 id="RAC停止"><a href="#RAC停止" class="headerlink" title="RAC停止"></a>RAC停止</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">sqlplus &quot;/as sysdba&quot;</span><br><span class="line">shutdown immediate;</span><br><span class="line"></span><br><span class="line">su - grid</span><br><span class="line">crsctl stop crs</span><br></pre></td></tr></table></figure>
+
+<h4 id="RAC启动"><a href="#RAC启动" class="headerlink" title="RAC启动"></a>RAC启动</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">su - grid</span><br><span class="line">crsctl start crs</span><br><span class="line">crsctl status res -t</span><br><span class="line"></span><br><span class="line">-- crsctl disable crs</span><br><span class="line"></span><br><span class="line">alter pluggable database mespdb open;</span><br></pre></td></tr></table></figure>
+
+<p>自启动触发器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TRIGGER open_all_pdbs</span><br><span class="line">	ALTER STARTUP ON DATABASE</span><br><span class="line">BEGIN</span><br><span class="line">	EXECUTE IMMEDIATE &#x27;alter pluggable database all open&#x27;;</span><br><span class="line">END open_all_pdbsl;</span><br><span class="line">/</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="查看资源状态"><a href="#查看资源状态" class="headerlink" title="查看资源状态"></a>查看资源状态</h4><p>grid:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[grid@rac2:/home/grid]$ crsctl stat res -t</span><br></pre></td></tr></table></figure>
+
+<p>oracle:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">srvctl status database -db mesdb</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111133031684.png" alt="image-20220111133031684"></p>
+<h4 id="PDB-amp-CDB"><a href="#PDB-amp-CDB" class="headerlink" title="PDB&amp;CDB"></a>PDB&amp;CDB</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 查看当前容器</span></span></span><br><span class="line">show con_name;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 查看所有PDB</span></span></span><br><span class="line">show pdbs</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 切换pdb</span></span></span><br><span class="line">alter session set container = mespdb;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 切换根容器</span></span></span><br><span class="line">conn /as sysdba</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111133445262.png" alt="image-20220111133445262"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 创建表空间</span></span></span><br><span class="line">create tablespace mes datafile &#x27;+dgdata01&#x27; size 20m;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 查看数据文件</span></span></span><br><span class="line">select name from v$datafile;</span><br><span class="line"></span><br><span class="line">create user mesadmin identified by mes2022 default tablespace mes;</span><br><span class="line"></span><br><span class="line">grant dba to mesadmin;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111135231663.png" alt="image-20220111135231663"></p>
+<p>创建测试数据</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table EMPLOYEE (id number(12) primary key,name varchar(20));</span><br><span class="line">insert into EMPLOYEE values(1,&#x27;Oracle&#x27;);</span><br><span class="line">insert into EMPLOYEE values(2,&#x27;EAP&#x27;);</span><br><span class="line">commit;</span><br><span class="line"></span><br><span class="line">select * from EMPLOYEE</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111135523550.png" alt="image-20220111135523550"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111135537825.png" alt="image-20220111135537825"></p>
+<p>节点2：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111135703283.png" alt="image-20220111135703283"></p>
+<h4 id="OCR镜像"><a href="#OCR镜像" class="headerlink" title="OCR镜像"></a>OCR镜像</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ocrconfig -add +DGGRID2</span><br><span class="line">ocrcheck</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111143132715.png" alt="image-20220111143132715"></p>
+<h4 id="密码过期策略"><a href="#密码过期策略" class="headerlink" title="密码过期策略"></a>密码过期策略</h4><blockquote>
+<p>后续配置在容器数据库下修改</p>
+</blockquote>
+<p>关闭密码 180 天过期限制</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conn /as sysdba</span><br><span class="line">select * from dba_profiles where profile=&#x27;DEFAULT&#x27; and resource_name=&#x27;PASSWORD_LIFE_TIME&#x27;;</span><br><span class="line">alter profile default limit password_life_time unlimited;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111145953420.png" alt="image-20220111145953420"></p>
+<h4 id="关闭审计"><a href="#关闭审计" class="headerlink" title="关闭审计"></a>关闭审计</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show parameter audit;</span><br><span class="line">alter system set audit_trail=none scope = spfile;</span><br></pre></td></tr></table></figure>
+
+<h4 id="归档"><a href="#归档" class="headerlink" title="归档"></a>归档</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">archive log list;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111151040444.png" alt="image-20220111151040444"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">show parameter recover;</span><br><span class="line">alter system set db_recovery_file_dest_size=10g; ## 略小于存储 留出冗余空间</span><br><span class="line">alter system set db_recovery_file_dest=&#x27;+dgrecovery&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111151357258.png" alt="image-20220111151357258"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">alter system set cluster_database=false scope=spfile;</span><br><span class="line">shutdown immediate; ## 关闭两个节点</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 启动rac1到mount状态</span></span></span><br><span class="line">startup mount;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 开启归档</span></span></span><br><span class="line">alter database archivelog;</span><br><span class="line">alter system set cluster_database=true scope=spfile;</span><br><span class="line">shutdown immediate;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 2节点启动数据库</span></span></span><br><span class="line">startup; </span><br></pre></td></tr></table></figure>
+
+<p><strong>检查归档状态，切换日志</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">archive log list;</span><br><span class="line">alter system switch logfile;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111153451555.png" alt="image-20220111153451555"></p>
+<h4 id="闪回"><a href="#闪回" class="headerlink" title="闪回"></a>闪回</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 生产环境不开启闪回</span></span></span><br><span class="line">alter database flashback on;</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 关闭</span></span></span><br><span class="line">alter database flashback off;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="其他参数"><a href="#其他参数" class="headerlink" title="其他参数"></a>其他参数</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">show parameter db_files;</span><br><span class="line">alter system set db_files=8191 scope=spfile;</span><br><span class="line"></span><br><span class="line">show parameter processes;</span><br><span class="line"></span><br><span class="line">show parameter open_cursors;</span><br><span class="line">alter system set open_cursors=2000 scope=spfile;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111150512989.png" alt="image-20220111150512989"></p>
+<h3 id="集群测试"><a href="#集群测试" class="headerlink" title="集群测试"></a>集群测试</h3><p><code>hosts</code>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.2.67 rac-scan</span><br></pre></td></tr></table></figure>
+
+<p><code>tnsnames.ora</code>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mesdb =</span><br><span class="line">  (DESCRIPTION =</span><br><span class="line">    (ADDRESS = (PROTOCOL = TCP)(HOST = rac-scan)(PORT = 1521))</span><br><span class="line">    (CONNECT_DATA =</span><br><span class="line">      (SERVER = DEDICATED)</span><br><span class="line">      (SERVICE_NAME = mesdb)</span><br><span class="line">    )</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">mespdb =</span><br><span class="line">  (DESCRIPTION =</span><br><span class="line">    (ADDRESS = (PROTOCOL = TCP)(HOST = rac-scan)(PORT = 1521))</span><br><span class="line">    (CONNECT_DATA =</span><br><span class="line">      (SERVER = DEDICATED)</span><br><span class="line">      (SERVICE_NAME = mespdb)</span><br><span class="line">    )</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111173611145.png" alt="image-20220111173611145"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sqlplus /nolog</span><br><span class="line">conn system/mesdb2022@mesdb</span><br><span class="line">select instance_name from v$instance;</span><br></pre></td></tr></table></figure>
+
+<p>4个窗口分别是 mesdb2、mesdb1、mesdb2、mesdb1</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220111174008051.png" alt="image-20220111174008051"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crsctl stop crs # 关闭</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220111180802477.png" alt="image-20220111180802477"></p>
+<h4 id="OLTP"><a href="#OLTP" class="headerlink" title="OLTP"></a>OLTP</h4><p><code>session</code>:基于会话，如果用户连接丢失,将创建一个新的会话连接到备用节点,用户的所有未提交的操作必须回滚,然后再次执行,SELECT操作也被中止</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mesdb =</span><br><span class="line">  (DESCRIPTION =</span><br><span class="line">    (ADDRESS = (PROTOCOL = TCP)(HOST = rac-scan)(PORT = 1521))</span><br><span class="line">    (LOAD_BALANCE = yes)</span><br><span class="line">    (FAILOVER = ON)</span><br><span class="line">    (CONNECT_DATA =</span><br><span class="line">      (SERVER = DEDICATED)</span><br><span class="line">      (SERVICE_NAME = mesdb)</span><br><span class="line">      (FAILOVER_MODE =</span><br><span class="line">        (TYPE = SESSION)</span><br><span class="line">        (METHOD = BASIC)</span><br><span class="line">      )</span><br><span class="line">    )</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220112093541671.png" alt="image-20220112093541671"></p>
+<h4 id="OLAP"><a href="#OLAP" class="headerlink" title="OLAP"></a>OLAP</h4><p>建议使用</p>
+<p><code>select</code>:如果用户连接丢失,将使用游标和之前的快照继续执行SELECT操作,叫做SQL接管,SQL接管能够无缝接管理的事务类型只有SELECT语句.其它的操作也必须要回滚然后再次执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mesdb =</span><br><span class="line">  (DESCRIPTION =</span><br><span class="line">    (ADDRESS = (PROTOCOL = TCP)(HOST = rac-scan)(PORT = 1521))</span><br><span class="line">    (LOAD_BALANCE = yes)</span><br><span class="line">    (FAILOVER = ON)</span><br><span class="line">    (CONNECT_DATA =</span><br><span class="line">      (SERVER = DEDICATED)</span><br><span class="line">      (SERVICE_NAME = mesdb)</span><br><span class="line">      (FAILOVER_MODE =</span><br><span class="line">        (TYPE = SELECT)</span><br><span class="line">        (METHOD = BASIC)</span><br><span class="line">      )</span><br><span class="line">    )</span><br><span class="line">  )  </span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220112093721196.png" alt="image-20220112093721196"></p>
+<blockquote>
+<p>参考资料：<a target="_blank" rel="noopener" href="http://blog.itpub.net/31397003/viewspace-2144255/">Oracle RAC Failover 详解</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\01\09\rhel7-6-install-oracle19c-single\" rel="bookmark">Oracle 19c Single 安装</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\01\04\oracle-11gR2-rac\" rel="bookmark">Oracle11gR2 Rac集群搭建</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\11\09\rhel-install-oracle-11g-r2\" rel="bookmark">RedHat安装Oracle数据库</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\11\28\getting-started-with-docker-01\" rel="bookmark">Docker基础入门-01</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\10\27\vmware-bridge-ping-nowhere\" rel="bookmark">VMware桥接模式连接失败</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>JontyWang
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/" title="Oracle 19c RAC集群搭建">https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Oracle/" rel="tag"># Oracle</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/09/rhel7-6-install-oracle19c-single/" rel="prev" title="Oracle 19c Single 安装">
+                  <i class="fa fa-chevron-left"></i> Oracle 19c Single 安装
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC81NTE2Mi8zMTYyOQ=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fab fa-battle-net"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JontyWang</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">110k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:40</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+<span id="times">载入天数...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("09/08/2021 13:14:21");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("times").innerHTML = "本站已安全运行 "+dnum+" 天 " +hnum + " 小时 " + mnum + " 分 " + snum + " 秒 ✌";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<script src="/js/third-party/comments/livere.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
