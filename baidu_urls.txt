@@ -1,5 +1,5 @@
+https://jonty.top/2022/04/21/database-performance-optimization-solutions/
+https://jonty.top/2022/04/09/hello-world/
 https://jonty.top/2022/03/07/clean-code-typescript/
 https://jonty.top/2022/01/29/My-first-three-years-at-ThoughtWorks/
 https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/
-https://jonty.top/2022/01/09/rhel7-6-install-oracle19c-single/
-https://jonty.top/2022/01/04/oracle-11gR2-rac/
