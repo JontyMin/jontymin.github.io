@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jonty.top/2021/09/27/the-systematic-failure-of-higher-education-in-china/</loc>
+    
+    <lastmod>2022-04-21</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2021/08/05/hello-world/</loc>
+    
+    <lastmod>2022-04-21</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2022/01/29/My-first-three-years-at-ThoughtWorks/</loc>
+    
+    <lastmod>2022-04-21</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jonty.top/2022/04/21/database-performance-optimization-solutions/</loc>
     
     <lastmod>2022-04-20</lastmod>
@@ -12,13 +33,6 @@
     <loc>https://jonty.top/2022/03/07/clean-code-typescript/</loc>
     
     <lastmod>2022-03-07</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2022/01/29/My-first-three-years-at-ThoughtWorks/</loc>
-    
-    <lastmod>2022-01-29</lastmod>
     
   </url>
   
@@ -100,21 +114,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/2021/09/27/the-systematic-failure-of-higher-education-in-china/</loc>
-    
-    <lastmod>2021-11-29</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jonty.top/2021/10/03/windows-terminal-beautify/</loc>
-    
-    <lastmod>2021-11-29</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2022/04/09/hello-world/</loc>
     
     <lastmod>2021-11-29</lastmod>
     
@@ -207,6 +207,13 @@
 
   
   <url>
+    <loc>https://jonty.top/tags/C/</loc>
+    <lastmod>2022-04-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/tags/QA/</loc>
     <lastmod>2022-04-21</lastmod>
     <changefreq>daily</changefreq>
@@ -214,7 +221,14 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/C/</loc>
+    <loc>https://jonty.top/tags/Github/</loc>
+    <lastmod>2022-04-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/TypeScript/</loc>
     <lastmod>2022-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -242,14 +256,14 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Github/</loc>
+    <loc>https://jonty.top/tags/Hello-World/</loc>
     <lastmod>2022-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/TypeScript/</loc>
+    <loc>https://jonty.top/tags/Git/</loc>
     <lastmod>2022-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -270,7 +284,21 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Git/</loc>
+    <loc>https://jonty.top/tags/Jira/</loc>
+    <lastmod>2022-04-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Oracle/</loc>
+    <lastmod>2022-04-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/RedHat/</loc>
     <lastmod>2022-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -278,20 +306,6 @@
   
   <url>
     <loc>https://jonty.top/tags/DataBase/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Hello-World/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Jira/</loc>
     <lastmod>2022-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -319,28 +333,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Oracle/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/RedHat/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://jonty.top/tags/SQL-Server-2019/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/AlwaysOn/</loc>
     <lastmod>2022-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -354,7 +347,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Zhihu/</loc>
+    <loc>https://jonty.top/tags/AlwaysOn/</loc>
     <lastmod>2022-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -362,6 +355,13 @@
   
   <url>
     <loc>https://jonty.top/tags/VMware/</loc>
+    <lastmod>2022-04-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Zhihu/</loc>
     <lastmod>2022-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -391,6 +391,13 @@
   </url>
   
   <url>
+    <loc>https://jonty.top/categories/TypeScript/</loc>
+    <lastmod>2022-04-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/categories/Net/</loc>
     <lastmod>2022-04-21</lastmod>
     <changefreq>daily</changefreq>
@@ -405,20 +412,6 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/categories/TypeScript/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/categories/Docker/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://jonty.top/categories/Git/</loc>
     <lastmod>2022-04-21</lastmod>
     <changefreq>daily</changefreq>
@@ -426,7 +419,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/categories/Hexo/</loc>
+    <loc>https://jonty.top/categories/Docker/</loc>
     <lastmod>2022-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
