@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jonty.top/2022/05/08/sqlserver-batch-processing-tables/</loc>
+    
+    <lastmod>2022-05-08</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jonty.top/2021/09/27/the-systematic-failure-of-higher-education-in-china/</loc>
     
     <lastmod>2022-04-21</lastmod>
@@ -200,7 +207,7 @@
 
   <url>
     <loc>https://jonty.top/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -208,175 +215,182 @@
   
   <url>
     <loc>https://jonty.top/tags/C/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/QA/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Github/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/TypeScript/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Winform/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Print/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Github/</loc>
+    <lastmod>2022-05-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/TypeScript/</loc>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Generic/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Hello-World/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Git/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Docker/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Linux/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Jira/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Oracle/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/RedHat/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/DataBase/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Docker/</loc>
+    <lastmod>2022-05-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Linux/</loc>
+    <lastmod>2022-05-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Git/</loc>
+    <lastmod>2022-05-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Jira/</loc>
+    <lastmod>2022-05-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Hello-World/</loc>
+    <lastmod>2022-05-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Oracle/</loc>
+    <lastmod>2022-05-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/RedHat/</loc>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/MVC/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/EF-Core/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/52ABP/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/SQL-Server-2019/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/DB-Cluster/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/AlwaysOn/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/VMware/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <loc>https://jonty.top/tags/SQL-Server/</loc>
+    <lastmod>2022-05-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/DB-Cluster/</loc>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Zhihu/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/VMware/</loc>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Terminal/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/tags/Tools/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -385,70 +399,70 @@
   
   <url>
     <loc>https://jonty.top/categories/Share/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/categories/TypeScript/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Net/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/categories/TypeScript/</loc>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/CSharp/</loc>
-    <lastmod>2022-04-21</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/categories/Git/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Docker/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/categories/Git/</loc>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Oracle/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/SQL-Server/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Linux/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://jonty.top/categories/Windows/</loc>
-    <lastmod>2022-04-21</lastmod>
+    <lastmod>2022-05-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
