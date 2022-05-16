@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://cdn.jonty.top/img/image-20211003005518036.png">
 <meta property="og:image" content="https://cdn.jonty.top/img/image-20211003005954791.png">
 <meta property="article:published_time" content="2021-10-02T16:03:40.000Z">
-<meta property="article:modified_time" content="2021-11-29T14:04:00.000Z">
+<meta property="article:modified_time" content="2022-05-16T13:15:15.732Z">
 <meta property="article:author" content="JontyWang">
 <meta property="article:tag" content="Terminal">
 <meta property="article:tag" content="Tools">
@@ -314,7 +314,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-11-29 22:04:00" itemprop="dateModified" datetime="2021-11-29T22:04:00+08:00">2021-11-29</time>
+        <time title="修改时间：2022-05-16 21:15:15" itemprop="dateModified" datetime="2022-05-16T21:15:15+08:00">2022-05-16</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -340,14 +340,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.7k</span>
+      <span>3.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
+      <span>3 分钟</span>
     </span>
 </div>
 
@@ -381,7 +381,7 @@
 <li><code>oh-my-posh</code>:提供自定义主题和配色等,官网：<a target="_blank" rel="noopener" href="https://ohmyposh.dev/">https://ohmyposh.dev/</a></li>
 </ul>
 <p>使用管理员打开新安装的<code>PowerShell</code>,执行下列命令</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Install-Module PSReadline</span><br><span class="line">Install-Module posh-git</span><br><span class="line">Install-Module oh-my-posh</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Install-Module PSReadline</span><br><span class="line">Install-Module posh-git</span><br><span class="line">winget install oh-my-posh</span><br></pre></td></tr></table></figure>
 
 <p>安装时提示则直接输入<code>y</code>信任即可。</p>
 <p>4、安装字体</p>
@@ -400,7 +400,7 @@
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">notepad<span class="selector-class">.exe</span> <span class="variable">$Profile</span></span><br></pre></td></tr></table></figure>
 
 <p>没有文件则创建，配置一下内容</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 引入 posh-git</span></span><br><span class="line">Import-Module posh-git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 引入 oh-my-posh</span></span><br><span class="line">Import-Module oh-my-posh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 PowerShell 主题</span></span><br><span class="line">Set-PoshPrompt paradox </span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$OutputEncoding</span> = [console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding</span><br><span class="line"><span class="comment">#------------------------------- Import Modules BEGIN -------------------------------</span></span><br><span class="line"><span class="comment"># 引入 posh-git</span></span><br><span class="line">Import-Module posh-git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 引入 oh-my-posh</span></span><br><span class="line">Import-Module oh-my-posh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 PowerShell 主题 jandedobbeleer替换成主题名称</span></span><br><span class="line">oh-my-posh init pwsh --config <span class="string">&quot;<span class="variable">$env</span>:POSH_THEMES_PATH\jandedobbeleer.omp.json&quot;</span> | Invoke-Expression</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#------------------------------- Import Modules END   -------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#-------------------------------  Set Hot-keys BEGIN  -------------------------------</span></span><br><span class="line"><span class="comment"># 设置 Tab 键补全</span></span><br><span class="line">Set-PSReadlineKeyHandler -Key Tab -Function Complete</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 Ctrl+d 为菜单补全和 Intellisense</span></span><br><span class="line">Set-PSReadLineKeyHandler -Key <span class="string">&quot;Tab&quot;</span> -Function MenuComplete</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 Ctrl+d 为退出 PowerShell</span></span><br><span class="line">Set-PSReadlineKeyHandler -Key <span class="string">&quot;Ctrl+d&quot;</span> -Function ViExit</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置预测文本来源为历史记录</span></span><br><span class="line">Set-PSReadLineOption -PredictionSource History</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 Ctrl+z 为撤销</span></span><br><span class="line">Set-PSReadLineKeyHandler -Key <span class="string">&quot;Ctrl+z&quot;</span> -Function Undo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置向上键为后向搜索历史记录</span></span><br><span class="line">Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置向下键为前向搜索历史纪录</span></span><br><span class="line">Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward</span><br><span class="line"><span class="comment">#-------------------------------  Set Hot-keys END    -------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#-------------------------------   Set Alias Begin    -------------------------------</span></span><br><span class="line"><span class="comment"># 1. 编译函数 make</span></span><br><span class="line"><span class="keyword">function</span> MakeThings &#123;</span><br><span class="line">    nmake.exe <span class="variable">$args</span> -nologo</span><br><span class="line">&#125;</span><br><span class="line">Set-Alias -Name make -Value MakeThings</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 更新系统 os-update</span></span><br><span class="line">Set-Alias -Name os-update -Value Update-Packages</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 查看目录 ls &amp; ll</span></span><br><span class="line"><span class="keyword">function</span> ListDirectory &#123;</span><br><span class="line">    (Get-ChildItem).Name</span><br><span class="line">    Write-Host(<span class="string">&quot;&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line">Set-Alias -Name ls -Value ListDirectory</span><br><span class="line">Set-Alias -Name ll -Value Get-ChildItem</span><br><span class="line"><span class="comment">#-------------------------------    Set Alias END     -------------------------------</span></span><br></pre></td></tr></table></figure>
 
 <p>主题可以通过<code>Get-PoshThemes</code>命令查看，选择喜欢的然后将主题名称替换即可。</p>
 <p>6、配置<code>Terminal</code></p>
@@ -506,13 +506,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">174k</span>
+    <span title="站点总字数">176k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:38</span>
+    <span title="站点阅读时长">2:40</span>
   </span>
 </div>
 <div class="busuanzi-count">
