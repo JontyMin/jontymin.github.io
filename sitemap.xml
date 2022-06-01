@@ -235,13 +235,6 @@
 
   
   <url>
-    <loc>https://jonty.top/tags/C/</loc>
-    <lastmod>2022-06-01</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://jonty.top/tags/QA/</loc>
     <lastmod>2022-06-01</lastmod>
     <changefreq>daily</changefreq>
@@ -249,21 +242,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Winform/</loc>
-    <lastmod>2022-06-01</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Print/</loc>
-    <lastmod>2022-06-01</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/code-review/</loc>
+    <loc>https://jonty.top/tags/C/</loc>
     <lastmod>2022-06-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -291,28 +270,21 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Docker/</loc>
+    <loc>https://jonty.top/tags/Winform/</loc>
     <lastmod>2022-06-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Linux/</loc>
+    <loc>https://jonty.top/tags/Print/</loc>
     <lastmod>2022-06-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Git/</loc>
-    <lastmod>2022-06-01</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Jira/</loc>
+    <loc>https://jonty.top/tags/code-review/</loc>
     <lastmod>2022-06-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -326,21 +298,21 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Hello-World/</loc>
+    <loc>https://jonty.top/tags/Docker/</loc>
     <lastmod>2022-06-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Oracle/</loc>
+    <loc>https://jonty.top/tags/Git/</loc>
     <lastmod>2022-06-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/RedHat/</loc>
+    <loc>https://jonty.top/tags/Linux/</loc>
     <lastmod>2022-06-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -368,6 +340,20 @@
   </url>
   
   <url>
+    <loc>https://jonty.top/tags/Oracle/</loc>
+    <lastmod>2022-06-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/RedHat/</loc>
+    <lastmod>2022-06-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/tags/SQL-Server/</loc>
     <lastmod>2022-06-01</lastmod>
     <changefreq>daily</changefreq>
@@ -389,6 +375,13 @@
   </url>
   
   <url>
+    <loc>https://jonty.top/tags/AlwaysOn/</loc>
+    <lastmod>2022-06-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/tags/DB-Cluster/</loc>
     <lastmod>2022-06-01</lastmod>
     <changefreq>daily</changefreq>
@@ -396,7 +389,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/AlwaysOn/</loc>
+    <loc>https://jonty.top/tags/Zhihu/</loc>
     <lastmod>2022-06-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -410,7 +403,14 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Zhihu/</loc>
+    <loc>https://jonty.top/tags/Hello-World/</loc>
+    <lastmod>2022-06-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Jira/</loc>
     <lastmod>2022-06-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -440,13 +440,6 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/categories/Net/</loc>
-    <lastmod>2022-06-01</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://jonty.top/categories/CSharp/</loc>
     <lastmod>2022-06-01</lastmod>
     <changefreq>daily</changefreq>
@@ -455,6 +448,13 @@
   
   <url>
     <loc>https://jonty.top/categories/TypeScript/</loc>
+    <lastmod>2022-06-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/categories/Net/</loc>
     <lastmod>2022-06-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
