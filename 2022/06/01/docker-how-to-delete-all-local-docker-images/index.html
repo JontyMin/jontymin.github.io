@@ -26,28 +26,28 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="Hello World ! this is my first blog👏">
+<meta name="description" content="Docker：如何删除本地所有Docker镜像">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://jonty.top/2021/08/05/hello-world/index.html">
+<meta property="og:title" content="Docker删除本地所有镜像">
+<meta property="og:url" content="https://jonty.top/2022/06/01/docker-how-to-delete-all-local-docker-images/index.html">
 <meta property="og:site_name" content="JontyWang">
-<meta property="og:description" content="Hello World ! this is my first blog👏">
+<meta property="og:description" content="Docker：如何删除本地所有Docker镜像">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-08-05T12:43:03.000Z">
-<meta property="article:modified_time" content="2022-04-21T01:24:48.000Z">
+<meta property="article:published_time" content="2022-05-31T23:53:28.000Z">
+<meta property="article:modified_time" content="2022-06-01T00:24:26.599Z">
 <meta property="article:author" content="JontyWang">
-<meta property="article:tag" content="Hello World">
+<meta property="article:tag" content="Docker">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://jonty.top/2021/08/05/hello-world/">
+<link rel="canonical" href="https://jonty.top/2022/06/01/docker-how-to-delete-all-local-docker-images/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2021/08/05/hello-world/","path":"2021/08/05/hello-world/","title":"Hello World"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2022/06/01/docker-how-to-delete-all-local-docker-images/","path":"2022/06/01/docker-how-to-delete-all-local-docker-images/","title":"Docker删除本地所有镜像"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Hello World | JontyWang</title>
+<title>Docker删除本地所有镜像 | JontyWang</title>
   
 
   <script src="/js/third-party/analytics/baidu-analytics.js"></script>
@@ -154,7 +154,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%89%80%E6%9C%89%E5%AE%B9%E5%99%A8%E5%92%8C%E9%95%9C%E5%83%8F"><span class="nav-number">1.</span> <span class="nav-text">删除所有容器和镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E-Unix"><span class="nav-number">1.1.</span> <span class="nav-text">对于 Unix</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E-Windows%EF%BC%88pwsh%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">对于 Windows（pwsh）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%89%80%E6%9C%89%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84-Docker-%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.</span> <span class="nav-text">删除所有未使用的 Docker 对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4-Docker-%E5%AE%B9%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">删除 Docker 容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E4%B8%80%E4%B8%AA%E6%88%96%E5%A4%9A%E4%B8%AA%E5%AE%B9%E5%99%A8"><span class="nav-number">3.1.</span> <span class="nav-text">移除一个或多个容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%89%80%E6%9C%89%E5%81%9C%E6%AD%A2%E7%9A%84%E5%AE%B9%E5%99%A8"><span class="nav-number">3.2.</span> <span class="nav-text">删除所有停止的容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%BF%87%E6%BB%A4%E5%99%A8%E7%A7%BB%E9%99%A4%E5%AE%B9%E5%99%A8"><span class="nav-number">3.3.</span> <span class="nav-text">使用过滤器移除容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%9C%E6%AD%A2%E5%B9%B6%E7%A7%BB%E9%99%A4%E6%89%80%E6%9C%89%E5%AE%B9%E5%99%A8"><span class="nav-number">3.4.</span> <span class="nav-text">停止并移除所有容器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4-Docker-%E9%95%9C%E5%83%8F"><span class="nav-number">4.</span> <span class="nav-text">删除 Docker 镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E9%95%9C%E5%83%8F"><span class="nav-number">4.1.</span> <span class="nav-text">删除镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E7%8E%84%E8%99%9A%E9%95%9C%E5%83%8F"><span class="nav-number">4.2.</span> <span class="nav-text">删除玄虚镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%89%80%E6%9C%89%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E9%95%9C%E5%83%8F"><span class="nav-number">4.3.</span> <span class="nav-text">删除所有未使用的镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%BF%87%E6%BB%A4%E5%99%A8%E5%88%A0%E9%99%A4%E5%9B%BE%E5%83%8F"><span class="nav-number">4.4.</span> <span class="nav-text">使用过滤器删除图像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4-Docker-Volume"><span class="nav-number">5.</span> <span class="nav-text">删除 Docker Volume</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E4%B8%80%E4%B8%AA%E6%88%96%E5%A4%9A%E4%B8%AA%E5%8D%B7"><span class="nav-number">5.1.</span> <span class="nav-text">删除一个或多个卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%89%80%E6%9C%89%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E5%8D%B7"><span class="nav-number">5.2.</span> <span class="nav-text">删除所有未使用的卷</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4-Docker-%E7%BD%91%E7%BB%9C"><span class="nav-number">6.</span> <span class="nav-text">删除 Docker 网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E4%B8%80%E4%B8%AA%E6%88%96%E5%A4%9A%E4%B8%AA-Docker-%E7%BD%91%E7%BB%9C"><span class="nav-number">6.1.</span> <span class="nav-text">删除一个或多个 Docker 网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%89%80%E6%9C%89%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E7%BD%91%E7%BB%9C"><span class="nav-number">6.2.</span> <span class="nav-text">删除所有未使用的网络</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -274,7 +274,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://jonty.top/2021/08/05/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://jonty.top/2022/06/01/docker-how-to-delete-all-local-docker-images/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/header.jpg">
@@ -287,7 +287,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hello World
+          Docker删除本地所有镜像
         </h1>
 
         <div class="post-meta-container">
@@ -297,23 +297,17 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2021-08-05 20:43:03" itemprop="dateCreated datePublished" datetime="2021-08-05T20:43:03+08:00">2021-08-05</time>
+      <time title="创建时间：2022-06-01 07:53:28 / 修改时间：08:24:26" itemprop="dateCreated datePublished" datetime="2022-06-01T07:53:28+08:00">2022-06-01</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-04-21 09:24:48" itemprop="dateModified" datetime="2022-04-21T09:24:48+08:00">2022-04-21</time>
-      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Share/" itemprop="url" rel="index"><span itemprop="name">Share</span></a>
+          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
         </span>
     </span>
 
@@ -331,18 +325,18 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>367</span>
+      <span>1.7k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>2 分钟</span>
     </span>
 </div>
 
-            <div class="post-description">Hello World ! this is my first blog👏</div>
+            <div class="post-description">Docker：如何删除本地所有Docker镜像</div>
         </div>
       </header>
 
@@ -350,19 +344,109 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+        <h2 id="删除所有容器和镜像"><a href="#删除所有容器和镜像" class="headerlink" title="删除所有容器和镜像"></a>删除所有容器和镜像</h2><h3 id="对于-Unix"><a href="#对于-Unix" class="headerlink" title="对于 Unix"></a>对于 Unix</h3><p>删除包括其卷在内的所有容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm -vf $(docker ps -aq)</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>删除所有镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi -f $(docker images -aq)</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>请先删除所有容器，再删除创建这些容器的所有镜像。</p>
+</blockquote>
+<h3 id="对于-Windows（pwsh）"><a href="#对于-Windows（pwsh）" class="headerlink" title="对于 Windows（pwsh）"></a>对于 Windows（pwsh）</h3><p>如果在 Windows (Powershell) 上操作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">images = docker images -a -q</span></span><br><span class="line">foreach ($image in $images) &#123; docker image rm $image -f &#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>也可以按如下写法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images -a -q | % &#123; docker image rm $_ -f &#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>对于使用命令行的 Windows，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for /F %i in (&#x27;docker images -a -q&#x27;) do docker rmi -f %i</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="删除所有未使用的-Docker-对象"><a href="#删除所有未使用的-Docker-对象" class="headerlink" title="删除所有未使用的 Docker 对象"></a>删除所有未使用的 Docker 对象</h2><p>删除所有停止的容器、悬空的图像和未使用的网络</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker system prune</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>-f</code>( <code>--force</code>) 选项绕过提示。</p>
+<p>如果要删除所有未使用的镜像而不仅仅是玄虚镜像，请在命令中添加<code>-a</code>参数（<code>--all</code>）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker system prune -a</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，该命令不会删除未使用的卷以防止丢失重要数据。</p>
+<p>要删除所有未使用的卷，使用<code>--volumes</code>参数：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker system prune --volumes</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="删除-Docker-容器"><a href="#删除-Docker-容器" class="headerlink" title="删除 Docker 容器"></a>删除 Docker 容器</h2><h3 id="移除一个或多个容器"><a href="#移除一个或多个容器" class="headerlink" title="移除一个或多个容器"></a>移除一个或多个容器</h3><p>要删除一个或多个 Docker 容器，使用<code>docker container rm</code>命令，后面跟要删除的容器的 ID。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container rm xxxxxx xxxxxx</span><br></pre></td></tr></table></figure>
+
+<p>查看所有容器列表</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container ls -a</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除所有停止的容器"><a href="#删除所有停止的容器" class="headerlink" title="删除所有停止的容器"></a>删除所有停止的容器</h3><p>删除所有停止的容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container prune</span><br></pre></td></tr></table></figure>
+
+<p>列出所有停止容器的列表</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container ls -a --filter status=exited --filter status=created</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用过滤器移除容器"><a href="#使用过滤器移除容器" class="headerlink" title="使用过滤器移除容器"></a>使用过滤器移除容器</h3><p>例如，要删除 12 小时前创建的所有图像：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container prune --filter &quot;until=12h&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="停止并移除所有容器"><a href="#停止并移除所有容器" class="headerlink" title="停止并移除所有容器"></a>停止并移除所有容器</h3><p>停止所有正在运行的容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container stop $(docker container ls -aq)</span><br></pre></td></tr></table></figure>
+
+<p>停止所有容器后，删除所有容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container rm $(docker container ls -aq)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="删除-Docker-镜像"><a href="#删除-Docker-镜像" class="headerlink" title="删除 Docker 镜像"></a>删除 Docker 镜像</h2><p>下载Docker镜像后，会一直保留在服务器上，需要手动删除</p>
+<h3 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h3><p>要删除一个或多个 Docker 镜像，首先需要找到镜像的 ID：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image ls</span><br></pre></td></tr></table></figure>
+
+<p>删除镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image rm xxxxxx xxxxxx</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Error response from daemon: conflict: unable to remove repository reference “centos” (must force) - container cd20b396a061 is using its referenced image 75835a67d134</p>
+<p>需要先删除使用此镜像的容器</p>
+</blockquote>
+<h3 id="删除玄虚镜像"><a href="#删除玄虚镜像" class="headerlink" title="删除玄虚镜像"></a>删除玄虚镜像</h3><p>玄虚镜像是未标记且未被任何容器使用的镜像。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image prune</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>运行此命令时要小心。如果你<a target="_blank" rel="noopener" href="https://linuxize.com/post/how-to-build-docker-images-with-dockerfile/">构建的图像</a> 没有标签，它将被删除。</p>
+</blockquote>
+<h3 id="删除所有未使用的镜像"><a href="#删除所有未使用的镜像" class="headerlink" title="删除所有未使用的镜像"></a>删除所有未使用的镜像</h3><p>要删除任何现有容器未引用的所有图像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image prune -a</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用过滤器删除图像"><a href="#使用过滤器删除图像" class="headerlink" title="使用过滤器删除图像"></a>使用过滤器删除图像</h3><p>例如，要删除超过 7 天（168 小时）前创建的所有图像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image prune -a --filter &quot;until=168h&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="删除-Docker-Volume"><a href="#删除-Docker-Volume" class="headerlink" title="删除 Docker Volume"></a>删除 Docker Volume</h2><h3 id="删除一个或多个卷"><a href="#删除一个或多个卷" class="headerlink" title="删除一个或多个卷"></a>删除一个或多个卷</h3><p>删除一个或多个 Docker 卷，列出所有卷</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker volume ls</span><br></pre></td></tr></table></figure>
+
+<p>根据卷ID删除</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker volume rm xxxxx</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除所有未使用的卷"><a href="#删除所有未使用的卷" class="headerlink" title="删除所有未使用的卷"></a>删除所有未使用的卷</h3><p>删除所有未使用的卷</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker volume prune -f</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="删除-Docker-网络"><a href="#删除-Docker-网络" class="headerlink" title="删除 Docker 网络"></a>删除 Docker 网络</h2><h3 id="删除一个或多个-Docker-网络"><a href="#删除一个或多个-Docker-网络" class="headerlink" title="删除一个或多个 Docker 网络"></a>删除一个或多个 Docker 网络</h3><p>查找要删除的网络ID</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network ls</span><br></pre></td></tr></table></figure>
+
+<p>根据ID删除网络</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network rm c520032c3d31</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除所有未使用的网络"><a href="#删除所有未使用的网络" class="headerlink" title="删除所有未使用的网络"></a>删除所有未使用的网络</h3><p>删除所有未使用的网络</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network prune</span><br></pre></td></tr></table></figure>
+
+
+
 
     </div>
 
@@ -370,6 +454,15 @@
     
     
       
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\11\28\getting-started-with-docker-01\" rel="bookmark">Docker基础入门-01</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\09\23\install-jira-in-docker\" rel="bookmark">Docker中安装jira</a></div>
+    </li>
+  </ul>
 
 
     <footer class="post-footer">
@@ -382,7 +475,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://jonty.top/2021/08/05/hello-world/" title="Hello World">https://jonty.top/2021/08/05/hello-world/</a>
+      <a href="https://jonty.top/2022/06/01/docker-how-to-delete-all-local-docker-images/" title="Docker删除本地所有镜像">https://jonty.top/2022/06/01/docker-how-to-delete-all-local-docker-images/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -408,18 +501,18 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/Hello-World/" rel="tag"># Hello World</a>
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
+                <a href="/2022/05/31/code-review/" rel="prev" title="程序员必备Code Review">
+                  <i class="fa fa-chevron-left"></i> 程序员必备Code Review
+                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2021/09/23/install-jira-in-docker/" rel="next" title="Docker中安装jira">
-                  Docker中安装jira <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
@@ -525,7 +618,7 @@ setInterval("createtime()",250);
 
 
   <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
-  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2021/08/05/hello-world/"}</script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2022/06/01/docker-how-to-delete-all-local-docker-images/"}</script>
   <script src="/js/third-party/quicklink.js"></script>
 
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>

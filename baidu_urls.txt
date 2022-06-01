@@ -1,5 +1,5 @@
+https://jonty.top/2022/06/01/docker-how-to-delete-all-local-docker-images/
 https://jonty.top/2022/05/31/code-review/
 https://jonty.top/2022/05/22/sql-optimization-index/
 https://jonty.top/2022/05/08/sqlserver-batch-processing-tables/
 https://jonty.top/2022/04/21/database-performance-optimization-solutions/
-https://jonty.top/2022/03/07/clean-code-typescript/
