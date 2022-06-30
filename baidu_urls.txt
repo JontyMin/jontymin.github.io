@@ -1,5 +1,5 @@
+https://jonty.top/2022/06/30/docker-gitlab-can-not-send-email-after-migration/
 https://jonty.top/2022/06/20/frp-and-openvpn-to-build-intranet-VPN/
 https://jonty.top/2022/06/01/docker-how-to-delete-all-local-docker-images/
 https://jonty.top/2022/05/31/code-review/
 https://jonty.top/2022/05/22/sql-optimization-index/
-https://jonty.top/2022/05/08/sqlserver-batch-processing-tables/
