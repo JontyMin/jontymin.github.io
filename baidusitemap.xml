@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2022/07/06/getting-started-with-docker-swarm/</loc>
+    <lastmod>2022-07-06</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2022/06/30/docker-gitlab-can-not-send-email-after-migration/</loc>
     <lastmod>2022-06-30</lastmod>
   </url>
