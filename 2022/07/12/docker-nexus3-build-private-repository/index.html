@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="WSIOb3JOJfAsz23EBri68OoFPPfXmPefVY8l9LWiuuQ">
+  <meta name="msvalidate.01" content="BEA1533D8925BA7876293C434544D574">
+  <meta name="baidu-site-verification" content="code-xBDMwADkQe">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=ZCOOL+XiaoWei:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Nexus3最佳实践 - 配合Nginx+SSL搭建私有仓库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sonatype Nexus3 搭建私有仓库">
+<meta property="og:url" content="https://jonty.top/2022/07/12/docker-nexus3-build-private-repository/index.html">
+<meta property="og:site_name" content="Tech World">
+<meta property="og:description" content="Nexus3最佳实践 - 配合Nginx+SSL搭建私有仓库">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jonty.top/img/NexusRepo_Icon.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712162349857.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712162731428.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712163303455.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712164027694.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712164443301.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712164651836.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712170314043.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712165729873.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712170930285.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712171653152.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712172140135.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712172321065.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712172440616.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712172607085.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712172736234.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712172917172.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220712173030239.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/1631446538601-5b8a97b1-ebb0-4cbb-82d1-d7353c683fb3.png">
+<meta property="article:published_time" content="2022-07-12T15:02:05.000Z">
+<meta property="article:modified_time" content="2022-07-12T15:12:15.734Z">
+<meta property="article:author" content="JontyWang">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Nexus">
+<meta property="article:tag" content="SSL">
+<meta property="article:tag" content="Nginx">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jonty.top/img/NexusRepo_Icon.png">
+
+
+<link rel="canonical" href="https://jonty.top/2022/07/12/docker-nexus3-build-private-repository/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2022/07/12/docker-nexus3-build-private-repository/","path":"2022/07/12/docker-nexus3-build-private-repository/","title":"Sonatype Nexus3 搭建私有仓库"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Sonatype Nexus3 搭建私有仓库 | Tech World</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?276415dc0899b092905c4c2730a113a8"></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Tech World" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Tech World</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Become a DevOps engineer!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SSL%E8%AF%81%E4%B9%A6"><span class="nav-number">1.</span> <span class="nav-text">SSL证书</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%B7%AF%E5%BE%84%E5%B9%B6%E8%AE%BE%E7%BD%AE%E6%9D%83%E9%99%90"><span class="nav-number">1.1.</span> <span class="nav-text">创建数据路径并设置权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90"><span class="nav-number">1.2.</span> <span class="nav-text">本地域名解析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2"><span class="nav-number">2.</span> <span class="nav-text">部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="nav-number">2.1.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-compose-yml"><span class="nav-number">2.2.</span> <span class="nav-text">docker-compose.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx-conf"><span class="nav-number">2.3.</span> <span class="nav-text">nginx.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C"><span class="nav-number">2.4.</span> <span class="nav-text">运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E9%85%8D%E7%BD%AE"><span class="nav-number">3.1.</span> <span class="nav-text">密码配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BABlob%E5%AD%98%E5%82%A8"><span class="nav-number">3.2.</span> <span class="nav-text">创建Blob存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AD%98%E5%82%A8%E5%BA%93"><span class="nav-number">3.3.</span> <span class="nav-text">创建存储库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0docker%E9%95%9C%E5%83%8F"><span class="nav-number">3.4.</span> <span class="nav-text">上传docker镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%8E%88%E4%BF%A1"><span class="nav-number">3.4.1.</span> <span class="nav-text">配置授信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%99%BB%E5%BD%95"><span class="nav-number">3.4.2.</span> <span class="nav-text">登录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A8%E9%80%81%E9%95%9C%E5%83%8F"><span class="nav-number">3.4.3.</span> <span class="nav-text">推送镜像</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F"><span class="nav-number">3.5.</span> <span class="nav-text">拉取镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0nuget%E5%8C%85"><span class="nav-number">3.6.</span> <span class="nav-text">上传nuget包</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0Nuget-Realms"><span class="nav-number">3.6.1.</span> <span class="nav-text">添加Nuget Realms</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E4%BB%93%E5%BA%93%E5%9C%B0%E5%9D%80%E4%BB%A5%E5%8F%8ANuget-API-Key"><span class="nav-number">3.6.2.</span> <span class="nav-text">获取仓库地址以及Nuget API Key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A8%E9%80%81%E6%9C%AC%E5%9C%B0NuGet%E5%8C%85"><span class="nav-number">3.6.3.</span> <span class="nav-text">推送本地NuGet包</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0NuGet%E5%8C%85%E6%BA%90"><span class="nav-number">3.7.</span> <span class="nav-text">配置本地NuGet包源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NPM"><span class="nav-number">3.8.</span> <span class="nav-text">NPM</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">其他问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#502-Bad-Gateway"><span class="nav-number">4.1.</span> <span class="nav-text">502 Bad Gateway</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#no-basic-auth-credentials"><span class="nav-number">4.2.</span> <span class="nav-text">no basic auth credentials</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#401-Unauthorized"><span class="nav-number">4.3.</span> <span class="nav-text">401 Unauthorized</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="JontyWang"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">JontyWang</p>
+  <div class="site-description" itemprop="description">不在DevOps中转型就在自动化中消亡</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JontyMin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JontyMin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:amazing4677@gmail.com" title="E-Mail → mailto:amazing4677@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/users/14014911/jonty" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;users&#x2F;14014911&#x2F;jonty" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>StackOverflow</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://jontymin.github.io/" title="https:&#x2F;&#x2F;jontymin.github.io&#x2F;" rel="noopener" target="_blank">Github</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://my_netinlove.gitee.io/" title="https:&#x2F;&#x2F;my_netinlove.gitee.io&#x2F;" rel="noopener" target="_blank">Gitee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/179850046" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;179850046" rel="noopener" target="_blank">Bilibili</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/JontyWang/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JontyWang&#x2F;" rel="noopener" target="_blank">我的园子</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ldqk.xyz/" title="https:&#x2F;&#x2F;ldqk.xyz&#x2F;" rel="noopener" target="_blank">懒得勤快</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://luciferliu.blog.csdn.net/" title="https:&#x2F;&#x2F;luciferliu.blog.csdn.net&#x2F;" rel="noopener" target="_blank">Lucifer三思而后行</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/edisonchou/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;edisonchou&#x2F;" rel="noopener" target="_blank">EdisonZhou</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.aliyun.com/minisite/goods?userCode=b0skjdai&share_source=copy_link" title="https:&#x2F;&#x2F;www.aliyun.com&#x2F;minisite&#x2F;goods?userCode&#x3D;b0skjdai&amp;share_source&#x3D;copy_link" rel="noopener" target="_blank">Aliyun</a>
+        </li>
+    </ul>
+  </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=543747557&auto=1&height=66"></iframe>
+
+          </div>
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+
+  </aside>
+  <div class="sidebar-dimmer">
+  
+  </div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonty.top/2022/07/12/docker-nexus3-build-private-repository/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="JontyWang">
+      <meta itemprop="description" content="不在DevOps中转型就在自动化中消亡">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tech World">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Sonatype Nexus3 搭建私有仓库
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-12 23:02:05 / 修改时间：23:12:15" itemprop="dateCreated datePublished" datetime="2022-07-12T23:02:05+08:00">2022-07-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>7 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">Nexus3最佳实践 - 配合Nginx+SSL搭建私有仓库</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img data-src="https://cdn.jonty.top/img/NexusRepo_Icon.png" alt="Sonatype-Nexus3"></p>
+<div class="note info"><p>Nexus是Sonatype提供的仓库管理平台，Nuexus Repository OSS3能够支持Maven、npm、Docker、YUM、Helm等格式数据的存储和发布；并且能够与Jekins、SonaQube和Eclipse等工具进行集成。<br>Nexus支持作为宿主和代理存储库的本地Maven/Docker存储库，可以直接将这些存储库暴露给客户端工具；也可以以存储库组的方式暴露给客户端工具，存储库组是合并了多个存储库的内容的存储库，能够通过一个URL将多个存储库暴露给客户端工具，从而便于用户的使用。通过nexus自建能够有效减少访问获取镜像的时间和对带宽使用，并能够通过自有的镜像仓库共享企业自己的镜像。</p>
+</div>
+
+
+
+<h2 id="SSL证书"><a href="#SSL证书" class="headerlink" title="SSL证书"></a>SSL证书</h2><p>我们通过<code>Nginx</code>代理<code>Nexus</code>服务，需要先生成<strong>自签名</strong>的SSL证书，通过内部DNS域名访问（无需在<code>docker pull</code>的时候还要带一个端口）</p>
+<p>使用一键生成工具：<a target="_blank" rel="noopener" href="https://github.com/Fishdrowned/ssl">ssl</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 克隆仓库</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/Fishdrowned/ssl.git</span><br><span class="line"><span class="built_in">cd</span> ssl</span><br><span class="line"><span class="comment"># 根据你的域名更改</span></span><br><span class="line">/bin/bash ./gen.cert.sh hub.jonty.top </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>PS：如果是打算做外网仓库服务，可以直接申请一个免费的SSL证书（云厂商都提供），本文使用内网域名，使用自签名证书</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">[root@nexus3 ssl-master]<span class="comment"># ls</span></span><br><span class="line">ca.cnf  docs  flush.sh  gen.cert.sh  gen.root.sh  LICENSE  out  README.md</span><br><span class="line">[root@nexus3 ssl-master]<span class="comment"># cd out/</span></span><br><span class="line">[root@nexus3 out]<span class="comment"># ls</span></span><br><span class="line">cert.key.pem  index.txt  index.txt.attr  index.txt.attr.old  index.txt.old  newcerts  root.crt  root.key.pem  serial  serial.old</span><br><span class="line">[root@nexus3 out]<span class="comment"># cd ..</span></span><br><span class="line">[root@nexus3 ssl-master]<span class="comment"># /bin/bash gen.cert.sh hub.xxx.com # 换成你的域名</span></span><br><span class="line">Using configuration from ./ca.cnf</span><br><span class="line">Check that the request matches the signature</span><br><span class="line">Signature ok</span><br><span class="line">The Subject<span class="string">&#x27;s Distinguished Name is as follows</span></span><br><span class="line"><span class="string">countryName           :PRINTABLE:&#x27;</span>CN<span class="string">&#x27;</span></span><br><span class="line"><span class="string">stateOrProvinceName   :ASN.1 12:&#x27;</span>Guangdong<span class="string">&#x27;</span></span><br><span class="line"><span class="string">localityName          :ASN.1 12:&#x27;</span>Guangzhou<span class="string">&#x27;</span></span><br><span class="line"><span class="string">organizationName      :ASN.1 12:&#x27;</span>Fishdrowned<span class="string">&#x27;</span></span><br><span class="line"><span class="string">organizationalUnitName:ASN.1 12:&#x27;</span>hub.xxx.com<span class="string">&#x27;</span></span><br><span class="line"><span class="string">commonName            :ASN.1 12:&#x27;</span>*.hub.xxx.com<span class="string">&#x27;</span></span><br><span class="line"><span class="string">Certificate is to be certified until Jul 11 08:06:41 2024 GMT (730 days)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Write out database with 1 new entries</span></span><br><span class="line"><span class="string">Data Base Updated</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Certificates are located in:</span></span><br><span class="line"><span class="string">lrwxrwxrwx. 1 root root 44 Jul 12 16:06 /root/docker/ssl-master/out/hub.xxx.com/hub.xxx.bundle.crt -&gt; ./20220712-1606/hub.gct-china.com.bundle.crt</span></span><br><span class="line"><span class="string">lrwxrwxrwx. 1 root root 37 Jul 12 16:06 /root/docker/ssl-master/out/hub.xxx.com/hub.xxx.crt -&gt; ./20220712-1606/hub.gct-china.com.crt</span></span><br><span class="line"><span class="string">lrwxrwxrwx. 1 root root 15 Jul 12 16:06 /root/docker/ssl-master/out/hub.xxx.com/hub.xxx.key.pem -&gt; ../cert.key.pem</span></span><br><span class="line"><span class="string">lrwxrwxrwx. 1 root root 11 Jul 12 16:06 /root/docker/ssl-master/out/hub.xxx.com/root.crt -&gt; ../root.crt</span></span><br><span class="line"><span class="string">[root@nexus3 ssl-master]# cd out/hub.xxx.com/</span></span><br><span class="line"><span class="string">[root@nexus3 hub.xxx.com]# ls</span></span><br><span class="line"><span class="string">20220712-1606  hub.xxx.com.bundle.crt  hub.xxx.com.crt  hub.xxx.com.key.pem  root.crt</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建数据路径并设置权限"><a href="#创建数据路径并设置权限" class="headerlink" title="创建数据路径并设置权限"></a>创建数据路径并设置权限</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="variable">$PWD</span>/nexus3/data &amp;&amp; chmod 777 <span class="variable">$PWD</span>/nexus3/data &amp;&amp; <span class="built_in">cd</span> <span class="variable">$PWD</span>/nexus3</span><br></pre></td></tr></table></figure>
+
+<p>将生成的证书复制到<code>$PWD/nexus3/certs</code>目录下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@nexus3 hub.xxx.com]<span class="comment"># cp hub.xxx.crt ~/nexus3/certs/</span></span><br><span class="line">[root@nexus3 hub.xxx.com]<span class="comment"># cp hub.xxx.com.key.pem ~/nexus3/certs/</span></span><br><span class="line">[root@nexus3 hub.xxx.com]<span class="comment"># cd ~/nexus3/certs/</span></span><br><span class="line">[root@nexus3 certs]<span class="comment"># ls</span></span><br><span class="line">hub.xxx.com.crt  hub.xxx.key.pem</span><br></pre></td></tr></table></figure>
+
+<h3 id="本地域名解析"><a href="#本地域名解析" class="headerlink" title="本地域名解析"></a>本地域名解析</h3><p>windows：<code>C:\Windows\System32\drivers\etc\hosts</code></p>
+<p>linux：<code>vi /etc/hosts</code></p>
+<p>将以下解析加入，测试是否可以<code>ping</code>通</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.2.10 hub.xxx.com</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>服务端和客户端都需要配置</p>
+</blockquote>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>安装<code>Docker-Engine</code></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/centos/">Install Docker Engine on CentOS | Docker Documentation</a></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@nexus3 ~]<span class="comment"># docker -v</span></span><br><span class="line">Docker version 20.10.17, build 100c701</span><br><span class="line">[root@nexus3 ~]<span class="comment"># docker compose version</span></span><br><span class="line">Docker Compose version v2.6.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h3><p>在<code>~/nexus3</code>目录下</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.7&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">nexus3:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">sonatype/nexus3:3.33.1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">nexus3</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">privileged:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">$PWD/data:/nexus-data</span></span><br><span class="line">  <span class="attr">nginx:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">nginx:1.21.1-alpine</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;80:80&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;443:443&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">$PWD/nginx.conf:/etc/nginx/nginx.conf:ro</span>     <span class="comment"># nginx配置</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">$PWD/certs:/certs</span>                    <span class="comment"># SSL证书</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">$PWD/log:/var/log/nginx</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">nexus3</span></span><br><span class="line">    <span class="attr">logging:</span></span><br><span class="line">      <span class="attr">driver:</span> <span class="string">&quot;json-file&quot;</span></span><br><span class="line">      <span class="attr">options:</span></span><br><span class="line">        <span class="attr">max-size:</span> <span class="string">&quot;5g&quot;</span>  <span class="comment"># 限制日志大小</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="nginx-conf"><a href="#nginx-conf" class="headerlink" title="nginx.conf"></a>nginx.conf</h3><p>在同目录下创建<code>nginx.conf</code>，<code>nginx</code>配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">worker_processes 4;</span><br><span class="line">worker_rlimit_nofile 40000;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections 8192;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    upstream nexus3_http &#123;</span><br><span class="line">        server nexus3:8081;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name hub.xxx.com; <span class="comment"># 替换成你的域名</span></span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            proxy_pass http://nexus3_http;</span><br><span class="line">            proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">            proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">            proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">            proxy_set_header X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">            proxy_set_header Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">            proxy_set_header Connection <span class="string">&quot;Upgrade&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    upstream nexus3_ssl &#123;</span><br><span class="line">        server nexus3:8082;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen 443 ssl;</span><br><span class="line">        server_name hub.xxx.com; <span class="comment"># 替换成你的域名</span></span><br><span class="line">        <span class="comment"># SSL</span></span><br><span class="line">        ssl_certificate /certs/hub.xxx.com.crt; <span class="comment"># 对应cert目录下的文件</span></span><br><span class="line">        ssl_certificate_key /certs/hub.xxx.com.key.pem;</span><br><span class="line"></span><br><span class="line">        client_max_body_size 5000m;  <span class="comment"># 上传大文件</span></span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            proxy_pass http://nexus3_ssl;</span><br><span class="line">            proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">            proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">            proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">            proxy_set_header X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">            proxy_set_header Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">            proxy_set_header Connection <span class="string">&quot;Upgrade&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看目录</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220712162349857.png" alt="image-20220712162349857"></p>
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220712162731428.png" alt="image-20220712162731428"></p>
+<p>访问：<a target="_blank" rel="noopener" href="http://yourhost/">http://yourhost/</a>  </p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220712163303455.png" alt="image-20220712163303455"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="密码配置"><a href="#密码配置" class="headerlink" title="密码配置"></a>密码配置</h3><p>查看<code>admin</code>默认密码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@nexus3 nexus3]<span class="comment"># cat data/admin.password</span></span><br><span class="line">098fb8d9-e07b-4f7f-b498-806cdce1291d</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220712164027694.png" alt="image-20220712164027694"></p>
+<h3 id="创建Blob存储"><a href="#创建Blob存储" class="headerlink" title="创建Blob存储"></a>创建Blob存储</h3><p><img data-src="https://cdn.jonty.top/img/image-20220712164443301.png" alt="image-20220712164443301"></p>
+<h3 id="创建存储库"><a href="#创建存储库" class="headerlink" title="创建存储库"></a>创建存储库</h3><p><img data-src="https://cdn.jonty.top/img/image-20220712164651836.png" alt="image-20220712164651836"></p>
+<p>创建<code>hosted</code>类型</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220712170314043.png" alt="image-20220712170314043"></p>
+<p>端口设置为<code>8082</code>，对应<code>nginx.conf</code>配置</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220712165729873.png" alt="image-20220712165729873"></p>
+<h3 id="上传docker镜像"><a href="#上传docker镜像" class="headerlink" title="上传docker镜像"></a>上传docker镜像</h3><h4 id="配置授信"><a href="#配置授信" class="headerlink" title="配置授信"></a>配置授信</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/docker/daemon.json</span><br></pre></td></tr></table></figure>
+
+<p>加入以下配置</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">   <span class="attr">&quot;insecure-registries&quot;</span>:[<span class="string">&quot;https://hub.xxx.com&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重启<code>docker</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>docker登录私库时提示 <code>x509: certificate signed by unknown authority</code></p>
+</blockquote>
+<h4 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@nexus3 nexus3]<span class="comment"># docker login hub.gct-china.com -u admin</span></span><br><span class="line">Password:</span><br><span class="line">WARNING! Your password will be stored unencrypted <span class="keyword">in</span> /root/.docker/config.json.</span><br><span class="line">Configure a credential helper to remove this warning. See</span><br><span class="line">https://docs.docker.com/engine/reference/commandline/login/<span class="comment">#credentials-store</span></span><br><span class="line"></span><br><span class="line">Login Succeeded</span><br></pre></td></tr></table></figure>
+
+<h4 id="推送镜像"><a href="#推送镜像" class="headerlink" title="推送镜像"></a>推送镜像</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@nexus3 nexus3]<span class="comment"># docker images</span></span><br><span class="line">REPOSITORY        TAG             IMAGE ID       CREATED         SIZE</span><br><span class="line">nginx             1.21.1-alpine   1318bf5f63b4   10 months ago   22.8MB</span><br><span class="line">sonatype/nexus3   3.33.1          a0d390a200d2   10 months ago   655MB</span><br><span class="line">[root@nexus3 nexus3]<span class="comment"># docker tag nginx:1.21.1-alpine hub.xxx/nginx:1.21.1-alpine</span></span><br><span class="line">[root@nexus3 nexus3]<span class="comment"># docker push hub.xxx/nginx:1.21.1-alpine</span></span><br><span class="line">The push refers to repository [hub.xxx.com/nginx]</span><br><span class="line">45d993692050: Pushed</span><br><span class="line">1ea998b95474: Pushed</span><br><span class="line">95b99a5c3767: Pushed</span><br><span class="line">fc03e3cb8568: Pushed</span><br><span class="line">24934e5e6c61: Pushed</span><br><span class="line">e2eb06d8af82: Pushed</span><br><span class="line">1.21.1-alpine: digest: sha256:bd0aa91fe6a182db22032463c17644cd2ff3bbe415e7b84964283bba687acaa6 size: 1568</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220712170930285.png" alt="image-20220712170930285"></p>
+<h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><blockquote>
+<p>注意，客户端需要<a href="#%E9%85%8D%E7%BD%AE%E6%8E%88%E4%BF%A1">配置授信</a>和<a href="#%E6%9C%AC%E5%9C%B0%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90">域名解析</a></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@<span class="built_in">test</span> ~]<span class="comment"># cat /etc/hosts</span></span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line"></span><br><span class="line">192.168.2.10 hub.xxx.com</span><br><span class="line">[root@<span class="built_in">test</span> ~]<span class="comment"># cat /etc/docker/daemon.json</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;insecure-registries&quot;</span>: [<span class="string">&quot;https://hub.xxx.com&quot;</span>]</span><br><span class="line">&#125;</span><br><span class="line">[root@<span class="built_in">test</span> ~]<span class="comment"># docker pull hub.gct-china.com/mssql:2019-latest</span></span><br><span class="line">2019-latest: Pulling from mssql</span><br><span class="line">d5fd17ec1767: Already exists </span><br><span class="line">cf291b38357f: Pull complete </span><br><span class="line">af7e8d6f1719: Pull complete </span><br><span class="line">Digest: sha256:584a7fc7e2a378bdd4e8fe3bad36dae18e85527308193cb5c43d90863d7a7d4a</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> hub.xxx.com/mssql:2019-latest</span><br><span class="line">hub.xxx.com/mssql:2019-latest</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>拉取速度快了不少</p>
+</blockquote>
+<p><img data-src="https://cdn.jonty.top/img/image-20220712171653152.png" alt="挠屁股"></p>
+<h3 id="上传nuget包"><a href="#上传nuget包" class="headerlink" title="上传nuget包"></a>上传nuget包</h3><p>Nexus默认已经创建好了Nuget的仓库，并且是创建了3个不同类型的仓库：nuget-group，nuget-hosted，nuget.org-proxy</p>
+<ul>
+<li><p>nuget.org-proxy：类型是proxy，表示代理仓库。我们向它请求包(package)的时候，如果本地有，它就从本地提供，如果本地没有，它会从nuget.org下载到本地，然后给我提供这个包。</p>
+</li>
+<li><p>nuget-hosted：类型是hosted，表示托管仓库。我们一般把自己开发的包上传到该仓库中。</p>
+</li>
+<li><p>nuget-group：类型是group，表示仓库组，它结合了nuget.org-proxy和nuget-hosted，能对外提供上述两者中的包。</p>
+</li>
+</ul>
+<p><img data-src="https://cdn.jonty.top/img/image-20220712172140135.png" alt="image-20220712172140135"></p>
+<h4 id="添加Nuget-Realms"><a href="#添加Nuget-Realms" class="headerlink" title="添加Nuget Realms"></a>添加Nuget Realms</h4><p>Nexus认证Nuget是通过Realms来认证</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220712172321065.png" alt="image-20220712172321065"></p>
+<h4 id="获取仓库地址以及Nuget-API-Key"><a href="#获取仓库地址以及Nuget-API-Key" class="headerlink" title="获取仓库地址以及Nuget API Key"></a>获取仓库地址以及Nuget API Key</h4><p>仓库列表&gt;复制地址</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220712172440616.png" alt="image-20220712172440616"></p>
+<p>获取NuGet API Key</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220712172607085.png" alt="image-20220712172607085"></p>
+<h4 id="推送本地NuGet包"><a href="#推送本地NuGet包" class="headerlink" title="推送本地NuGet包"></a>推送本地NuGet包</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dotnet nuget push .\abp.7.2.1.nupkg -k d41b9bcd-250a-3fb1-a58d-f223618d8b15 --source http://hub.xxx.com/repository/nuget-hosted/</span><br><span class="line">正在将 abp.7.2.1.nupkg 推送到 &#x27;http://hub.xxx.com/repository/nuget-hosted/&#x27;...</span><br><span class="line">  PUT http://hub.xxx.com/repository/nuget-hosted/</span><br><span class="line">  Created http://hub.xxx.com/repository/nuget-hosted/ 288 毫秒</span><br><span class="line">已推送包。</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20220712172736234.png" alt="image-20220712172736234"></p>
+<h3 id="配置本地NuGet包源"><a href="#配置本地NuGet包源" class="headerlink" title="配置本地NuGet包源"></a>配置本地NuGet包源</h3><p>在VS中添加了<strong>本地源</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220712172917172.png" alt="image-20220712172917172"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220712173030239.png" alt="image-20220712173030239"></p>
+<h3 id="NPM"><a href="#NPM" class="headerlink" title="NPM"></a>NPM</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># npm config get registry</span></span><br><span class="line">https://registry.npmjs.org/</span><br><span class="line"></span><br><span class="line">npm config <span class="built_in">set</span> registry http://hub.xxx.com/repository/npm-group/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录私服</span></span><br><span class="line">npm login registry=<span class="string">&quot;http://hub.xxx.com/repository/npm-group/&quot;</span> </span><br><span class="line"></span><br><span class="line">npm install xxx</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><h3 id="502-Bad-Gateway"><a href="#502-Bad-Gateway" class="headerlink" title="502 Bad Gateway"></a>502 Bad Gateway</h3><p>配置 nexus3 时使用 http 而非 https</p>
+<h3 id="no-basic-auth-credentials"><a href="#no-basic-auth-credentials" class="headerlink" title="no basic auth credentials"></a>no basic auth credentials</h3><p>需要先 docker login 登录</p>
+<h3 id="401-Unauthorized"><a href="#401-Unauthorized" class="headerlink" title="401 Unauthorized"></a>401 Unauthorized</h3><p>docker login -u admin -p Harbor12345 hub.haifengat.com 登录时报错</p>
+<p><img data-src="https://cdn.jonty.top/img/1631446538601-5b8a97b1-ebb0-4cbb-82d1-d7353c683fb3.png" alt="img"></p>
+<p>参考文档：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yangkuo024/article/details/121135602">解决Error response from daemon: Get https://: http: server gave HTTP response to HTTPS client_SerryYang的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/liusf1993/article/details/102508663">docker登录私库时提示 x509: certificate signed by unknown authority_舟行于无涯之海的博客-CSDN博客_docker login x509</a></p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\06\01\docker-how-to-delete-all-local-docker-images\" rel="bookmark">Docker删除本地所有镜像</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\11\28\getting-started-with-docker-01\" rel="bookmark">Docker基础入门-01</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\09\23\install-jira-in-docker\" rel="bookmark">Docker中安装jira</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\07\06\getting-started-with-docker-swarm\" rel="bookmark">Docker 三剑客之 Docker Swarm</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>JontyWang
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://jonty.top/2022/07/12/docker-nexus3-build-private-repository/" title="Sonatype Nexus3 搭建私有仓库">https://jonty.top/2022/07/12/docker-nexus3-build-private-repository/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+              <a href="/tags/Nexus/" rel="tag"># Nexus</a>
+              <a href="/tags/SSL/" rel="tag"># SSL</a>
+              <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/07/06/getting-started-with-docker-swarm/" rel="prev" title="Docker 三剑客之 Docker Swarm">
+                  <i class="fa fa-chevron-left"></i> Docker 三剑客之 Docker Swarm
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fab fa-battle-net"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JontyWang</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">204k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:05</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+<span id="times">载入天数...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("09/08/2021 13:14:21");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("times").innerHTML = "本站已安全运行 "+dnum+" 天 " +hnum + " 小时 " + mnum + " 分 " + snum + " 秒 ✌";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2022/07/12/docker-nexus3-build-private-repository/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

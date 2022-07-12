@@ -1,123 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jonty.top/2022/07/06/getting-started-with-docker-swarm/</loc>
-    <lastmod>2022-07-06</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/06/30/docker-gitlab-can-not-send-email-after-migration/</loc>
-    <lastmod>2022-06-30</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/06/20/frp-and-openvpn-to-build-intranet-VPN/</loc>
-    <lastmod>2022-06-20</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/06/01/docker-how-to-delete-all-local-docker-images/</loc>
-    <lastmod>2022-06-01</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/05/22/sql-optimization-index/</loc>
-    <lastmod>2022-05-31</lastmod>
-  </url>
-  <url>
     <loc>https://jonty.top/2022/05/31/code-review/</loc>
-    <lastmod>2022-05-31</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/10/03/windows-terminal-beautify/</loc>
-    <lastmod>2022-05-16</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/05/08/sqlserver-batch-processing-tables/</loc>
-    <lastmod>2022-05-08</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/09/27/the-systematic-failure-of-higher-education-in-china/</loc>
-    <lastmod>2022-04-21</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/08/05/hello-world/</loc>
-    <lastmod>2022-04-21</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/01/29/My-first-three-years-at-ThoughtWorks/</loc>
-    <lastmod>2022-04-21</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/04/21/database-performance-optimization-solutions/</loc>
-    <lastmod>2022-04-20</lastmod>
+    <lastmod>2022-07-12</lastmod>
   </url>
   <url>
     <loc>https://jonty.top/2022/03/07/clean-code-typescript/</loc>
-    <lastmod>2022-03-07</lastmod>
+    <lastmod>2022-07-12</lastmod>
   </url>
   <url>
-    <loc>https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/</loc>
-    <lastmod>2022-01-12</lastmod>
+    <loc>https://jonty.top/2022/04/21/database-performance-optimization-solutions/</loc>
+    <lastmod>2022-07-12</lastmod>
   </url>
   <url>
-    <loc>https://jonty.top/2022/01/09/rhel7-6-install-oracle19c-single/</loc>
-    <lastmod>2022-01-12</lastmod>
+    <loc>https://jonty.top/2022/06/01/docker-how-to-delete-all-local-docker-images/</loc>
+    <lastmod>2022-07-12</lastmod>
   </url>
   <url>
-    <loc>https://jonty.top/2022/01/04/oracle-11gR2-rac/</loc>
-    <lastmod>2022-01-08</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/12/02/sqlserver-ha-01/</loc>
-    <lastmod>2021-12-12</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/12/12/sqlserver-always-on/</loc>
-    <lastmod>2021-12-12</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/12/05/getting-started-with-git/</loc>
-    <lastmod>2021-12-05</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/10/04/csharp-generic-review-01/</loc>
-    <lastmod>2021-12-05</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/12/02/sqlserver-ha-02/</loc>
-    <lastmod>2021-12-02</lastmod>
+    <loc>https://jonty.top/2022/06/20/frp-and-openvpn-to-build-intranet-VPN/</loc>
+    <lastmod>2022-07-12</lastmod>
   </url>
   <url>
     <loc>https://jonty.top/2021/11/07/introduction-with-aspNet-core-and-entity-framework-core/</loc>
-    <lastmod>2021-11-29</lastmod>
+    <lastmod>2022-07-12</lastmod>
   </url>
   <url>
-    <loc>https://jonty.top/2021/11/29/about-leap-year/</loc>
-    <lastmod>2021-11-29</lastmod>
+    <loc>https://jonty.top/2021/12/12/sqlserver-always-on/</loc>
+    <lastmod>2022-07-12</lastmod>
   </url>
   <url>
-    <loc>https://jonty.top/2021/10/08/csharp-generic-review-02/</loc>
-    <lastmod>2021-11-29</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/11/28/getting-started-with-docker-01/</loc>
-    <lastmod>2021-11-28</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/11/09/rhel-install-oracle-11g-r2/</loc>
-    <lastmod>2021-11-23</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/10/27/vmware-install-linux/</loc>
-    <lastmod>2021-10-27</lastmod>
+    <loc>https://jonty.top/2022/05/08/sqlserver-batch-processing-tables/</loc>
+    <lastmod>2022-07-12</lastmod>
   </url>
   <url>
     <loc>https://jonty.top/2021/10/27/vmware-bridge-ping-nowhere/</loc>
-    <lastmod>2021-10-27</lastmod>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/10/27/vmware-install-linux/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/10/03/windows-terminal-beautify/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/12/02/sqlserver-ha-01/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/12/02/sqlserver-ha-02/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/10/04/csharp-generic-review-01/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/09/27/the-systematic-failure-of-higher-education-in-china/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/05/22/sql-optimization-index/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/01/09/rhel7-6-install-oracle19c-single/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/11/09/rhel-install-oracle-11g-r2/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/01/04/oracle-11gR2-rac/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/01/29/My-first-three-years-at-ThoughtWorks/</loc>
+    <lastmod>2022-07-12</lastmod>
   </url>
   <url>
     <loc>https://jonty.top/2021/09/23/install-jira-in-docker/</loc>
-    <lastmod>2021-10-04</lastmod>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/08/05/hello-world/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/12/05/getting-started-with-git/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/11/28/getting-started-with-docker-01/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/10/08/csharp-generic-review-02/</loc>
+    <lastmod>2022-07-12</lastmod>
   </url>
   <url>
     <loc>https://jonty.top/2021/09/25/browser-silent-printing/</loc>
-    <lastmod>2021-10-04</lastmod>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/11/29/about-leap-year/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/06/30/docker-gitlab-can-not-send-email-after-migration/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/07/12/docker-nexus3-build-private-repository/</loc>
+    <lastmod>2022-07-12</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/07/06/getting-started-with-docker-swarm/</loc>
+    <lastmod>2022-07-12</lastmod>
   </url>
 </urlset> 
