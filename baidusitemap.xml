@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2022/07/24/asp-net-core-dependency-injection/</loc>
+    <lastmod>2022-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/04/21/database-performance-optimization-solutions/</loc>
+    <lastmod>2022-07-24</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2022/05/31/code-review/</loc>
     <lastmod>2022-07-12</lastmod>
   </url>
   <url>
     <loc>https://jonty.top/2022/03/07/clean-code-typescript/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/04/21/database-performance-optimization-solutions/</loc>
     <lastmod>2022-07-12</lastmod>
   </url>
   <url>
