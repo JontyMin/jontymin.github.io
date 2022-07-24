@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2021/09/27/the-systematic-failure-of-higher-education-in-china/</loc>
+    <lastmod>2022-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/12/02/sqlserver-ha-02/</loc>
+    <lastmod>2022-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/12/02/sqlserver-ha-01/</loc>
+    <lastmod>2022-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/05/08/sqlserver-batch-processing-tables/</loc>
+    <lastmod>2022-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/12/12/sqlserver-always-on/</loc>
+    <lastmod>2022-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/05/22/sql-optimization-index/</loc>
+    <lastmod>2022-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/01/09/rhel7-6-install-oracle19c-single/</loc>
+    <lastmod>2022-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/</loc>
+    <lastmod>2022-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/11/09/rhel-install-oracle-11g-r2/</loc>
+    <lastmod>2022-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/01/29/My-first-three-years-at-ThoughtWorks/</loc>
+    <lastmod>2022-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/01/04/oracle-11gR2-rac/</loc>
+    <lastmod>2022-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/08/05/hello-world/</loc>
+    <lastmod>2022-07-24</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2022/07/24/asp-net-core-dependency-injection/</loc>
     <lastmod>2022-07-24</lastmod>
   </url>
@@ -29,14 +77,6 @@
     <lastmod>2022-07-12</lastmod>
   </url>
   <url>
-    <loc>https://jonty.top/2021/12/12/sqlserver-always-on/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/05/08/sqlserver-batch-processing-tables/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
     <loc>https://jonty.top/2021/10/27/vmware-bridge-ping-nowhere/</loc>
     <lastmod>2022-07-12</lastmod>
   </url>
@@ -49,51 +89,11 @@
     <lastmod>2022-07-12</lastmod>
   </url>
   <url>
-    <loc>https://jonty.top/2021/12/02/sqlserver-ha-01/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/12/02/sqlserver-ha-02/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
     <loc>https://jonty.top/2021/10/04/csharp-generic-review-01/</loc>
     <lastmod>2022-07-12</lastmod>
   </url>
   <url>
-    <loc>https://jonty.top/2021/09/27/the-systematic-failure-of-higher-education-in-china/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/05/22/sql-optimization-index/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/01/09/rhel7-6-install-oracle19c-single/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/11/09/rhel-install-oracle-11g-r2/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/01/04/oracle-11gR2-rac/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/01/29/My-first-three-years-at-ThoughtWorks/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
     <loc>https://jonty.top/2021/09/23/install-jira-in-docker/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/08/05/hello-world/</loc>
     <lastmod>2022-07-12</lastmod>
   </url>
   <url>

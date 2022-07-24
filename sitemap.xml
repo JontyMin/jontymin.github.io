@@ -2,6 +2,90 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jonty.top/2021/09/27/the-systematic-failure-of-higher-education-in-china/</loc>
+    
+    <lastmod>2022-07-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2021/12/02/sqlserver-ha-02/</loc>
+    
+    <lastmod>2022-07-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2021/12/02/sqlserver-ha-01/</loc>
+    
+    <lastmod>2022-07-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2022/05/08/sqlserver-batch-processing-tables/</loc>
+    
+    <lastmod>2022-07-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2021/12/12/sqlserver-always-on/</loc>
+    
+    <lastmod>2022-07-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2022/05/22/sql-optimization-index/</loc>
+    
+    <lastmod>2022-07-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2022/01/09/rhel7-6-install-oracle19c-single/</loc>
+    
+    <lastmod>2022-07-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/</loc>
+    
+    <lastmod>2022-07-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2021/11/09/rhel-install-oracle-11g-r2/</loc>
+    
+    <lastmod>2022-07-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2022/01/29/My-first-three-years-at-ThoughtWorks/</loc>
+    
+    <lastmod>2022-07-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2022/01/04/oracle-11gR2-rac/</loc>
+    
+    <lastmod>2022-07-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/2021/08/05/hello-world/</loc>
+    
+    <lastmod>2022-07-24</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jonty.top/2022/07/24/asp-net-core-dependency-injection/</loc>
     
     <lastmod>2022-07-24</lastmod>
@@ -51,20 +135,6 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/2021/12/12/sqlserver-always-on/</loc>
-    
-    <lastmod>2022-07-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2022/05/08/sqlserver-batch-processing-tables/</loc>
-    
-    <lastmod>2022-07-12</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jonty.top/2021/10/27/vmware-bridge-ping-nowhere/</loc>
     
     <lastmod>2022-07-12</lastmod>
@@ -86,20 +156,6 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/2021/12/02/sqlserver-ha-01/</loc>
-    
-    <lastmod>2022-07-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2021/12/02/sqlserver-ha-02/</loc>
-    
-    <lastmod>2022-07-12</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jonty.top/2021/10/04/csharp-generic-review-01/</loc>
     
     <lastmod>2022-07-12</lastmod>
@@ -107,63 +163,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/2021/09/27/the-systematic-failure-of-higher-education-in-china/</loc>
-    
-    <lastmod>2022-07-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2022/05/22/sql-optimization-index/</loc>
-    
-    <lastmod>2022-07-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2022/01/09/rhel7-6-install-oracle19c-single/</loc>
-    
-    <lastmod>2022-07-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2021/11/09/rhel-install-oracle-11g-r2/</loc>
-    
-    <lastmod>2022-07-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2022/01/12/rhel7-6-install-oracle19c-rac/</loc>
-    
-    <lastmod>2022-07-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2022/01/04/oracle-11gR2-rac/</loc>
-    
-    <lastmod>2022-07-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2022/01/29/My-first-three-years-at-ThoughtWorks/</loc>
-    
-    <lastmod>2022-07-12</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jonty.top/2021/09/23/install-jira-in-docker/</loc>
-    
-    <lastmod>2022-07-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/2021/08/05/hello-world/</loc>
     
     <lastmod>2022-07-12</lastmod>
     
@@ -270,6 +270,13 @@
 
   
   <url>
+    <loc>https://jonty.top/tags/C/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/tags/QA/</loc>
     <lastmod>2022-07-24</lastmod>
     <changefreq>daily</changefreq>
@@ -278,34 +285,6 @@
   
   <url>
     <loc>https://jonty.top/tags/Share/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/C/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/DI/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/ASP-NET-Core/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Code-Review/</loc>
     <lastmod>2022-07-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -333,14 +312,21 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Github/</loc>
+    <loc>https://jonty.top/tags/DI/</loc>
     <lastmod>2022-07-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/TypeScript/</loc>
+    <loc>https://jonty.top/tags/ASP-NET-Core/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Code-Review/</loc>
     <lastmod>2022-07-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -355,20 +341,6 @@
   
   <url>
     <loc>https://jonty.top/tags/CSharp/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/DBA/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/%E8%B0%83%E4%BC%98/</loc>
     <lastmod>2022-07-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -403,6 +375,34 @@
   </url>
   
   <url>
+    <loc>https://jonty.top/tags/Frp/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/OpenVpn/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/DBA/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/%E8%B0%83%E4%BC%98/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/tags/Nexus/</loc>
     <lastmod>2022-07-24</lastmod>
     <changefreq>daily</changefreq>
@@ -424,21 +424,28 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Frp/</loc>
+    <loc>https://jonty.top/tags/Git/</loc>
     <lastmod>2022-07-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/OpenVpn/</loc>
+    <loc>https://jonty.top/tags/Github/</loc>
     <lastmod>2022-07-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Linux/</loc>
+    <loc>https://jonty.top/tags/TypeScript/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Hello-World/</loc>
     <lastmod>2022-07-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -452,7 +459,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Git/</loc>
+    <loc>https://jonty.top/tags/Linux/</loc>
     <lastmod>2022-07-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -466,21 +473,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/SQL-Server/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/%E7%B4%A2%E5%BC%95/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/%E7%BF%BB%E8%AF%91/</loc>
+    <loc>https://jonty.top/tags/RedHat/</loc>
     <lastmod>2022-07-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -495,83 +488,6 @@
   
   <url>
     <loc>https://jonty.top/tags/RAC/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/RedHat/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Hello-World/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/HA%E9%AB%98%E5%8F%AF%E7%94%A8/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/AlwaysOn/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/SQL/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/VMware/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Terminal/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Windows/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/PowerShell/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/OhMyPosh/</loc>
-    <lastmod>2022-07-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2022-07-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -612,6 +528,90 @@
     <priority>0.6</priority>
   </url>
   
+  <url>
+    <loc>https://jonty.top/tags/SQL-Server/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/%E7%B4%A2%E5%BC%95/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/%E7%BF%BB%E8%AF%91/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/AlwaysOn/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/HA%E9%AB%98%E5%8F%AF%E7%94%A8/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/SQL/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/VMware/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Terminal/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Windows/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/PowerShell/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/OhMyPosh/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
 
   
   <url>
@@ -622,7 +622,21 @@
   </url>
   
   <url>
+    <loc>https://jonty.top/categories/%E4%BA%BA%E7%94%9F%E6%98%AF%E4%B8%80%E5%9C%BA%E6%9C%AA%E7%9F%A5%E7%9A%84%E6%97%85%E8%A1%8C/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/categories/DevOps/</loc>
+    <lastmod>2022-07-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/categories/DBA/</loc>
     <lastmod>2022-07-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
