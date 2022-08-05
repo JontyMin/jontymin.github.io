@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2022/07/24/220724-share-essays/</loc>
+    <lastmod>2022-08-05</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/07/12/docker-nexus3-build-private-repository/</loc>
+    <lastmod>2022-08-05</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2021/08/05/hello-world/</loc>
+    <lastmod>2022-07-25</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2021/09/27/the-systematic-failure-of-higher-education-in-china/</loc>
     <lastmod>2022-07-24</lastmod>
   </url>
@@ -42,10 +54,6 @@
   </url>
   <url>
     <loc>https://jonty.top/2022/01/04/oracle-11gR2-rac/</loc>
-    <lastmod>2022-07-24</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2021/08/05/hello-world/</loc>
     <lastmod>2022-07-24</lastmod>
   </url>
   <url>
@@ -118,10 +126,6 @@
   </url>
   <url>
     <loc>https://jonty.top/2022/06/30/docker-gitlab-can-not-send-email-after-migration/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/07/12/docker-nexus3-build-private-repository/</loc>
     <lastmod>2022-07-12</lastmod>
   </url>
   <url>
