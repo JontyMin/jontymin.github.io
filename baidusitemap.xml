@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2022/07/24/220724-share-essays/</loc>
+    <lastmod>2022-09-14</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2022/08/13/use-lpg-to-build-log-center/</loc>
     <lastmod>2022-08-12</lastmod>
   </url>
@@ -11,10 +15,6 @@
   <url>
     <loc>https://jonty.top/2022/08/11/getting-started-with-kubernetes-02/</loc>
     <lastmod>2022-08-11</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/07/24/220724-share-essays/</loc>
-    <lastmod>2022-08-05</lastmod>
   </url>
   <url>
     <loc>https://jonty.top/2022/07/12/docker-nexus3-build-private-repository/</loc>
