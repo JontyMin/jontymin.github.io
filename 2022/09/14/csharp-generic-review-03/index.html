@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="WSIOb3JOJfAsz23EBri68OoFPPfXmPefVY8l9LWiuuQ">
+  <meta name="msvalidate.01" content="BEA1533D8925BA7876293C434544D574">
+  <meta name="baidu-site-verification" content="code-xBDMwADkQe">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=ZCOOL+XiaoWei:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="让泛型的思维扎根在脑海 - 深刻理解泛型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="让泛型的思维扎根在脑海">
+<meta property="og:url" content="https://jonty.top/2022/09/14/csharp-generic-review-03/index.html">
+<meta property="og:site_name" content="Jonty Blog">
+<meta property="og:description" content="让泛型的思维扎根在脑海 - 深刻理解泛型">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jonty.top/img/722260-20220909092205696-401431564.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/722260-20220909094110950-1186053807.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/722260-20220909093118831-581937293.png">
+<meta property="article:published_time" content="2022-09-14T05:54:36.000Z">
+<meta property="article:modified_time" content="2022-09-14T06:20:13.825Z">
+<meta property="article:author" content="JontyWang">
+<meta property="article:tag" content=".NET">
+<meta property="article:tag" content="Generic">
+<meta property="article:tag" content="CSharp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jonty.top/img/722260-20220909092205696-401431564.png">
+
+
+<link rel="canonical" href="https://jonty.top/2022/09/14/csharp-generic-review-03/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2022/09/14/csharp-generic-review-03/","path":"2022/09/14/csharp-generic-review-03/","title":"让泛型的思维扎根在脑海"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>让泛型的思维扎根在脑海 | Jonty Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?276415dc0899b092905c4c2730a113a8"></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Jonty Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jonty Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录搬砖生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82-%E5%BC%80%E5%8F%91"><span class="nav-number">1.</span> <span class="nav-text">需求 - 开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E7%9A%84%E9%9C%80%E6%B1%82-%E9%87%8D%E5%A4%8D"><span class="nav-number">2.</span> <span class="nav-text">新的需求 - 重复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E7%9A%84%E9%97%AE%E9%A2%98-%E5%AE%89%E5%85%A8-amp-%E6%80%A7%E8%83%BD"><span class="nav-number">3.</span> <span class="nav-text">新的问题 - 安全&amp;性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98-%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF"><span class="nav-number">4.</span> <span class="nav-text">解决问题 - 代码模板</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E6%A0%B7%E7%90%86%E8%A7%A3%E6%B3%9B%E5%9E%8B%EF%BC%9F"><span class="nav-number">4.1.</span> <span class="nav-text">怎么样理解泛型？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E5%8F%82%E6%95%B0"><span class="nav-number">4.2.</span> <span class="nav-text">类型参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E6%9B%BF%E6%8D%A2"><span class="nav-number">4.3.</span> <span class="nav-text">类型替换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">总结问题</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="JontyWang"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">JontyWang</p>
+  <div class="site-description" itemprop="description">不在DevOps中转型就在自动化中消亡</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JontyMin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JontyMin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:amazing4677@gmail.com" title="E-Mail → mailto:amazing4677@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/users/14014911/jonty" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;users&#x2F;14014911&#x2F;jonty" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>StackOverflow</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://jontymin.github.io/" title="https:&#x2F;&#x2F;jontymin.github.io&#x2F;" rel="noopener" target="_blank">Github</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://my_netinlove.gitee.io/" title="https:&#x2F;&#x2F;my_netinlove.gitee.io&#x2F;" rel="noopener" target="_blank">Gitee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/179850046" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;179850046" rel="noopener" target="_blank">Bilibili</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/JontyWang/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JontyWang&#x2F;" rel="noopener" target="_blank">我的园子</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ldqk.xyz/" title="https:&#x2F;&#x2F;ldqk.xyz&#x2F;" rel="noopener" target="_blank">懒得勤快</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://luciferliu.blog.csdn.net/" title="https:&#x2F;&#x2F;luciferliu.blog.csdn.net&#x2F;" rel="noopener" target="_blank">Lucifer三思而后行</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/edisonchou/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;edisonchou&#x2F;" rel="noopener" target="_blank">EdisonZhou</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.aliyun.com/minisite/goods?userCode=b0skjdai&share_source=copy_link" title="https:&#x2F;&#x2F;www.aliyun.com&#x2F;minisite&#x2F;goods?userCode&#x3D;b0skjdai&amp;share_source&#x3D;copy_link" rel="noopener" target="_blank">Aliyun</a>
+        </li>
+    </ul>
+  </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=543747557&auto=1&height=66"></iframe>
+
+          </div>
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+
+  </aside>
+  <div class="sidebar-dimmer">
+  
+  </div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonty.top/2022/09/14/csharp-generic-review-03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="JontyWang">
+      <meta itemprop="description" content="不在DevOps中转型就在自动化中消亡">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jonty Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          让泛型的思维扎根在脑海
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-09-14 13:54:36 / 修改时间：14:20:13" itemprop="dateCreated datePublished" datetime="2022-09-14T13:54:36+08:00">2022-09-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%90%AC%E7%A0%96%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" itemprop="url" rel="index"><span itemprop="name">搬砖那些事儿</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">让泛型的思维扎根在脑海 - 深刻理解泛型</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <div class="note info"><p>往往一些刚接触C#编程的初学者，对于泛型的认识就是直接跳到对泛型集合的使用上，虽然微软为我们提供了很多内置的泛型类型，但是如果我们只是片面的了解调用方式，这会导致我们对泛型盲目的使用。至于<strong>为什么要使用泛型，什么情况下定义属于自己的泛型，定义泛型又能为程序带来哪些好处。</strong>要理清这些问题，我们就必须深刻理解泛型的本质，形成泛型编程的思维方式。</p>
+</div>
+
+<h2 id="需求-开发"><a href="#需求-开发" class="headerlink" title="需求 - 开发"></a>需求 - 开发</h2><p>接下来将基于一个基础示例，然后通过需求不断的演化示例，从而让泛型在关键时刻脱颖而出，以便让我们能够深刻体会泛型的作用。</p>
+<p>假设.NET没有为我们提供用于存储数据的集合，而我们需要一个能够用于存储string元素的集合，基于这个情况我们自定义了一个用于存储字符串的集合类：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">ArrayStr</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ArrayStr</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        _items = <span class="keyword">new</span> <span class="built_in">string</span>[<span class="number">100</span>]; <span class="comment">//初始化存储元素的容量，只是为了演示故将容量定义为固定值</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">string</span>[] _items; <span class="comment">//存储元素的数组</span></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> _count;   <span class="comment">//元素总数</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> Count</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> _count; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Add</span>(<span class="params"><span class="built_in">string</span> item</span>) <span class="comment">//新增元素</span></span></span><br><span class="line">    &#123;</span><br><span class="line">        _items[_count] = item;</span><br><span class="line">        _count++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">string</span> <span class="keyword">this</span>[<span class="built_in">int</span> index] <span class="comment">//索引</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> _items[index]; &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123; _items[index] = <span class="keyword">value</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了验证自定义string集合的可行性，我们对其进行了如下的应用：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ArraryStr arraryStr = <span class="keyword">new</span> ArraryStr();</span><br><span class="line">arraryStr.Add(<span class="string">&quot;张三&quot;</span>);</span><br><span class="line">Console.WriteLine(arraryStr[<span class="number">0</span>]);</span><br></pre></td></tr></table></figure>
+
+<h2 id="新的需求-重复"><a href="#新的需求-重复" class="headerlink" title="新的需求 - 重复"></a>新的需求 - 重复</h2><p>目前对于创建string类型的集合已经大功告成，而此刻我们又接到了一个新的需求，即我们需要一个集合存储int类型的元素。基于自定义string集合的经验来看，我们可以发现，string集合类型和我们即将要创建的int集合类型的结构和内容几乎是一样的。这就意味着我们可以使用江湖盛行的“复制大法”，将之前的代码复制一遍，然后轻微修改下即可。下面是两个集合类型代码的对比图。</p>
+<p><img data-src="https://cdn.jonty.top/img/722260-20220909092205696-401431564.png" alt="对比"></p>
+<p>在早年有款热门的游戏叫做“大家来找茬”，该游戏主要玩法就是在两个大致相同的图片中，查找两者之间的细微差异之处。我们使用的“复制大法”，促使我们编写的代码形成了可以用于这个游戏游玩的场景。“对于上面的两个代码截图，你能找出图中不同的地方吗？”</p>
+<p>对于软件开发者而言，面对的最主要的敌人就是“变化”，假设后面还会出现N个类型的元素需要我们定义集合来存储，那我们是不是要将相同的代码无穷尽的复制下去？</p>
+<p><strong>DRY（Don’t Repeat Yourself，不要重复自己）</strong>，请记住这是作为一名软件开发者编码的原则，“复制大法”很明显的违背了这个原则。</p>
+<h2 id="新的问题-安全-amp-性能"><a href="#新的问题-安全-amp-性能" class="headerlink" title="新的问题 - 安全&amp;性能"></a>新的问题 - 安全&amp;性能</h2><p>通过“复制，粘贴”的手段可以很明显的感受到我们在做重复的事情，在重复中我们可以发现：集合存储的类型在增加，但是集合的结构和添加元素的方法都是相同的逻辑。</p>
+<p>简单来说就是，<strong>不同类型的处理，其处理逻辑都是类似的。</strong></p>
+<p>基于这个特点，为了满足自定义集合能够应对所有类型的存储，我们必须使用一个通用类型来作为代表，此时此刻我们脑海中就能浮现出一句话：</p>
+<p><strong>object是一切类型的基类</strong>。</p>
+<p>这就意味着我们添加的所有类型，都可以隐式的转换为object类型，从而使得自定义集合可以添加任何类型的元素。让我们来运用这个object类型来试试：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">ArrayList</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span>(<span class="params"></span>)</span> &#123; _items = <span class="keyword">new</span> <span class="built_in">object</span>[<span class="number">100</span>]; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">object</span>[] _items;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> _count;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> Count</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> _count; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Add</span>(<span class="params"><span class="built_in">object</span> item</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        _items[_count] = item;</span><br><span class="line">        _count++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">object</span> <span class="keyword">this</span>[<span class="built_in">int</span> index]</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> _items[index]; &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123; _items[index] = <span class="keyword">value</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="comment">// END ArraryStr</span></span><br><span class="line"><span class="keyword">internal</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        ArrayList arraryList = <span class="keyword">new</span> ArrayList();</span><br><span class="line">        arraryList.Add(<span class="string">&quot;张三&quot;</span>);</span><br><span class="line">        arraryList.Add(<span class="number">18</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">string</span> name = (<span class="built_in">string</span>)arraryList[<span class="number">0</span>];</span><br><span class="line">        <span class="built_in">int</span> age = (<span class="built_in">int</span>)arraryList[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">    &#125; <span class="comment">// END Main（）</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们结合了object是一切类型基类的特点，对集合类型进行改造，并成功的使用该方式的集合添加了不同类型的元素。</p>
+<p>虽然在使用的角度来看已经完美无缺(可以添加任何类型)，但是获取集合元素进行赋值的时候，还使用了类型强制转换的手段。</p>
+<p><strong>这种方式存在很严重的问题，主要包括以下两个方面：</strong></p>
+<ol>
+<li><strong>类型安全方面</strong>：如果集合的第一个元素是sting类型，但是你客观认为是int类型，于是你在获取时进行了int类型的强制转换，这个时候代码不会提示错误且可以正常编译，那么这就意味着程序在运行时会产生一个你无法预料的类型无效转换的异常。</li>
+<li><strong>性能方面</strong>：值类型元素添加到集合时，必然会存在装箱操作；而在获取元素并赋值给一个值类型变量时，又会发生相应的拆箱操作。这种拆箱和装箱的操作，在操作大量元素时会大幅度的损失程序的性能。</li>
+</ol>
+<p>到目前位置，我们还是没有能创建一个能够存储任何类型的集合，但是我们可以对于上述的示例演变的过程进行一个总结：</p>
+<p>对于不同类型有相同处理逻辑的情况，如果一味的复制会导致我们出现重复代码，如果使用object来作为解决重复的方案，会存在类型安全和性能的问题。</p>
+<p>至于如何让彻底解决这些问题，这就要说到了本文讲解的主题——<strong>泛型</strong>。</p>
+<h2 id="解决问题-代码模板"><a href="#解决问题-代码模板" class="headerlink" title="解决问题 - 代码模板"></a>解决问题 - 代码模板</h2><p>C#中有两种不同的机制来编写跨类型（一个类型代替多个类型）可复用的代码：继承和泛型。</p>
+<p>继承的复用性来自于基类，而泛型的复用性是通过带有<code>占位符</code>的<strong>代码模板</strong>类型实现的。</p>
+<p>继承实现复用是站在面向对象的角度思考的，而泛型的复用是站在实现特定功能上思考的。</p>
+<p>相比于继承，泛型不用遵循里氏替换原则，并且能够<strong>提高类型的安全性，减少类型转换带来的拆箱和装箱</strong>。</p>
+<h3 id="怎么样理解泛型？"><a href="#怎么样理解泛型？" class="headerlink" title="怎么样理解泛型？"></a>怎么样理解泛型？</h3><p><strong>泛型本质上相当于一种“代码模板”，可以用一套代码，为不同类型的同一逻辑使用统一的方式实现。</strong></p>
+<p>其中“模板”一词的概念需要进行深刻的体会。例如，公司在招聘时会与用人方签订劳动合同，而这个劳动合同的主要内容对于所有人来说几乎都是一样的，只是在极个别的地方有所差异，如薪资、姓名等。所以公司不会为某个人（张三或李四）去特意的制定合同，而是会统一制定一份劳动合同作为模板，将其中针对个人存在差异的部分通过“下划线”进行占位预留，“下划线”的值将在签订合同时由具体的聘用者根据自身情况填写。</p>
+<p><img data-src="https://cdn.jonty.top/img/722260-20220909094110950-1186053807.png" alt="合同模板"></p>
+<p>对于这种模板方式的使用，公司在制定合同时则不用考虑签订合同的人具体是谁，因为劳动合同(模板)和使用者是分开的，所以公司只用专注于合同的主要内容即可。而我们在实际的编程运用中，使用泛型的目的，其实和公司制定通用的劳动合同模板是一个道理。假设你的公司需要雇佣100名员工时，你不希望为每一个人都制定一个专属的合同吧？假设你的代码中，如果遇到10个类型，它们的操作处理逻辑都一样时，你不希望为这个10个类型写10个处理方式吧？</p>
+<p>通过上面的介绍和例子，接下来我们将泛型运用到我们的示例中来，代码如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">T</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span>(<span class="params"></span>)</span> &#123; _items = <span class="keyword">new</span> T[<span class="number">100</span>]; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> T[] _items;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">int</span> _count;</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">int</span> Count</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> _count; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Add</span>(<span class="params">T item</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        _items[_count] = item;</span><br><span class="line">        _count++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> T <span class="keyword">this</span>[<span class="built_in">int</span> index]</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> _items[index]; &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123; _items[index] = <span class="keyword">value</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="comment">// END ArraryStr</span></span><br><span class="line"><span class="keyword">internal</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        ArrayList&lt;<span class="built_in">string</span>&gt; arraryStr = <span class="keyword">new</span> ArrayList&lt;<span class="built_in">string</span>&gt;();</span><br><span class="line">        arraryStr.Add(<span class="string">&quot;张三&quot;</span>);</span><br><span class="line">        Console.WriteLine(arraryStr[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">        ArrayList&lt;<span class="built_in">int</span>&gt; arraryInt = <span class="keyword">new</span> ArrayList&lt;<span class="built_in">int</span>&gt;();</span><br><span class="line">        arraryInt.Add(<span class="number">18</span>);</span><br><span class="line">        Console.WriteLine(arraryInt[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">    &#125; <span class="comment">// END Main（）</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="类型参数"><a href="#类型参数" class="headerlink" title="类型参数"></a>类型参数</h3><p>在上面的代码中，我们将集合类型定义为了泛型类，该类型中出现的T属于泛型中的**类型参数(Type Parameter)**。</p>
+<p>泛型为了达到通用处理的目的，所以不能将某个具体类型作为处理的目标类型，故而将要处理的类型用<code>T</code>作为一个类型占位符。</p>
+<p><code>T</code>并不是真正的数据类型，它更像是泛型使用的类型蓝图，所以在使用时，泛型类型的消费者必须将一个具体类型作为<code>类型参数</code>传递到尖括号内，以此构造一个有明确处理类型的泛型实例。</p>
+<p>所以我们在外部使用泛型时不能以：<code>ArraryList&lt;T&gt;list =new ArraryList&lt;T&gt;()</code>、<code>T t=new T()</code>这种方式去实例化泛型类型。</p>
+<p>另外，<code>T</code>本身仅仅是类型参数的名称，它只是代表了类型参数的标识而已，这意味着我们可以使用其他字符来为类型参数命名，例如<code>TModel</code>、<code>YModel</code>等</p>
+<h3 id="类型替换"><a href="#类型替换" class="headerlink" title="类型替换"></a>类型替换</h3><p>通过类型参数的使用我们可以得知，泛型类型代码在静态阶段没有明确的类型。</p>
+<p>那么在程序运行的时候，它又是如何和使用时指定的“类型参数”进行对接的呢？</p>
+<p>为了搞清楚这个问题，下面我们来了解下泛型运行时的本质。</p>
+<p>我们编写的C#程序在编译后生成的代码，并不是计算机可以直接执行的代码，而是会生成<code>CIL</code>（通用中间语言）代码并包含在程序集中，如果想要生成计算机可执行的代码，则还需要<code>JIT</code>（即时编译器）对<code>CIL</code>代码进行二次编译。</p>
+<p>然而泛型类型确认其具体类型的时机，就在<code>JIT</code>进行二次编译时，<code>JIT</code>编译的代码如果包含了泛型的内容，那么<strong>它会根据泛型类型的消费者指定的类型参数，将CIL中泛型代码中的占位符T替换为一个具体的类型，</strong>从而明确当前执行的泛型代码是针对哪个类型来使用的，其中替换的过程是由<code>CLR</code>在运行时进行主导，<code>JIT</code>来实际操作完成的。这个在运行时确认了类型的泛型又被称之为<strong>封闭类型</strong>，反之在运行时确认之前的泛型称为<code>开放类型</code>。</p>
+<p><img data-src="https://cdn.jonty.top/img/722260-20220909093118831-581937293.png" alt="运行步骤"></p>
+<p>泛型使用占位符在运行时替换具体类型的机制，其实和本文中例举劳动合同模板使用<code>下划线</code>的方式有同样的思想。</p>
+<p>在指定劳动合同模板时，对于聘用者的姓名并不能写一个具体的名字，因为模板的目的是为了通用化，所以对于名字采用了“下划线”的方式。</p>
+<p>当公司与某个具体的人签订合同的时候，劳动合同模板中的下划线将由聘用者根据自身情况填写。</p>
+<p>回到泛型中其使用思想也是如此，我们使用泛型的目的是为了让多个类型的处理通用化，所以在定义泛型代码的时候并不能指定一个具体类型，故使用类型参数<code>T</code>进行代替，这个类型参数T就相当于劳动合同模板中的<code>下划线</code></p>
+<p>当泛型在实际运行的时候，<code>JIT</code>会根据泛型消费者指定的具体类型与占位符<code>T</code>进行替换。</p>
+<h2 id="总结问题"><a href="#总结问题" class="headerlink" title="总结问题"></a>总结问题</h2><p>本文并不是专门适用于介绍泛型的使用细节的文章，而是通过一个实例根据需求不断演化的过程，对泛型一步步深入，从而更加深刻的理解泛型的使用初衷，相比了解泛型<code>只言片语</code>而言，形成泛型的编程概念和思维显得尤为重要。</p>
+<p>在泛型的机制中，我们可以将不同类型存在相同处理逻辑的情况，形成一个通用的方案，从而不在为特定的类型进行编码，用一套通用的代码模板会服务于更多的类型，并且在使用上能保证类型安全和提供良好的性能。</p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\10\08\csharp-generic-review-02\" rel="bookmark">温故而知新-C#泛型</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\10\04\csharp-generic-review-01\" rel="bookmark">温故而知新-C#泛型</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\11\07\introduction-with-aspNet-core-and-entity-framework-core\" rel="bookmark">52ABP开发MVC项目</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\09\25\browser-silent-printing\" rel="bookmark">浏览器实现静默打印</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>JontyWang
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://jonty.top/2022/09/14/csharp-generic-review-03/" title="让泛型的思维扎根在脑海">https://jonty.top/2022/09/14/csharp-generic-review-03/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/NET/" rel="tag"># .NET</a>
+              <a href="/tags/Generic/" rel="tag"># Generic</a>
+              <a href="/tags/CSharp/" rel="tag"># CSharp</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/08/13/use-lpg-to-build-log-center/" rel="prev" title="Grafana Loki搭建日志中心">
+                  <i class="fa fa-chevron-left"></i> Grafana Loki搭建日志中心
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fab fa-battle-net"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JontyWang</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">238k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:36</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+<span id="times">载入天数...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("09/08/2021 13:14:21");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("times").innerHTML = "本站已安全运行 "+dnum+" 天 " +hnum + " 小时 " + mnum + " 分 " + snum + " 秒 ✌";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2022/09/14/csharp-generic-review-03/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
