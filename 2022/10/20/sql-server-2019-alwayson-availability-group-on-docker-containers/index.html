@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="WSIOb3JOJfAsz23EBri68OoFPPfXmPefVY8l9LWiuuQ">
+  <meta name="msvalidate.01" content="BEA1533D8925BA7876293C434544D574">
+  <meta name="baidu-site-verification" content="code-xBDMwADkQe">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=ZCOOL+XiaoWei:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="使用Docker快速部署SQL Server 2019 Always On集群测试环境">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker部署SQL Server 2019 Always On集群">
+<meta property="og:url" content="https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/index.html">
+<meta property="og:site_name" content="Jonty Blog">
+<meta property="og:description" content="使用Docker快速部署SQL Server 2019 Always On集群测试环境">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20221020160443178.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20221020161204446.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20221020161232090.png">
+<meta property="article:published_time" content="2022-10-20T08:40:18.000Z">
+<meta property="article:modified_time" content="2022-10-20T08:45:57.199Z">
+<meta property="article:author" content="JontyWang">
+<meta property="article:tag" content="DBA">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="SQL Server">
+<meta property="article:tag" content="AlwaysOn">
+<meta property="article:tag" content="HA高可用">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jonty.top/img/image-20221020160443178.png">
+
+
+<link rel="canonical" href="https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/","path":"2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/","title":"Docker部署SQL Server 2019 Always On集群"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Docker部署SQL Server 2019 Always On集群 | Jonty Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?276415dc0899b092905c4c2730a113a8"></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Jonty Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jonty Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录搬砖生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Docker"><span class="nav-number">1.</span> <span class="nav-text">安装Docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2"><span class="nav-number">3.</span> <span class="nav-text">部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%B9%E5%99%A8"><span class="nav-number">3.1.</span> <span class="nav-text">创建容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8"><span class="nav-number">3.2.</span> <span class="nav-text">启动容器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E4%BA%92%E4%BF%A1"><span class="nav-number">4.1.</span> <span class="nav-text">配置互信</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E5%BA%93-%E7%94%9F%E6%88%90%E5%AF%86%E9%92%A5"><span class="nav-number">4.1.1.</span> <span class="nav-text">主库-生成密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%8E%E5%BA%93-%E5%AF%BC%E5%85%A5%E5%AF%86%E9%92%A5"><span class="nav-number">4.1.2.</span> <span class="nav-text">从库-导入密钥</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%91%E5%90%AC%E5%92%8C%E9%87%8D%E5%90%AF"><span class="nav-number">4.2.</span> <span class="nav-text">监听和重启</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%AB%98%E5%8F%AF%E7%94%A8%E7%BB%84"><span class="nav-number">4.3.</span> <span class="nav-text">创建高可用组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB"><span class="nav-number">4.4.</span> <span class="nav-text">故障转移</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">5.</span> <span class="nav-text">测试</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="JontyWang"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">JontyWang</p>
+  <div class="site-description" itemprop="description">不在DevOps中转型就在自动化中消亡</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JontyMin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JontyMin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:amazing4677@gmail.com" title="E-Mail → mailto:amazing4677@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/users/14014911/jonty" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;users&#x2F;14014911&#x2F;jonty" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>StackOverflow</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://jontymin.github.io/" title="https:&#x2F;&#x2F;jontymin.github.io&#x2F;" rel="noopener" target="_blank">Github</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://my_netinlove.gitee.io/" title="https:&#x2F;&#x2F;my_netinlove.gitee.io&#x2F;" rel="noopener" target="_blank">Gitee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/179850046" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;179850046" rel="noopener" target="_blank">Bilibili</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/JontyWang/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JontyWang&#x2F;" rel="noopener" target="_blank">我的园子</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ldqk.xyz/" title="https:&#x2F;&#x2F;ldqk.xyz&#x2F;" rel="noopener" target="_blank">懒得勤快</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://luciferliu.blog.csdn.net/" title="https:&#x2F;&#x2F;luciferliu.blog.csdn.net&#x2F;" rel="noopener" target="_blank">Lucifer三思而后行</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/edisonchou/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;edisonchou&#x2F;" rel="noopener" target="_blank">EdisonZhou</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.aliyun.com/minisite/goods?userCode=b0skjdai&share_source=copy_link" title="https:&#x2F;&#x2F;www.aliyun.com&#x2F;minisite&#x2F;goods?userCode&#x3D;b0skjdai&amp;share_source&#x3D;copy_link" rel="noopener" target="_blank">Aliyun</a>
+        </li>
+    </ul>
+  </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=543747557&auto=1&height=66"></iframe>
+
+          </div>
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+
+  </aside>
+  <div class="sidebar-dimmer">
+  
+  </div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="JontyWang">
+      <meta itemprop="description" content="不在DevOps中转型就在自动化中消亡">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jonty Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker部署SQL Server 2019 Always On集群
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-10-20 16:40:18 / 修改时间：16:45:57" itemprop="dateCreated datePublished" datetime="2022-10-20T16:40:18+08:00">2022-10-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DBA/" itemprop="url" rel="index"><span itemprop="name">DBA</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DBA/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">使用Docker快速部署SQL Server 2019 Always On集群测试环境</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <div class="note info"><p>SQL Server在2016年开始支持Linux。随着2017和2019版本的发布，它开始支持Linux和容器平台上的HA/DR、Kubernetes和大数据集群解决方案。</p>
+<p>在本文中，我们将在3个节点的Docker容器上安装SQL Server 2019，并创建AlwaysOn可用性组。</p>
+<p>我们的目标是使用单个配置文件快速准备好环境。</p>
+<p>因此，开发人员或测试团队可以快速执行诸如兼容性、连通性、代码功能等测试。</p>
+<p>重要提示：<strong>不建议在生产环境中执行操作</strong>。</p>
+</div>
+
+<h2 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h2><p><a href="../install-docker-on-centos/">快速安装Docker</a></p>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>IP</th>
+<th>端口</th>
+<th>角色</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sqlNode1</td>
+<td>宿主机IP</td>
+<td>1501:1433</td>
+<td>主</td>
+</tr>
+<tr>
+<td>sqlNode2</td>
+<td>宿主机IP</td>
+<td>1502:1433</td>
+<td>副</td>
+</tr>
+<tr>
+<td>sqlNode3</td>
+<td>宿主机IP</td>
+<td>1503:1433</td>
+<td>副</td>
+</tr>
+</tbody></table>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>环境准备完毕后，开始正式的配置安装。</p>
+<h3 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h3><p>通过<code>docker-compose</code>文件来创建、配置3个容器，具体内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi docker-compose.yml</span><br></pre></td></tr></table></figure>
+
+<p>插入以下内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">&#x27;3&#x27;</span></span><br><span class="line"> </span><br><span class="line">services:</span><br><span class="line">  db1:</span><br><span class="line">    container_name: sqlNode1</span><br><span class="line">    image: mcr.microsoft.com/mssql/server:2019-latest</span><br><span class="line">    hostname: sqlNode1</span><br><span class="line">    domainname: lab.local</span><br><span class="line">    environment:</span><br><span class="line">      MSSQL_SA_PASSWORD: <span class="string">&quot;bb123456??&quot;</span></span><br><span class="line">      ACCEPT_EULA: <span class="string">&quot;Y&quot;</span></span><br><span class="line">      MSSQL_ENABLE_HADR: 1</span><br><span class="line">      MSSQL_AGENT_ENABLED: <span class="string">&quot;true&quot;</span></span><br><span class="line">    ports:</span><br><span class="line">    - <span class="string">&quot;1501:1433&quot;</span></span><br><span class="line">    extra_hosts:</span><br><span class="line">      sqlNode2.labl.local: <span class="string">&quot;172.16.238.22&quot;</span></span><br><span class="line">      sqlNode3.labl.local: <span class="string">&quot;172.16.238.23&quot;</span></span><br><span class="line">    networks:</span><br><span class="line">        internal:</span><br><span class="line">                ipv4_address: 172.16.238.21</span><br><span class="line"> </span><br><span class="line">  db2:</span><br><span class="line">    container_name: sqlNode2</span><br><span class="line">    image: mcr.microsoft.com/mssql/server:2019-latest</span><br><span class="line">    hostname: sqlNode2</span><br><span class="line">    domainname: lab.local</span><br><span class="line">    environment:</span><br><span class="line">      MSSQL_SA_PASSWORD: <span class="string">&quot;bb123456??&quot;</span></span><br><span class="line">      ACCEPT_EULA: <span class="string">&quot;Y&quot;</span></span><br><span class="line">      MSSQL_ENABLE_HADR: 1</span><br><span class="line">      MSSQL_AGENT_ENABLED: <span class="string">&quot;true&quot;</span></span><br><span class="line">    ports:</span><br><span class="line">    - <span class="string">&quot;1502:1433&quot;</span></span><br><span class="line">    extra_hosts:</span><br><span class="line">      sqlNode1.lab.local: <span class="string">&quot;172.16.238.21&quot;</span></span><br><span class="line">      sqlNode3.lab.local: <span class="string">&quot;172.16.238.23&quot;</span></span><br><span class="line">    networks:</span><br><span class="line">        internal:</span><br><span class="line">                ipv4_address: 172.16.238.22</span><br><span class="line"> </span><br><span class="line">  db3:</span><br><span class="line">    container_name: sqlNode3</span><br><span class="line">    image: mcr.microsoft.com/mssql/server:2019-latest</span><br><span class="line">    hostname: sqlNode3</span><br><span class="line">    domainname: lab.local</span><br><span class="line">    environment:</span><br><span class="line">      MSSQL_SA_PASSWORD: <span class="string">&quot;bb123456??&quot;</span></span><br><span class="line">      ACCEPT_EULA: <span class="string">&quot;Y&quot;</span></span><br><span class="line">      MSSQL_ENABLE_HADR: 1</span><br><span class="line">      MSSQL_AGENT_ENABLED: <span class="string">&quot;true&quot;</span></span><br><span class="line">    ports:</span><br><span class="line">    - <span class="string">&quot;1503:1433&quot;</span></span><br><span class="line">    extra_hosts:</span><br><span class="line">      sqlNode1.lab.local: <span class="string">&quot;172.16.238.21&quot;</span></span><br><span class="line">      sqlNode2.lab.local: <span class="string">&quot;172.16.238.22&quot;</span></span><br><span class="line">    networks:</span><br><span class="line">        internal:</span><br><span class="line">                ipv4_address: 172.16.238.23</span><br><span class="line"> </span><br><span class="line">networks:</span><br><span class="line">    internal:</span><br><span class="line">      ipam:</span><br><span class="line">            driver: default</span><br><span class="line">            config:</span><br><span class="line">                - subnet: 172.16.238.0/24</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h3><p>然后通过<code>docker-compose up -d</code>命令启动三个容器，其中<code>-d</code>表示在后台运行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20221020160443178.png" alt="image-20221020160443178"></p>
+<p>查看容器状态</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@acme-1 ~]<span class="comment"># docker compose ps</span></span><br><span class="line">NAME                COMMAND                  SERVICE             STATUS              PORTS</span><br><span class="line">sqlNode1            <span class="string">&quot;/opt/mssql/bin/perm…&quot;</span>   db1                 running             0.0.0.0:1501-&gt;1433/tcp, :::1501-&gt;1433/tcp</span><br><span class="line">sqlNode2            <span class="string">&quot;/opt/mssql/bin/perm…&quot;</span>   db2                 running             0.0.0.0:1502-&gt;1433/tcp, :::1502-&gt;1433/tcp</span><br><span class="line">sqlNode3            <span class="string">&quot;/opt/mssql/bin/perm…&quot;</span>   db3                 running             0.0.0.0:1503-&gt;1433/tcp, :::1503-&gt;1433/tcp</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>通过宿主机的外网IP+端口连接相应的数据库，如下：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20221020161204446.png" alt="image-20221020161204446"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20221020161232090.png" alt="image-20221020161232090"></p>
+<h3 id="配置互信"><a href="#配置互信" class="headerlink" title="配置互信"></a>配置互信</h3><h4 id="主库-生成密钥"><a href="#主库-生成密钥" class="headerlink" title="主库-生成密钥"></a>主库-生成密钥</h4><p>连接到主库，也就是节点1，端口是<code>1501</code></p>
+<p>将证书和私钥提取到<code>/tmp/dbm_certificate.cer</code>和<code>/tmp/dbm_certificate.pvk</code>文件中</p>
+<p>将文件复制到其他节点，并根据以下文件创建主密钥和证书：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">USE master</span><br><span class="line">GO</span><br><span class="line"> </span><br><span class="line"><span class="keyword">CREATE</span> LOGIN dbm_login <span class="keyword">WITH</span> PASSWORD <span class="operator">=</span> <span class="string">&#x27;bb123456??&#x27;</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> dbm_user <span class="keyword">FOR</span> LOGIN dbm_login;</span><br><span class="line">GO</span><br><span class="line"> </span><br><span class="line"><span class="keyword">CREATE</span> MASTER KEY ENCRYPTION <span class="keyword">BY</span> PASSWORD <span class="operator">=</span> <span class="string">&#x27;bb123456??&#x27;</span>;</span><br><span class="line">go</span><br><span class="line"><span class="keyword">CREATE</span> CERTIFICATE dbm_certificate <span class="keyword">WITH</span> SUBJECT <span class="operator">=</span> <span class="string">&#x27;dbm&#x27;</span>;</span><br><span class="line">BACKUP CERTIFICATE dbm_certificate</span><br><span class="line"><span class="keyword">TO</span> FILE <span class="operator">=</span> <span class="string">&#x27;/tmp/dbm_certificate.cer&#x27;</span></span><br><span class="line"><span class="keyword">WITH</span> PRIVATE KEY (</span><br><span class="line">        FILE <span class="operator">=</span> <span class="string">&#x27;/tmp/dbm_certificate.pvk&#x27;</span>,</span><br><span class="line">        ENCRYPTION <span class="keyword">BY</span> PASSWORD <span class="operator">=</span> <span class="string">&#x27;bb123456??&#x27;</span></span><br><span class="line">    );</span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+
+<p>将文件拷贝到其他两个节点：</p>
+<p>在服务器中执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker cp sqlNode1:/tmp/dbm_certificate.cer .</span><br><span class="line">docker cp sqlNode1:/tmp/dbm_certificate.pvk .</span><br><span class="line">docker cp dbm_certificate.cer sqlNode2:/tmp/</span><br><span class="line">docker cp dbm_certificate.pvk sqlNode2:/tmp/</span><br><span class="line">docker cp dbm_certificate.cer sqlNode3:/tmp/</span><br><span class="line">docker cp dbm_certificate.pvk sqlNode3:/tmp/</span><br></pre></td></tr></table></figure>
+
+<h4 id="从库-导入密钥"><a href="#从库-导入密钥" class="headerlink" title="从库-导入密钥"></a>从库-导入密钥</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> LOGIN dbm_login <span class="keyword">WITH</span> PASSWORD <span class="operator">=</span> <span class="string">&#x27;bb123456??&#x27;</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> dbm_user <span class="keyword">FOR</span> LOGIN dbm_login;</span><br><span class="line">GO</span><br><span class="line"> </span><br><span class="line"><span class="keyword">CREATE</span> MASTER KEY ENCRYPTION <span class="keyword">BY</span> PASSWORD <span class="operator">=</span> <span class="string">&#x27;bb123456??&#x27;</span>;</span><br><span class="line">GO</span><br><span class="line"><span class="keyword">CREATE</span> CERTIFICATE dbm_certificate   </span><br><span class="line">    <span class="keyword">AUTHORIZATION</span> dbm_user</span><br><span class="line">    <span class="keyword">FROM</span> FILE <span class="operator">=</span> <span class="string">&#x27;/tmp/dbm_certificate.cer&#x27;</span></span><br><span class="line">    <span class="keyword">WITH</span> PRIVATE KEY (</span><br><span class="line">    FILE <span class="operator">=</span> <span class="string">&#x27;/tmp/dbm_certificate.pvk&#x27;</span>,</span><br><span class="line">    DECRYPTION <span class="keyword">BY</span> PASSWORD <span class="operator">=</span> <span class="string">&#x27;bb123456??&#x27;</span></span><br><span class="line">);</span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+
+<h3 id="监听和重启"><a href="#监听和重启" class="headerlink" title="监听和重启"></a>监听和重启</h3><p>最后在所有节点执行以下命令</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> ENDPOINT [Hadr_endpoint]</span><br><span class="line">    <span class="keyword">AS</span> TCP (LISTENER_IP <span class="operator">=</span> (<span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>), LISTENER_PORT <span class="operator">=</span> <span class="number">5022</span>)</span><br><span class="line">    <span class="keyword">FOR</span> DATA_MIRRORING (</span><br><span class="line">        ROLE <span class="operator">=</span> <span class="keyword">ALL</span>,</span><br><span class="line">        AUTHENTICATION <span class="operator">=</span> CERTIFICATE dbm_certificate,</span><br><span class="line">        ENCRYPTION <span class="operator">=</span> REQUIRED ALGORITHM AES</span><br><span class="line">        );</span><br><span class="line"><span class="keyword">ALTER</span> ENDPOINT [Hadr_endpoint] STATE <span class="operator">=</span> STARTED;</span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">CONNECT</span> <span class="keyword">ON</span> ENDPOINT::[Hadr_endpoint] <span class="keyword">TO</span> [dbm_login];</span><br></pre></td></tr></table></figure>
+
+<p>启用开机自启动ALWAYON，在所有节点执行以下命令</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> EVENT SESSION  AlwaysOn_health <span class="keyword">ON</span> SERVER <span class="keyword">WITH</span> (STARTUP_STATE<span class="operator">=</span><span class="keyword">ON</span>);</span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建高可用组"><a href="#创建高可用组" class="headerlink" title="创建高可用组"></a>创建高可用组</h3><p>行以下脚本在主节点中创建一个可用性组。 </p>
+<blockquote>
+<p>请注意，选择CLUSTER_TYPE = NONE选项是因为它是在没有诸如Pacemaker或Windows Server故障转移群集之类的群集管理平台的情况下安装的。</p>
+<p>如果要在Linux上安装AlwaysOn AG，则应为Pacemaker选择CLUSTER_TYPE = EXTERNAL：</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> AVAILABILITY <span class="keyword">GROUP</span> [AG1]</span><br><span class="line">        <span class="keyword">WITH</span> (CLUSTER_TYPE <span class="operator">=</span> <span class="keyword">NONE</span>)</span><br><span class="line">        <span class="keyword">FOR</span> REPLICA <span class="keyword">ON</span></span><br><span class="line">        N<span class="string">&#x27;sqlNode1&#x27;</span></span><br><span class="line">            <span class="keyword">WITH</span> (</span><br><span class="line">            ENDPOINT_URL <span class="operator">=</span> N<span class="string">&#x27;tcp://sqlNode1:5022&#x27;</span>,</span><br><span class="line">            AVAILABILITY_MODE <span class="operator">=</span> ASYNCHRONOUS_COMMIT,</span><br><span class="line">                SEEDING_MODE <span class="operator">=</span> AUTOMATIC,</span><br><span class="line">                FAILOVER_MODE <span class="operator">=</span> MANUAL,</span><br><span class="line">            SECONDARY_ROLE (ALLOW_CONNECTIONS <span class="operator">=</span> <span class="keyword">ALL</span>)</span><br><span class="line">                ),</span><br><span class="line">        N<span class="string">&#x27;sqlNode2&#x27;</span></span><br><span class="line">            <span class="keyword">WITH</span> (</span><br><span class="line">            ENDPOINT_URL <span class="operator">=</span> N<span class="string">&#x27;tcp://sqlNode2:5022&#x27;</span>,</span><br><span class="line">            AVAILABILITY_MODE <span class="operator">=</span> ASYNCHRONOUS_COMMIT,</span><br><span class="line">                SEEDING_MODE <span class="operator">=</span> AUTOMATIC,</span><br><span class="line">                FAILOVER_MODE <span class="operator">=</span> MANUAL,</span><br><span class="line">            SECONDARY_ROLE (ALLOW_CONNECTIONS <span class="operator">=</span> <span class="keyword">ALL</span>)</span><br><span class="line">                ),</span><br><span class="line">        N<span class="string">&#x27;sqlNode3&#x27;</span></span><br><span class="line">            <span class="keyword">WITH</span> (</span><br><span class="line">            ENDPOINT_URL <span class="operator">=</span> N<span class="string">&#x27;tcp://sqlNode3:5022&#x27;</span>,</span><br><span class="line">            AVAILABILITY_MODE <span class="operator">=</span> ASYNCHRONOUS_COMMIT,</span><br><span class="line">                SEEDING_MODE <span class="operator">=</span> AUTOMATIC,</span><br><span class="line">                FAILOVER_MODE <span class="operator">=</span> MANUAL,</span><br><span class="line">            SECONDARY_ROLE (ALLOW_CONNECTIONS <span class="operator">=</span> <span class="keyword">ALL</span>)</span><br><span class="line">                );</span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+
+<p>在从库中执行以下命令，将从库加入到AG组中</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> AVAILABILITY <span class="keyword">GROUP</span> [ag1] <span class="keyword">JOIN</span> <span class="keyword">WITH</span> (CLUSTER_TYPE <span class="operator">=</span> <span class="keyword">NONE</span>);</span><br><span class="line"><span class="keyword">ALTER</span> AVAILABILITY <span class="keyword">GROUP</span> [ag1] <span class="keyword">GRANT</span> <span class="keyword">CREATE</span> <span class="keyword">ANY</span> DATABASE;</span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+
+<p>至此在Docker容器中安装SQL Server Alwayson集群已经完成了</p>
+<h3 id="故障转移"><a href="#故障转移" class="headerlink" title="故障转移"></a>故障转移</h3><p>注意：当指定<code>CLUSTER_TYPE = NONE</code>创建可用组时无法自动故障转移，在执行故障转移时需执行以下命令，并检查要执行故障转移的辅助节点的<strong>最后提交时间</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> AVAILABILITY <span class="keyword">GROUP</span> [ag1] FORCE_FAILOVER_ALLOW_DATA_LOSS</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>在主库上创建一个数据库，并加入到可用组AG中。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE agtestdb;</span><br><span class="line">GO</span><br><span class="line">ALTER DATABASE agtestdb SET RECOVERY FULL;</span><br><span class="line">GO</span><br><span class="line">BACKUP DATABASE agtestdb TO DISK = <span class="string">&#x27;/var/opt/mssql/data/agtestdb.bak&#x27;</span>;</span><br><span class="line">GO</span><br><span class="line">ALTER AVAILABILITY GROUP [ag1] ADD DATABASE [agtestdb];</span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>参考文档：</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/sql/linux/sql-server-linux-configure-environment-variables?view=sql-server-ver15">为 Linux 上的 SQL Server 配置环境变量 - SQL Server | Microsoft Learn</a></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\12\12\sqlserver-always-on\" rel="bookmark">AlwaysOn可用性组搭建</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\12\02\sqlserver-ha-01\" rel="bookmark">SQL Server故障转移集群 - 01</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\12\02\sqlserver-ha-02\" rel="bookmark">SQL Server故障转移集群 - 02</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\05\08\sqlserver-batch-processing-tables\" rel="bookmark">SQL Server 批量处理表</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\04\21\database-performance-optimization-solutions\" rel="bookmark">漫谈数据库性能优化</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>JontyWang
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/" title="Docker部署SQL Server 2019 Always On集群">https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/DBA/" rel="tag"># DBA</a>
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+              <a href="/tags/SQL-Server/" rel="tag"># SQL Server</a>
+              <a href="/tags/AlwaysOn/" rel="tag"># AlwaysOn</a>
+              <a href="/tags/HA%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag"># HA高可用</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/10/20/install-docker-on-centos/" rel="prev" title="CentOS中快速安装Docker">
+                  <i class="fa fa-chevron-left"></i> CentOS中快速安装Docker
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fab fa-battle-net"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JontyWang</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">247k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:44</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+<span id="times">载入天数...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("09/08/2021 13:14:21");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("times").innerHTML = "本站已安全运行 "+dnum+" 天 " +hnum + " 小时 " + mnum + " 分 " + snum + " 秒 ✌";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

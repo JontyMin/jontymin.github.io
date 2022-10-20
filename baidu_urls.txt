@@ -1,5 +1,5 @@
+https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/
+https://jonty.top/2022/10/20/install-docker-on-centos/
 https://jonty.top/2022/09/15/implement-observable/
 https://jonty.top/2022/09/14/csharp-generic-review-03/
 https://jonty.top/2022/08/13/use-lpg-to-build-log-center/
-https://jonty.top/2022/08/11/getting-started-with-kubernetes-02/
-https://jonty.top/2022/08/10/getting-started-with-kubernetes-01/
