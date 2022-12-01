@@ -26,24 +26,23 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="使用Docker快速部署SQL Server 2019 Always On集群测试环境">
+<meta name="description" content="使用Docker快速部署SQL Server Always On集群测试环境">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker部署SQL Server 2019 Always On集群">
+<meta property="og:title" content="Docker部署SQL Server集群">
 <meta property="og:url" content="https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/index.html">
 <meta property="og:site_name" content="Jonty Blog">
-<meta property="og:description" content="使用Docker快速部署SQL Server 2019 Always On集群测试环境">
+<meta property="og:description" content="使用Docker快速部署SQL Server Always On集群测试环境">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jonty.top/img/image-20221020160443178.png">
 <meta property="og:image" content="https://cdn.jonty.top/img/image-20221020161204446.png">
 <meta property="og:image" content="https://cdn.jonty.top/img/image-20221020161232090.png">
 <meta property="article:published_time" content="2022-10-20T08:40:18.000Z">
-<meta property="article:modified_time" content="2022-10-20T08:45:57.199Z">
+<meta property="article:modified_time" content="2022-12-01T14:48:57.033Z">
 <meta property="article:author" content="JontyWang">
-<meta property="article:tag" content="DBA">
 <meta property="article:tag" content="Docker">
 <meta property="article:tag" content="SQL Server">
-<meta property="article:tag" content="AlwaysOn">
 <meta property="article:tag" content="HA高可用">
+<meta property="article:tag" content="AlwaysOn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jonty.top/img/image-20221020160443178.png">
 
@@ -52,10 +51,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/","path":"2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/","title":"Docker部署SQL Server 2019 Always On集群"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/","path":"2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/","title":"Docker部署SQL Server集群"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Docker部署SQL Server 2019 Always On集群 | Jonty Blog</title>
+<title>Docker部署SQL Server集群 | Jonty Blog</title>
   
 
   <script src="/js/third-party/analytics/baidu-analytics.js"></script>
@@ -178,18 +177,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-count">57</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -295,7 +294,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Docker部署SQL Server 2019 Always On集群
+          Docker部署SQL Server集群
         </h1>
 
         <div class="post-meta-container">
@@ -305,10 +304,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-10-20 16:40:18 / 修改时间：16:45:57" itemprop="dateCreated datePublished" datetime="2022-10-20T16:40:18+08:00">2022-10-20</time>
+      <time title="创建时间：2022-10-20 16:40:18" itemprop="dateCreated datePublished" datetime="2022-10-20T16:40:18+08:00">2022-10-20</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2022-12-01 22:48:57" itemprop="dateModified" datetime="2022-12-01T22:48:57+08:00">2022-12-01</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -316,10 +321,6 @@
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
           <a href="/categories/DBA/" itemprop="url" rel="index"><span itemprop="name">DBA</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/DBA/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
         </span>
     </span>
 
@@ -348,7 +349,7 @@
     </span>
 </div>
 
-            <div class="post-description">使用Docker快速部署SQL Server 2019 Always On集群测试环境</div>
+            <div class="post-description">使用Docker快速部署SQL Server Always On集群测试环境</div>
         </div>
       </header>
 
@@ -468,10 +469,10 @@
       <div class="popular-posts-title"><a href="\2021\12\02\sqlserver-ha-02\" rel="bookmark">SQL Server故障转移集群 - 02</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\2022\05\08\sqlserver-batch-processing-tables\" rel="bookmark">SQL Server 批量处理表</a></div>
+      <div class="popular-posts-title"><a href="\2022\06\01\docker-how-to-delete-all-local-docker-images\" rel="bookmark">Docker删除本地所有镜像</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\2022\04\21\database-performance-optimization-solutions\" rel="bookmark">漫谈数据库性能优化</a></div>
+      <div class="popular-posts-title"><a href="\2022\12\01\docker-swarm-manage-nodes\" rel="bookmark">Docker Swarm 节点管理</a></div>
     </li>
   </ul>
 
@@ -486,7 +487,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/" title="Docker部署SQL Server 2019 Always On集群">https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/</a>
+      <a href="https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/" title="Docker部署SQL Server集群">https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -512,11 +513,10 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/DBA/" rel="tag"># DBA</a>
               <a href="/tags/Docker/" rel="tag"># Docker</a>
               <a href="/tags/SQL-Server/" rel="tag"># SQL Server</a>
-              <a href="/tags/AlwaysOn/" rel="tag"># AlwaysOn</a>
               <a href="/tags/HA%E9%AB%98%E5%8F%AF%E7%94%A8/" rel="tag"># HA高可用</a>
+              <a href="/tags/AlwaysOn/" rel="tag"># AlwaysOn</a>
           </div>
 
         
@@ -528,6 +528,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2022/12/01/docker-swarm-manage-nodes/" rel="next" title="Docker Swarm 节点管理">
+                  Docker Swarm 节点管理 <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>
@@ -559,13 +562,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">247k</span>
+    <span title="站点总字数">250k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:44</span>
+    <span title="站点阅读时长">3:47</span>
   </span>
 </div>
 <div class="busuanzi-count">
