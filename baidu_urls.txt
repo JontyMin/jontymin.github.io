@@ -1,5 +1,5 @@
+https://jonty.top/2023/02/03/docker-swarm-redis-cluster/
+https://jonty.top/2023/02/03/docker-swarm-redis-sentinel/
 https://jonty.top/2022/12/01/docker-swarm-manage-nodes/
 https://jonty.top/2022/10/20/sql-server-2019-alwayson-availability-group-on-docker-containers/
 https://jonty.top/2022/10/20/install-docker-on-centos/
-https://jonty.top/2022/09/15/implement-observable/
-https://jonty.top/2022/09/14/csharp-generic-review-03/

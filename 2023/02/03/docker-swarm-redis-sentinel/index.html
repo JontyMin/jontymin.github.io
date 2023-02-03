@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="WSIOb3JOJfAsz23EBri68OoFPPfXmPefVY8l9LWiuuQ">
+  <meta name="msvalidate.01" content="BEA1533D8925BA7876293C434544D574">
+  <meta name="baidu-site-verification" content="code-xBDMwADkQe">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=ZCOOL+XiaoWei:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Docker Swarm部署Redis主从+哨兵Sentinel+HAProxy实现容灾">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis高可用集群部署-Sentinel">
+<meta property="og:url" content="https://jonty.top/2023/02/03/docker-swarm-redis-sentinel/index.html">
+<meta property="og:site_name" content="Jonty Blog">
+<meta property="og:description" content="Docker Swarm部署Redis主从+哨兵Sentinel+HAProxy实现容灾">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jonty.top/img/redis-sentinel-haproxy.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203101937613.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203103602363.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203105159275.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203105502431.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203105609286.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203110439408.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203112402342.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203110812313.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203110947077.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203111030197.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203111202530.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203111313941.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203111344072.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203111954001.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203112527481.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203112729076.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203112443957.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203112635960.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203112739424.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230203112848725.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/bar2.gif">
+<meta property="article:published_time" content="2023-02-03T15:05:03.000Z">
+<meta property="article:modified_time" content="2023-02-03T15:08:43.556Z">
+<meta property="article:author" content="JontyWang">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Docker Swarm">
+<meta property="article:tag" content="Redis">
+<meta property="article:tag" content="Redis Cluster">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jonty.top/img/redis-sentinel-haproxy.png">
+
+
+<link rel="canonical" href="https://jonty.top/2023/02/03/docker-swarm-redis-sentinel/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2023/02/03/docker-swarm-redis-sentinel/","path":"2023/02/03/docker-swarm-redis-sentinel/","title":"Redis高可用集群部署-Sentinel"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Redis高可用集群部署-Sentinel | Jonty Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?276415dc0899b092905c4c2730a113a8"></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Jonty Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jonty Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录搬砖生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">系统环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E8%A7%84%E5%88%92"><span class="nav-number">1.1.</span> <span class="nav-text">集群规划</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC"><span class="nav-number">1.2.</span> <span class="nav-text">查看系统版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker"><span class="nav-number">1.3.</span> <span class="nav-text">Docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-number">1.4.</span> <span class="nav-text">防火墙</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-Swarm"><span class="nav-number">1.5.</span> <span class="nav-text">Docker Swarm</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E9%83%A8%E7%BD%B2"><span class="nav-number">2.</span> <span class="nav-text">系统部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="nav-number">2.1.</span> <span class="nav-text">部署架构图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E5%87%86%E5%A4%87"><span class="nav-number">2.2.</span> <span class="nav-text">部署准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95"><span class="nav-number">2.2.1.</span> <span class="nav-text">创建目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-compose-yml"><span class="nav-number">2.2.2.</span> <span class="nav-text">docker-compose.yml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#haproxy-cfg"><span class="nav-number">2.2.3.</span> <span class="nav-text">haproxy.cfg</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2"><span class="nav-number">2.3.</span> <span class="nav-text">服务部署</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.3.1.</span> <span class="nav-text">启动服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.3.2.</span> <span class="nav-text">查看服务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%97%A5%E5%BF%97"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">服务日志</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E9%9D%A2%E6%9D%BF"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">代理面板</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%81%9C%E6%AD%A2%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.3.3.</span> <span class="nav-text">停止服务</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%B5%8B%E8%AF%95"><span class="nav-number">3.</span> <span class="nav-text">连接测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%88%B0Redis%E5%8D%95%E5%AE%9E%E4%BE%8B"><span class="nav-number">3.1.</span> <span class="nav-text">连接到Redis单实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%88%B0Redis%E5%93%A8%E5%85%B5"><span class="nav-number">3.2.</span> <span class="nav-text">连接到Redis哨兵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%88%B0Haproxy%E4%BB%A3%E7%90%86"><span class="nav-number">3.3.</span> <span class="nav-text">连接到Haproxy代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5"><span class="nav-number">3.4.</span> <span class="nav-text">测试数据同步</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%B9%E7%81%BE%E6%B5%8B%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">容灾测试</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="JontyWang"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">JontyWang</p>
+  <div class="site-description" itemprop="description">不在DevOps中转型就在自动化中消亡</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JontyMin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JontyMin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:amazing4677@gmail.com" title="E-Mail → mailto:amazing4677@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/users/14014911/jonty" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;users&#x2F;14014911&#x2F;jonty" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>StackOverflow</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://jontymin.github.io/" title="https:&#x2F;&#x2F;jontymin.github.io&#x2F;" rel="noopener" target="_blank">Github</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://my_netinlove.gitee.io/" title="https:&#x2F;&#x2F;my_netinlove.gitee.io&#x2F;" rel="noopener" target="_blank">Gitee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/179850046" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;179850046" rel="noopener" target="_blank">Bilibili</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/JontyWang/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JontyWang&#x2F;" rel="noopener" target="_blank">我的园子</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ldqk.xyz/" title="https:&#x2F;&#x2F;ldqk.xyz&#x2F;" rel="noopener" target="_blank">懒得勤快</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://luciferliu.blog.csdn.net/" title="https:&#x2F;&#x2F;luciferliu.blog.csdn.net&#x2F;" rel="noopener" target="_blank">Lucifer三思而后行</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/edisonchou/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;edisonchou&#x2F;" rel="noopener" target="_blank">EdisonZhou</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.aliyun.com/minisite/goods?userCode=b0skjdai&share_source=copy_link" title="https:&#x2F;&#x2F;www.aliyun.com&#x2F;minisite&#x2F;goods?userCode&#x3D;b0skjdai&amp;share_source&#x3D;copy_link" rel="noopener" target="_blank">Aliyun</a>
+        </li>
+    </ul>
+  </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=543747557&auto=1&height=66"></iframe>
+
+          </div>
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+
+  </aside>
+  <div class="sidebar-dimmer">
+  
+  </div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonty.top/2023/02/03/docker-swarm-redis-sentinel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="JontyWang">
+      <meta itemprop="description" content="不在DevOps中转型就在自动化中消亡">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jonty Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis高可用集群部署-Sentinel
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-02-03 23:05:03 / 修改时间：23:08:43" itemprop="dateCreated datePublished" datetime="2023-02-03T23:05:03+08:00">2023-02-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>15k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>14 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">Docker Swarm部署Redis主从+哨兵Sentinel+HAProxy实现容灾</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img data-src="https://cdn.jonty.top/img/redis-sentinel-haproxy.png" alt="redis-sentinel-haproxy"></p>
+<p>Redis使用使用<strong>哨兵模式</strong>进行组网，哨兵负责主节点的故障转移。<br>HAProxy作为Redis集群的代理(HAProxy工作在TCP层)，屏蔽底层redis的组网细节，对上层应用来看就是单节点的redis。</p>
+<blockquote>
+<p>关于<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI3MjY1ODI2Ng==&mid=2247486094&idx=1&sn=f727b9fe6f53f4ebc5280dd09d6161ed&chksm=eb2e70bbdc59f9ad8157859f0c6eb5fa881c9e147d7e03ca9693633f7d2bff7215d0f813c847&scene=27">Redis集群方案介绍+优缺点对比</a></p>
+</blockquote>
+<h2 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h2><h3 id="集群规划"><a href="#集群规划" class="headerlink" title="集群规划"></a>集群规划</h3><p>搭建1主2从3哨兵，共三个节点，如下：</p>
+<table>
+<thead>
+<tr>
+<th>IP</th>
+<th>hostname</th>
+<th>部署实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>192.168.2.213</td>
+<td>manager</td>
+<td>redis1、sentinel1、Haproxy(1实例)</td>
+</tr>
+<tr>
+<td>192.168.2.214</td>
+<td>worker1</td>
+<td>redis2、sentinel2</td>
+</tr>
+<tr>
+<td>192.168.2.215</td>
+<td>worker2</td>
+<td>redis3、sentinel3</td>
+</tr>
+</tbody></table>
+<h3 id="查看系统版本"><a href="#查看系统版本" class="headerlink" title="查看系统版本"></a>查看系统版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@manager ~]<span class="comment"># uname -a</span></span><br><span class="line">Linux manager 3.10.0-957.el7.x86_64 <span class="comment">#1 SMP Thu Nov 8 23:39:32 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux</span></span><br><span class="line">[root@manager ~]<span class="comment"># cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.6.1810 (Core)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><p>查看Docker版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[root@manager ~]<span class="comment"># docker version</span></span><br><span class="line">Client: Docker Engine - Community</span><br><span class="line"> Version:           20.10.23</span><br><span class="line"> API version:       1.41</span><br><span class="line"> Go version:        go1.18.10</span><br><span class="line"> Git commit:        7155243</span><br><span class="line"> Built:             Thu Jan 19 17:36:21 2023</span><br><span class="line"> OS/Arch:           linux/amd64</span><br><span class="line"> Context:           default</span><br><span class="line"> Experimental:      <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">Server: Docker Engine - Community</span><br><span class="line"> Engine:</span><br><span class="line">  Version:          20.10.23</span><br><span class="line">  API version:      1.41 (minimum version 1.12)</span><br><span class="line">  Go version:       go1.18.10</span><br><span class="line">  Git commit:       6051f14</span><br><span class="line">  Built:            Thu Jan 19 17:34:26 2023</span><br><span class="line">  OS/Arch:          linux/amd64</span><br><span class="line">  Experimental:     <span class="literal">false</span></span><br><span class="line"> containerd:</span><br><span class="line">  Version:          1.6.15</span><br><span class="line">  GitCommit:        5b842e528e99d4d4c1686467debf2bd4b88ecd86</span><br><span class="line"> runc:</span><br><span class="line">  Version:          1.1.4</span><br><span class="line">  GitCommit:        v1.1.4-0-g5fd4c4d</span><br><span class="line"> docker-init:</span><br><span class="line">  Version:          0.19.0</span><br><span class="line">  GitCommit:        de40ad0</span><br></pre></td></tr></table></figure>
+
+<h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><p>所有节点执行以下命令，打开集群初始化所需端口</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 所有node</span></span><br><span class="line">firewall-cmd --zone=public --add-port=2377/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=7946/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=7946/udp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=4789/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=4789/udp --permanent</span><br></pre></td></tr></table></figure>
+
+<p>重启防火墙以及Docker</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 所有node</span></span><br><span class="line">firewall-cmd --reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker-Swarm"><a href="#Docker-Swarm" class="headerlink" title="Docker Swarm"></a>Docker Swarm</h3><p>创建3个manager节点，如下：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203101937613.png" alt="image-20230203101937613"></p>
+<p>manager节点初始化集群：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker swarm init --advertise-addr 192.168.2.213</span><br></pre></td></tr></table></figure>
+
+<p>manager节点获取加入manager token</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker swarm join-token manager</span><br></pre></td></tr></table></figure>
+
+<p>worker节点以<code>manager</code>身份加入集群</p>
+<pre><code>docker swarm join \
+--token SWMTKN-1-3pu6hszjas19xyp7ghgosyx9k8atbfcr8p2is99znpy26u2lkl-7p73s1dx5in4tatdymyhg9hu2 \
+192.168.2.213:2377
+</code></pre>
+<h2 id="系统部署"><a href="#系统部署" class="headerlink" title="系统部署"></a>系统部署</h2><h3 id="部署架构图"><a href="#部署架构图" class="headerlink" title="部署架构图"></a>部署架构图</h3><p><img data-src="https://cdn.jonty.top/img/image-20230203103602363.png" alt="redis-sentinel"></p>
+<h3 id="部署准备"><a href="#部署准备" class="headerlink" title="部署准备"></a>部署准备</h3><h4 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir redis-sentinel</span><br><span class="line"><span class="built_in">cd</span> redis-sentinel</span><br><span class="line">mkdir haproxy</span><br></pre></td></tr></table></figure>
+
+<h4 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h4><p>编写<code>docker-compose.yml</code>文件，需要根据实际IP地址做调整</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi docker-compose.yml</span><br></pre></td></tr></table></figure>
+
+<p>docker-compose.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.8&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">redis1:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis:6.2.4</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">&quot;Asia/Shanghai&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">target:</span> <span class="number">6379</span></span><br><span class="line">        <span class="attr">published:</span> <span class="number">6379</span></span><br><span class="line">        <span class="attr">protocol:</span> <span class="string">tcp</span></span><br><span class="line">        <span class="attr">mode:</span> <span class="string">host</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-data:/data</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-conf:/conf</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-sentinel</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">replicated</span></span><br><span class="line">      <span class="attr">resources:</span></span><br><span class="line">        <span class="attr">limits:</span></span><br><span class="line">          <span class="comment"># cpus: &#x27;0.001&#x27;</span></span><br><span class="line">          <span class="attr">memory:</span> <span class="string">5120M</span></span><br><span class="line">        <span class="attr">reservations:</span></span><br><span class="line">          <span class="comment"># cpus: &#x27;0.001&#x27;</span></span><br><span class="line">          <span class="attr">memory:</span> <span class="string">512M</span></span><br><span class="line">      <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">placement:</span></span><br><span class="line">        <span class="attr">constraints:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">node.hostname</span> <span class="string">==</span> <span class="string">manager</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">&gt;</span></span><br><span class="line"><span class="string">      bash -c &quot;if [ ! -f /conf/redis.conf ];then</span></span><br><span class="line"><span class="string">      echo &#x27;port 6379&#x27; &gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;bind 0.0.0.0&#x27; &gt;&gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;slave-announce-ip 192.168.2.213&#x27; &gt;&gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;slave-announce-port 6379&#x27; &gt;&gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;masterauth bb123456&#x27; &gt;&gt; /conf/redis.conf;</span></span><br><span class="line"><span class="string">      echo &#x27;requirepass bb123456&#x27; &gt;&gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;appendonly yes&#x27; &gt;&gt; /conf/redis.conf ; fi &amp;&amp;</span></span><br><span class="line"><span class="string">      redis-server /conf/redis.conf&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">  <span class="attr">redis2:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis:6.2.4</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">&quot;Asia/Shanghai&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">target:</span> <span class="number">6379</span></span><br><span class="line">        <span class="attr">published:</span> <span class="number">6379</span></span><br><span class="line">        <span class="attr">protocol:</span> <span class="string">tcp</span></span><br><span class="line">        <span class="attr">mode:</span> <span class="string">host</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-data:/data</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-conf:/conf</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-sentinel</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis1</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">replicated</span></span><br><span class="line">      <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">placement:</span></span><br><span class="line">        <span class="attr">constraints:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">node.hostname</span> <span class="string">==</span> <span class="string">worker1</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">&gt;</span></span><br><span class="line"><span class="string">      bash -c &quot;if [ ! -f /conf/redis.conf ];then</span></span><br><span class="line"><span class="string">      echo &#x27;port 6379&#x27; &gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;bind 0.0.0.0&#x27; &gt;&gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;slave-announce-ip 192.168.2.214&#x27; &gt;&gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;slave-announce-port 6379&#x27; &gt;&gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;masterauth bb123456&#x27; &gt;&gt; /conf/redis.conf;</span></span><br><span class="line"><span class="string">      echo &#x27;requirepass bb123456&#x27; &gt;&gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;replicaof 192.168.2.213 6379&#x27; &gt;&gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;appendonly yes&#x27; &gt;&gt; /conf/redis.conf ; fi &amp;&amp;</span></span><br><span class="line"><span class="string">      redis-server /conf/redis.conf&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">  <span class="attr">redis3:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis:6.2.4</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">&quot;Asia/Shanghai&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">target:</span> <span class="number">6379</span></span><br><span class="line">        <span class="attr">published:</span> <span class="number">6379</span></span><br><span class="line">        <span class="attr">protocol:</span> <span class="string">tcp</span></span><br><span class="line">        <span class="attr">mode:</span> <span class="string">host</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-data:/data</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-conf:/conf</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-sentinel</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis1</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">replicated</span></span><br><span class="line">      <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">placement:</span></span><br><span class="line">        <span class="attr">constraints:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">node.hostname</span> <span class="string">==</span> <span class="string">worker2</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">&gt;</span></span><br><span class="line"><span class="string">      bash -c &quot;if [ ! -f /conf/redis.conf ];then</span></span><br><span class="line"><span class="string">      echo &#x27;port 6379&#x27; &gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;bind 0.0.0.0&#x27; &gt;&gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;slave-announce-ip 192.168.2.215&#x27; &gt;&gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;slave-announce-port 6379&#x27; &gt;&gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;masterauth bb123456&#x27; &gt;&gt; /conf/redis.conf;</span></span><br><span class="line"><span class="string">      echo &#x27;requirepass bb123456&#x27; &gt;&gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;replicaof 192.168.2.213 6379&#x27; &gt;&gt; /conf/redis.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;appendonly yes&#x27; &gt;&gt; /conf/redis.conf ; fi &amp;&amp;</span></span><br><span class="line"><span class="string">      redis-server /conf/redis.conf&quot;</span></span><br><span class="line"><span class="string"></span>      </span><br><span class="line">  <span class="attr">sentinel1:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis:6.2.4</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">&quot;Asia/Shanghai&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">target:</span> <span class="number">26379</span></span><br><span class="line">        <span class="attr">published:</span> <span class="number">26379</span></span><br><span class="line">        <span class="attr">protocol:</span> <span class="string">tcp</span></span><br><span class="line">        <span class="attr">mode:</span> <span class="string">host</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis1</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis2</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis3</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-data:/data</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-conf:/conf</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-sentinel</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">replicated</span></span><br><span class="line">      <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">placement:</span></span><br><span class="line">        <span class="attr">constraints:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">node.hostname</span> <span class="string">==</span> <span class="string">manager</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">&gt;</span></span><br><span class="line"><span class="string">      bash -c &quot;if [ ! -f /conf/sentinel.conf ];then</span></span><br><span class="line"><span class="string">      echo &#x27;port 26379&#x27; &gt; /conf/sentinel.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;sentinel announce-ip 192.168.2.213&#x27; &gt;&gt; /conf/sentinel.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;sentinel monitor mymaster 192.168.2.213 6379 2&#x27; &gt;&gt; /conf/sentinel.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;sentinel auth-pass mymaster bb123456&#x27; &gt;&gt; /conf/sentinel.conf ; fi &amp;&amp;</span></span><br><span class="line"><span class="string">      redis-server /conf/sentinel.conf --sentinel&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">  <span class="attr">sentinel2:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis:6.2.4</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">&quot;Asia/Shanghai&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">target:</span> <span class="number">26379</span></span><br><span class="line">        <span class="attr">published:</span> <span class="number">26379</span></span><br><span class="line">        <span class="attr">protocol:</span> <span class="string">tcp</span></span><br><span class="line">        <span class="attr">mode:</span> <span class="string">host</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis1</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis2</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis3</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-data:/data</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-conf:/conf</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-sentinel</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">replicated</span></span><br><span class="line">      <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">placement:</span></span><br><span class="line">        <span class="attr">constraints:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">node.hostname</span> <span class="string">==</span> <span class="string">worker1</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">&gt;</span></span><br><span class="line"><span class="string">      bash -c &quot;if [ ! -f /conf/sentinel.conf ];then</span></span><br><span class="line"><span class="string">      echo &#x27;port 26379&#x27; &gt; /conf/sentinel.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;sentinel announce-ip 192.168.2.214&#x27; &gt;&gt; /conf/sentinel.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;sentinel monitor mymaster 192.168.2.213 6379 2&#x27; &gt;&gt; /conf/sentinel.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;sentinel auth-pass mymaster bb123456&#x27; &gt;&gt; /conf/sentinel.conf ; fi &amp;&amp;</span></span><br><span class="line"><span class="string">      redis-server /conf/sentinel.conf --sentinel&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">  <span class="attr">sentinel3:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis:6.2.4</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">&quot;Asia/Shanghai&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">target:</span> <span class="number">26379</span></span><br><span class="line">        <span class="attr">published:</span> <span class="number">26379</span></span><br><span class="line">        <span class="attr">protocol:</span> <span class="string">tcp</span></span><br><span class="line">        <span class="attr">mode:</span> <span class="string">host</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis1</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis2</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis3</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-data:/data</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-conf:/conf</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-sentinel</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">replicated</span></span><br><span class="line">      <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">placement:</span></span><br><span class="line">        <span class="attr">constraints:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">node.hostname</span> <span class="string">==</span> <span class="string">worker2</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">&gt;</span></span><br><span class="line"><span class="string">      bash -c &quot;if [ ! -f /conf/sentinel.conf ];then</span></span><br><span class="line"><span class="string">      echo &#x27;port 26379&#x27; &gt; /conf/sentinel.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;sentinel announce-ip 192.168.2.215&#x27; &gt;&gt; /conf/sentinel.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;sentinel monitor mymaster 192.168.2.213 6379 2&#x27; &gt;&gt; /conf/sentinel.conf ;</span></span><br><span class="line"><span class="string">      echo &#x27;sentinel auth-pass mymaster bb123456&#x27; &gt;&gt; /conf/sentinel.conf ; fi &amp;&amp;</span></span><br><span class="line"><span class="string">      redis-server /conf/sentinel.conf --sentinel&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">  <span class="attr">haproxy:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">haproxytech/haproxy-alpine:2.4</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">sentinel1</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">sentinel2</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">sentinel3</span></span><br><span class="line">    <span class="attr">configs:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">source:</span> <span class="string">haproxy_conf</span></span><br><span class="line">        <span class="attr">target:</span> <span class="string">/usr/local/etc/haproxy/haproxy.cfg</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">redis-sentinel</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;8080:8080&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;16379:16379&quot;</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">global</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">redis-sentinel:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">overlay</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">redis-data:</span></span><br><span class="line">  <span class="attr">redis-conf:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">configs:</span></span><br><span class="line">  <span class="attr">haproxy_conf:</span></span><br><span class="line">    <span class="attr">file:</span> <span class="string">./haproxy/haproxy.cfg</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="haproxy-cfg"><a href="#haproxy-cfg" class="headerlink" title="haproxy.cfg"></a>haproxy.cfg</h4><p>创建<code>haproxy.cfg</code>配置文件</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># Global settings</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="attribute">global</span></span><br><span class="line">    <span class="comment"># to have these messages end up in /var/log/haproxy.log you will</span></span><br><span class="line">    <span class="comment"># need to:</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment"># 1) configure syslog to accept network log events.  This is done</span></span><br><span class="line">    <span class="comment">#    by adding the &#x27;-r&#x27; option to the SYSLOGD_OPTIONS in</span></span><br><span class="line">    <span class="comment">#    /etc/sysconfig/syslog</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment"># 2) configure local2 events to go to the /var/log/haproxy.log</span></span><br><span class="line">    <span class="comment">#   file. A line like the following can be added to</span></span><br><span class="line">    <span class="comment">#   /etc/sysconfig/syslog</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#    local2.*                       /var/log/haproxy.log</span></span><br><span class="line">    <span class="comment"># </span></span><br><span class="line">  log stdout format raw local0 <span class="literal">info</span>  </span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># common defaults that all the &#x27;listen&#x27; and &#x27;backend&#x27; sections will</span></span><br><span class="line"><span class="comment"># use if not designated in their block</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">defaults</span><br><span class="line">    log global</span><br><span class="line">    mode tcp</span><br><span class="line">    retries <span class="number">3</span></span><br><span class="line">    option redispatch</span><br><span class="line">    maxconn <span class="number">20000</span></span><br><span class="line">    timeout connect <span class="number">600s</span></span><br><span class="line">    timeout client <span class="number">600s</span></span><br><span class="line">    timeout server <span class="number">600s</span></span><br><span class="line">listen stats</span><br><span class="line">    bind <span class="number">0.0.0.0:8080</span> <span class="comment"># 面板代理</span></span><br><span class="line">    mode http </span><br><span class="line">    stats uri /haproxy-status <span class="comment"># 面板地址</span></span><br><span class="line">    stats auth admin:admin <span class="comment"># 面板user:pwd</span></span><br><span class="line">    stats hide-version</span><br><span class="line">    stats refresh <span class="number">30s</span></span><br><span class="line">frontend redis16379 </span><br><span class="line">    bind :<span class="number">16379</span> <span class="comment"># 代理端口</span></span><br><span class="line">    default_backend redis_16379_backend</span><br><span class="line">backend redis_16379_backend</span><br><span class="line">    option tcp-check</span><br><span class="line">    tcp-check connect</span><br><span class="line">    tcp-check send AUTH\ bb123456\r\n <span class="comment"># redis 密码 按需调整</span></span><br><span class="line">    tcp-check expect string +OK</span><br><span class="line">    tcp-check send PING\r\n</span><br><span class="line">    tcp-check expect string +PONG</span><br><span class="line">    tcp-check send <span class="literal">info</span>\ replication\r\n</span><br><span class="line">    tcp-check expect string role:master <span class="comment"># 轮询 master节点</span></span><br><span class="line">    tcp-check send QUIT\r\n</span><br><span class="line">    tcp-check expect string +OK</span><br><span class="line">    server redis1 <span class="number">192.168.2.213:6379</span> check inter <span class="number">1s</span></span><br><span class="line">    server redis2 <span class="number">192.168.2.214:6379</span> check inter <span class="number">1s</span></span><br><span class="line">    server redis3 <span class="number">192.168.2.215:6379</span> check inter <span class="number">1s</span></span><br></pre></td></tr></table></figure>
+
+<p>文件目录如下：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203105159275.png" alt="image-20230203105159275"></p>
+<h3 id="服务部署"><a href="#服务部署" class="headerlink" title="服务部署"></a>服务部署</h3><h4 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stack deploy -c docker-compose.yml redis-sentinel</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20230203105502431.png" alt="image-20230203105502431"></p>
+<h4 id="查看服务"><a href="#查看服务" class="headerlink" title="查看服务"></a>查看服务</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker service ls | grep redis-sentinel</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20230203105609286.png" alt="image-20230203105609286"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203110439408.png" alt="image-20230203110439408"></p>
+<h5 id="服务日志"><a href="#服务日志" class="headerlink" title="服务日志"></a>服务日志</h5><p>redis:</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">1:S 03 Feb 2023 09:07:22.284 * MASTER &lt;-&gt; REPLICA sync: receiving 214 bytes from master to disk</span><br><span class="line">1:S 03 Feb 2023 09:07:22.284 * MASTER &lt;-&gt; REPLICA sync: Flushing old data</span><br><span class="line">1:S 03 Feb 2023 09:07:22.284 * MASTER &lt;-&gt; REPLICA sync: Loading DB in memory</span><br><span class="line">1:S 03 Feb 2023 09:07:22.285 * Loading RDB produced by version 6.2.4</span><br><span class="line">1:S 03 Feb 2023 09:07:22.285 * RDB age 0 seconds</span><br><span class="line">1:S 03 Feb 2023 09:07:22.285 * RDB memory usage when created 1.85 Mb</span><br><span class="line">1:S 03 Feb 2023 09:07:22.285 * MASTER &lt;-&gt; REPLICA sync: Finished with success</span><br><span class="line">1:S 03 Feb 2023 09:07:22.286 * Background append only file rewriting started by pid 13</span><br><span class="line">1:S 03 Feb 2023 09:07:22.308 * AOF rewrite child asks to stop sending diffs.</span><br><span class="line">13:C 03 Feb 2023 09:07:22.308 * Parent agreed to stop sending diffs. Finalizing AOF...</span><br><span class="line">13:C 03 Feb 2023 09:07:22.308 * Concatenating 0.00 MB of AOF diff received from parent.</span><br><span class="line">13:C 03 Feb 2023 09:07:22.309 * SYNC append only file rewrite performed</span><br><span class="line">13:C 03 Feb 2023 09:07:22.309 * AOF rewrite: 4 MB of memory used by copy-on-write</span><br><span class="line">1:S 03 Feb 2023 09:07:22.348 * Background AOF rewrite terminated with success</span><br><span class="line">1:S 03 Feb 2023 09:07:22.348 * Residual parent diff successfully flushed to the rewritten AOF (0.00 MB)</span><br><span class="line">1:S 03 Feb 2023 09:07:22.348 * Background AOF rewrite finished successfully</span><br><span class="line">1:S 03 Feb 2023 10:07:14.007 * 1 changes in 3600 seconds. Saving...</span><br><span class="line">1:S 03 Feb 2023 10:07:14.009 * Background saving started by pid 15</span><br><span class="line">15:C 03 Feb 2023 10:07:14.012 * DB saved on disk</span><br><span class="line">15:C 03 Feb 2023 10:07:14.013 * RDB: 4 MB of memory used by copy-on-write</span><br><span class="line">1:S 03 Feb 2023 10:07:14.109 * Background saving terminated with success</span><br></pre></td></tr></table></figure>
+
+<p>sentinel:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1:X 03 Feb 2023 09:07:24.787 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo</span><br><span class="line">1:X 03 Feb 2023 09:07:24.787 # Redis version=6.2.4, bits=64, commit=00000000, modified=0, pid=1, just started</span><br><span class="line">1:X 03 Feb 2023 09:07:24.787 # Configuration loaded</span><br><span class="line">1:X 03 Feb 2023 09:07:24.788 * monotonic clock: POSIX clock_gettime</span><br><span class="line">1:X 03 Feb 2023 09:07:24.788 * Running mode=sentinel, port=26379.</span><br><span class="line">1:X 03 Feb 2023 09:07:24.788 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.</span><br><span class="line">1:X 03 Feb 2023 09:07:24.789 # Sentinel ID is 49d6ef4a1346ec4a05bec6a6387e6fd66c2a177e</span><br><span class="line">1:X 03 Feb 2023 09:07:24.789 # +monitor master mymaster 192.168.2.12 6379 quorum 2</span><br><span class="line">1:X 03 Feb 2023 09:09:48.027 # +sdown sentinel 32c2d1980d2d054c811f474140f17bb60c1a6dde 192.168.2.214 26379 @ mymaster 192.168.2.215 6379</span><br><span class="line">1:X 03 Feb 2023 09:09:48.099 # +sdown slave 192.168.2.214:6379 192.168.2.11 6379 @ mymaster 192.168.2.12 6379</span><br><span class="line">1:X 03 Feb 2023 09:11:54.402 * +reboot slave 192.168.2.214:6379 192.168.2.11 6379 @ mymaster 192.168.2.12 6379</span><br><span class="line">1:X 03 Feb 2023 09:11:54.502 # -sdown slave 192.168.2.214:6379 192.168.2.11 6379 @ mymaster 192.168.2.12 6379</span><br><span class="line">1:X 03 Feb 2023 09:11:54.502 # -sdown sentinel 32c2d1980d2d054c811f474140f17bb60c1a6dde 192.168.2.11 26379 @ mymaster 192.168.2.215 6379</span><br></pre></td></tr></table></figure>
+
+<p>haproxy:</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[NOTICE]   (1) : New worker <span class="params">#1</span> (8) forked</span><br><span class="line">Connect from 10.0.0.2:3768 to 10.0.0.249:16379 (redis16379/TCP)</span><br><span class="line">Connect from 10.0.0.2:3767 to 10.0.0.249:16379 (redis16379/TCP)</span><br><span class="line">Connect from 10.0.0.2:3769 to 10.0.0.249:16379 (redis16379/TCP)</span><br><span class="line">Server redis<span class="built_in">_</span>16379<span class="built_in">_</span>backend/redis1 is DOWN, reason: Layer7 timeout, info: &quot; at step 7 of tcp-check (expect string &#x27;role:master&#x27;)&quot;, check duration: 1001ms. 2 active and 0 backup servers left. 2 sessions active, 0 requeued, 0 remaining in queue.</span><br><span class="line">[WARNING]  (8) : Server redis<span class="built_in">_</span>16379<span class="built_in">_</span>backend/redis1 is DOWN, reason: Layer7 timeout, info: &quot; at step 7 of tcp-check (expect string &#x27;role:master&#x27;)&quot;, check duration: 1001ms. 2 active and 0 backup servers left. 2 sessions active, 0 requeued, 0 remaining in queue.</span><br><span class="line">[WARNING]  (8) : Server redis<span class="built_in">_</span>16379<span class="built_in">_</span>backend/redis2 is DOWN, reason: Layer7 timeout, info: &quot; at step 7 of tcp-check (expect string &#x27;role:master&#x27;)&quot;, check duration: 1001ms. 1 active and 0 backup servers left. 1 sessions active, 0 requeued, 0 remaining in queue.</span><br><span class="line">Server redis<span class="built_in">_</span>16379<span class="built_in">_</span>backend/redis2 is DOWN, reason: Layer7 timeout, info: &quot; at step 7 of tcp-check (expect string &#x27;role:master&#x27;)&quot;, check duration: 1001ms. 1 active and 0 backup servers left. 1 sessions active, 0 requeued, 0 remaining in queue.</span><br><span class="line">Connect from 10.0.0.2:3765 to 10.0.0.249:16379 (redis16379/TCP)</span><br><span class="line">Connect from 10.0.0.2:3764 to 10.0.0.249:16379 (redis16379/TCP)</span><br><span class="line">Connect from 10.0.0.2:3770 to 10.0.0.249:16379 (redis16379/TCP)</span><br><span class="line">Connect from 10.0.0.2:3771 to 10.0.0.249:16379 (redis16379/TCP)</span><br><span class="line">Connect from 10.0.0.2:3766 to 10.0.0.249:16379 (redis16379/TCP)</span><br><span class="line">Connect from 10.0.0.2:3772 to 10.0.0.249:16379 (redis16379/TCP)</span><br></pre></td></tr></table></figure>
+
+<h5 id="代理面板"><a href="#代理面板" class="headerlink" title="代理面板"></a>代理面板</h5><p>访问<code>IP:8080/haproxy-status</code></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203112402342.png" alt="image-20230203112402342"></p>
+<h4 id="停止服务"><a href="#停止服务" class="headerlink" title="停止服务"></a>停止服务</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stack rm redis-sentinel</span><br></pre></td></tr></table></figure>
+
+<h2 id="连接测试"><a href="#连接测试" class="headerlink" title="连接测试"></a>连接测试</h2><p>使用redis连接工具测试连接</p>
+<h3 id="连接到Redis单实例"><a href="#连接到Redis单实例" class="headerlink" title="连接到Redis单实例"></a>连接到Redis单实例</h3><p>正常连接<code>IP:6379</code>即可</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203110812313.png" alt="image-20230203110812313"></p>
+<h3 id="连接到Redis哨兵"><a href="#连接到Redis哨兵" class="headerlink" title="连接到Redis哨兵"></a>连接到Redis哨兵</h3><p>连接到<code>IP:26379</code></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203110947077.png" alt="image-20230203110947077"></p>
+<h3 id="连接到Haproxy代理"><a href="#连接到Haproxy代理" class="headerlink" title="连接到Haproxy代理"></a>连接到Haproxy代理</h3><p>连接到<code>haproxy:16379</code>端口</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203111030197.png" alt="image-20230203111030197"></p>
+<h3 id="测试数据同步"><a href="#测试数据同步" class="headerlink" title="测试数据同步"></a>测试数据同步</h3><p>通过Haproxy添加新的键值：name:jonty</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203111202530.png" alt="image-20230203111202530"></p>
+<p>新增成功</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203111313941.png" alt="image-20230203111313941"></p>
+<p>查看哨兵连接：</p>
+<p>可以看到已经同步成功</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203111344072.png" alt="image-20230203111344072"></p>
+<p>查看同步日志</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1:S 03 Feb 2023 11:11:55.079 * 1 changes in 3600 seconds. Saving...</span><br><span class="line">1:S 03 Feb 2023 11:11:55.081 * Background saving started by pid 16</span><br><span class="line">16:C 03 Feb 2023 11:11:55.083 * DB saved on disk</span><br><span class="line">16:C 03 Feb 2023 11:11:55.084 * RDB: 4 MB of memory used by copy-on-write</span><br><span class="line">1:S 03 Feb 2023 11:11:55.181 * Background saving terminated with success</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="容灾测试"><a href="#容灾测试" class="headerlink" title="容灾测试"></a>容灾测试</h2><p>将214也就是<code>worker1</code>停止服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">systemctl stop docker.socket</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20230203111954001.png" alt="image-20230203111954001"></p>
+<p>可以看到<code>worker1</code>节点状态为<code>down</code></p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@manager redis-swarm]<span class="params">#</span> docker node ls</span><br><span class="line">ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION</span><br><span class="line">eyufo1vxn0m5xksslcns6gdau *   manager    Ready     Active         Reachable        20.10.23</span><br><span class="line">xki7hv7tw44394vqyhidco14w     worker1    Down      Active         Unreachable      20.10.23</span><br><span class="line">xv4fw7yzwg5iwypea65z9n9yn     worker2    Ready     Active         Leader           20.10.23</span><br></pre></td></tr></table></figure>
+
+<p>214实例已无法访问</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203112527481.png" alt="image-20230203112527481"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203112729076.png" alt="image-20230203112729076"></p>
+<p>连接HaProxy，Redis服务正常</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203112443957.png" alt="image-20230203112443957"></p>
+<p>添加新的键值</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203112635960.png" alt="image-20230203112635960"></p>
+<p>并重新恢复worker1，查看数据是否同步</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@worker1 ~]<span class="comment"># systemctl start docker</span></span><br><span class="line">[root@worker1 ~]<span class="comment"># systemctl start docker.socket</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到<code>redis2</code>服务已经恢复</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203112739424.png" alt="image-20230203112739424"></p>
+<p>查看<code>redis2</code>日志，可以看到已经同步成功</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1:S 03 Feb 2023 11:26:55.825 * MASTER &lt;-&gt; REPLICA sync: Finished with success</span><br><span class="line">1:S 03 Feb 2023 11:26:55.825 * Background append only file rewriting started by pid 13</span><br><span class="line">1:S 03 Feb 2023 11:26:55.850 * AOF rewrite child asks to stop sending diffs.</span><br><span class="line">13:C 03 Feb 2023 11:26:55.850 * Parent agreed to stop sending diffs. Finalizing AOF...</span><br><span class="line">13:C 03 Feb 2023 11:26:55.850 * Concatenating 0.00 MB of AOF diff received from parent.</span><br><span class="line">13:C 03 Feb 2023 11:26:55.850 * SYNC append only file rewrite performed</span><br><span class="line">13:C 03 Feb 2023 11:26:55.851 * AOF rewrite: 6 MB of memory used by copy-on-write</span><br><span class="line">1:S 03 Feb 2023 11:26:55.927 * Background AOF rewrite terminated with success</span><br><span class="line">1:S 03 Feb 2023 11:26:55.927 * Residual parent diff successfully flushed to the rewritten AOF (0.00 MB)</span><br><span class="line">1:S 03 Feb 2023 11:26:55.927 * Background AOF rewrite finished successfully</span><br></pre></td></tr></table></figure>
+
+<p>使用连接工具查看，没问题~</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230203112848725.png" alt="image-20230203112848725"></p>
+<p><img data-src="https://cdn.jonty.top/img/bar2.gif"></p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\02\03\docker-swarm-redis-cluster\" rel="bookmark">Redis高可用集群部署-Cluster</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\12\01\docker-swarm-manage-nodes\" rel="bookmark">Docker Swarm 节点管理</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\06\01\docker-how-to-delete-all-local-docker-images\" rel="bookmark">Docker删除本地所有镜像</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\07\12\docker-nexus3-build-private-repository\" rel="bookmark">Sonatype Nexus3 搭建私有仓库</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2021\11\28\getting-started-with-docker-01\" rel="bookmark">Docker基础入门-01</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>JontyWang
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://jonty.top/2023/02/03/docker-swarm-redis-sentinel/" title="Redis高可用集群部署-Sentinel">https://jonty.top/2023/02/03/docker-swarm-redis-sentinel/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+              <a href="/tags/Docker-Swarm/" rel="tag"># Docker Swarm</a>
+              <a href="/tags/Redis/" rel="tag"># Redis</a>
+              <a href="/tags/Redis-Cluster/" rel="tag"># Redis Cluster</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/12/01/docker-swarm-manage-nodes/" rel="prev" title="Docker Swarm 节点管理">
+                  <i class="fa fa-chevron-left"></i> Docker Swarm 节点管理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/02/03/docker-swarm-redis-cluster/" rel="next" title="Redis高可用集群部署-Cluster">
+                  Redis高可用集群部署-Cluster <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fab fa-battle-net"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JontyWang</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">275k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:10</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+<span id="times">载入天数...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("09/08/2021 13:14:21");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("times").innerHTML = "本站已安全运行 "+dnum+" 天 " +hnum + " 小时 " + mnum + " 分 " + snum + " 秒 ✌";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2023/02/03/docker-swarm-redis-sentinel/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
