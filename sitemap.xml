@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jonty.top/2023/02/15/what-is-blazor/</loc>
+    
+    <lastmod>2023-02-16</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jonty.top/2021/12/02/sqlserver-ha-01/</loc>
     
     <lastmod>2023-02-16</lastmod>
@@ -347,6 +354,13 @@
 
   
   <url>
+    <loc>https://jonty.top/tags/Share/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/tags/QA/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
@@ -354,7 +368,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Share/</loc>
+    <loc>https://jonty.top/tags/C/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -396,27 +410,6 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Code-Review/</loc>
-    <lastmod>2023-02-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Github/</loc>
-    <lastmod>2023-02-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/TypeScript/</loc>
-    <lastmod>2023-02-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://jonty.top/tags/Generic/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
@@ -425,6 +418,13 @@
   
   <url>
     <loc>https://jonty.top/tags/CSharp/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Code-Review/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -445,6 +445,20 @@
   </url>
   
   <url>
+    <loc>https://jonty.top/tags/Github/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/TypeScript/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/tags/Gitlab/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
@@ -453,13 +467,6 @@
   
   <url>
     <loc>https://jonty.top/tags/Smtp/</loc>
-    <lastmod>2023-02-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/C/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -543,13 +550,6 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Git/</loc>
-    <lastmod>2023-02-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://jonty.top/tags/Swarm/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
@@ -557,7 +557,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Hello-World/</loc>
+    <loc>https://jonty.top/tags/Git/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -578,7 +578,21 @@
   </url>
   
   <url>
+    <loc>https://jonty.top/tags/Hello-World/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/tags/Observable/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Jira/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -620,13 +634,6 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/RedHat/</loc>
-    <lastmod>2023-02-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://jonty.top/tags/Oracle/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
@@ -641,7 +648,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Jira/</loc>
+    <loc>https://jonty.top/tags/RedHat/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -649,6 +656,20 @@
   
   <url>
     <loc>https://jonty.top/tags/SQL-Server/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/%E7%B4%A2%E5%BC%95/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/%E7%BF%BB%E8%AF%91/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -676,14 +697,21 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/%E7%B4%A2%E5%BC%95/</loc>
+    <loc>https://jonty.top/tags/VMware/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/%E7%BF%BB%E8%AF%91/</loc>
+    <loc>https://jonty.top/tags/%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2023-02-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Blazor/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -712,20 +740,6 @@
   
   <url>
     <loc>https://jonty.top/tags/LPG/</loc>
-    <lastmod>2023-02-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/VMware/</loc>
-    <lastmod>2023-02-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2023-02-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

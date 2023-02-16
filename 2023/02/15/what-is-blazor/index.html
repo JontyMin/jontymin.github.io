@@ -26,26 +26,35 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="不在DevOps中转型就在自动化中消亡">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jonty Blog">
-<meta property="og:url" content="https://jonty.top/tags/Print/index.html">
+<meta name="description" content="Blazor系列翻译01-什么是Blazor?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Blazor-01】-什么是Blazor?">
+<meta property="og:url" content="https://jonty.top/2023/02/15/what-is-blazor/index.html">
 <meta property="og:site_name" content="Jonty Blog">
-<meta property="og:description" content="不在DevOps中转型就在自动化中消亡">
+<meta property="og:description" content="Blazor系列翻译01-什么是Blazor?">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jonty.top/img/whatisblazor.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/whyshouldweuseblazor.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/blazorandwebassembly.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220411220906408.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220411220940383.png">
+<meta property="article:published_time" content="2023-02-14T23:59:05.000Z">
+<meta property="article:modified_time" content="2023-02-16T01:30:49.274Z">
 <meta property="article:author" content="JontyWang">
-<meta property="article:tag" content="DevOps,K8S,Ansible,Kubernetes,Docker,.NET,C#,.NET Core,ABP,ABP vNext,Linux,MES,Gitlab,CI&#x2F;CD Oracle,DBA,Oracle Rac,SQL Server,Always On,Developer,China,">
+<meta property="article:tag" content="ASP.NET Core">
+<meta property="article:tag" content="Blazor">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jonty.top/img/whatisblazor.png">
 
 
-<link rel="canonical" href="https://jonty.top/tags/Print/">
+<link rel="canonical" href="https://jonty.top/2023/02/15/what-is-blazor/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"tags/Print/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2023/02/15/what-is-blazor/","path":"2023/02/15/what-is-blazor/","title":"【Blazor-01】-什么是Blazor?"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>标签: Print | Jonty Blog</title>
+<title>【Blazor-01】-什么是Blazor? | Jonty Blog</title>
   
 
   <script src="/js/third-party/analytics/baidu-analytics.js"></script>
@@ -139,7 +148,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -152,6 +161,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFBlazor"><span class="nav-number">1.</span> <span class="nav-text">什么是Blazor</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E5%A6%82%E4%BB%8A%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91Web%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F"><span class="nav-number">1.1.</span> <span class="nav-text">现如今如何开发Web应用程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8C-%E5%90%8C%E6%97%B6%E8%BF%9B%E8%A1%8C%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91"><span class="nav-number">1.2.</span> <span class="nav-text">使用C#同时进行服务端和客户端开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8CC-%E4%BB%A3%E7%A0%81"><span class="nav-number">1.3.</span> <span class="nav-text">浏览器如何执行C#代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blazor%E6%89%98%E7%AE%A1%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.4.</span> <span class="nav-text">Blazor托管模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Blazor-WebAssembly"><span class="nav-number">1.4.1.</span> <span class="nav-text">Blazor WebAssembly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Blazor-server"><span class="nav-number">1.4.2.</span> <span class="nav-text">Blazor server</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blazor%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="nav-number">1.5.</span> <span class="nav-text">Blazor开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E5%86%B3%E6%9D%A1%E4%BB%B6"><span class="nav-number">1.5.1.</span> <span class="nav-text">先决条件</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -260,50 +270,187 @@
 </noscript>
 
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
-  
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h2 class="collection-header">Print
-          <small>标签</small>
-        </h2>
-      </div>
 
-      
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonty.top/2023/02/15/what-is-blazor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="JontyWang">
+      <meta itemprop="description" content="不在DevOps中转型就在自动化中消亡">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jonty Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Blazor-01】-什么是Blazor?
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-02-15 07:59:05" itemprop="dateCreated datePublished" datetime="2023-02-15T07:59:05+08:00">2023-02-15</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2023-02-16 09:30:49" itemprop="dateModified" datetime="2023-02-16T09:30:49+08:00">2023-02-16</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%90%AC%E7%A0%96%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" itemprop="url" rel="index"><span itemprop="name">搬砖那些事儿</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">Blazor系列翻译01-什么是Blazor?</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="什么是Blazor"><a href="#什么是Blazor" class="headerlink" title="什么是Blazor"></a>什么是Blazor</h1><h2 id="现如今如何开发Web应用程序"><a href="#现如今如何开发Web应用程序" class="headerlink" title="现如今如何开发Web应用程序"></a>现如今如何开发Web应用程序</h2><p><img data-src="https://cdn.jonty.top/img/whatisblazor.png" alt="img"></p>
+<ul>
+<li>对于服务端开发，我们使用C#、Java、PHP等编程语言，这些都是服务端编程语言。</li>
+<li>对于客户端开发，使用 Angular、React、Vue 等<strong>JavaScript</strong>框架，这些JavaScript框架也是最近几年开始主导客户端开发。</li>
+</ul>
+<p>作为开发人员，为了在业务中持续保持竞争力，我们不可避免的要同时学习服务端编程语言和客户端编程语言。但问题是，我们为什么要学习和使用两套不同的编程语言和框架呢？</p>
+<h2 id="使用C-同时进行服务端和客户端开发"><a href="#使用C-同时进行服务端和客户端开发" class="headerlink" title="使用C#同时进行服务端和客户端开发"></a>使用C#同时进行服务端和客户端开发</h2><p><img data-src="https://cdn.jonty.top/img/whyshouldweuseblazor.png" alt="我们为什么要使用 blazor"></p>
+<p>可以使用C#同时进行服务端和客户端开发吗？答案是可以的，借助<strong>Blazor</strong>,我们可以使用C#而不是JavaScript构建交互式的Web UI。C#代码可以在服务器和客户端浏览器上执行。这意味着.Net开发人员可以重用他们的C#技能，而不是学习新的JavaScript框架而带来的巨大的学习成本。</p>
+<h2 id="浏览器如何执行C-代码"><a href="#浏览器如何执行C-代码" class="headerlink" title="浏览器如何执行C#代码"></a>浏览器如何执行C#代码</h2><p>众所周知，浏览器只能执行JavaScript代码。那么如何在客户端浏览器执行C#代码？答案是<strong>WebAssembly</strong></p>
+<p><img data-src="https://cdn.jonty.top/img/blazorandwebassembly.png" alt="blazor 和 webassembly"></p>
+<p>Blazor 可以使用 WebAssembly 在浏览器中直接运行 C# 代码。它与 Angular、React、Vue 等 JavaScript 框架在同一个安全沙箱中运行。</p>
+<p>事实上，不仅仅是 C#，我们可以使用 WebAssembly 在浏览器中运行任何类型的代码。</p>
+<p>WebAssembly 基于开放的 Web 标准。所以它是所有现代浏览器的原生部分，包括移动浏览器。这意味着要是Blazor应用程序正常工作，不需要安装任何插件。</p>
+<h2 id="Blazor托管模型"><a href="#Blazor托管模型" class="headerlink" title="Blazor托管模型"></a>Blazor托管模型</h2><p>Blazor 提供 2 种托管模型。</p>
+<ul>
+<li> Blazor WebAssembly</li>
+<li> Blazor Server</li>
+</ul>
+<p><img data-src="https://cdn.jonty.top/img/image-20220411220906408.png" alt="image-20220411220906408"></p>
+<h3 id="Blazor-WebAssembly"><a href="#Blazor-WebAssembly" class="headerlink" title="Blazor WebAssembly"></a>Blazor WebAssembly</h3><p>客户端托管模型：应用程序直接在 WebAssembly 的浏览器中运行。</p>
+<p>因此，应用程序所需的一切，即编译后的应用程序代码本身、它的依赖项和 .NET 运行时都下载到浏览器。</p>
+<blockquote>
+<p> 使用 <code>Blazor WebAssembly App </code>模板来创建具有客户端托管模型的 Blazor 应用程序。</p>
+</blockquote>
+<h3 id="Blazor-server"><a href="#Blazor-server" class="headerlink" title="Blazor server"></a>Blazor server</h3><p>服务器托管模型：应用程序在 ASP.NET Core 应用程序内的服务器上执行。</p>
+<p>在客户端和服务器之间，建立了 <strong>SignalR</strong> 连接。</p>
+<p>例如，当客户端上发生事件（例如单击按钮）时，有关事件的信息将通过 SignalR 连接发送到服务器。服务器处理事件并为生成的 HTML 计算差异。整个 HTML 不会再次发送回客户端，它只是通过已建立的 SignalR 连接发送给客户端的差异。然后浏览器更新 UI。Blazor 采用单页面应用程序体系结构。</p>
+<blockquote>
+<p>使用 Blazor Server应用程序模板来创建具有服务器托管模型的 Blazor 应用程序</p>
+</blockquote>
+<h2 id="Blazor开发环境"><a href="#Blazor开发环境" class="headerlink" title="Blazor开发环境"></a>Blazor开发环境</h2><p><a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/en-us/download/dotnet/6.0">安装.NET6或更高版本</a></p>
+<p>验证本地安装的.NET SDK</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet --list-sdks</span><br></pre></td></tr></table></figure>
+
+<p>可以使用Visual Studio、Visual Studio Code 或 .NET Core CLI 构建 Blazor 应用程序。 </p>
+<p><a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/zh-hans/?rr=https://www.microsoft.com/zh-cn">下载Visual Studio</a></p>
+<h3 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h3><p><img data-src="https://cdn.jonty.top/img/image-20220411220940383.png" alt="image-20220411220940383"></p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-09-25T23:42:22+08:00"
-              content="2021-09-25">
-          09-25
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/09/25/browser-silent-printing/" itemprop="url">
-            <span itemprop="name">浏览器实现静默打印</span>
-          </a>
-      </div>
-
+    
+    
+    
       
-    </header>
-  </article>
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\07\24\asp-net-core-dependency-injection\" rel="bookmark">ASP.NET Core DI最佳实践</a></div>
+    </li>
+  </ul>
 
-    </div>
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
   </div>
-  
-  
-  
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/ASP-NET-Core/" rel="tag"># ASP.NET Core</a>
+              <a href="/tags/Blazor/" rel="tag"># Blazor</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/03/docker-swarm-redis-cluster/" rel="prev" title="Redis高可用集群部署-Cluster">
+                  <i class="fa fa-chevron-left"></i> Redis高可用集群部署-Cluster
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
 
 </div>
   </main>
@@ -399,7 +546,7 @@ setInterval("createtime()",250);
 
 
   <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
-  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/tags/Print/"}</script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2023/02/15/what-is-blazor/"}</script>
   <script src="/js/third-party/quicklink.js"></script>
 
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
