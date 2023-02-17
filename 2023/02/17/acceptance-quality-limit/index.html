@@ -26,30 +26,30 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="间歇性踌躇满志，持续性混吃等死">
+<meta name="description" content="AQL-接收质量限制（Acceptance Quality Limit）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【随笔】那就做吧~">
-<meta property="og:url" content="https://jonty.top/2022/07/24/220724-share-essays/index.html">
+<meta property="og:title" content="AQL抽样方法介绍">
+<meta property="og:url" content="https://jonty.top/2023/02/17/acceptance-quality-limit/index.html">
 <meta property="og:site_name" content="Jonty Blog">
-<meta property="og:description" content="间歇性踌躇满志，持续性混吃等死">
+<meta property="og:description" content="AQL-接收质量限制（Acceptance Quality Limit）">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jonty.top/img/1663124663138.jpg">
-<meta property="article:published_time" content="2022-07-24T13:57:15.000Z">
-<meta property="article:modified_time" content="2022-09-14T03:05:26.710Z">
+<meta property="og:image" content="https://cdn.jonty.top/img/AQL-rev-8.jpg">
+<meta property="article:published_time" content="2023-02-17T08:03:55.000Z">
+<meta property="article:modified_time" content="2023-02-17T08:14:08.370Z">
 <meta property="article:author" content="JontyWang">
-<meta property="article:tag" content="Share">
+<meta property="article:tag" content="AQL">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jonty.top/img/1663124663138.jpg">
+<meta name="twitter:image" content="https://cdn.jonty.top/img/AQL-rev-8.jpg">
 
 
-<link rel="canonical" href="https://jonty.top/2022/07/24/220724-share-essays/">
+<link rel="canonical" href="https://jonty.top/2023/02/17/acceptance-quality-limit/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2022/07/24/220724-share-essays/","path":"2022/07/24/220724-share-essays/","title":"【随笔】那就做吧~"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2023/02/17/acceptance-quality-limit/","path":"2023/02/17/acceptance-quality-limit/","title":"AQL抽样方法介绍"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>【随笔】那就做吧~ | Jonty Blog</title>
+<title>AQL抽样方法介绍 | Jonty Blog</title>
   
 
   <script src="/js/third-party/analytics/baidu-analytics.js"></script>
@@ -143,7 +143,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -156,6 +156,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AQL%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">AQL的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A3%80%E9%AA%8C%E6%B0%B4%E5%B9%B3"><span class="nav-number">2.</span> <span class="nav-text">检验水平</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%BD%E6%A0%B7%E6%96%B9%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">抽样方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%A5%E6%A0%BC%E7%A8%8B%E5%BA%A6"><span class="nav-number">4.</span> <span class="nav-text">严格程度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AQL%E5%80%BC"><span class="nav-number">4.1.</span> <span class="nav-text">AQL值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AC%E7%A7%BB%E8%A7%84%E5%88%99%E5%92%8C%E7%A8%8B%E5%BA%8F"><span class="nav-number">5.</span> <span class="nav-text">转移规则和程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%B8%B8%E5%88%B0%E5%8A%A0%E4%B8%A5"><span class="nav-number">5.1.</span> <span class="nav-text">正常到加严</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E4%B8%A5%E5%88%B0%E6%AD%A3%E5%B8%B8"><span class="nav-number">5.2.</span> <span class="nav-text">加严到正常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%B8%B8%E5%88%B0%E6%94%BE%E5%AE%BD"><span class="nav-number">5.3.</span> <span class="nav-text">正常到放宽</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BE%E5%AE%BD%E5%88%B0%E6%AD%A3%E5%B8%B8"><span class="nav-number">5.4.</span> <span class="nav-text">放宽到正常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9A%82%E5%81%9C%E6%A3%80%E9%AA%8C"><span class="nav-number">5.5.</span> <span class="nav-text">暂停检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E6%AC%A1%E6%8A%BD%E6%A0%B7%E6%96%B9%E6%A1%88"><span class="nav-number">5.6.</span> <span class="nav-text">二次抽样方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%88%E6%A0%BC%E4%BA%A7%E5%93%81%E7%9A%84%E5%88%A4%E5%AE%9A"><span class="nav-number">5.7.</span> <span class="nav-text">不合格产品的判定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AQL%E6%8A%BD%E6%A0%B7%E6%A3%80%E9%AA%8C%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8C%E6%AD%A5%E9%AA%A4"><span class="nav-number">5.8.</span> <span class="nav-text">AQL抽样检验的方法和步骤</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -275,7 +276,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://jonty.top/2022/07/24/220724-share-essays/">
+    <link itemprop="mainEntityOfPage" href="https://jonty.top/2023/02/17/acceptance-quality-limit/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/header.jpg">
@@ -288,7 +289,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【随笔】那就做吧~
+          AQL抽样方法介绍
         </h1>
 
         <div class="post-meta-container">
@@ -298,23 +299,17 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2022-07-24 21:57:15" itemprop="dateCreated datePublished" datetime="2022-07-24T21:57:15+08:00">2022-07-24</time>
+      <time title="创建时间：2023-02-17 16:03:55 / 修改时间：16:14:08" itemprop="dateCreated datePublished" datetime="2023-02-17T16:03:55+08:00">2023-02-17</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2022-09-14 11:05:26" itemprop="dateModified" datetime="2022-09-14T11:05:26+08:00">2022-09-14</time>
-      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E4%BA%BA%E7%94%9F%E6%98%AF%E4%B8%80%E5%9C%BA%E6%9C%AA%E7%9F%A5%E7%9A%84%E6%97%85%E8%A1%8C/" itemprop="url" rel="index"><span itemprop="name">人生是一场未知的旅行</span></a>
+          <a href="/categories/%E6%90%AC%E7%A0%96%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" itemprop="url" rel="index"><span itemprop="name">搬砖那些事儿</span></a>
         </span>
     </span>
 
@@ -332,18 +327,18 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>451</span>
+      <span>2.9k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>3 分钟</span>
     </span>
 </div>
 
-            <div class="post-description">间歇性踌躇满志，持续性混吃等死</div>
+            <div class="post-description">AQL-接收质量限制（Acceptance Quality Limit）</div>
         </div>
       </header>
 
@@ -351,15 +346,24 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p><img data-src="https://cdn.jonty.top/img/1663124663138.jpg" alt="20220724"></p>
-<p>人们总是愿意期望未来，而不是回顾过去，所以总是在一个地方摔倒，再爬起来，拍拍尘土，咒骂一句，头也不回的继续走下去。</p>
-<p>至于为什么摔倒了，才不会去深究，毕竟谁会承认自己的无能，和自己过意不去呢。他们这样走下去，走的人多了，同行的也就多了，群体性的行为会给他们力量，让他们在前行的路上彼此温暖和给予勇气。</p>
-<p>以上，是一个遵从内心选择，走了一条僻静小路的人，看到一群人的时候，说那是酸葡萄的样子。</p>
-<p>小站开通马上一年了，也分享了一些工作记录。在海滩边捡贝壳，觉得每一片都非常漂亮，想要分享给世界，然后久了发现，世界上的这些东西，没有什么是独一无二的。而那些灿烂的星河，在那里早有人总结和分享好了。</p>
-<p>如果想的太透彻，大概就没什么意思了，所以还是要像个孩子一样，为一点小发现惊奇激动，欢呼雀跃。</p>
-<p>2022年大概是心智启蒙的一年，开始真正意义上的思考这一切。有可能是阅历稍微多了一些，看问题和思考的角度都更多了一些。</p>
-<p>我们期望未来，期望改变，而做出的努力太少，所以每年都是一样的满怀憧憬，每年都一样的重蹈覆辙。我不愿如此。</p>
-<p>那就做吧。 </p>
+        <p><img data-src="https://cdn.jonty.top/img/AQL-rev-8.jpg" alt="AQL-rev-8"></p>
+<h2 id="AQL的定义"><a href="#AQL的定义" class="headerlink" title="AQL的定义"></a>AQL的定义</h2><p>AQL原来叫<strong>合格质量水平（Acceptable Quality Level）</strong>，在新版国家标准《GB/T 2828.1-2003 计数抽样检验程序 第1部分：按接收质量限（AQL）检索的逐批检验抽样计划》中，AQL的全称被改为了<strong>接收质量限制（Acceptance Quality Limit）</strong>，其定义为：当一个连续系列批被提交验收抽样时，可允许的最差过程平均质量水平。</p>
+<h2 id="检验水平"><a href="#检验水平" class="headerlink" title="检验水平"></a>检验水平</h2><p>在AQL中，有三种一般检验水平（Ⅰ、Ⅱ、Ⅲ）和四种特殊检验水平（S-1、S-2、S-3、S-4）。<br>在三种一般检验水平中，LEVELⅡ是常规水平，也是最经常采用的水平。从LEVELⅠ到LEVELⅢ抽样的数量逐渐增加。LEVELⅠ的抽样数是LEVELⅡ的40％，适用于品质较为稳定或产品出现不一致可能性极小的状况。LEVELⅢ的抽样数是LEVELⅡ的160％，加大检验的样本数量可以降低接受不合格产品的可能性。<br>四种特殊检验水平的特点是抽样数量少，因为在某些情况下，例如检验的成本高、检验所花费的时间长、货物的品质比较稳定（单一产品的重复加工），通过少量的抽样检验就可以反应总体的品质水平。从S-1到S-4抽样检验数逐步增加。在服装辅料的检验中有时会采用特殊检验水平，例如拉链、纽扣等的检验。</p>
+<h2 id="抽样方案"><a href="#抽样方案" class="headerlink" title="抽样方案"></a>抽样方案</h2><p>AQL有一次、二次、多次（五次）3种抽样方案。确定抽样方案可以从下面几个方面来考虑：<br>1）简便易行：一次优于二次，二次优于五次。<br>2）平均样本量：五次少于二次，二次少于一次。<br>3）管理难度：五次难于二次，二次难于一次。<br>4）取样的难易程度：取样麻烦时，一次优于二次，二次优于五次。<br>5）试验时间的长短：根据单个试验时间的长短和是否可以多个样品同时进行试验来确定总的试验时间。</p>
+<h2 id="严格程度"><a href="#严格程度" class="headerlink" title="严格程度"></a>严格程度</h2><p>AQL中制定了三种严格程度：正常（NORMAL）、加严（TIGHTENED）、放宽（REDUCED）。<br>正常检验是最常用的检验水平，刚开始检验新的供应商生产的货物时，应采用正常检验。<br>一旦采用了正常、严格、放宽中的任何一种，那么在以后对同系列或同类型产品的检验中都应采取这一标准，除非供应商的产品品质发生了变动。</p>
+<h3 id="AQL值"><a href="#AQL值" class="headerlink" title="AQL值"></a>AQL值</h3><p>对于不同的质量水平或要求，AQL有多种规定的数值，从0.010~1000。服装业最常用的AQL值是2.5，要求高一些的用1.5，要求稍低的用4.0。不同的AQL值体现了不同的质量水平，通常AQL值越小代表品质要求越高。</p>
+<h2 id="转移规则和程序"><a href="#转移规则和程序" class="headerlink" title="转移规则和程序"></a>转移规则和程序</h2><h3 id="正常到加严"><a href="#正常到加严" class="headerlink" title="正常到加严"></a>正常到加严</h3><p>当正在采用正常检验时，只要初次检验中连续5批或少于5批中有2批是不可接收的，则转移到加严检验。<br>（注：初次检验指第一次检验，区别于拒收后的再次提交批的检验。再次提交批的检验结果不参与转移。）</p>
+<h3 id="加严到正常"><a href="#加严到正常" class="headerlink" title="加严到正常"></a>加严到正常</h3><p>当正在采用加严检验时，如果初次检验的接连5批已被认为是可接收的，应恢复正常检验。</p>
+<h3 id="正常到放宽"><a href="#正常到放宽" class="headerlink" title="正常到放宽"></a>正常到放宽</h3><p>当正在采用正常检验时，如果连续10次检验都合格、并且生产处于稳定状态的话，可以转移到放宽检验。<br>（注：这个跟GB/T 2828.1-2003的规定不同，因为GB/T 2828.1-2003的条件比较负责，所以可以考虑采用这个比较简单的方法。）</p>
+<h3 id="放宽到正常"><a href="#放宽到正常" class="headerlink" title="放宽到正常"></a>放宽到正常</h3><p>当正在执行放宽检验时，如果初次检验出现下列任一情况，应恢复正常检验：<br>a）一个批未被接收；<br>b）生产不稳定或延迟；<br>c）认为恢复正常检验是正当的其他情况。</p>
+<h3 id="暂停检验"><a href="#暂停检验" class="headerlink" title="暂停检验"></a>暂停检验</h3><p>如果在初次加严检验的一系列连续批中未接受批的累计数达到5批，应暂时停止检验。直到供应商为改进所提供产品或服务的质量已采取行动，而且负责部门承认此行动可能有效时，才能恢复检验。恢复检验应从使用加严检验开始。</p>
+<p>放宽检验是非强制性的，在条件不成熟或无把握的情况下可以不执行。<br>暂停检验也可以不执行。<br>至少要执行正常和加严检验之间的转移规则。</p>
+<h3 id="二次抽样方案"><a href="#二次抽样方案" class="headerlink" title="二次抽样方案"></a>二次抽样方案</h3><p>第一次检验的样品数量应等于该方案给出的第一样本量。如果第一样本中发现的不合格数小于或等于第一接收数，则该批可接收；如果第一样本中发现的不合格品数大于或等于第一拒收数，则该批不可接收。<br>如果第一样本中发现的不合格品数介于第一接收数与第二拒收数之间，应检验由方案给出样本量的第二样本并累计在第一样本和第二样本中发现的不合格品数。如果不合格品累计数小于或等于第二接收数，则判定批可接收；如果不合格品累计数大于或等于第二拒收数，则判定该批不可接收。<br>二次抽样方案的目的是通过检验较少样品数而节约时间，然而当必须进行第二次检验时，抽样检验的总数要超过一次抽样检验的数量，所以二次抽样方案适合于质量比较稳定的产品。</p>
+<h3 id="不合格产品的判定"><a href="#不合格产品的判定" class="headerlink" title="不合格产品的判定"></a>不合格产品的判定</h3><p>根据不同类型的服装可参考相应的行业标准或企业标准，如T恤和Polo衫可参考纺织行业标准《FZ/T 73008-2002 针织T恤衫》。<br>有的公司以一件衣服上有一个或以上严重疵点为一个不合格品，一件衣服上有3个轻微疵点也算一件不合格品。<br>有的公司采用的是记点的方式，即计算样本中的不合格数来判定。</p>
+<p>当样本数超过批量时，应该以整批作为样本（全检），判定数不变。</p>
+<h3 id="AQL抽样检验的方法和步骤"><a href="#AQL抽样检验的方法和步骤" class="headerlink" title="AQL抽样检验的方法和步骤"></a>AQL抽样检验的方法和步骤</h3><p>1、决定检验方案（检验水平、抽样方案、严格程度和AQL值）。检验方案一般由客户决定，也有客户和供应商协商决定的。<br>2、根据检验方案查找样本量字码。<br>3、抽样方案。在AQL中给出了一系列的抽样方案表格，这些表格给出了在不同的品质水平下抽样检验的样本数和接收数（Ac）、拒收数（Re）。<br>4、产品检验。从所要检验的产品中，按照以上所述的样本数，随机抽取样品。在检验中应保证100％地检验所抽取的样本，既使在检验若干件后，发现不合格数已经超过拒收数，仍然应该继续检验剩余的样本，因为检验的目的除了要知道“接受”或“拒收”的结果外，还需要了解货物究竟处于何种质量水平，并且可以通过积累历史数据来判断供应商是否合格和决定以后对供应商的检验方案。对供应商来说，也可以清楚如何去改善产品的品质。<br>5、统计不合格数。<br>6、判定是否接受。对照抽样方案表格中的接收数和拒收数来决定是“接受”还是“拒收”。</p>
+<p>例一：<br>检验方案为一般检验水平Ⅱ、正常检验一次抽样方案、AQL 2.5。<br>如有一批衣服的数量为5000件，则找到对应的“样本量字码”为“L”。<br>在“正常检验一次抽样方案（主表）”中找到样本量字码L，对应的样本量为“200”，表示要抽查200件衣服；AQL 2.5对应的“接收/拒收数”为“10 11”，表示抽查的200件样本中，如果发现的不合格品小于或等于10件的话，则该批产品可接受；如果不合格品等于或大于11的话，则该批产品不可接受。</p>
+<p>例二：<br>检验方案为一般检验水平Ⅱ、正常检验二次抽样方案、AQL 4.0。<br>如有一批衣服的数量为20000件，则找到对应的样本量字码为“M”。<br>从“正常检验二次抽样方案（主表）”中查找到对应的样本量和接收/拒收数。<br>第一次抽样200件，接收/拒收数为“11 16”，不合格品数小于或等于11则接受，不合格品数等于或大于16则拒收，不合格品数为12~15之间则进行第二次抽查；<br>第二次再抽查200件，接收/拒收数为“26 27”，累计不合格品数（加上第一次抽查发现的不合格品数）小于或等于26则接受，累计不合格品数等于或大于27则拒收。</p>
 
     </div>
 
@@ -367,44 +371,9 @@
     
     
       
-  <div class="popular-posts-header">相关文章</div>
-  <ul class="popular-posts">
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\2022\05\31\code-review\" rel="bookmark">程序员必备Code Review</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\2022\04\21\database-performance-optimization-solutions\" rel="bookmark">漫谈数据库性能优化</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\2022\03\07\clean-code-typescript\" rel="bookmark">代码整洁的 TypeScript</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\2022\01\29\My-first-three-years-at-ThoughtWorks\" rel="bookmark">我在ThoughtWorks的头三年</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\2021\12\05\getting-started-with-git\" rel="bookmark">Git基本操作</a></div>
-    </li>
-  </ul>
 
 
     <footer class="post-footer">
-          
-
-<div class="post-copyright">
-<ul>
-  <li class="post-copyright-author">
-      <strong>本文作者： </strong>JontyWang
-  </li>
-  <li class="post-copyright-link">
-      <strong>本文链接：</strong>
-      <a href="https://jonty.top/2022/07/24/220724-share-essays/" title="【随笔】那就做吧~">https://jonty.top/2022/07/24/220724-share-essays/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
-  </li>
-</ul>
-</div>
-
           <div class="followme">
   <span>欢迎关注我的其它发布渠道</span>
 
@@ -423,21 +392,18 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/Share/" rel="tag"># Share</a>
+              <a href="/tags/AQL/" rel="tag"># AQL</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/07/24/asp-net-core-dependency-injection/" rel="prev" title="ASP.NET Core DI最佳实践">
-                  <i class="fa fa-chevron-left"></i> ASP.NET Core DI最佳实践
+                <a href="/2023/02/15/what-is-blazor/" rel="prev" title="【Blazor-01】-什么是Blazor?">
+                  <i class="fa fa-chevron-left"></i> 【Blazor-01】-什么是Blazor?
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/08/10/getting-started-with-kubernetes-01/" rel="next" title="【K8s】Kubernetes入门-01">
-                  【K8s】Kubernetes入门-01 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
@@ -543,7 +509,7 @@ setInterval("createtime()",250);
 
 
   <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
-  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2022/07/24/220724-share-essays/"}</script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2023/02/17/acceptance-quality-limit/"}</script>
   <script src="/js/third-party/quicklink.js"></script>
 
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
