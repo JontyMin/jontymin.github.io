@@ -1,5 +1,5 @@
+https://jonty.top/2023/03/23/razor-components/
+https://jonty.top/2023/03/23/blazor-project-structure/
+https://jonty.top/2023/03/23/blazor-server-basic-tutorial/
+https://jonty.top/2023/03/23/blazor-hosting-models/
 https://jonty.top/2023/02/17/acceptance-quality-limit/
-https://jonty.top/2023/02/15/what-is-blazor/
-https://jonty.top/2023/02/03/docker-swarm-redis-cluster/
-https://jonty.top/2023/02/03/docker-swarm-redis-sentinel/
-https://jonty.top/2022/12/01/docker-swarm-manage-nodes/

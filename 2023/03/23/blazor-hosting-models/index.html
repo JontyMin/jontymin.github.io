@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="WSIOb3JOJfAsz23EBri68OoFPPfXmPefVY8l9LWiuuQ">
+  <meta name="msvalidate.01" content="BEA1533D8925BA7876293C434544D574">
+  <meta name="baidu-site-verification" content="code-xBDMwADkQe">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=ZCOOL+XiaoWei:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Blazor系列翻译02-Blazor的托管模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Blazor-02】- Blazor的托管模型">
+<meta property="og:url" content="https://jonty.top/2023/03/23/blazor-hosting-models/index.html">
+<meta property="og:site_name" content="Jonty Blog">
+<meta property="og:description" content="Blazor系列翻译02-Blazor的托管模型">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220411221907210.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/blazorhostingmodelsexplained.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/blazorservervsblazorwebassembly.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220411222732534.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220411222844570.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/BlazorWebAssemblyhostingmodel.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220411223744216.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/BlazorServerhostingmodel.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20220411223908163.png">
+<meta property="article:published_time" content="2023-03-23T01:50:13.000Z">
+<meta property="article:modified_time" content="2023-03-23T02:20:04.989Z">
+<meta property="article:author" content="JontyWang">
+<meta property="article:tag" content="ASP.NET Core">
+<meta property="article:tag" content="Blazor">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jonty.top/img/image-20220411221907210.png">
+
+
+<link rel="canonical" href="https://jonty.top/2023/03/23/blazor-hosting-models/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2023/03/23/blazor-hosting-models/","path":"2023/03/23/blazor-hosting-models/","title":"【Blazor-02】- Blazor的托管模型"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【Blazor-02】- Blazor的托管模型 | Jonty Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?276415dc0899b092905c4c2730a113a8"></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Jonty Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jonty Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录搬砖生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BABlazor%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F"><span class="nav-number">1.</span> <span class="nav-text">创建Blazor应用程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bloazor%E6%89%98%E7%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">Bloazor托管模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#blazor-server-vs-blazor-webassembly"><span class="nav-number">3.</span> <span class="nav-text">blazor server vs blazor webassembly</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-Visual-Studio-%E4%B8%AD%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE"><span class="nav-number">4.</span> <span class="nav-text">在 Visual Studio 中配置多个启动项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blazor-WebAssembly%E6%89%98%E7%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">Blazor WebAssembly托管模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Blazor-WebAssembly%E6%89%98%E7%AE%A1%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%A5%BD%E5%A4%84%E3%80%82"><span class="nav-number">5.1.</span> <span class="nav-text">Blazor WebAssembly托管模式的好处。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Blazor-WebAssembly%E6%89%98%E7%AE%A1%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-number">5.2.</span> <span class="nav-text">Blazor WebAssembly托管的缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blazor-Server%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%89%98%E7%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.</span> <span class="nav-text">Blazor Server服务器托管模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Blazor%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%89%98%E7%AE%A1%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="nav-number">6.1.</span> <span class="nav-text">Blazor服务器托管模式的好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Blazor%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%89%98%E7%AE%A1-NET%E7%9A%84%E7%BC%BA%E7%82%B9%E3%80%82"><span class="nav-number">6.2.</span> <span class="nav-text">Blazor服务器托管.NET的缺点。</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="JontyWang"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">JontyWang</p>
+  <div class="site-description" itemprop="description">不在DevOps中转型就在自动化中消亡</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JontyMin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JontyMin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:amazing4677@gmail.com" title="E-Mail → mailto:amazing4677@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/users/14014911/jonty" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;users&#x2F;14014911&#x2F;jonty" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>StackOverflow</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://jontymin.github.io/" title="https:&#x2F;&#x2F;jontymin.github.io&#x2F;" rel="noopener" target="_blank">Github</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://my_netinlove.gitee.io/" title="https:&#x2F;&#x2F;my_netinlove.gitee.io&#x2F;" rel="noopener" target="_blank">Gitee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/179850046" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;179850046" rel="noopener" target="_blank">Bilibili</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/JontyWang/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JontyWang&#x2F;" rel="noopener" target="_blank">我的园子</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ldqk.xyz/" title="https:&#x2F;&#x2F;ldqk.xyz&#x2F;" rel="noopener" target="_blank">懒得勤快</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://luciferliu.blog.csdn.net/" title="https:&#x2F;&#x2F;luciferliu.blog.csdn.net&#x2F;" rel="noopener" target="_blank">Lucifer三思而后行</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/edisonchou/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;edisonchou&#x2F;" rel="noopener" target="_blank">EdisonZhou</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.aliyun.com/minisite/goods?userCode=b0skjdai&share_source=copy_link" title="https:&#x2F;&#x2F;www.aliyun.com&#x2F;minisite&#x2F;goods?userCode&#x3D;b0skjdai&amp;share_source&#x3D;copy_link" rel="noopener" target="_blank">Aliyun</a>
+        </li>
+    </ul>
+  </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=543747557&auto=1&height=66"></iframe>
+
+          </div>
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+
+  </aside>
+  <div class="sidebar-dimmer">
+  
+  </div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonty.top/2023/03/23/blazor-hosting-models/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="JontyWang">
+      <meta itemprop="description" content="不在DevOps中转型就在自动化中消亡">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jonty Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Blazor-02】- Blazor的托管模型
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-03-23 09:50:13 / 修改时间：10:20:04" itemprop="dateCreated datePublished" datetime="2023-03-23T09:50:13+08:00">2023-03-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%90%AC%E7%A0%96%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" itemprop="url" rel="index"><span itemprop="name">搬砖那些事儿</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">Blazor系列翻译02-Blazor的托管模型</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>你如果还没有安装开发环境，可以前往<a href="./what-is-blazor.md#Blazor%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83">Blazor介绍</a>的下方有机器配置说明</p>
+<p>我们将创建我们的第一个Blazor项目。</p>
+<p>事实上，我们将创建2个Blazor项目。</p>
+<ul>
+<li>一个是服务器端托管:Blazor Server</li>
+<li>另一个是客户端托管: Blazor WebAssembly</li>
+</ul>
+<p>然后，我们将运行这两个项目，看看它们在执行中的区别。</p>
+<ul>
+<li>了解这两种托管模式的区别以及各自的优缺点。</li>
+</ul>
+<h2 id="创建Blazor应用程序"><a href="#创建Blazor应用程序" class="headerlink" title="创建Blazor应用程序"></a>创建Blazor应用程序</h2><p><img data-src="https://cdn.jonty.top/img/image-20220411221907210.png" alt="image-20220411221907210"></p>
+<h2 id="Bloazor托管模式"><a href="#Bloazor托管模式" class="headerlink" title="Bloazor托管模式"></a>Bloazor托管模式</h2><p>Blazor有两种托管模式：Blazor WebAssembly（客户端托管模式）和Blazor Server（服务器托管模式）。</p>
+<p><img data-src="https://cdn.jonty.top/img/blazorhostingmodelsexplained.png"></p>
+<p>正如模板名称所暗示的那样，使用Blazor Server App模板来创建一个带有服务器托管模式的Blazor应用程序，使用Blazor WebAssembly模板来创建一个带有客户端托管模式的Blazor应用程序。</p>
+<p>Blazor服务器与Blazor WebAssembly的比较<br>2种项目类型的项目结构和布局没有太大的区别。</p>
+<h2 id="blazor-server-vs-blazor-webassembly"><a href="#blazor-server-vs-blazor-webassembly" class="headerlink" title="blazor server vs blazor webassembly"></a>blazor server vs blazor webassembly</h2><p>我们将在下一个节中详细讨论这些不同文件和文件夹的目的。</p>
+<p><img data-src="https://cdn.jonty.top/img/blazorservervsblazorwebassembly.png"></p>
+<h2 id="在-Visual-Studio-中配置多个启动项目"><a href="#在-Visual-Studio-中配置多个启动项目" class="headerlink" title="在 Visual Studio 中配置多个启动项目"></a>在 Visual Studio 中配置多个启动项目</h2><p>我们可以在Visual Studio中配置多个项目作为<strong>StartUp项目</strong>。</p>
+<p>具体步骤如下:</p>
+<p>在解决方案资源管理器中右键点击解决方案名称，选择设置<strong>StartUp项目</strong>选项</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220411222732534.png" alt="image-20220411222732534"></p>
+<p>选择 <strong>多个启动项目</strong>单选按钮。针对每个要设置为启动项目的项目，从 <strong>操作</strong>下拉列表中选择 <strong>启动</strong>。</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220411222844570.png" alt="image-20220411222844570"></p>
+<h2 id="Blazor-WebAssembly托管模式"><a href="#Blazor-WebAssembly托管模式" class="headerlink" title="Blazor WebAssembly托管模式"></a>Blazor WebAssembly托管模式</h2><p>在这种托管模式下，应用程序直接在浏览器中的WebAssembly上。</p>
+<p>因此，应用程序所需要的一切，即编译后的应用程序，它的依赖关系和.NET运行时都会从服务器下载到客户端浏览器，这一点和Angular、Vue、React等开发模式是一致的。<br>Blazor WebAssembly应用程序可以完全在客户端上运行，而不需要连接到服务器，或者可以使用Web API调用或SignalR来配置它与服务器进行交互。</p>
+<p><img data-src="https://cdn.jonty.top/img/BlazorWebAssemblyhostingmodel.png" alt="Blazor WebAssembly 托管模型"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220411223744216.png" alt="image-20220411223744216"></p>
+<h3 id="Blazor-WebAssembly托管模式的好处。"><a href="#Blazor-WebAssembly托管模式的好处。" class="headerlink" title="Blazor WebAssembly托管模式的好处。"></a>Blazor WebAssembly托管模式的好处。</h3><ul>
+<li>一个Blazor WebAssembly应用程序可以完全在客户端机器上运行。它可以离线工作。当失去了与服务器的网络连接时，客户端应用程序可以继续运行</li>
+</ul>
+<ul>
+<li><p>它也可以很容易地作为一个渐进式的Web App运行，这意味着客户可以选择将我们的App安装到他们的设备上，在没有任何网络连接的情况下随时运行。</p>
+</li>
+<li><p>Web Assembly在客户端上运行，在浏览器内部，因此可以作为静态文件部署。尽管如此，由于浏览器的安全限制，Blazor Wasm应用程序不会直接从本地文件系统中运行。</p>
+</li>
+</ul>
+<ul>
+<li>当应用程序从服务器下载到客户端后，平时的计算工作使用的是客户端的资源和能力。在客户机上运行的代码，意味着服务器的负载大大降低。</li>
+</ul>
+<ul>
+<li>我们不需要一个完整的ASP.NET Core web服务器来托管应用程序。我们只需要一台服务器，便可以将应用程序传送到客户端的浏览器上。这意味着我们可以在互联网上的任何地方，在云端，在Azure上作为静态网站，甚至在CDN内容交付网络上，将应用程序托管在自己的服务器上。</li>
+</ul>
+<h3 id="Blazor-WebAssembly托管的缺点"><a href="#Blazor-WebAssembly托管的缺点" class="headerlink" title="Blazor WebAssembly托管的缺点"></a>Blazor WebAssembly托管的缺点</h3><p>Blazor WebAssembly简称为Blazor Wasm。</p>
+<ul>
+<li><p>第一次请求通常需要较长的时间，因为<code>blazor.webassembly.js</code>文件对客户端应用程序进行引导,所以整个应用程序、其依赖关系和.NET运行时必须下载到客户端浏览器。但请记住，这只是第一次请求所花费的时间比平时长。如果那个相同的客户端稍后访问该应用程序，通常会快速启动，因为浏览器会缓存文件。</p>
+</li>
+<li><p>由于应用程序完全在客户端浏览器上运行，所以它受限于浏览器的计算能力。</p>
+</li>
+<li><p>根据应用的性质，需要有一定能力的客户端硬件和软件。例如，从软件的角度来看，至少需要一个支持WebAssembly的浏览器。</p>
+</li>
+</ul>
+<ul>
+<li><p>Mono框架解释的是.NET中间语言，因此比运行服务器端Blazor要慢。Ahead-of-time (AOT) 编译计划在未来的一个版本中进行。</p>
+</li>
+<li><p>Blazor Wasm还不支持一个以上的线程，所以所有的处理都发生在UI线程上–但服务器/JavaScript等的调用是异步进行的，所以不会阻碍UI的响应速度。</p>
+</li>
+<li><p>与服务器端不同的是，Blazor Wasm还不支持在Visual Studio中进行调试。在浏览器内调试C#代码是可能的，但尽管可行，但这并不是最好的体验。</p>
+</li>
+<li><p>此外，Blazor Wasm只适用于较新的浏览器，并且不支持搜索引擎（除非我们启用服务器端预渲染）。</p>
+</li>
+</ul>
+<h2 id="Blazor-Server服务器托管模式"><a href="#Blazor-Server服务器托管模式" class="headerlink" title="Blazor Server服务器托管模式"></a>Blazor Server服务器托管模式</h2><p>在这种托管模式下，应用程序需要在服务器上执行。在客户端和服务器之间建立了一个SignalR连接。当一个事件发生在客户端，例如点击按钮，事件的信息通过SignalR连接发送到服务器。服务器处理该事件，并计算出生成的HTML的差异（差值）。整个HTML不会再次被发送到客户端，只有差值通过SignalR连接发送到客户端。然后浏览器更新UI。由于只应用了差异化的内容来更新UI，所以应用程序感觉更快，对用户的响应也更快。</p>
+<p><img data-src="https://cdn.jonty.top/img/BlazorServerhostingmodel.png" alt="Blazor 服务器托管模型"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20220411223908163.png" alt="image-20220411223908163"></p>
+<h3 id="Blazor服务器托管模式的好处"><a href="#Blazor服务器托管模式的好处" class="headerlink" title="Blazor服务器托管模式的好处"></a>Blazor服务器托管模式的好处</h3><ul>
+<li><p>Blazor服务器端在将HTML内容发送到客户端的浏览器之前，会预先渲染HTML内容。这使得它对搜索引擎友好，而且没有明显的启动时间。</p>
+</li>
+<li><p>由于下载量明显小于Blazor WebAssembly应用程序，因此加载速度更快</p>
+</li>
+<li><p>由于该应用程序运行在服务器上，因此它可以充分利用服务器的功能，包括使用任何.NET Core兼容的API。<br>客户端只需要一个浏览器就可以使用该应用。即使是不支持WebAssembly的浏览器也可以使用。</p>
+</li>
+<li><p>更加安全，因为应用程序的.NET/C#代码不会被发送到客户端。</p>
+</li>
+</ul>
+<ul>
+<li>Blazor服务器端应用程序可以在旧的浏览器上运行，因为不需要Web汇编，只需要HTML和JavaScript。由于代码是在服务器上执行的，所以也可以在Visual Studio中调试我们的.NET代码。</li>
+</ul>
+<h3 id="Blazor服务器托管-NET的缺点。"><a href="#Blazor服务器托管-NET的缺点。" class="headerlink" title="Blazor服务器托管.NET的缺点。"></a>Blazor服务器托管.NET的缺点。</h3><ul>
+<li>需要一个完整的ASP.NET Core服务器来托管应用程序。在无服务器部署场景，比如希望从CDN中运行应用程序，是不可能实现的。</li>
+<li>需要始终保持与服务器的主动连接。这意味着需要保持服务器24小时不间断地运行。如果服务器瘫痪，应用程序就会停止工作。</li>
+<li>由于每个用户的交互都需要往返于服务器之间，与Blazor WebAssembly托管相比，通常会有较高的延迟。</li>
+</ul>
+<ul>
+<li>Blazor服务器端为当前客户端建立一个内存内会话，并使用SignalR在服务器上运行的.NET和客户端的浏览器之间进行通信。所有的内存和CPU的使用都是以服务器为代价的，对所有用户来说。这也意味着客户端被绑定到最初服务于它的服务器上，所以不具备负载均衡功能，但是我们可以通过使用Azure SignalR服务与Blazor服务器应用程序来克服这个可扩展性问题。这个服务可以让Blazor Server app通过支持大量的并发SignalR连接来实现良好的扩展性。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\03\23\blazor-server-basic-tutorial\" rel="bookmark">Blazor系列文章目录</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\03\23\razor-components\" rel="bookmark">【Blazor-04】- Razor组件</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\03\23\blazor-project-structure\" rel="bookmark">【Blazor-03】- Blazor项目结构</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\02\15\what-is-blazor\" rel="bookmark">【Blazor-01】-什么是Blazor?</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\07\24\asp-net-core-dependency-injection\" rel="bookmark">ASP.NET Core DI最佳实践</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>JontyWang
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://jonty.top/2023/03/23/blazor-hosting-models/" title="【Blazor-02】- Blazor的托管模型">https://jonty.top/2023/03/23/blazor-hosting-models/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/ASP-NET-Core/" rel="tag"># ASP.NET Core</a>
+              <a href="/tags/Blazor/" rel="tag"># Blazor</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/17/acceptance-quality-limit/" rel="prev" title="AQL抽样方法介绍">
+                  <i class="fa fa-chevron-left"></i> AQL抽样方法介绍
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/03/23/blazor-server-basic-tutorial/" rel="next" title="Blazor系列文章目录">
+                  Blazor系列文章目录 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fab fa-battle-net"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JontyWang</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">287k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:21</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+<span id="times">载入天数...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("09/08/2021 13:14:21");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("times").innerHTML = "本站已安全运行 "+dnum+" 天 " +hnum + " 小时 " + mnum + " 分 " + snum + " 秒 ✌";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2023/03/23/blazor-hosting-models/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
