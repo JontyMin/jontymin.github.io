@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2022/07/12/docker-nexus3-build-private-repository/</loc>
+    <lastmod>2023-04-20</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2023/04/12/how-to-change-docker-data-folder-configuration/</loc>
     <lastmod>2023-04-12</lastmod>
   </url>
@@ -87,10 +91,6 @@
   <url>
     <loc>https://jonty.top/2022/08/11/getting-started-with-kubernetes-02/</loc>
     <lastmod>2022-08-11</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/07/12/docker-nexus3-build-private-repository/</loc>
-    <lastmod>2022-08-05</lastmod>
   </url>
   <url>
     <loc>https://jonty.top/2021/08/05/hello-world/</loc>
