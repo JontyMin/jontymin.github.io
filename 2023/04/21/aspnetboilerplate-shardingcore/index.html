@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="WSIOb3JOJfAsz23EBri68OoFPPfXmPefVY8l9LWiuuQ">
+  <meta name="msvalidate.01" content="BEA1533D8925BA7876293C434544D574">
+  <meta name="baidu-site-verification" content="code-xBDMwADkQe">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=ZCOOL+XiaoWei:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="AspNet Boilerplate 集成ShardingCore分表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Abp集成ShardingCore分表">
+<meta property="og:url" content="https://jonty.top/2023/04/21/aspnetboilerplate-shardingcore/index.html">
+<meta property="og:site_name" content="Jonty Blog">
+<meta property="og:description" content="AspNet Boilerplate 集成ShardingCore分表">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20221025143100094.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20221025150400595.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20221025155658434.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/sharding-table.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20221025161642236.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20221025162314303.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20221025162513321.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20221025162715517.png">
+<meta property="article:published_time" content="2023-04-21T05:58:04.000Z">
+<meta property="article:modified_time" content="2023-04-21T06:01:27.521Z">
+<meta property="article:author" content="JontyWang">
+<meta property="article:tag" content="Abp">
+<meta property="article:tag" content="ASP.NET Core">
+<meta property="article:tag" content="ShardingCore">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jonty.top/img/image-20221025143100094.png">
+
+
+<link rel="canonical" href="https://jonty.top/2023/04/21/aspnetboilerplate-shardingcore/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2023/04/21/aspnetboilerplate-shardingcore/","path":"2023/04/21/aspnetboilerplate-shardingcore/","title":"Abp集成ShardingCore分表"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Abp集成ShardingCore分表 | Jonty Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?276415dc0899b092905c4c2730a113a8"></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Jonty Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jonty Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录搬砖生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E6%95%B4EFCore-ShardingCore"><span class="nav-number">1.</span> <span class="nav-text">调整EFCore-ShardingCore</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step1%EF%BC%9A%E8%B0%83%E6%95%B4DbContext"><span class="nav-number">1.1.</span> <span class="nav-text">Step1：调整DbContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step2%EF%BC%9A%E8%B0%83%E6%95%B4%E6%A8%A1%E5%9D%97%E7%B1%BB"><span class="nav-number">1.2.</span> <span class="nav-text">Step2：调整模块类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step3%EF%BC%9A%E6%96%87%E4%BB%B6%E8%B0%83%E6%95%B4"><span class="nav-number">1.3.</span> <span class="nav-text">Step3：文件调整</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ShardingCoreExtensions"><span class="nav-number">1.3.1.</span> <span class="nav-text">ShardingCoreExtensions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MigrationsSqlGenerator"><span class="nav-number">1.3.2.</span> <span class="nav-text">MigrationsSqlGenerator</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DbContextConfigurer"><span class="nav-number">1.3.3.</span> <span class="nav-text">DbContextConfigurer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DbContextFactory"><span class="nav-number">1.3.4.</span> <span class="nav-text">DbContextFactory</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E5%86%8CShardingCore"><span class="nav-number">2.</span> <span class="nav-text">注册ShardingCore</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step1%EF%BC%9ATemplate-Web-Host"><span class="nav-number">2.1.</span> <span class="nav-text">Step1：Template.Web.Host</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E5%86%8CShardingCore%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.1.1.</span> <span class="nav-text">注册ShardingCore服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Startup-cs"><span class="nav-number">2.1.2.</span> <span class="nav-text">Startup.cs</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step2%EF%BC%9ATemplate-Migrator"><span class="nav-number">2.2.</span> <span class="nav-text">Step2：Template.Migrator</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E5%86%8CShardingCore%E6%9C%8D%E5%8A%A1-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">注册ShardingCore服务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Startup-cs-1"><span class="nav-number">2.3.</span> <span class="nav-text">Startup.cs</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E8%A1%A8%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">分表使用案例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%9E%E4%BD%93"><span class="nav-number">3.1.</span> <span class="nav-text">创建实体</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Order-cs"><span class="nav-number">3.1.1.</span> <span class="nav-text">Order.cs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OrderStatusEnum-cs"><span class="nav-number">3.1.2.</span> <span class="nav-text">OrderStatusEnum.cs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Setting-cs"><span class="nav-number">3.1.3.</span> <span class="nav-text">Setting.cs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SysUser-cs"><span class="nav-number">3.1.4.</span> <span class="nav-text">SysUser.cs</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%A2%86%E5%9F%9F%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.2.</span> <span class="nav-text">创建领域服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#OrderManager"><span class="nav-number">3.2.1.</span> <span class="nav-text">OrderManager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SysUserManager"><span class="nav-number">3.2.2.</span> <span class="nav-text">SysUserManager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SettingManager"><span class="nav-number">3.2.3.</span> <span class="nav-text">SettingManager</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E5%AE%9E%E4%BD%93"><span class="nav-number">3.3.</span> <span class="nav-text">注册实体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E8%B7%AF%E7%94%B1"><span class="nav-number">3.4.</span> <span class="nav-text">创建虚拟路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E5%88%86%E7%89%87%E8%B7%AF%E7%94%B1"><span class="nav-number">3.5.</span> <span class="nav-text">注册分片路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%A7%8D%E5%AD%90%E6%95%B0%E6%8D%AE"><span class="nav-number">3.6.</span> <span class="nav-text">添加种子数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%BF%81%E7%A7%BB"><span class="nav-number">3.7.</span> <span class="nav-text">创建迁移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CRUD"><span class="nav-number">3.8.</span> <span class="nav-text">CRUD</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.8.1.</span> <span class="nav-text">查询示例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%95%E5%AF%B9%E8%B1%A1%E6%9F%A5%E8%AF%A2"><span class="nav-number">3.8.1.1.</span> <span class="nav-text">单对象查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2"><span class="nav-number">3.8.1.2.</span> <span class="nav-text">连表查询</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.8.2.</span> <span class="nav-text">修改示例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%BF%BD%E8%B8%AA%E4%BF%AE%E6%94%B9"><span class="nav-number">3.8.2.1.</span> <span class="nav-text">自动追踪修改</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9D%9E%E8%87%AA%E5%8A%A8%E8%BF%BD%E8%B8%AA%E4%BF%AE%E6%94%B9"><span class="nav-number">3.8.2.2.</span> <span class="nav-text">非自动追踪修改</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.8.3.</span> <span class="nav-text">删除示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">3.9.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ShardingCore-%E5%A4%9A%E7%A7%9F%E6%88%B7"><span class="nav-number">4.</span> <span class="nav-text">ShardingCore 多租户</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ShardingCore%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%97%B6%E5%A6%82%E4%BD%95%E6%94%AF%E6%8C%81%E5%A4%9A%E7%A7%9F%E6%88%B7%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">ShardingCore的设计时如何支持多租户模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%BB%93%E5%90%88Abp%E5%B7%A5%E4%BD%9C%E5%8D%95%E5%85%83"><span class="nav-number">4.2.</span> <span class="nav-text">如何结合Abp工作单元</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="JontyWang"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">JontyWang</p>
+  <div class="site-description" itemprop="description">不在DevOps中转型就在自动化中消亡</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JontyMin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JontyMin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:amazing4677@gmail.com" title="E-Mail → mailto:amazing4677@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/users/14014911/jonty" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;users&#x2F;14014911&#x2F;jonty" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>StackOverflow</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://jontymin.github.io/" title="https:&#x2F;&#x2F;jontymin.github.io&#x2F;" rel="noopener" target="_blank">Github</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://my_netinlove.gitee.io/" title="https:&#x2F;&#x2F;my_netinlove.gitee.io&#x2F;" rel="noopener" target="_blank">Gitee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/179850046" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;179850046" rel="noopener" target="_blank">Bilibili</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/JontyWang/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JontyWang&#x2F;" rel="noopener" target="_blank">我的园子</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ldqk.xyz/" title="https:&#x2F;&#x2F;ldqk.xyz&#x2F;" rel="noopener" target="_blank">懒得勤快</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://luciferliu.blog.csdn.net/" title="https:&#x2F;&#x2F;luciferliu.blog.csdn.net&#x2F;" rel="noopener" target="_blank">Lucifer三思而后行</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/edisonchou/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;edisonchou&#x2F;" rel="noopener" target="_blank">EdisonZhou</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.aliyun.com/minisite/goods?userCode=b0skjdai&share_source=copy_link" title="https:&#x2F;&#x2F;www.aliyun.com&#x2F;minisite&#x2F;goods?userCode&#x3D;b0skjdai&amp;share_source&#x3D;copy_link" rel="noopener" target="_blank">Aliyun</a>
+        </li>
+    </ul>
+  </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=543747557&auto=1&height=66"></iframe>
+
+          </div>
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+
+  </aside>
+  <div class="sidebar-dimmer">
+  
+  </div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonty.top/2023/04/21/aspnetboilerplate-shardingcore/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="JontyWang">
+      <meta itemprop="description" content="不在DevOps中转型就在自动化中消亡">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jonty Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Abp集成ShardingCore分表
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-04-21 13:58:04 / 修改时间：14:01:27" itemprop="dateCreated datePublished" datetime="2023-04-21T13:58:04+08:00">2023-04-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%90%AC%E7%A0%96%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" itemprop="url" rel="index"><span itemprop="name">搬砖那些事儿</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>21k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>19 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">AspNet Boilerplate 集成ShardingCore分表</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <blockquote>
+<p>ShardingCore官方文档：<a target="_blank" rel="noopener" href="https://xuejmnet.github.io/sharding-core-doc/">ShardingCore文档 (xuejmnet.github.io)</a></p>
+</blockquote>
+<h2 id="调整EFCore-ShardingCore"><a href="#调整EFCore-ShardingCore" class="headerlink" title="调整EFCore-ShardingCore"></a>调整EFCore-ShardingCore</h2><p>以下操作步骤均以<code>FoundationTemplate</code>模板项目做演示，实际操作请根据项目调整</p>
+<h3 id="Step1：调整DbContext"><a href="#Step1：调整DbContext" class="headerlink" title="Step1：调整DbContext"></a>Step1：调整DbContext</h3><p>将DbContext集成的基类由<code>GCTSharedDbContext</code>调整为<code>GCTSharedShardingCoreDbContext</code></p>
+<p><strong>GCTSharedShardingCoreDbContext</strong>：实现ShardingCore分库分表操作</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">FoundationTemplateDbContext</span> : <span class="title">GCTSharedShardingCoreDbContext</span>&lt;<span class="title">FoundationTemplateDbContext</span>&gt;&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step2：调整模块类"><a href="#Step2：调整模块类" class="headerlink" title="Step2：调整模块类"></a>Step2：调整模块类</h3><p>调整<code>EntityFrameworkCoreModule</code>模块类注册，<strong>取消</strong>默认的<code>DbContext</code>注册，如下</p>
+<blockquote>
+<p>取消默认的DbContext注册，将以下代码注释</p>
+</blockquote>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">PreInitialize</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">    <span class="comment">// 注册dbcontext</span></span><br><span class="line">    <span class="comment">/*if (!FoundationTemplateConfigs.Database.SkipDbContextRegistration)</span></span><br><span class="line"><span class="comment">    &#123;</span></span><br><span class="line"><span class="comment">        Configuration.Modules.AbpEfCore()</span></span><br><span class="line"><span class="comment">            // Configuration.Modules.L52AbpEfCore()</span></span><br><span class="line"><span class="comment">            .AddDbContext&lt;FoundationTemplateDbContext&gt;(options =&gt;</span></span><br><span class="line"><span class="comment">            &#123;</span></span><br><span class="line"><span class="comment">                if (options.ExistingConnection != null)</span></span><br><span class="line"><span class="comment">                &#123;</span></span><br><span class="line"><span class="comment">                    FoundationTemplateDbContextConfigurer.Configure(</span></span><br><span class="line"><span class="comment">                        options.DbContextOptions,</span></span><br><span class="line"><span class="comment">                        options.ExistingConnection</span></span><br><span class="line"><span class="comment">                    );</span></span><br><span class="line"><span class="comment">                &#125;</span></span><br><span class="line"><span class="comment">                else</span></span><br><span class="line"><span class="comment">                &#123;</span></span><br><span class="line"><span class="comment">                    FoundationTemplateDbContextConfigurer.Configure(</span></span><br><span class="line"><span class="comment">                        options.DbContextOptions,</span></span><br><span class="line"><span class="comment">                        options.ConnectionString</span></span><br><span class="line"><span class="comment">                    );</span></span><br><span class="line"><span class="comment">                &#125;</span></span><br><span class="line"><span class="comment">            &#125;);</span></span><br><span class="line"><span class="comment">    &#125;*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step3：文件调整"><a href="#Step3：文件调整" class="headerlink" title="Step3：文件调整"></a>Step3：文件调整</h3><p>在<code>EntityFrameworkCore</code>项目 –&gt; 创建<code>ShardingCore</code>文件夹</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--- ShardingCore</span><br><span class="line">  --- Routes  <span class="meta"># 用于存放路由配置类 （或者存放到Core层，也就是各自模块目录）</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="ShardingCoreExtensions"><a href="#ShardingCoreExtensions" class="headerlink" title="ShardingCoreExtensions"></a>ShardingCoreExtensions</h4><p>创建注册ShardingCore服务扩展方法</p>
+<p>更多配置请参考：</p>
+<p><a target="_blank" rel="noopener" href="https://xuejm.gitee.io/sharding-core-doc/guide-upgrade-5-6/#%E7%8E%B0%E5%9C%A8%E7%9A%84startup">https://xuejm.gitee.io/sharding-core-doc/guide-upgrade-5-6/#%E7%8E%B0%E5%9C%A8%E7%9A%84startup</a></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> GCT.Foundation.ShardingCore;</span><br><span class="line"><span class="keyword">using</span> GCT.Foundation.ShardingCore.Routes;</span><br><span class="line"><span class="keyword">using</span> Microsoft.EntityFrameworkCore.Migrations;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.DependencyInjection;</span><br><span class="line"><span class="keyword">using</span> ShardingCore;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCore</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">FoundationTemplateShardingCoreExtensions</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 注册ShardingCore服务.</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 配置详情见： https://xuejm.gitee.io/sharding-core-doc/guide-upgrade-5-6/#%E7%8E%B0%E5%9C%A8%E7%9A%84startup</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;services&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;dataSourceName&quot;&gt;</span>数据源名称<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;connectionString&quot;&gt;</span>连接字符串<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IServiceCollection <span class="title">ConfigureShardingCore</span>(<span class="params"><span class="keyword">this</span> IServiceCollection services, <span class="built_in">string</span> dataSourceName,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="built_in">string</span> connectionString</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            services.AddShardingDbContext&lt;FoundationTemplateDbContext&gt;()</span><br><span class="line">                .UseRouteConfig((sp, op) =&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">// ========= 注册分表路由 =========</span></span><br><span class="line">                    op.AddShardingTableRoute&lt;OrderVirtualTableRoute&gt;();</span><br><span class="line">                    op.AddShardingTableRoute&lt;SysUserVirtualTableRoute&gt;();</span><br><span class="line">                  </span><br><span class="line">                &#125;).UseConfig(op =&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">// 如何通过字符串查询创建DbContext</span></span><br><span class="line">                    op.UseShardingQuery((connStr, build) =&gt;</span><br><span class="line">                    &#123;</span><br><span class="line">                        FoundationTemplateDbContextConfigurer.Configure(build, connStr);</span><br><span class="line">                    &#125;);</span><br><span class="line">                    <span class="comment">// 如何通过事务创建DbContext</span></span><br><span class="line">                    op.UseShardingTransaction((conn, build) =&gt;</span><br><span class="line">                    &#123;</span><br><span class="line">                        FoundationTemplateDbContextConfigurer.Configure(build, conn);</span><br><span class="line">                    &#125;);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 添加默认数据源</span></span><br><span class="line">                    op.AddDefaultDataSource(dataSourceName, connectionString);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// ===如果需要迁移code-first必须要自行处理==</span></span><br><span class="line">                    op.UseShardingMigrationConfigure(conf =&gt;</span><br><span class="line">                    &#123;</span><br><span class="line">                        conf.ReplaceService&lt;IMigrationsSqlGenerator,</span><br><span class="line">                            ShardingSqlServerMigrationsSqlGenerator&lt;FoundationTemplateDbContext&gt;&gt;();</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;)</span><br><span class="line">                .AddShardingCore();</span><br><span class="line">            <span class="keyword">return</span> services;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="MigrationsSqlGenerator"><a href="#MigrationsSqlGenerator" class="headerlink" title="MigrationsSqlGenerator"></a>MigrationsSqlGenerator</h4><p>在<strong>ShardingCore</strong>目录下创建<code>ShardingSqlServerMigrationsSqlGenerator.cs</code></p>
+<p>ShardingCore - SqlServer的迁移Sql生成工具类，默认使用SqlServer</p>
+<blockquote>
+<p>支持MySQL、Oracle等其他数据库</p>
+</blockquote>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> Microsoft.EntityFrameworkCore.Metadata;</span><br><span class="line"><span class="keyword">using</span> Microsoft.EntityFrameworkCore.Migrations.Operations;</span><br><span class="line"><span class="keyword">using</span> Microsoft.EntityFrameworkCore.Migrations;</span><br><span class="line"><span class="keyword">using</span> Microsoft.EntityFrameworkCore;</span><br><span class="line"><span class="keyword">using</span> ShardingCore.Core.RuntimeContexts;</span><br><span class="line"><span class="keyword">using</span> ShardingCore.Helpers;</span><br><span class="line"><span class="keyword">using</span> ShardingCore.Sharding.Abstractions;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.EntityFrameworkCore</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ShardingSqlServerMigrationsSqlGenerator</span>&lt;<span class="title">TShardingDbContext</span>&gt; : <span class="title">SqlServerMigrationsSqlGenerator</span> <span class="keyword">where</span> <span class="title">TShardingDbContext</span> : <span class="title">GCTSharedShardingCoreDbContext</span>&lt;<span class="title">TShardingDbContext</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> IShardingRuntimeContext _shardingRuntimeContext;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ShardingSqlServerMigrationsSqlGenerator</span>(<span class="params">MigrationsSqlGeneratorDependencies dependencies, IRelationalAnnotationProvider migrationsAnnotations, IShardingRuntimeContext shardingRuntimeContext</span>) : <span class="title">base</span>(<span class="params">dependencies, migrationsAnnotations</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            _shardingRuntimeContext = shardingRuntimeContext;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Generate</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">            MigrationOperation operation,</span></span></span><br><span class="line"><span class="params"><span class="function">            IModel model,</span></span></span><br><span class="line"><span class="params"><span class="function">            MigrationCommandListBuilder builder</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> oldCmds = builder.GetCommandList().ToList();</span><br><span class="line">            <span class="keyword">base</span>.Generate(operation, model, builder);</span><br><span class="line">            <span class="keyword">var</span> newCmds = builder.GetCommandList().ToList();</span><br><span class="line">            <span class="keyword">var</span> addCmds = newCmds.Where(x =&gt; !oldCmds.Contains(x)).ToList();</span><br><span class="line"></span><br><span class="line">            MigrationHelper.Generate(_shardingRuntimeContext, operation, builder, Dependencies.SqlGenerationHelper, addCmds);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="DbContextConfigurer"><a href="#DbContextConfigurer" class="headerlink" title="DbContextConfigurer"></a>DbContextConfigurer</h4><p>调整默认的DbContext注册类，移除DbContext限制</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="deletion">-- public static void Configure(DbContextOptionsBuilder builder, string connectionString)</span></span><br><span class="line"><span class="addition">++ public static void Configure(DbContextOptionsBuilder&lt;FoundationTemplateDbContext&gt; builder, string connectionString)</span></span><br></pre></td></tr></table></figure>
+
+<p>完整如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// FoundationTemplateDbContextConfigurer.cs</span></span><br><span class="line"><span class="keyword">using</span> System.Data.Common;</span><br><span class="line"><span class="keyword">using</span> Microsoft.EntityFrameworkCore;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.Logging;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.EntityFrameworkCore</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">FoundationTemplateDbContextConfigurer</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">readonly</span> ILoggerFactory MyLoggerFactory</span><br><span class="line">            = LoggerFactory.Create(builder =&gt; &#123; builder.AddConsole(); &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Configure</span>(<span class="params">DbContextOptionsBuilder builder, <span class="built_in">string</span> connectionString</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            builder.UseSqlServer(connectionString);</span><br><span class="line"></span><br><span class="line">            ConfigureLog(builder);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Configure</span>(<span class="params">DbContextOptionsBuilder builder, DbConnection connection</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            builder.UseSqlServer(connection);</span><br><span class="line"></span><br><span class="line">            ConfigureLog(builder);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 配置日志,只在Debug模式下生效</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;builder&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">ConfigureLog</span>(<span class="params">DbContextOptionsBuilder builder</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> DEBUG</span></span><br><span class="line">            builder.UseLoggerFactory(MyLoggerFactory);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="DbContextFactory"><a href="#DbContextFactory" class="headerlink" title="DbContextFactory"></a>DbContextFactory</h4><p>调整<code>DbContextFactory</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> GCT.Foundation.Configuration;</span><br><span class="line"><span class="keyword">using</span> GCT.Foundation.Helpers;</span><br><span class="line"><span class="keyword">using</span> GCT.Foundation.ShardingCore;</span><br><span class="line"><span class="keyword">using</span> Microsoft.EntityFrameworkCore.Design;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.DependencyInjection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.EntityFrameworkCore</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* This class is needed to run &quot;dotnet ef ...&quot; commands from command line on development. Not used anywhere else */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">FoundationTemplateDbContextFactory</span> : <span class="title">IDesignTimeDbContextFactory</span>&lt;<span class="title">FoundationTemplateDbContext</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> IServiceProvider _serviceProvider;</span><br><span class="line">        [<span class="meta">Obsolete(<span class="meta-string">&quot;Obsolete&quot;</span>)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="title">FoundationTemplateDbContextFactory</span>(<span class="params"></span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> basePath = FoundationTemplateWebContentDirectoryFinder.CalculateContentRootFolder();</span><br><span class="line">            Console.WriteLine(<span class="string">&quot;工作目录：&quot;</span>);</span><br><span class="line">            Console.WriteLine(basePath);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> configuration = AppConfigurations.Get(basePath, <span class="string">&quot;Development&quot;</span>);</span><br><span class="line">            <span class="keyword">var</span> connectionString = configuration.ConnectionStringsDefault();</span><br><span class="line"></span><br><span class="line">            Console.WriteLine(<span class="string">&quot;迁移使用数据库连接字符串：&quot;</span>);</span><br><span class="line">            Console.WriteLine(connectionString);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> services = <span class="keyword">new</span> ServiceCollection();</span><br><span class="line">            services.ConfigureShardingCore(AppConsts.DefaultDataSourceName, connectionString);</span><br><span class="line">            _serviceProvider = services.BuildServiceProvider();</span><br><span class="line">        &#125;</span><br><span class="line">      </span><br><span class="line">        <span class="function"><span class="keyword">public</span> FoundationTemplateDbContext <span class="title">CreateDbContext</span>(<span class="params"><span class="built_in">string</span>[] args</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> _serviceProvider.GetService&lt;FoundationTemplateDbContext&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>目录结构如下：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20221025143100094.png" alt="image-20221025143100094"></p>
+<h2 id="注册ShardingCore"><a href="#注册ShardingCore" class="headerlink" title="注册ShardingCore"></a>注册ShardingCore</h2><h3 id="Step1：Template-Web-Host"><a href="#Step1：Template-Web-Host" class="headerlink" title="Step1：Template.Web.Host"></a>Step1：Template.Web.Host</h3><h4 id="注册ShardingCore服务"><a href="#注册ShardingCore服务" class="headerlink" title="注册ShardingCore服务"></a>注册ShardingCore服务</h4><h4 id="Startup-cs"><a href="#Startup-cs" class="headerlink" title="Startup.cs"></a>Startup.cs</h4><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Startup.cs</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> GCT.Foundation.ShardingCore;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> IServiceProvider <span class="title">ConfigureServices</span>(<span class="params">IServiceCollection services</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// ......</span></span><br><span class="line">  </span><br><span class="line">    <span class="comment">// health check ui</span></span><br><span class="line">    ConfigureHealthCheckService(services);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ShardingCore</span></span><br><span class="line">    services.ConfigureShardingCore(AppConsts.DefaultDataSourceName, Configuration.GetConnectionString(<span class="string">&quot;Default&quot;</span>));</span><br><span class="line">&#125;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span>(<span class="params">IApplicationBuilder app</span>)</span></span><br><span class="line"> &#123;</span><br><span class="line">     <span class="comment">// 基本的中间件</span></span><br><span class="line">     UseBasic(app);</span><br><span class="line"></span><br><span class="line">     <span class="comment">// Hangfire</span></span><br><span class="line">     UseHangfire(app);</span><br><span class="line"></span><br><span class="line">     <span class="comment">// ShardingCore</span></span><br><span class="line">     UseShardingCore(app);</span><br><span class="line">   </span><br><span class="line">     <span class="comment">// ... other code</span></span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 启用ShardingCore</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;app&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">UseShardingCore</span>(<span class="params">IApplicationBuilder app</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//启动ShardingCore创建表任务(不调用也可以使用ShardingCore)</span></span><br><span class="line">    <span class="comment">//不调用会导致定时任务不会开启</span></span><br><span class="line">    app.ApplicationServices.UseAutoShardingCreate();</span><br><span class="line">    <span class="comment">//启动进行表补偿(不调用也可以使用ShardingCore) 启动创建分表</span></span><br><span class="line">    <span class="comment">// app.ApplicationServices.UseAutoTryCompensateTable();</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step2：Template-Migrator"><a href="#Step2：Template-Migrator" class="headerlink" title="Step2：Template.Migrator"></a>Step2：Template.Migrator</h3><h4 id="注册ShardingCore服务-1"><a href="#注册ShardingCore服务-1" class="headerlink" title="注册ShardingCore服务"></a>注册ShardingCore服务</h4><h3 id="Startup-cs-1"><a href="#Startup-cs-1" class="headerlink" title="Startup.cs"></a>Startup.cs</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Startup.cs</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> GCT.Foundation.ShardingCore;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigurationServices</span>(<span class="params">IServiceCollection services</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> basePath = AppContext.BaseDirectory;</span><br><span class="line">    <span class="keyword">var</span> configuration = AppConfigurations.Get(basePath, <span class="string">&quot;Development&quot;</span>);</span><br><span class="line">    <span class="keyword">var</span> connectionString = configuration.ConnectionStringsDefault();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// identity</span></span><br><span class="line">    services.AddAppIdentity();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ShardingCore</span></span><br><span class="line">    services.ConfigureShardingCore(AppConsts.DefaultDataSourceName, connectionString);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// type finder</span></span><br><span class="line">    services.Add52AbpTypeFinder((options) =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// skip find</span></span><br><span class="line">        options.AddSkip&lt;FoundationDbContext&gt;();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="分表使用案例"><a href="#分表使用案例" class="headerlink" title="分表使用案例"></a>分表使用案例</h2><blockquote>
+<p>官方文档案例：<a target="_blank" rel="noopener" href="https://xuejm.gitee.io/sharding-core-doc/sharding-table/init/#">初始化 | ShardingCore文档 (gitee.io)</a></p>
+</blockquote>
+<p>创建一个ShardingCore的Demo演示功能，首先在<code>Template.Core</code>层创建<code>ShardingCoreManagement</code>目录</p>
+<p>先拟定一个场景目前有用户表<code>SysUser</code>和订单表<code>Order</code>，再添加一个<code>Setting</code>配置表</p>
+<ul>
+<li><p>SysUser用户表按用户Age进行取模分表</p>
+</li>
+<li><p>Order订单表按时间月进行分表</p>
+</li>
+<li><p>Setting配置表不进行分表</p>
+</li>
+</ul>
+<h3 id="创建实体"><a href="#创建实体" class="headerlink" title="创建实体"></a>创建实体</h3><h4 id="Order-cs"><a href="#Order-cs" class="headerlink" title="Order.cs"></a>Order.cs</h4><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> Abp.Domain.Entities;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCoreManagement</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 订单表</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Order</span> : <span class="title">Entity</span>&lt;<span class="title">int</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> Payer &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">long</span> Money &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Area &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> OrderStatusEnum OrderStatus &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> DateTime CreationTime &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="OrderStatusEnum-cs"><a href="#OrderStatusEnum-cs" class="headerlink" title="OrderStatusEnum.cs"></a>OrderStatusEnum.cs</h4><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCoreManagement</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 订单状态</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">enum</span> OrderStatusEnum</span><br><span class="line">    &#123;</span><br><span class="line">        NoPay = <span class="number">1</span>,</span><br><span class="line">        Paying = <span class="number">2</span>,</span><br><span class="line">        Payed = <span class="number">3</span>,</span><br><span class="line">        PayFail = <span class="number">4</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Setting-cs"><a href="#Setting-cs" class="headerlink" title="Setting.cs"></a>Setting.cs</h4><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Abp.Domain.Entities;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCoreManagement</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 设置表</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Setting</span> : <span class="title">Entity</span>&lt;<span class="title">int</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Code &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="SysUser-cs"><a href="#SysUser-cs" class="headerlink" title="SysUser.cs"></a>SysUser.cs</h4><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Abp.Domain.Entities;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCoreManagement</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> 用户表</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SysUser</span> : <span class="title">Entity</span>&lt;<span class="title">int</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> Age &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> SettingCode &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Area &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建领域服务"><a href="#创建领域服务" class="headerlink" title="创建领域服务"></a>创建领域服务</h3><p>在<code>ShardingCoreManagement</code>目录下创建<code>DomainService</code>目录用于存放<strong>领域服务类</strong></p>
+<h4 id="OrderManager"><a href="#OrderManager" class="headerlink" title="OrderManager"></a>OrderManager</h4><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCoreManagement.DomainService</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IOrderManager</span> : <span class="title">I52AbpDomainService</span>&lt;<span class="title">Order</span>, <span class="title">int</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCoreManagement.DomainService</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">OrderManager</span> : <span class="title">AbpDomainService</span>&lt;<span class="title">Order</span>, <span class="title">int</span>&gt;, <span class="title">IOrderManager</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">OrderManager</span>(<span class="params">IServiceProvider serviceProvider</span>) : <span class="title">base</span>(<span class="params">serviceProvider</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="SysUserManager"><a href="#SysUserManager" class="headerlink" title="SysUserManager"></a>SysUserManager</h4><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCoreManagement.DomainService</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">ISysUserManager</span> : <span class="title">I52AbpDomainService</span>&lt;<span class="title">SysUser</span>, <span class="title">int</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCoreManagement.DomainService</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SysUserManager</span> : <span class="title">AbpDomainService</span>&lt;<span class="title">SysUser</span>, <span class="title">int</span>&gt;, <span class="title">ISysUserManager</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">SysUserManager</span>(<span class="params">IServiceProvider serviceProvider</span>) : <span class="title">base</span>(<span class="params">serviceProvider</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="SettingManager"><a href="#SettingManager" class="headerlink" title="SettingManager"></a>SettingManager</h4><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCoreManagement.DomainService</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">ISettingManager</span> : <span class="title">I52AbpDomainService</span>&lt;<span class="title">Setting</span>, <span class="title">int</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCoreManagement.DomainService</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SettingManager</span> : <span class="title">AbpDomainService</span>&lt;<span class="title">Setting</span>, <span class="title">int</span>&gt;, <span class="title">ISettingManager</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">SettingManager</span>(<span class="params">IServiceProvider serviceProvider</span>) : <span class="title">base</span>(<span class="params">serviceProvider</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="注册实体"><a href="#注册实体" class="headerlink" title="注册实体"></a>注册实体</h3><p>和以往一样，在<strong>DbContext类</strong>中加入实体注册</p>
+<p>在<code>Template.EntityFrameworkCore</code>的<code>FoundationTemplateDbContext</code>中<strong>注册实体</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> GCT.Foundation.Examples.Entity;</span><br><span class="line"><span class="keyword">using</span> GCT.Foundation.ShardingCoreManagement;</span><br><span class="line"><span class="keyword">using</span> Microsoft.EntityFrameworkCore;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.EntityFrameworkCore</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">FoundationTemplateDbContext</span> : <span class="title">GCTSharedDbContextShardingCore</span>&lt;<span class="title">FoundationTemplateDbContext</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">FoundationTemplateDbContext</span>(<span class="params">DbContextOptions&lt;FoundationTemplateDbContext&gt; options</span>) : <span class="title">base</span>(<span class="params">options</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">ModelCreating</span>(<span class="params">ModelBuilder modelBuilder</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">base</span>.ModelCreating(modelBuilder);</span><br><span class="line">            </span><br><span class="line">            modelBuilder.ConfigureGCTShared();</span><br><span class="line"></span><br><span class="line">            modelBuilder.ConfigureFoundationTemplate();</span><br><span class="line">            <span class="comment">// 可选</span></span><br><span class="line">            modelBuilder.UseCollation(<span class="string">&quot;Chinese_PRC_CI_AS&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">public</span> DbSet&lt;BigData&gt; BigData &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">public</span> DbSet&lt;Commodity&gt; Commodity &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 注册新建的实体</span></span><br><span class="line">        <span class="keyword">public</span> DbSet&lt;Order&gt; Order &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> DbSet&lt;Setting&gt; Setting &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> DbSet&lt;SysUser&gt; SysUser &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建虚拟路由"><a href="#创建虚拟路由" class="headerlink" title="创建虚拟路由"></a>创建虚拟路由</h3><blockquote>
+<p>路由官方文档：<a target="_blank" rel="noopener" href="https://xuejm.gitee.io/sharding-core-doc/sharding-route/default-route/">默认路由 | ShardingCore文档 (gitee.io)</a></p>
+</blockquote>
+<blockquote>
+<p> ！！！注意：路由配置类按照<strong>约定</strong>统一放在<code>Template.EntityFrameworkCore</code>层<code>ShardingCore</code> -&gt; <code>Routes</code>目录下，</p>
+</blockquote>
+<p><img data-src="https://cdn.jonty.top/img/image-20221025150400595.png" alt="image-20221025150400595"></p>
+<p>Order订单表路由：<strong>OrderVirtualTableRoute.cs</strong></p>
+<p>这里实现的基类<code>AbstractSimpleShardingMonthKeyDateTimeVirtualTableRoute</code>按时间分表</p>
+<p>该路由为简单的<strong>按月分表路由</strong>,支持分表字段是<code>DateTime</code>,分表后的后缀为<code>yyyyMM</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> GCT.Foundation.ShardingCoreManagement;</span><br><span class="line"><span class="keyword">using</span> ShardingCore.Core.EntityMetadatas;</span><br><span class="line"><span class="keyword">using</span> ShardingCore.VirtualRoutes.Months;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCore.Routes</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">OrderVirtualTableRoute</span> : <span class="title">AbstractSimpleShardingMonthKeyDateTimeVirtualTableRoute</span>&lt;<span class="title">Order</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Configure</span>(<span class="params">EntityMetadataTableBuilder&lt;Order&gt; builder</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        builder.ShardingProperty(o =&gt; o.CreationTime);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="built_in">bool</span> <span class="title">AutoCreateTableByTime</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> DateTime <span class="title">GetBeginTime</span>(<span class="params"></span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DateTime(<span class="number">2021</span>, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>SysUser表路由：<strong>SysUserVirtualTableRoute.cs</strong></p>
+<p>继承的是<strong>Int</strong>类型取模分表路由：<strong>AbstractSimpleShardingModKeyIntVirtualTableRoute</strong></p>
+<p>该路由为简单的取模hash路由，分表字段是<code>int</code>类型，接受3个参数，第一个参数表示后缀的位数,第二位表示取模的基数，第三位是取模后缀不足的左补字符。</p>
+<blockquote>
+<p>对应的，如果取模分片字段为String类型，AbstractSimpleShardingModKeyStringVirtualTableRoute</p>
+</blockquote>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> GCT.Foundation.ShardingCoreManagement;</span><br><span class="line"><span class="keyword">using</span> ShardingCore.Core.EntityMetadatas;</span><br><span class="line"><span class="keyword">using</span> ShardingCore.VirtualRoutes.Mods;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCore.Routes</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SysUserVirtualTableRoute</span> : <span class="title">AbstractSimpleShardingModKeyIntVirtualTableRoute</span>&lt;<span class="title">SysUser</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">SysUserVirtualTableRoute</span>(<span class="params"></span>) : <span class="title">base</span>(<span class="params"><span class="number">2</span>, <span class="number">3</span></span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Configure</span>(<span class="params">EntityMetadataTableBuilder&lt;SysUser&gt; builder</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            builder.ShardingProperty(o =&gt; o.Age);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="注册分片路由"><a href="#注册分片路由" class="headerlink" title="注册分片路由"></a>注册分片路由</h3><p>在<code>FoundationTemplateShardingCoreExtensions.ConfigureShardingCore</code>中加入<strong>表分片路由配置</strong>，如下：</p>
+<p><strong>FoundationTemplateShardingCoreExtensions.cs</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> GCT.Foundation.EntityFrameworkCore;</span><br><span class="line"><span class="keyword">using</span> GCT.Foundation.ShardingCore.Routes;</span><br><span class="line"><span class="keyword">using</span> Microsoft.EntityFrameworkCore.Migrations;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.DependencyInjection;</span><br><span class="line"><span class="keyword">using</span> ShardingCore;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCore</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">FoundationTemplateShardingCoreExtensions</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 注册ShardingCore服务</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IServiceCollection <span class="title">ConfigureShardingCore</span>(<span class="params"><span class="keyword">this</span> IServiceCollection services, <span class="built_in">string</span> dataSourceName,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="built_in">string</span> connectionString</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            services.AddShardingDbContext&lt;FoundationTemplateDbContext&gt;()</span><br><span class="line">                .UseRouteConfig((sp, op) =&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                   <span class="comment">// 在这添加注册分表路由</span></span><br><span class="line">                    op.AddShardingTableRoute&lt;OrderVirtualTableRoute&gt;();</span><br><span class="line">                    op.AddShardingTableRoute&lt;SysUserVirtualTableRoute&gt;();</span><br><span class="line">                &#125;)</span><br><span class="line">              <span class="comment">// ..... other code</span></span><br><span class="line">            <span class="keyword">return</span> services;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加种子数据"><a href="#添加种子数据" class="headerlink" title="添加种子数据"></a>添加种子数据</h3><p>在Seed/Host目录下创建<code>DefaultOrderBuilder.cs</code>，如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> GCT.Foundation.EntityFrameworkCore;</span><br><span class="line"><span class="keyword">using</span> GCT.Foundation.ShardingCoreManagement;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.Seed.Host</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DefaultOrderBuilder</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> FoundationTemplateDbContext _context;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">DefaultOrderBuilder</span>(<span class="params">FoundationTemplateDbContext context</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            _context = context;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Create</span>(<span class="params"></span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> settings = <span class="keyword">new</span> List&lt;Setting&gt;(<span class="number">3</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">new</span>()</span><br><span class="line">                &#123;</span><br><span class="line">                    Code = <span class="string">&quot;Admin&quot;</span>,</span><br><span class="line">                    Name = <span class="string">&quot;AdminName&quot;</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="keyword">new</span>()</span><br><span class="line">                &#123;</span><br><span class="line">                    Code = <span class="string">&quot;User&quot;</span>,</span><br><span class="line">                    Name = <span class="string">&quot;UserName&quot;</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="keyword">new</span>()</span><br><span class="line">                &#123;</span><br><span class="line">                    Code = <span class="string">&quot;SuperAdmin&quot;</span>,</span><br><span class="line">                    Name = <span class="string">&quot;SuperAdminName&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="keyword">var</span> users = <span class="keyword">new</span> List&lt;SysUser&gt;(<span class="number">10</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> uer = <span class="keyword">new</span> SysUser()</span><br><span class="line">                &#123;</span><br><span class="line">                    Age = i,</span><br><span class="line">                    Name = <span class="string">$&quot;MyName<span class="subst">&#123;i&#125;</span>&quot;</span>,</span><br><span class="line">                    SettingCode = settings[i % <span class="number">3</span>].Code</span><br><span class="line">                &#125;;</span><br><span class="line">                users.Add(uer);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">var</span> orders = <span class="keyword">new</span> List&lt;Order&gt;(<span class="number">300</span>);</span><br><span class="line">            <span class="keyword">var</span> begin = <span class="keyword">new</span> DateTime(<span class="number">2021</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">300</span>; i++)</span><br><span class="line">            &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> order = <span class="keyword">new</span> Order()</span><br><span class="line">                &#123;</span><br><span class="line">                    Payer = i % <span class="number">10</span>,</span><br><span class="line">                    Money = <span class="number">100</span> + <span class="keyword">new</span> Random().Next(<span class="number">100</span>, <span class="number">3000</span>),</span><br><span class="line">                    OrderStatus = (OrderStatusEnum)(i % <span class="number">4</span> + <span class="number">1</span>),</span><br><span class="line">                    CreationTime = begin.AddDays(i)</span><br><span class="line">                &#125;;</span><br><span class="line">                orders.Add(order);</span><br><span class="line">            &#125;</span><br><span class="line">            _context.AddRange(settings);</span><br><span class="line">            _context.AddRange(users);</span><br><span class="line">            _context.AddRange(orders);</span><br><span class="line">            _context.SaveChanges();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>InitialHostDbBuilder.cs</code>添加调用</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> GCT.Foundation.EntityFrameworkCore;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.Seed.Host</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">InitialHostDbBuilder</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> FoundationTemplateDbContext _context;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">InitialHostDbBuilder</span>(<span class="params">FoundationTemplateDbContext context</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            _context = context;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Create</span>(<span class="params"></span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 创建测试种子数据</span></span><br><span class="line">            <span class="keyword">new</span> DefaultOrderBuilder(_context).Create();</span><br><span class="line">            _context.SaveChanges();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建迁移"><a href="#创建迁移" class="headerlink" title="创建迁移"></a>创建迁移</h3><p>按正常步骤执行迁移</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Add-Migration Use-Sharding</span><br><span class="line">Update-Database</span><br></pre></td></tr></table></figure>
+
+<p>分表后如下：</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20221025155658434.png" alt="image-20221025155658434"></p>
+<p><img data-src="https://cdn.jonty.top/img/sharding-table.png" alt="img"></p>
+<h3 id="CRUD"><a href="#CRUD" class="headerlink" title="CRUD"></a>CRUD</h3><blockquote>
+<p>增删改查除了查询稍微在分表+排序的情况下需要注意其实其他操作和efcore基本上一致</p>
+</blockquote>
+<h4 id="查询示例"><a href="#查询示例" class="headerlink" title="查询示例"></a>查询示例</h4><p>在<code>Template.Application</code>层创建<code>ShardingCoreTestAppService.cs</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"><span class="keyword">using</span> Abp.Domain.Repositories;</span><br><span class="line"><span class="keyword">using</span> GCT.Foundation.ShardingCoreManagement;</span><br><span class="line"><span class="keyword">using</span> GCT.Foundation.ShardingCoreManagement.DomainService;</span><br><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Mvc;</span><br><span class="line"><span class="keyword">using</span> Microsoft.EntityFrameworkCore;</span><br><span class="line"><span class="keyword">using</span> Newtonsoft.Json;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">GCT.Foundation.ShardingCoreTest</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ShardingCoreTestAppService</span> : <span class="title">FoundationTemplateAppServiceBase</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> OrderManager _orderManager;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> SysUserManager _sysUserManager;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> SettingManager _settingManager;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ShardingCoreTestAppService</span>(<span class="params">OrderManager orderManager,</span></span></span><br><span class="line"><span class="params"><span class="function">            SysUserManager sysUserManager,</span></span></span><br><span class="line"><span class="params"><span class="function">            SettingManager settingManager</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            _orderManager = orderManager;</span><br><span class="line">            _sysUserManager = sysUserManager;</span><br><span class="line">            _settingManager = settingManager;</span><br><span class="line">        &#125;</span><br><span class="line">      </span><br><span class="line">        <span class="comment">/*private readonly IRepository&lt;Order, int&gt; _orderRepository;</span></span><br><span class="line"><span class="comment">        public ShardingCoreTestAppService(IRepository&lt;Order, int&gt; orderRepository)</span></span><br><span class="line"><span class="comment">        &#123;</span></span><br><span class="line"><span class="comment">            _orderRepository = orderRepository;</span></span><br><span class="line"><span class="comment">        &#125;*/</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="单对象查询"><a href="#单对象查询" class="headerlink" title="单对象查询"></a>单对象查询</h5><p><a target="_blank" rel="noopener" href="https://xuejm.gitee.io/sharding-core-doc/query/single-entity-query/">官方文档单对象查询 | ShardingCore文档 (gitee.io)</a></p>
+<p>和efcore原生查询没有任何区别,支持未分表下的所有操作</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 单对象简单查询</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;Order&gt; <span class="title">GetOrder</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> order = <span class="keyword">await</span> _orderManager.QueryAsNoTracking.FirstOrDefaultAsync(o =&gt; o.Id == <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> order;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 单对象简单查询</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;List&lt;Order&gt;&gt; GetOrderList()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> dateTime = <span class="keyword">new</span> DateTime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">5</span>);</span><br><span class="line">    <span class="keyword">var</span> orders = <span class="keyword">await</span> _orderManager.QueryAsNoTracking.Where(x =&gt; x.CreationTime &gt;= dateTime).ToListAsync();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> orders;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20221025161642236.png" alt="image-20221025161642236"></p>
+<h5 id="连表查询"><a href="#连表查询" class="headerlink" title="连表查询"></a>连表查询</h5><blockquote>
+<p>默认不推荐<code>include</code>，分表对象+分表、分表对象+分表对象都是在ShardingCore内被支持的，支持的形式为join, 默认推荐join组合而不是include</p>
+</blockquote>
+<p><strong>分表join不分表</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 分表Join不分表</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">[<span class="meta">HttpGet</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;<span class="built_in">string</span>&gt; <span class="title">QueryJoin</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> query = <span class="keyword">from</span> user <span class="keyword">in</span> _sysUserManager.QueryAsNoTracking.Where(o =&gt; o.Id == <span class="number">1</span> || o.Id == <span class="number">6</span>)</span><br><span class="line">                <span class="keyword">join</span> setting <span class="keyword">in</span> _settingManager.QueryAsNoTracking <span class="keyword">on</span> user.SettingCode <span class="keyword">equals</span> setting.Code</span><br><span class="line">        <span class="keyword">select</span> <span class="keyword">new</span></span><br><span class="line">        &#123;</span><br><span class="line">            user.Id,</span><br><span class="line">            user.Name,</span><br><span class="line">            user.Area,</span><br><span class="line">            user.SettingCode,</span><br><span class="line">            SettingName = setting.Name,</span><br><span class="line">        &#125;;</span><br><span class="line">    <span class="keyword">await</span> query.ToListAsync();</span><br><span class="line">    <span class="keyword">return</span> JsonConvert.SerializeObject(query);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20221025162314303.png" alt="image-20221025162314303"></p>
+<p><strong>分表join分表</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 分表join分表</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;returns&gt;</span><span class="doctag">&lt;/returns&gt;</span></span></span><br><span class="line">[<span class="meta">HttpGet</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;<span class="built_in">string</span>&gt; <span class="title">QueryJoin2</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> begin = <span class="keyword">new</span> DateTime(<span class="number">2021</span>, <span class="number">3</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">var</span> end = <span class="keyword">new</span> DateTime(<span class="number">2021</span>, <span class="number">4</span>, <span class="number">3</span>);</span><br><span class="line">    <span class="keyword">var</span> sql1 = <span class="keyword">from</span> user <span class="keyword">in</span>  _sysUserManager.QueryAsNoTracking.Where(o =&gt; o.Id == <span class="number">1</span> || o.Id == <span class="number">6</span>)</span><br><span class="line">        <span class="keyword">join</span> order <span class="keyword">in</span> _orderManager.QueryAsNoTracking.Where(o =&gt; o.CreationTime &gt;= begin &amp;&amp; o.CreationTime &lt;= end)</span><br><span class="line">            <span class="keyword">on</span> user.Id <span class="keyword">equals</span> order.Payer</span><br><span class="line">        <span class="keyword">select</span> <span class="keyword">new</span></span><br><span class="line">        &#123;</span><br><span class="line">            user.Id,</span><br><span class="line">            user.Name,</span><br><span class="line">            user.Area,</span><br><span class="line">            user.SettingCode,</span><br><span class="line">            OrderId = order.Id,</span><br><span class="line">            order.Payer,</span><br><span class="line">            order.CreationTime</span><br><span class="line">        &#125;;</span><br><span class="line">    <span class="keyword">return</span> JsonConvert.SerializeObject(<span class="keyword">await</span> sql1.ToListAsync());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/image-20221025162513321.png" alt="image-20221025162513321"></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20221025162715517.png" alt="image-20221025162715517"></p>
+<h4 id="修改示例"><a href="#修改示例" class="headerlink" title="修改示例"></a>修改示例</h4><h5 id="自动追踪修改"><a href="#自动追踪修改" class="headerlink" title="自动追踪修改"></a>自动追踪修改</h5><p>追踪情况下sharding-core依然可以对结果进行修改，修改的字段是被修改过后的字段</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">UpdateUser</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> sysUser = <span class="keyword">await</span> _sysUserManager.Query.FirstOrDefaultAsync(x =&gt; x.Id == <span class="number">1</span>);</span><br><span class="line">    sysUser.Name = <span class="string">&quot;new Name&quot;</span>;</span><br><span class="line">    <span class="keyword">await</span> _sysUserManager.Update(sysUser);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="非自动追踪修改"><a href="#非自动追踪修改" class="headerlink" title="非自动追踪修改"></a>非自动追踪修改</h5><p>非追踪情况下sharding-croe也支持查询修改，但是修改的字段是全字段</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">UpdateUserAsNoTracking</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> sysUser = <span class="keyword">await</span> _sysUserManager.QueryAsNoTracking.FirstOrDefaultAsync(x =&gt; x.Id == <span class="number">1</span>);</span><br><span class="line">    sysUser.Name = <span class="string">&quot;new Name&quot;</span>;</span><br><span class="line">    <span class="keyword">await</span> _sysUserManager.Update(sysUser);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="删除示例"><a href="#删除示例" class="headerlink" title="删除示例"></a>删除示例</h4><p>下面操作会将所有分表中<code>id==7</code>的数据删除</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">DeleteUser</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">await</span> _sysUserManager.Delete(x =&gt; x.Id == <span class="number">7</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><blockquote>
+<p>sharding table key:Id is not ValueGenerated.Never</p>
+</blockquote>
+<p>分片是获取插入数据的分片键，然后通过路由插入到具体的数据库，<strong>分片键不可以为自增id，必须是没有生成策略的</strong></p>
+<blockquote>
+<p>使用外键报错</p>
+</blockquote>
+<p>建议在使用外键的时候如果是主表也是分表的情况下最好的情况就是<strong>取消外键</strong></p>
+<h2 id="ShardingCore-多租户"><a href="#ShardingCore-多租户" class="headerlink" title="ShardingCore 多租户"></a>ShardingCore 多租户</h2><p>当前分库分表情况：</p>
+<ul>
+<li>非多租户模式，全部通顺，功能正常</li>
+<li>多租户模式，不支持，需要修改实现完成功能</li>
+</ul>
+<h3 id="ShardingCore的设计时如何支持多租户模式"><a href="#ShardingCore的设计时如何支持多租户模式" class="headerlink" title="ShardingCore的设计时如何支持多租户模式"></a>ShardingCore的设计时如何支持多租户模式</h3><ul>
+<li>IVirtualDataSourceManager ,虚拟数据源管理，存储数据库连接字符串配置<ul>
+<li>添加数据源配置<ul>
+<li> DynamicShardingHelper.DynamicAppendVirtualDataSourceConfig(new SqlShardingConfiguration(shardingTenantOptions));</li>
+</ul>
+</li>
+<li>切换数据源配置<ul>
+<li>virtualDataSourceManager.CreateScope(数据源标识)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何结合Abp工作单元"><a href="#如何结合Abp工作单元" class="headerlink" title="如何结合Abp工作单元"></a>如何结合Abp工作单元</h3><ul>
+<li>加载查询当前数据库中的租户数据配置</li>
+<li>创建工作单元时，指定租户id（数据源标识）</li>
+<li>当前工作单元切换租户时，指定租户id（数据源标识）</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\03\23\blazor-server-basic-tutorial\" rel="bookmark">Blazor系列文章目录</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\03\23\razor-components\" rel="bookmark">【Blazor-04】- Razor组件</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\03\23\blazor-project-structure\" rel="bookmark">【Blazor-03】- Blazor项目结构</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\03\23\blazor-hosting-models\" rel="bookmark">【Blazor-02】- Blazor的托管模型</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\02\15\what-is-blazor\" rel="bookmark">【Blazor-01】-什么是Blazor?</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Abp/" rel="tag"># Abp</a>
+              <a href="/tags/ASP-NET-Core/" rel="tag"># ASP.NET Core</a>
+              <a href="/tags/ShardingCore/" rel="tag"># ShardingCore</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/04/12/how-to-change-docker-data-folder-configuration/" rel="prev" title="Docker-修改docker数据存储目录">
+                  <i class="fa fa-chevron-left"></i> Docker-修改docker数据存储目录
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fab fa-battle-net"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JontyWang</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">309k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:41</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+<span id="times">载入天数...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("09/08/2021 13:14:21");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("times").innerHTML = "本站已安全运行 "+dnum+" 天 " +hnum + " 小时 " + mnum + " 分 " + snum + " 秒 ✌";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2023/04/21/aspnetboilerplate-shardingcore/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
