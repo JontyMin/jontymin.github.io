@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2023/03/23/blazor-server-basic-tutorial/</loc>
+    <lastmod>2023-04-26</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2023/04/26/blazor-component/</loc>
+    <lastmod>2023-04-26</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2023/04/26/blazor-model-classes/</loc>
+    <lastmod>2023-04-26</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2023/04/26/split-razor-component/</loc>
+    <lastmod>2023-04-26</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2023/04/21/aspnetboilerplate-shardingcore/</loc>
     <lastmod>2023-04-21</lastmod>
   </url>
@@ -26,10 +42,6 @@
   </url>
   <url>
     <loc>https://jonty.top/2023/03/23/blazor-hosting-models/</loc>
-    <lastmod>2023-03-23</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2023/03/23/blazor-server-basic-tutorial/</loc>
     <lastmod>2023-03-23</lastmod>
   </url>
   <url>
