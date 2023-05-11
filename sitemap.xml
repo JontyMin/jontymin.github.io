@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://jonty.top/2023/05/11/docker-keeplived-vip-ip/</loc>
+    <loc>https://jonty.top/2023/05/11/docker-keepalived-vip-ip/</loc>
     
     <lastmod>2023-05-11</lastmod>
     
@@ -459,13 +459,6 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/QA/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://jonty.top/tags/C/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>daily</changefreq>
@@ -481,6 +474,13 @@
   
   <url>
     <loc>https://jonty.top/tags/ASP-NET-Core/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/QA/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -515,6 +515,27 @@
   </url>
   
   <url>
+    <loc>https://jonty.top/tags/WinForm/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Print/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/NET/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/tags/Github/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>daily</changefreq>
@@ -536,42 +557,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/NET/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://jonty.top/tags/CSharp/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/WinForm/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Print/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/DBA/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/%E8%B0%83%E4%BC%98/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -613,6 +599,13 @@
   </url>
   
   <url>
+    <loc>https://jonty.top/tags/Keepalived/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jonty.top/tags/Nexus/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>daily</changefreq>
@@ -628,6 +621,20 @@
   
   <url>
     <loc>https://jonty.top/tags/Nginx/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/DBA/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/%E8%B0%83%E4%BC%98/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -655,13 +662,6 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Linux/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://jonty.top/tags/Frp/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>daily</changefreq>
@@ -676,7 +676,14 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Swarm/</loc>
+    <loc>https://jonty.top/tags/Git/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Linux/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -697,7 +704,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Git/</loc>
+    <loc>https://jonty.top/tags/Swarm/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -719,6 +726,27 @@
   
   <url>
     <loc>https://jonty.top/tags/Observable/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Jira/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/Oracle/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jonty.top/tags/RAC/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -760,28 +788,7 @@
   </url>
   
   <url>
-    <loc>https://jonty.top/tags/Jira/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://jonty.top/tags/RedHat/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/Oracle/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jonty.top/tags/RAC/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
