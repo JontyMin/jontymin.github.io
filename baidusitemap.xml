@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2023/05/11/docker-keeplived-vip-ip/</loc>
+    <lastmod>2023-05-11</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2023/05/11/use-docker-register-gitlab-runner/</loc>
+    <lastmod>2023-05-11</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2023/05/11/gitlab-runner-intranet-job/</loc>
+    <lastmod>2023-05-11</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2023/05/04/git-tips/</loc>
     <lastmod>2023-05-04</lastmod>
   </url>
