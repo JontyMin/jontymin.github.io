@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2023/05/15/travelogue-henan-baoquan/</loc>
+    <lastmod>2023-05-15</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/01/29/My-first-three-years-at-ThoughtWorks/</loc>
+    <lastmod>2023-05-15</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2023/05/15/coolshell/</loc>
+    <lastmod>2023-05-15</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2023/05/11/docker-keepalived-vip-ip/</loc>
     <lastmod>2023-05-11</lastmod>
   </url>
@@ -158,10 +170,6 @@
   </url>
   <url>
     <loc>https://jonty.top/2021/11/09/rhel-install-oracle-11g-r2/</loc>
-    <lastmod>2022-07-24</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/01/29/My-first-three-years-at-ThoughtWorks/</loc>
     <lastmod>2022-07-24</lastmod>
   </url>
   <url>
