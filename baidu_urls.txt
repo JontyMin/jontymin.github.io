@@ -1,5 +1,5 @@
-https://jonty.top/2023/06/09/air-conditioner/
+https://jonty.top/2023/06/09/redis-distributed-locking/
+https://jonty.top/2023/06/01/air-conditioner/
 https://jonty.top/2023/05/15/travelogue-henan-baoquan/
 https://jonty.top/2023/05/15/coolshell/
 https://jonty.top/2023/05/11/docker-keepalived-vip-ip/
-https://jonty.top/2023/05/11/use-docker-register-gitlab-runner/

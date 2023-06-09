@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jonty.top/2023/02/15/blazor-server-basic-tutorial/</loc>
+    <loc>https://jonty.top/2023/06/01/air-conditioner/</loc>
     <lastmod>2023-06-09</lastmod>
   </url>
   <url>
-    <loc>https://jonty.top/2023/06/09/air-conditioner/</loc>
+    <loc>https://jonty.top/2023/06/09/redis-distributed-locking/</loc>
+    <lastmod>2023-06-09</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2023/02/15/blazor-server-basic-tutorial/</loc>
     <lastmod>2023-06-09</lastmod>
   </url>
   <url>
