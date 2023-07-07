@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2023/07/07/ubuntu-docker-deploy-gitlab/</loc>
+    <lastmod>2023-07-07</lastmod>
+  </url>
+  <url>
+    <loc>https://jonty.top/2022/06/30/docker-gitlab-can-not-send-email-after-migration/</loc>
+    <lastmod>2023-07-07</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2023/06/01/air-conditioner/</loc>
     <lastmod>2023-06-09</lastmod>
   </url>
@@ -234,10 +242,6 @@
   </url>
   <url>
     <loc>https://jonty.top/2021/11/29/about-leap-year/</loc>
-    <lastmod>2022-07-12</lastmod>
-  </url>
-  <url>
-    <loc>https://jonty.top/2022/06/30/docker-gitlab-can-not-send-email-after-migration/</loc>
     <lastmod>2022-07-12</lastmod>
   </url>
   <url>

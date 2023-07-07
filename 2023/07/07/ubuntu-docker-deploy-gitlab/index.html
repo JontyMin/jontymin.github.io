@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="WSIOb3JOJfAsz23EBri68OoFPPfXmPefVY8l9LWiuuQ">
+  <meta name="msvalidate.01" content="BEA1533D8925BA7876293C434544D574">
+  <meta name="baidu-site-verification" content="code-xBDMwADkQe">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=ZCOOL+XiaoWei:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"jonty.top","root":"/","images":"/images","scheme":"Mist","version":"8.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":true,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Ubuntu-使用Docker搭建私有代码托管平台">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker搭建私有Gitlab">
+<meta property="og:url" content="https://jonty.top/2023/07/07/ubuntu-docker-deploy-gitlab/index.html">
+<meta property="og:site_name" content="Jonty Blog">
+<meta property="og:description" content="Ubuntu-使用Docker搭建私有代码托管平台">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jonty.top/img/R-C.ecb6c01c3a955a63337b4c624a15276f.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230627171654621.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/e99130ce801b913b2cbbb91ea574a47acada0f9b_2_690x330.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/1de1524fbe6f86e2a11e81a11d41d22850e0e3fe_2_690x388.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230627174050150.png">
+<meta property="og:image" content="https://cdn.jonty.top/img/image-20230627174223096.png">
+<meta property="article:published_time" content="2023-07-07T01:39:28.000Z">
+<meta property="article:modified_time" content="2023-07-07T02:19:08.873Z">
+<meta property="article:author" content="JontyWang">
+<meta property="article:tag" content="Gitlab">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jonty.top/img/R-C.ecb6c01c3a955a63337b4c624a15276f.png">
+
+
+<link rel="canonical" href="https://jonty.top/2023/07/07/ubuntu-docker-deploy-gitlab/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://jonty.top/2023/07/07/ubuntu-docker-deploy-gitlab/","path":"2023/07/07/ubuntu-docker-deploy-gitlab/","title":"Docker搭建私有Gitlab"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Docker搭建私有Gitlab | Jonty Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?276415dc0899b092905c4c2730a113a8"></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Jonty Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Jonty Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录搬砖生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E8%AE%B8%E5%8F%AF%E8%AF%81"><span class="nav-number">2.</span> <span class="nav-text">生成许可证</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="JontyWang"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">JontyWang</p>
+  <div class="site-description" itemprop="description">莫道桑榆晚，为霞尚满天</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JontyMin" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JontyMin" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:amazing4677@gmail.com" title="E-Mail → mailto:amazing4677@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/users/14014911/jonty" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;users&#x2F;14014911&#x2F;jonty" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>StackOverflow</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://jontymin.github.io/" title="https:&#x2F;&#x2F;jontymin.github.io&#x2F;" rel="noopener" target="_blank">Github</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://my_netinlove.gitee.io/" title="https:&#x2F;&#x2F;my_netinlove.gitee.io&#x2F;" rel="noopener" target="_blank">Gitee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://space.bilibili.com/179850046" title="https:&#x2F;&#x2F;space.bilibili.com&#x2F;179850046" rel="noopener" target="_blank">Bilibili</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/JontyWang/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;JontyWang&#x2F;" rel="noopener" target="_blank">我的园子</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://ldqk.xyz/" title="https:&#x2F;&#x2F;ldqk.xyz&#x2F;" rel="noopener" target="_blank">懒得勤快</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://coolshell.cn/" title="https:&#x2F;&#x2F;coolshell.cn&#x2F;" rel="noopener" target="_blank">CoolShell</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://luciferliu.blog.csdn.net/" title="https:&#x2F;&#x2F;luciferliu.blog.csdn.net&#x2F;" rel="noopener" target="_blank">Lucifer三思而后行</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cnblogs.com/edisonchou/" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;edisonchou&#x2F;" rel="noopener" target="_blank">EdisonZhou</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.aliyun.com/minisite/goods?userCode=b0skjdai&share_source=copy_link" title="https:&#x2F;&#x2F;www.aliyun.com&#x2F;minisite&#x2F;goods?userCode&#x3D;b0skjdai&amp;share_source&#x3D;copy_link" rel="noopener" target="_blank">Aliyun</a>
+        </li>
+    </ul>
+  </div>
+
+      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=543747557&auto=1&height=66"></iframe>
+
+          </div>
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+
+  </aside>
+  <div class="sidebar-dimmer">
+  
+  </div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://jonty.top/2023/07/07/ubuntu-docker-deploy-gitlab/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="JontyWang">
+      <meta itemprop="description" content="莫道桑榆晚，为霞尚满天">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jonty Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker搭建私有Gitlab
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-07-07 09:39:28 / 修改时间：10:19:08" itemprop="dateCreated datePublished" datetime="2023-07-07T09:39:28+08:00">2023-07-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">Ubuntu-使用Docker搭建私有代码托管平台</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img data-src="https://cdn.jonty.top/img/R-C.ecb6c01c3a955a63337b4c624a15276f.png" alt="gitlab"></p>
+<div class="note info"><p>GitLab is the only place where enterprises build mission‑critical software.</p>
+</div>
+
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>创建目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /root/gitlab/config/ssl</span><br><span class="line">mkdir /root/gitlab/logs</span><br><span class="line">mkdir /root/gitlab/data</span><br></pre></td></tr></table></figure>
+
+<p>阿里云申请ssl证书，下载Nginx版本</p>
+<p>解压到<code>/root/gitlab/config/ssl</code>目录</p>
+<p><code>pem</code>后缀改成<code>crt</code></p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230627171654621.png" alt="image-20230627171654621"></p>
+<p>创建<code>docker-compose.yaml</code>文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">&#x27;3&#x27;</span></span><br><span class="line">services:</span><br><span class="line">  gitlab:</span><br><span class="line">    environment:</span><br><span class="line">      GITLAB_OMNIBUS_CONFIG: |</span><br><span class="line">        external_url <span class="string">&#x27;https://gitlab.jonty.top&#x27;</span></span><br><span class="line">        nginx[<span class="string">&#x27;listen_port&#x27;</span>] = 443</span><br><span class="line">        nginx[<span class="string">&#x27;redirect_http_to_https&#x27;</span>] = <span class="literal">true</span></span><br><span class="line">        nginx[<span class="string">&#x27;ssl_certificate&#x27;</span>] = <span class="string">&quot;/etc/gitlab/ssl/gitlab.jonty.top.crt&quot;</span></span><br><span class="line">        nginx[<span class="string">&#x27;ssl_certificate_key&#x27;</span>] = <span class="string">&quot;/etc/gitlab/ssl/gitlab.jonty.top.key&quot;</span></span><br><span class="line"></span><br><span class="line">        gitlab_rails[<span class="string">&#x27;smtp_enable&#x27;</span>] = <span class="literal">true</span></span><br><span class="line">        gitlab_rails[<span class="string">&#x27;smtp_address&#x27;</span>] = <span class="string">&quot;smtp.qq.com&quot;</span></span><br><span class="line">        gitlab_rails[<span class="string">&#x27;smtp_port&#x27;</span>] = 465</span><br><span class="line">        gitlab_rails[<span class="string">&#x27;smtp_user_name&#x27;</span>] = <span class="string">&quot;501211312@qq.com&quot;</span></span><br><span class="line">        gitlab_rails[<span class="string">&#x27;smtp_password&#x27;</span>] = <span class="string">&quot;your_passwork_key&quot;</span></span><br><span class="line">        gitlab_rails[<span class="string">&#x27;smtp_authentication&#x27;</span>] = <span class="string">&quot;login&quot;</span></span><br><span class="line">        gitlab_rails[<span class="string">&#x27;smtp_enable_starttls_auto&#x27;</span>] = <span class="literal">false</span></span><br><span class="line">        gitlab_rails[<span class="string">&#x27;smtp_tls&#x27;</span>] = <span class="literal">true</span></span><br><span class="line">        gitlab_rails[<span class="string">&#x27;gitlab_email_from&#x27;</span>] = <span class="string">&#x27;gitlab.jonty.top&#x27;</span></span><br><span class="line">        gitlab_rails[<span class="string">&#x27;smtp_domain&#x27;</span>] = <span class="string">&quot;smtp.qq.com&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    container_name: gitlab</span><br><span class="line">    ports:</span><br><span class="line">      - 80:80</span><br><span class="line">      - 443:443</span><br><span class="line">    image: gitlab/gitlab-ee:latest</span><br><span class="line">    restart: always</span><br><span class="line">    volumes:</span><br><span class="line">      - /root/gitlab/config:/etc/gitlab</span><br><span class="line">      - /root/gitlab/logs:/var/<span class="built_in">log</span>/gitlab</span><br><span class="line">      - /root/gitlab/data:/var/opt/gitlab</span><br><span class="line">    networks:</span><br><span class="line">      - internal-network</span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">  internal-network:</span><br><span class="line">    external: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
+
+
+
+<p>进入容器查看初始密码，账号为：root</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it gitlab /bin/bash</span><br><span class="line">cat /etc/gitlab/initial_root_password</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="https://cdn.jonty.top/img/e99130ce801b913b2cbbb91ea574a47acada0f9b_2_690x330.png" alt="image"></p>
+<p><img data-src="https://cdn.jonty.top/img/1de1524fbe6f86e2a11e81a11d41d22850e0e3fe_2_690x388.png" alt="image"></p>
+<h2 id="生成许可证"><a href="#生成许可证" class="headerlink" title="生成许可证"></a>生成许可证</h2><blockquote>
+<p>安装Ruby:<a target="_blank" rel="noopener" href="https://www.cnblogs.com/livelab/p/12960670.html">如何在Ubuntu 20.04上安装Ruby2.7.0 - GlaryJoker - 博客园 (cnblogs.com)</a></p>
+</blockquote>
+<p>安装Ruby</p>
+<p>版本大于2.7</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install ruby-full</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看版本</span></span><br><span class="line">root@gitlab:/home/jonty/gitlab<span class="comment"># ruby -v</span></span><br><span class="line">ruby 2.7.0p0 (2019-12-25 revision 647ee6f091) [x86_64-linux-gnu]</span><br></pre></td></tr></table></figure>
+
+<p>安装gitlab-license</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install gitlab-license</span><br></pre></td></tr></table></figure>
+
+<p>创建目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /root/gitlab/license &amp; <span class="built_in">cd</span></span><br></pre></td></tr></table></figure>
+
+<p>创建<code>license.rb</code>文件</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">require &quot;openssl&quot;</span><br><span class="line">require &quot;gitlab/license&quot;</span><br><span class="line">key<span class="built_in">_</span>pair = OpenSSL::PKey::RSA.generate(2048)</span><br><span class="line">File.open(&quot;license<span class="built_in">_</span>key&quot;, &quot;w&quot;) &#123; |f| f.write(key<span class="built_in">_</span>pair.to<span class="built_in">_</span>pem) &#125;</span><br><span class="line">public<span class="built_in">_</span>key = key<span class="built_in">_</span>pair.public<span class="built_in">_</span>key</span><br><span class="line">File.open(&quot;license<span class="built_in">_</span>key.pub&quot;, &quot;w&quot;) &#123; |f| f.write(public<span class="built_in">_</span>key.to<span class="built_in">_</span>pem) &#125;</span><br><span class="line">private<span class="built_in">_</span>key = OpenSSL::PKey::RSA.new File.read(&quot;license<span class="built_in">_</span>key&quot;)</span><br><span class="line">Gitlab::License.encryption<span class="built_in">_</span>key = private<span class="built_in">_</span>key</span><br><span class="line">license = Gitlab::License.new</span><br><span class="line">license.licensee = &#123;</span><br><span class="line">&quot;Name&quot; =&gt; &quot;Jonty&quot;,</span><br><span class="line">&quot;Company&quot; =&gt; &quot;Jonty.tEd&quot;,</span><br><span class="line">&quot;Email&quot; =&gt; &quot;gitlab@jonty.top&quot;,</span><br><span class="line">&#125;</span><br><span class="line">license.starts<span class="built_in">_</span>at = Date.new(2021, 1, 1) <span class="params">#</span> 开始时间</span><br><span class="line">license.expires<span class="built_in">_</span>at = Date.new(2050, 1, 1) <span class="params">#</span> 结束时间</span><br><span class="line">license.notify<span class="built_in">_</span>admins<span class="built_in">_</span>at = Date.new(2049, 12, 1)</span><br><span class="line">license.notify<span class="built_in">_</span>users<span class="built_in">_</span>at = Date.new(2049, 12, 1)</span><br><span class="line">license.block<span class="built_in">_</span>changes<span class="built_in">_</span>at = Date.new(2050, 1, 1)</span><br><span class="line">license.restrictions = &#123;</span><br><span class="line">active<span class="built_in">_</span>user<span class="built_in">_</span>count: 10000,</span><br><span class="line">&#125;</span><br><span class="line">puts &quot;License:&quot;</span><br><span class="line">puts license</span><br><span class="line">data = license.export</span><br><span class="line">puts &quot;Exported license:&quot;</span><br><span class="line">puts data</span><br><span class="line">File.open(&quot;GitLabBV.gitlab-license&quot;, &quot;w&quot;) &#123; |f| f.write(data) &#125;</span><br><span class="line">public<span class="built_in">_</span>key = OpenSSL::PKey::RSA.new File.read(&quot;license<span class="built_in">_</span>key.pub&quot;)</span><br><span class="line">Gitlab::License.encryption<span class="built_in">_</span>key = public<span class="built_in">_</span>key</span><br><span class="line">data = File.read(&quot;GitLabBV.gitlab-license&quot;)</span><br><span class="line"><span class="built_in">$</span>license = Gitlab::License.import(data)</span><br><span class="line">puts &quot;Imported license:&quot;</span><br><span class="line">puts <span class="built_in">$</span>license</span><br><span class="line">unless <span class="built_in">$</span>license</span><br><span class="line">raise &quot;The license is invalid.&quot;</span><br><span class="line">end</span><br><span class="line">if <span class="built_in">$</span>license.restricted?(:active<span class="built_in">_</span>user<span class="built_in">_</span>count)</span><br><span class="line">active<span class="built_in">_</span>user<span class="built_in">_</span>count = 10000</span><br><span class="line">if active<span class="built_in">_</span>user<span class="built_in">_</span>count &gt; <span class="built_in">$</span>license.restrictions[:active<span class="built_in">_</span>user<span class="built_in">_</span>count]</span><br><span class="line">    raise &quot;The active user count exceeds the allowed amount!&quot;</span><br><span class="line">end</span><br><span class="line">end</span><br><span class="line">if <span class="built_in">$</span>license.notify<span class="built_in">_</span>admins?</span><br><span class="line">puts &quot;The license is due to expire on <span class="params">#</span>&#123;<span class="built_in">$</span>license.expires<span class="built_in">_</span>at&#125;.&quot;</span><br><span class="line">end</span><br><span class="line">if <span class="built_in">$</span>license.notify<span class="built_in">_</span>users?</span><br><span class="line">puts &quot;The license is due to expire on <span class="params">#</span>&#123;<span class="built_in">$</span>license.expires<span class="built_in">_</span>at&#125;.&quot;</span><br><span class="line">end</span><br><span class="line">module Gitlab</span><br><span class="line">class GitAccess</span><br><span class="line">    def check(cmd, changes = nil)</span><br><span class="line">    if <span class="built_in">$</span>license.block<span class="built_in">_</span>changes?</span><br><span class="line">        return build<span class="built_in">_</span>status<span class="built_in">_</span>object(false, &quot;License expired&quot;)</span><br><span class="line">    end</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line">end</span><br><span class="line">puts &quot;This instance of GitLab Enterprise Edition is licensed to:&quot;</span><br><span class="line"><span class="built_in">$</span>license.licensee.each do |key, value|</span><br><span class="line">puts &quot;<span class="params">#</span>&#123;key&#125;: <span class="params">#</span>&#123;value&#125;&quot;</span><br><span class="line">end</span><br><span class="line">if <span class="built_in">$</span>license.expired?</span><br><span class="line">puts &quot;The license expired on <span class="params">#</span>&#123;<span class="built_in">$</span>license.expires<span class="built_in">_</span>at&#125;&quot;</span><br><span class="line">elsif <span class="built_in">$</span>license.will<span class="built_in">_</span>expire?</span><br><span class="line">puts &quot;The license will expire on <span class="params">#</span>&#123;<span class="built_in">$</span>license.expires<span class="built_in">_</span>at&#125;&quot;</span><br><span class="line">else</span><br><span class="line">puts &quot;The license will never expire.&quot;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>执行<code>license.rb</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby license.rb</span><br></pre></td></tr></table></figure>
+
+<p>生成以下文件</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GitLabBV.gitlab-license  license.rb  license<span class="built_in">_</span>key  license<span class="built_in">_</span>key.pub</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>GitLabBV.gitlab-license : 页面导入的License文件</li>
+<li>license_key.pub ：覆盖原有的key</li>
+</ul>
+<p>查看<code>license_key.pub </code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@gitlab:/home/jonty/gitlab/backups<span class="comment"># cat license_key.pub </span></span><br><span class="line">-----BEGIN PUBLIC KEY-----</span><br><span class="line">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtRXZpH9H6EXFEohYjLcZ</span><br><span class="line">uAYoSVJfZjdpRnT/76JlNfHOOA6RbCBzzwN5FJkyCev/wXCe5P+jR1+jqp0DErrF</span><br><span class="line">3/tYe3ZkUyDkD8c54AMpNqeXeevB+EEz4KqdsO9Q5260jlKxfTEVSQLZaItRfi0s</span><br><span class="line">kq25nPRghOSX7kTL/riQA9dg2L0/of5ewgS164cTtgjeTKBCoOKN/vfw/GC0PDWn</span><br><span class="line">Mf9OaR0C7NtOGesJBCWR47QjnPOjXHFip/yt0K8ytc42XGgzdJjFjPrUuZ1hbzJ7</span><br><span class="line">Y8W9EvWu9+k9iupBK9XeeTORZDZYBvpHvAT2orEoLN1IUX7Bo12c2ddagfoSWp0v</span><br><span class="line">swIDAQAB</span><br><span class="line">-----END PUBLIC KEY-----</span><br></pre></td></tr></table></figure>
+
+<p>复制后进入容器内，替换密钥</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it gitlab /bin/bash</span><br><span class="line">vi /opt/gitlab/embedded/service/gitlab-rails/.license_encryption_key.pub</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+
+<p>重启容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose restart</span><br></pre></td></tr></table></figure>
+
+<p>导入License文件，进入管理中心=&gt; 通用=&gt;添加许可证</p>
+<p>导入<code>GitLabBV.gitlab-license</code>文件 </p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230627174050150.png" alt="image-20230627174050150"></p>
+<p>激活完成</p>
+<p><img data-src="https://cdn.jonty.top/img/image-20230627174223096.png" alt="image-20230627174223096"></p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\05\11\gitlab-runner-intranet-job\" rel="bookmark">Gitlab Runner 实现内网自动部署</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2022\06\30\docker-gitlab-can-not-send-email-after-migration\" rel="bookmark">Gitlab迁移服务器无法发送邮件</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\05\11\docker-keepalived-vip-ip\" rel="bookmark">Docker部署Keepalived</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\05\11\use-docker-register-gitlab-runner\" rel="bookmark">Docker注册Gitlab Runner</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\2023\04\12\how-to-change-docker-data-folder-configuration\" rel="bookmark">Docker-修改docker数据存储目录</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>JontyWang
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://jonty.top/2023/07/07/ubuntu-docker-deploy-gitlab/" title="Docker搭建私有Gitlab">https://jonty.top/2023/07/07/ubuntu-docker-deploy-gitlab/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Gitlab/" rel="tag"># Gitlab</a>
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/06/09/redis-distributed-locking/" rel="prev" title="Redis分布式锁以及ABP应用">
+                  <i class="fa fa-chevron-left"></i> Redis分布式锁以及ABP应用
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fab fa-battle-net"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JontyWang</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">325k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:56</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+<span id="times">载入天数...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("09/08/2021 13:14:21");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("times").innerHTML = "本站已安全运行 "+dnum+" 天 " +hnum + " 小时 " + mnum + " 分 " + snum + " 秒 ✌";
+    }
+setInterval("createtime()",250);
+</script>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://jonty.top/2023/07/07/ubuntu-docker-deploy-gitlab/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
