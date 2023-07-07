@@ -58,9 +58,9 @@
     
     <category term="Redis" scheme="https://jonty.top/tags/Redis/"/>
     
-    <category term="分布式锁" scheme="https://jonty.top/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/"/>
-    
     <category term="ABP" scheme="https://jonty.top/tags/ABP/"/>
+    
+    <category term="分布式锁" scheme="https://jonty.top/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/"/>
     
   </entry>
   
