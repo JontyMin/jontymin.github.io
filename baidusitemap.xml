@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2023/07/13/chrome-debugging-tips/</loc>
+    <lastmod>2023-07-13</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2023/07/07/ubuntu-docker-deploy-gitlab/</loc>
     <lastmod>2023-07-07</lastmod>
   </url>
