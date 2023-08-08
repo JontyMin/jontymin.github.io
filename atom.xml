@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Jonty Blog</title>
+  <title>数据库</title>
   
-  <subtitle>记录搬砖生活</subtitle>
+  
   <link href="https://jonty.top/atom.xml" rel="self"/>
   
   <link href="https://jonty.top/"/>
