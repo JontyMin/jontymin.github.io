@@ -1,5 +1,5 @@
+https://jonty.top/2023/10/31/about-of-csharp-lazy-initialization/
 https://jonty.top/2023/08/27/about-of-IP/
 https://jonty.top/2023/07/13/chrome-debugging-tips/
 https://jonty.top/2023/07/07/ubuntu-docker-deploy-gitlab/
 https://jonty.top/2023/06/09/redis-distributed-locking/
-https://jonty.top/2023/06/01/air-conditioner/
