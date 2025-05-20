@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jonty.top/2025/05/20/fn-hadr-backup-is-preferred-replica-always-returning-zero/</loc>
+    <lastmod>2025-05-20</lastmod>
+  </url>
+  <url>
     <loc>https://jonty.top/2025/01/06/docker-swarm-nginx-real-ip/</loc>
     <lastmod>2025-01-06</lastmod>
   </url>
