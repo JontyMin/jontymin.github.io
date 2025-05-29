@@ -62,9 +62,9 @@
     
     <category term="Docker" scheme="https://jonty.top/tags/Docker/"/>
     
-    <category term="Nginx" scheme="https://jonty.top/tags/Nginx/"/>
-    
     <category term="Docker Swarm" scheme="https://jonty.top/tags/Docker-Swarm/"/>
+    
+    <category term="Nginx" scheme="https://jonty.top/tags/Nginx/"/>
     
   </entry>
   
