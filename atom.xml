@@ -110,9 +110,9 @@
     
     <category term="Docker" scheme="https://jonty.top/tags/Docker/"/>
     
-    <category term="SSL" scheme="https://jonty.top/tags/SSL/"/>
-    
     <category term="RabbitMQ" scheme="https://jonty.top/tags/RabbitMQ/"/>
+    
+    <category term="SSL" scheme="https://jonty.top/tags/SSL/"/>
     
   </entry>
   
